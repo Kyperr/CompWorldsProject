@@ -1,5 +1,5 @@
 function Marine(game, spritesheet) {
-	//spriteSheet, frameWidth, frameHeight, sheetWidth, frameDuration, frames, loop, scale
+	//spriteSheet, frameWidth, frameHeight, sheetWidth, scale
     this.animation = new Animation(spritesheet, 64, 64, 17, 2);
 
     //Mapping walking sprites

@@ -2,34 +2,16 @@ function Marine(game, spritesheet) {
     this.animation = new Animation(spritesheet, 64, 64, 17, 2);
 
     //Mapping walking sprites
-	
-	createAnimationStates(this.animation, "walking", 22.5, 16);
+
+    this.animation.createAnimationStates("walking", 22.5, 16, 5, 9);
+    this.animation.createAnimationStates("standing", 22.5, 16, 5, 1);
+    this.animation.createAnimationStates("aiming", 22.5, 16, 1, 3);
+    this.animation.createAnimationStates("shooting", 22.5, 16, 3, 2);
 	
     this.movementFactor = new MovementFactor(100);
 
     this.ctx = game.ctx;
     Entity.call(this, game, 0, 0);
-}
-
-//This function should be moved out of marine and used for all animation state assignments. It isn't fully astracted, either.
-function createAnimationStates(animation, animationName, angleIncrements, numberOfAngles){
-	for(i = 0; i <= numberOfAngles/2; i++){
-		var x = 2 * i;
-		var angle = 90 - (i * angleIncrements);
-		if(angle < 0){
-			angle += 360;
-		}
-		
-        animation.animationStates[animationName + angle] = new AnimationState(animationName + angle, x, 5, 9, angle, .1, true, false);
-	}
-	
-	for(i = 1; i < numberOfAngles/2; i++){
-		var x = 2 * i;
-		var angle = 90 + (i * angleIncrements);
-		
-        animation.animationStates[animationName + angle] = new AnimationState(animationName + angle, x, 5, 9, angle, .1, true, true);
-	}
-	
 }
 
 function realMod(a, n) {
@@ -46,27 +28,31 @@ Marine.prototype.update = function () {
     var moveFac = this.movementFactor;
     var speed = moveFac.speed;
 
-    var angleToFace = moveFac.getDirectionalAngle();
 
-    //if (moveFac.getHorizontalDirection == 0 && moveFac.getVerticalDirection == 0) {
-    //    this.animation.currentAction = "walking";
-    //} else {
+    console.log("walking");
+    if (moveFac.getHorizontalDirection() == 0 && moveFac.getVerticalDirection() == 0) {
+        this.animation.currentAction = "standing";
+        console.log("Standing");
+    } else {
         this.animation.currentAction = "walking";
-    //}
+        var angleToFace = moveFac.getDirectionalAngle();
+        this.animation.currentAngle = angleToFace;
+    }
 
     this.x += delta * speed * moveFac.getHorizontalDirection();
 
     this.y -= delta * speed * moveFac.getVerticalDirection();
-
-    this.animation.currentAngle = angleToFace;
-
-    
 
     Entity.prototype.update.call(this);
     this.lastUpdated = this.game.gameTime;
 }
 
 Marine.prototype.draw = function () {
+    //if(alive){
     this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
+    //} else if (dead){
+    //this.deathanimation.dajsdnga;jsdng;sjdnfg;sjd
+    //}
+
     Entity.prototype.draw.call(this);
 }

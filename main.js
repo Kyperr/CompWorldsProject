@@ -6,7 +6,7 @@ var AM = new AssetManager();
 
 
 
-//Animation moved to it's own file.
+//Animation moved to its own file.
 
 // no inheritance
 function Background(game, spritesheet) {

@@ -1,27 +1,37 @@
 function Marine(game, spritesheet) {
-    this.animation = new Animation(spritesheet, 64, 64, 17, 5);
+    this.animation = new Animation(spritesheet, 64, 64, 17, 2);
     this.animation.currentState = "walking0";
 
     //Mapping walking sprites
-
-    var p = 4//Starting with the 5th sprite(0 based), going clockwise while recording the accurate angle.
-    for (i = 0; i < 16; i++) {
-        var x = 2 * (Math.abs(p));//x position on the sprite-sheet
-        var angle = i * 22.5;//Angle the sprite is facing.
-        var reflect = angle > 90 && angle < 270;
-
-        console.log("Adding animation state: x = " + x + " angle = " + angle + " reflecting = " + reflect);
-
-
-        this.animation.animationStates["walking" + angle] = new AnimationState("walking" + angle, x, 5, 9, angle, .1, true, reflect);
-        p -= 1;
-        //p = realMod(p, 9);
-    }
-    
+	
+	createAnimationStates(this.animation, 22.5, 16);
+	
     this.movementFactor = new MovementFactor(100);
 
     this.ctx = game.ctx;
     Entity.call(this, game, 0, 0);
+}
+
+function createAnimationStates(animation, angleIncrements, numberOfAngles){
+	for(i = 0; i <= numberOfAngles/2; i++){
+		var x = 2 * i;
+		var angle = 90 - (i * angleIncrements);
+		if(angle < 0){
+			angle += 360;
+		}
+		
+        console.log("Adding animation state: x = " + x + " angle = " + angle);
+        animation.animationStates["walking" + angle] = new AnimationState("walking" + angle, x, 5, 9, angle, .1, true, false);
+	}
+	
+	for(i = 1; i < numberOfAngles/2; i++){
+		var x = 2 * i;
+		var angle = 90 + (i * angleIncrements);
+		
+        console.log("Adding animation state: x = " + x + " angle = " + angle);
+        animation.animationStates["walking" + angle] = new AnimationState("walking" + angle, x, 5, 9, angle, .1, true, true);
+	}
+	
 }
 
 function realMod(a, n) {

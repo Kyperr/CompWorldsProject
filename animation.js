@@ -34,17 +34,34 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y) {
 
     yindex = (state.yIndex-1) + Math.floor(frame % state.frames);
 
+	ctx.save();
+	
     if (state.reflect) {
-        ctx.scale(1, -1);
-        ctx.translate(-this.frameHeight, -this.frameWidth);
-    }
-
-    ctx.drawImage(this.spriteSheet,
-        xindex * this.frameWidth, yindex * this.frameHeight,  // source from sheet
-        this.frameWidth, this.frameHeight,
+		ctx.scale(-1, 1);
+		//ctx.translate(x + this.frameWidth, y);
+		
+	ctx.drawImage(this.spriteSheet,
+        xindex * this.frameWidth,
+		yindex * this.frameHeight,  // source from sheet
+        this.frameWidth,
+		this.frameHeight,
+        -(x + this.frameWidth*this.scale), y,
+        this.frameWidth * this.scale,
+        this.frameHeight * this.scale);
+		
+    } else {
+		
+	ctx.drawImage(this.spriteSheet,
+        xindex * this.frameWidth,
+		yindex * this.frameHeight,  // source from sheet
+        this.frameWidth,
+		this.frameHeight,
         x, y,
         this.frameWidth * this.scale,
         this.frameHeight * this.scale);
+	}
+	
+	ctx.restore();
 }
 
 Animation.prototype.currentFrame = function () {

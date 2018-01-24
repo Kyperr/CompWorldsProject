@@ -1,4 +1,5 @@
 function Marine(game, spritesheet) {
+	//spriteSheet, frameWidth, frameHeight, sheetWidth, frameDuration, frames, loop, scale
     this.animation = new Animation(spritesheet, 64, 64, 17, 2);
     this.animation.currentState = "walking0";
 

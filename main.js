@@ -1,3 +1,5 @@
+const var SHOTS_PER_SECOND = 1
+
 var AM = new AssetManager();
 
 //Initialize the game engine
@@ -39,18 +41,18 @@ AM.downloadAll(function () {
     var marine = new Marine(gameEngine, AM.getAsset("./img/marine.png"));
     marine.animation.currentState = "walking9";
 
-    initializePlayerListeners(marine, canvas);
+    initializePlayerListeners(marine, gameEngine, canvas);
 
     gameEngine.addEntity(marine);
 
-    console.log("All Done!");
+    //console.log("All Done!");
 });
 
-function initializePlayerListeners(marine, canvas) {
+function initializePlayerListeners(marine, gameEngine, canvas) {
 
 
     canvas.addEventListener("keypress", function (e) {
-        console.log(e.code);
+        //console.log(e.code);
         if (e.code === "KeyW") {
             marine.movementFactor.north = 1;
         }
@@ -70,7 +72,7 @@ function initializePlayerListeners(marine, canvas) {
     }, false);
     
     canvas.addEventListener("keyup", function (e) {
-        console.log("Key up!");
+        //console.log("Key up!");
         if (e.code === "KeyW") {
             marine.movementFactor.north = 0;
         }
@@ -86,7 +88,16 @@ function initializePlayerListeners(marine, canvas) {
         if (e.code === "KeyD") {
             marine.movementFactor.east = 0;
         }
-
     }, false);
+
+    canvas.addEventListener("mousemove", function (e) {
+        console.log("Mouse move deteced.");
+        console.log("Mouse movement e: " + e);
+
+        // Offset X and Y are based on origin of canvas, as opposed to browser window
+        gameEngine.mouseX = e.offsetX;
+        gameEngine.mouseY = e.offsetY;
+        
+    });
     
 }

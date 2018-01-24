@@ -29,7 +29,7 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y) {
     }
 
 
-    console.log("Current animation state: " + this.currentAction + this.currentAngle);
+    // console.log("Current animation state: " + this.currentAction + this.currentAngle);
 
     var state = this.animationStates[this.currentAction + this.currentAngle];
     var frame = this.currentFrame();

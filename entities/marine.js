@@ -4,7 +4,7 @@ function Marine(game, spritesheet) {
 
     //Mapping walking sprites
 	
-	createAnimationStates(this.animation, 22.5, 16);
+	createAnimationStates(this.animation, "walking", 22.5, 16);
 	
     this.movementFactor = new MovementFactor(100);
 
@@ -13,7 +13,7 @@ function Marine(game, spritesheet) {
 }
 
 //This function should be moved out of marine and used for all animation state assignments. It isn't fully astracted, either.
-function createAnimationStates(animation, angleIncrements, numberOfAngles){
+function createAnimationStates(animation, animationName, angleIncrements, numberOfAngles){
 	for(i = 0; i <= numberOfAngles/2; i++){
 		var x = 2 * i;
 		var angle = 90 - (i * angleIncrements);
@@ -21,16 +21,14 @@ function createAnimationStates(animation, angleIncrements, numberOfAngles){
 			angle += 360;
 		}
 		
-        console.log("Adding animation state: x = " + x + " angle = " + angle);
-        animation.animationStates["walking" + angle] = new AnimationState("walking" + angle, x, 5, 9, angle, .1, true, false);
+        animation.animationStates[animationName + angle] = new AnimationState(animationName + angle, x, 5, 9, angle, .1, true, false);
 	}
 	
 	for(i = 1; i < numberOfAngles/2; i++){
 		var x = 2 * i;
 		var angle = 90 + (i * angleIncrements);
 		
-        console.log("Adding animation state: x = " + x + " angle = " + angle);
-        animation.animationStates["walking" + angle] = new AnimationState("walking" + angle, x, 5, 9, angle, .1, true, true);
+        animation.animationStates[animationName + angle] = new AnimationState(animationName + angle, x, 5, 9, angle, .1, true, true);
 	}
 	
 }

@@ -1,13 +1,18 @@
 function Marine(game, spritesheet) {
+	//number of angles the entity can look
+	var angles = 16;
+	//degrees each angle covers
+	var degrees = 360/angles;	//360 degrees in a circle 
+	
 	//spriteSheet, frameWidth, frameHeight, sheetWidth, scale
     this.animation = new Animation(spritesheet, 64, 64, 17, 2);
 
     //Mapping walking sprites
 
-    this.animation.createAnimationStates("walking", 22.5, 16, 5, 9);
-    this.animation.createAnimationStates("standing", 22.5, 16, 5, 1);
-    this.animation.createAnimationStates("aiming", 22.5, 16, 1, 3);
-    this.animation.createAnimationStates("shooting", 22.5, 16, 3, 2);
+    this.animation.createAnimationStates("walking", degrees, angles, 5, 9);
+    this.animation.createAnimationStates("standing", degrees, angles, 5, 1);
+    this.animation.createAnimationStates("aiming", degrees, angles, 1, 3);
+    this.animation.createAnimationStates("shooting", degrees, angles, 3, 2);
 	
     this.movementFactor = new MovementFactor(100);
 

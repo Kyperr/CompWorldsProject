@@ -14,6 +14,8 @@ function GameEngine() {
     this.ctx = null;
     this.surfaceWidth = null;
     this.surfaceHeight = null;
+    this.mouseX = 0;
+    this.mouseY = 0;
 }
 
 GameEngine.prototype.init = function (ctx) {

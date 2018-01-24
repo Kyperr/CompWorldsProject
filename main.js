@@ -25,6 +25,7 @@ Background.prototype.update = function () {
 
 AM.queueDownload("./img/background.jpg");
 AM.queueDownload("./img/marine.png");
+AM.queueDownload("./img/hydralisk.png");
 
 AM.downloadAll(function () {
     var canvas = document.getElementById("gameWorld");
@@ -32,17 +33,22 @@ AM.downloadAll(function () {
 
     var gameEngine = new GameEngine();
     gameEngine.init(ctx);
-    gameEngine.start();
 
     gameEngine.addEntity(new Background(gameEngine, AM.getAsset("./img/background.jpg")));
 
     var marine = new Marine(gameEngine, AM.getAsset("./img/marine.png"));
-    marine.animation.currentState = "walking9";
+	var hydralisk = new Hydralisk(gameEngine, AM.getAsset("./img/hydralisk.png"));
 
+	//init player
     initializePlayerListeners(marine, canvas);
+	
+	//init enemies
+	initializeEnemyListeners(hydralisk, canvas);
 
     gameEngine.addEntity(marine);
+	gameEngine.addEntity(hydralisk);
 
+    gameEngine.start();
     console.log("All Done!");
 });
 
@@ -50,7 +56,7 @@ function initializePlayerListeners(marine, canvas) {
 
 
     canvas.addEventListener("keypress", function (e) {
-        console.log(e.code);
+        //console.log(e.code);
         if (e.code === "KeyW") {
             marine.movementFactor.north = 1;
         }
@@ -70,7 +76,7 @@ function initializePlayerListeners(marine, canvas) {
     }, false);
     
     canvas.addEventListener("keyup", function (e) {
-        console.log("Key up!");
+        //console.log("Key up!");
         if (e.code === "KeyW") {
             marine.movementFactor.north = 0;
         }
@@ -89,4 +95,8 @@ function initializePlayerListeners(marine, canvas) {
 
     }, false);
     
+}
+
+function initializeEnemyListeners(hydralisk, canvas) {
+	
 }

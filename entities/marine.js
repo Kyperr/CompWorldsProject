@@ -20,10 +20,6 @@ function Marine(game, spritesheet) {
     Entity.call(this, game, 0, 0);
 }
 
-function realMod(a, n) {
-    return a - (n * Math.floor(a / n));
-}
-
 Marine.prototype = new Entity();
 Marine.prototype.constructor = Marine;
 
@@ -35,10 +31,10 @@ Marine.prototype.update = function () {
     var speed = moveFac.speed;
 
 
-    console.log("walking");
+    //console.log("walking");
     if (moveFac.getHorizontalDirection() == 0 && moveFac.getVerticalDirection() == 0) {
         this.animation.currentAction = "standing";
-        console.log("Standing");
+        //console.log("Standing");
     } else {
         this.animation.currentAction = "walking";
         var angleToFace = moveFac.getDirectionalAngle();

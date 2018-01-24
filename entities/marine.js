@@ -4,7 +4,7 @@ function Marine(game, spritesheet) {
     //Mapping walking sprites
 	
 	createAnimationStates(this.animation, "walking", 22.5, 16);
-	
+
     this.movementFactor = new MovementFactor(100);
 
     this.ctx = game.ctx;

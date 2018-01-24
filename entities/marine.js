@@ -1,7 +1,6 @@
 function Marine(game, spritesheet) {
 	//spriteSheet, frameWidth, frameHeight, sheetWidth, frameDuration, frames, loop, scale
     this.animation = new Animation(spritesheet, 64, 64, 17, 2);
-    this.animation.currentState = "walking0";
 
     //Mapping walking sprites
 	
@@ -13,6 +12,7 @@ function Marine(game, spritesheet) {
     Entity.call(this, game, 0, 0);
 }
 
+//This function should be moved out of marine and used for all animation state assignments. It isn't fully astracted, either.
 function createAnimationStates(animation, angleIncrements, numberOfAngles){
 	for(i = 0; i <= numberOfAngles/2; i++){
 		var x = 2 * i;
@@ -49,19 +49,21 @@ Marine.prototype.update = function () {
     var moveFac = this.movementFactor;
     var speed = moveFac.speed;
 
-    //Walking direction
+    var angleToFace = moveFac.getDirectionalAngle();
+
+    //if (moveFac.getHorizontalDirection == 0 && moveFac.getVerticalDirection == 0) {
+    //    this.animation.currentAction = "walking";
+    //} else {
+        this.animation.currentAction = "walking";
+    //}
 
     this.x += delta * speed * moveFac.getHorizontalDirection();
-    
+
     this.y -= delta * speed * moveFac.getVerticalDirection();
 
+    this.animation.currentAngle = angleToFace;
 
-    //Looking direction
     
-    var angleToFace = moveFac.getDirectionalAngle();
-    //console.log("Angle to face: " + angleToFace);
-    
-    this.animation.currentState = "walking" + angleToFace;
 
     Entity.prototype.update.call(this);
     this.lastUpdated = this.game.gameTime;

@@ -20,7 +20,6 @@ function createAnimationStates(animation, animationName, angleIncrements, number
 			angle += 360;
 		}
 		
-        console.log("Adding animation state: x = " + x + " angle = " + angle);
         animation.animationStates[animationName + angle] = new AnimationState(animationName + angle, x, 5, 9, angle, .1, true, false);
 	}
 	
@@ -28,7 +27,6 @@ function createAnimationStates(animation, animationName, angleIncrements, number
 		var x = 2 * i;
 		var angle = 90 + (i * angleIncrements);
 		
-        console.log("Adding animation state: x = " + x + " angle = " + angle);
         animation.animationStates[animationName + angle] = new AnimationState(animationName + angle, x, 5, 9, angle, .1, true, true);
 	}
 	

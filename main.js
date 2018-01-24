@@ -97,8 +97,8 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
     }, false);
 
     canvas.addEventListener("mousemove", function (e) {
-        console.log("Mouse move deteced.");
-        console.log("Mouse movement e: " + e);
+        //console.log("Mouse move deteced.");
+        //console.log("Mouse movement e: " + e);
 
         // Offset X and Y are based on origin of canvas, as opposed to browser window
         gameEngine.mouseX = e.offsetX;
@@ -106,7 +106,7 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
     });
 
     canvas.addEventListener("mousedown", function (e) {
-        console.log("Click at (" + e.offsetX + ", " + e.offsetY + ").")
+        //console.log("Click at (" + e.offsetX + ", " + e.offsetY + ").")
         var dx = marine.x - e.offsetX;
         var dy = marine.y - e.offsetY;
 

@@ -30,12 +30,12 @@ Hydralisk.prototype.update = function () {
     var speed = moveFac.speed;
 	var that = this;
 	setInterval(function() {
-	var b = 1 //Math.floor((this.game.timer.gameTime * 1000) % 500); 
+	//var b = 0 //Math.floor((that.game.timer.gameTime * 1000) % 500); 
 	//console.log(this.game.timer.gameTime);
-	if (b === 1) {
+	//if (b === 0) {
 	//random movement
 	var dir = Math.floor(Math.random() * (3 - 0 + 1)) + 0; 
-	console.log(dir);
+	//console.log(dir);
 		//0=n 1=e 2=s 3=w
 		switch (dir) {
 			case 0: 
@@ -55,7 +55,7 @@ Hydralisk.prototype.update = function () {
 				that.movementFactor.west = 1;
 				break;
 		}
-	}}, 500);
+	}, 500);
 
 
     if (moveFac.getHorizontalDirection() == 0 && moveFac.getVerticalDirection() == 0) {

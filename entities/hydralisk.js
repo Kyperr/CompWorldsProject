@@ -13,6 +13,7 @@ function Hydralisk(game, spritesheet) {
     this.animation.createAnimationStates("standing", degrees, angles, 6, 1);
 	
     this.movementFactor = new MovementFactor(100);
+	this.changeTime = 0;		//time since last direction change
 
     this.ctx = game.ctx;
     Entity.call(this, game, 400, 100);
@@ -28,14 +29,13 @@ Hydralisk.prototype.update = function () {
     var moveFac = this.movementFactor;
     var speed = moveFac.speed;
 	var that = this;
-	//only pausing before going super fast. acting like setTimeout not setInterval. ???????
-	setInterval(function() {
-		//var b = 0 //Math.floor((that.game.timer.gameTime * 1000) % 500); //not reliable
-		//console.log(this.game.timer.gameTime);
-		//if (b === 0) { 	//not reliable
+	
+	this.changeTime += delta;
+	
+	if (this.changeTime >= 0.5) {
+		this.changeTime = 0;
 		//random movement
 		var dir = Math.floor(Math.random() * (4)); 
-		//console.log(dir);
 		//0=n 1=e 2=s 3=w
 		switch (dir) {
 			case 0: 
@@ -55,7 +55,7 @@ Hydralisk.prototype.update = function () {
 				that.movementFactor.west = 1;
 				break;
 		}
-	}, 1000);
+	}
 
 
     if (moveFac.getHorizontalDirection() == 0 && moveFac.getVerticalDirection() == 0) {

@@ -22,40 +22,40 @@ Hydralisk.prototype = new Entity();
 Hydralisk.prototype.constructor = Hydralisk;
 
 
-
 Hydralisk.prototype.update = function () {
 
     var delta = this.game.clockTick;
     var moveFac = this.movementFactor;
     var speed = moveFac.speed;
 	var that = this;
-	var i = setInterval(function() {
-		//var b = 0 //Math.floor((that.game.timer.gameTime * 1000) % 500); 
+	//only pausing before going super fast. acting like setTimeout not setInterval. ???????
+	setInterval(function() {
+		//var b = 0 //Math.floor((that.game.timer.gameTime * 1000) % 500); //not reliable
 		//console.log(this.game.timer.gameTime);
-		//if (b === 0) {
+		//if (b === 0) { 	//not reliable
 		//random movement
 		var dir = Math.floor(Math.random() * (4)); 
 		//console.log(dir);
-			//0=n 1=e 2=s 3=w
-			switch (dir) {
-				case 0: 
-					that.movementFactor.reset();
-					that.movementFactor.north = 1;
-					break;
-				case 1: 
-					that.movementFactor.reset();
-					that.movementFactor.east = 1;
-					break;
-				case 2: 
-					that.movementFactor.reset();
-					that.movementFactor.south = 1;
-					break;
-				case 3: 
-					that.movementFactor.reset();
-					that.movementFactor.west = 1;
-					break;
-			}
-		}, 500);
+		//0=n 1=e 2=s 3=w
+		switch (dir) {
+			case 0: 
+				that.movementFactor.reset();
+				that.movementFactor.north = 1;
+				break;
+			case 1: 
+				that.movementFactor.reset();
+				that.movementFactor.east = 1;
+				break;
+			case 2: 
+				that.movementFactor.reset();
+				that.movementFactor.south = 1;
+			break;
+			case 3: 
+				that.movementFactor.reset();
+				that.movementFactor.west = 1;
+				break;
+		}
+	}, 1000);
 
 
     if (moveFac.getHorizontalDirection() == 0 && moveFac.getVerticalDirection() == 0) {

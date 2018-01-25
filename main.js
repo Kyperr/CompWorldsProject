@@ -1,4 +1,3 @@
-const SHOTS_PER_SECOND = 1
 
 var AM = new AssetManager();
 

@@ -3,7 +3,7 @@ function MovementFactor (speed) {
 	this.reset();
 }
 
-MovementFactor.prototype = new Object();
+MovementFactor.prototype = {};
 MovementFactor.prototype.constructor = MovementFactor;
 
 MovementFactor.prototype.getVerticalDirection = function () {

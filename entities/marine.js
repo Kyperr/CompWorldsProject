@@ -1,9 +1,12 @@
-const MOVE_SPEED = 150;
 
 function Marine(game, spritesheet) {
+    const MOVE_SPEED = 150;
+    const SHOTS_PER_SECOND = 1
+
 	//number of angles the entity can look
 	var angles = 16;
-	
+
+    this.stats = new CharacterStats(game, SHOTS_PER_SECOND);	
     //degrees each angle covers
 	this.degreesPerAngle = 360/angles;	//360 degrees in a circle 
 	

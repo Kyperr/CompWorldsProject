@@ -106,16 +106,26 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
     });
 
     canvas.addEventListener("mousedown", function (e) {
-        //console.log("Click at (" + e.offsetX + ", " + e.offsetY + ").")
-        var dx = marine.x - e.offsetX;
-        var dy = marine.y - e.offsetY;
+        console.log("Click at (" + e.offsetX + ", " + e.offsetY + ").")
+        console.log("Marine's location: (" + marine.x + ", " + marine.y + ").")
+        var marineCenterX = marine.x + (marine.animation.frameWidth / 2);
+        var marineCenterY = marine.y + (marine.animation.frameHeight / 2);
 
-        var radiansAngle = Math.atan2(dx, dy);
+        var dx = e.offsetX - marineCenterX;
+        var dy = e.offsetY - marineCenterY;
+
+        var radiansAngle = Math.atan2(dy, dx) * -1;
+        if (radiansAngle < 0) {
+            radiansAngle += 2 * Math.PI;
+        }
+
+        console.log("Calculated angle in radians: " + radiansAngle)
         var degreesAngle = radiansToDegrees(radiansAngle);
-
+        console.log("Calculated angle in degrees: " + degreesAngle)
         marine.isShooting = true;
         marine.animation.currentAction = "shooting"
         marine.animation.currentAngle = nearestAngle(degreesAngle, marine.degreesPerAngle);
+        console.log("Calculated nearest angle: " + marine.animation.currentAngle)
     });
 
     canvas.addEventListener("mouseup", function (e) {
@@ -151,8 +161,12 @@ function nearestAngle(theDegrees, incrementAmount) {
     if (priorDistance < currentDistance) {
         nearestDegree -= incrementAmount;
     }
-
-    return nearestDegree;
+    
+    if (nearestDegree == 360) {
+        return 0;
+    } else {
+        return nearestDegree;   
+    }
 }
 
 /*
@@ -160,7 +174,7 @@ function nearestAngle(theDegrees, incrementAmount) {
  * For example, radiansToDegrees(0) returns 0, radiansToDegrees(Math.pi) returns 180.
  */
 function radiansToDegrees(radians) {
-    return radians * (180 / Math.pi)
+    return radians * (180 / Math.PI);
 }
 
 /*
@@ -168,5 +182,5 @@ function radiansToDegrees(radians) {
  * For example, degreesToRadians(0) returns 0, degreesToRadians(180) returns Math.pi.
  */
 function degreesToRadians(degrees) {
-    return (180 / Math.pi) / degrees
+    return (180 / Math.PI) / degrees;
 }

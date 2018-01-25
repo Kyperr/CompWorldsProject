@@ -97,36 +97,33 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
     }, false);
 
     canvas.addEventListener("mousemove", function (e) {
-        //console.log("Mouse move deteced.");
-        //console.log("Mouse movement e: " + e);
-
         // Offset X and Y are based on origin of canvas, as opposed to browser window
-        gameEngine.mouseX = e.offsetX;
-        gameEngine.mouseY = e.offsetY;
+        if (marine.isShooting) {
+            var marineCenterX = marine.x + (marine.animation.frameWidth * marine.animation.scale / 2);
+            var marineCenterY = marine.y + (marine.animation.frameHeight * marine.animation.scale / 2);
+            
+            marine.isShooting = true;
+            marine.animation.currentAction = "shooting"
+            marine.animation.currentAngle = calculateNearestAngle(e.offsetX,
+                                                                  e.offsetY,
+                                                                  marineCenterX,
+                                                                  marineCenterY,
+                                                                  marine.degreesPerAngle)
+        }
+        
     });
 
     canvas.addEventListener("mousedown", function (e) {
-        console.log("Click at (" + e.offsetX + ", " + e.offsetY + ").")
         var marineCenterX = marine.x + (marine.animation.frameWidth * marine.animation.scale / 2);
         var marineCenterY = marine.y + (marine.animation.frameHeight * marine.animation.scale / 2);
-        console.log("Marine's location: (" + marine.x + ", " + marine.y + ").")
-        console.log("Marine's location: (" + marineCenterX + ", " + marineCenterY + ").")
-
-        var dx = e.offsetX - marineCenterX;
-        var dy = e.offsetY - marineCenterY;
-
-        var radiansAngle = Math.atan2(dy, dx) * -1;
-        if (radiansAngle < 0) {
-            radiansAngle += 2 * Math.PI;
-        }
-
-        console.log("Calculated angle in radians: " + radiansAngle)
-        var degreesAngle = radiansToDegrees(radiansAngle);
-        console.log("Calculated angle in degrees: " + degreesAngle)
+        
         marine.isShooting = true;
         marine.animation.currentAction = "shooting"
-        marine.animation.currentAngle = nearestAngle(degreesAngle, marine.degreesPerAngle);
-        console.log("Calculated nearest angle: " + marine.animation.currentAngle)
+        marine.animation.currentAngle = calculateNearestAngle(e.offsetX,
+                                                              e.offsetY,
+                                                              marineCenterX,
+                                                              marineCenterY,
+                                                              marine.degreesPerAngle)
     });
 
     canvas.addEventListener("mouseup", function (e) {
@@ -138,6 +135,20 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
 
 function initializeEnemyListeners(hydralisk, canvas) {
 	
+}
+
+function calculateNearestAngle(x1, y1, x2, y2, incrementAmount) {
+        var dx = x1 - x2;
+        var dy = y1 - y2;
+
+        var radiansAngle = Math.atan2(dy, dx) * -1;
+        if (radiansAngle < 0) {
+            radiansAngle += 2 * Math.PI;
+        }
+
+        var degreesAngle = radiansToDegrees(radiansAngle);
+
+        return nearestAngle(degreesAngle, incrementAmount);
 }
 
 /*

@@ -107,9 +107,10 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
 
     canvas.addEventListener("mousedown", function (e) {
         console.log("Click at (" + e.offsetX + ", " + e.offsetY + ").")
+        var marineCenterX = marine.x + (marine.animation.frameWidth * marine.animation.scale / 2);
+        var marineCenterY = marine.y + (marine.animation.frameHeight * marine.animation.scale / 2);
         console.log("Marine's location: (" + marine.x + ", " + marine.y + ").")
-        var marineCenterX = marine.x + (marine.animation.frameWidth / 2);
-        var marineCenterY = marine.y + (marine.animation.frameHeight / 2);
+        console.log("Marine's location: (" + marineCenterX + ", " + marineCenterY + ").")
 
         var dx = e.offsetX - marineCenterX;
         var dy = e.offsetY - marineCenterY;

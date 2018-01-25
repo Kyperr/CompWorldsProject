@@ -26,6 +26,10 @@ MovementFactor.prototype.getDirectionalAngle = function () {
 
 }
 
+MovementFactor.prototype.reflect = function () {
+	return (this.getDirectionalAngle() + 180) % 360;
+}
+
 MovementFactor.prototype.reset = function () {
     this.north = 0;
     this.east = 0;

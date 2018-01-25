@@ -1,7 +1,12 @@
+
 function Marine(game, spritesheet) {
+    const MOVE_SPEED = 150;
+    const SHOTS_PER_SECOND = 1
+
 	//number of angles the entity can look
 	var angles = 16;
-	
+
+    this.stats = new CharacterStats(game, SHOTS_PER_SECOND);	
     //degrees each angle covers
 	this.degreesPerAngle = 360/angles;	//360 degrees in a circle 
 	
@@ -16,7 +21,7 @@ function Marine(game, spritesheet) {
     this.animation.createAnimationStates("aiming", this.degreesPerAngle, angles, 1, 3);
     this.animation.createAnimationStates("shooting", this.degreesPerAngle, angles, 3, 2);
 	
-    this.movementFactor = new MovementFactor(100);
+    this.movementFactor = new MovementFactor(MOVE_SPEED);
 
     this.ctx = game.ctx;
     Entity.call(this, game, 0, 0);
@@ -34,23 +39,20 @@ Marine.prototype.update = function () {
 
 
     //console.log("walking");
-    if (moveFac.getHorizontalDirection() == 0 && moveFac.getVerticalDirection() == 0) {
-        if (!this.isShooting) {
-            this.animation.currentAction = "standing";
-        } else {
-            this.animation.currentAction = "shooting";
-        }
+    if (this.isShooting) {
+        this.animation.currentAction = "shooting";
+    } else if (moveFac.getHorizontalDirection() == 0 && moveFac.getVerticalDirection() == 0) {
         this.animation.currentAction = "standing";
-        //console.log("Standing");
     } else {
         this.animation.currentAction = "walking";
+
         var angleToFace = moveFac.getDirectionalAngle();
         this.animation.currentAngle = angleToFace;
+
+        this.x += delta * speed * moveFac.getHorizontalDirection();
+        this.y -= delta * speed * moveFac.getVerticalDirection();
     }
 
-    this.x += delta * speed * moveFac.getHorizontalDirection();
-
-    this.y -= delta * speed * moveFac.getVerticalDirection();
 
     Entity.prototype.update.call(this);
     this.lastUpdated = this.game.gameTime;

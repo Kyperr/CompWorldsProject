@@ -15,7 +15,7 @@ function Hydralisk(game, spritesheet) {
     this.movementFactor = new MovementFactor(100);
 
     this.ctx = game.ctx;
-    Entity.call(this, game, 0, 0);
+    Entity.call(this, game, 400, 100);
 }
 
 Hydralisk.prototype = new Entity();
@@ -29,33 +29,33 @@ Hydralisk.prototype.update = function () {
     var moveFac = this.movementFactor;
     var speed = moveFac.speed;
 	var that = this;
-	setInterval(function() {
-	//var b = 0 //Math.floor((that.game.timer.gameTime * 1000) % 500); 
-	//console.log(this.game.timer.gameTime);
-	//if (b === 0) {
-	//random movement
-	var dir = Math.floor(Math.random() * (3 - 0 + 1)) + 0; 
-	//console.log(dir);
-		//0=n 1=e 2=s 3=w
-		switch (dir) {
-			case 0: 
-				that.movementFactor.reset();
-				that.movementFactor.north = 1;
-				break;
-			case 1: 
-				that.movementFactor.reset();
-				that.movementFactor.east = 1;
-				break;
-			case 2: 
-				that.movementFactor.reset();
-				that.movementFactor.south = 1;
-				break;
-			case 3: 
-				that.movementFactor.reset();
-				that.movementFactor.west = 1;
-				break;
-		}
-	}, 500);
+	var i = setInterval(function() {
+		//var b = 0 //Math.floor((that.game.timer.gameTime * 1000) % 500); 
+		//console.log(this.game.timer.gameTime);
+		//if (b === 0) {
+		//random movement
+		var dir = Math.floor(Math.random() * (4)); 
+		//console.log(dir);
+			//0=n 1=e 2=s 3=w
+			switch (dir) {
+				case 0: 
+					that.movementFactor.reset();
+					that.movementFactor.north = 1;
+					break;
+				case 1: 
+					that.movementFactor.reset();
+					that.movementFactor.east = 1;
+					break;
+				case 2: 
+					that.movementFactor.reset();
+					that.movementFactor.south = 1;
+					break;
+				case 3: 
+					that.movementFactor.reset();
+					that.movementFactor.west = 1;
+					break;
+			}
+		}, 500);
 
 
     if (moveFac.getHorizontalDirection() == 0 && moveFac.getVerticalDirection() == 0) {

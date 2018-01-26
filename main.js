@@ -32,7 +32,10 @@ AM.downloadAll(function () {
 
     gameEngine.init(ctx);
     gameEngine.assetManager = AM;
-    gameEngine.addEntity(new Background(gameEngine, AM.getAsset("./img/background.jpg")));
+    //gameEngine.addEntity(new Background(gameEngine, AM.getAsset("./img/background.jpg")));
+    var map = new MapMap(game, canvas.width / 32, canvas.height / 32, 32);
+    gameEngine.addEntity(map);
+
 
     var marine = new Marine(gameEngine, AM.getAsset("./img/marine.png"));
 	var hydralisk = new Hydralisk(gameEngine, AM.getAsset("./img/hydralisk.png"));

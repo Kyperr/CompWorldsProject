@@ -17,8 +17,8 @@ function Hydralisk(game, spritesheet) {
 
     //Mapping walking sprites
 
-    this.animation.createVerticalAnimationStates(WALKING_ACTION, 90, degrees, angles, 6, 7);
-    this.animation.createVerticalAnimationStates(STANDING_ACTION, 90, degrees, angles, 6, 1);
+    this.animation.createVerticalAnimationStates(WALKING_ACTION, 90, 2, degrees, angles, 6, 7);
+    this.animation.createVerticalAnimationStates(STANDING_ACTION, 90, 2, degrees, angles, 6, 1);
 	
     this.movementFactor = new MovementFactor(350);
 	this.changeTime = 0;		//time since last direction change

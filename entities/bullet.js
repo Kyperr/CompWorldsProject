@@ -10,7 +10,7 @@ function Bullet(game, spritesheet, creator, fromPlayer, startingAngle) {
 
     // arguments: name, angleIncrements, numberOfAngles, yIndex, frameCount 
     // temporarily set to 1 yIndex and 1 frameCount until horizontal animation implemented
-    this.animation.createVerticalAnimationStates(DEFAULT_ACTION, 0, 0, 1, 1, 1);
+    this.animation.createVerticalAnimationStates(DEFAULT_ACTION, 0, 1, 0, 1, 1, 1);
 	
     this.movementFactor = new MovementFactor(MOVE_SPEED);
 

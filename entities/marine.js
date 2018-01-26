@@ -1,7 +1,7 @@
 
 function Marine(game, spritesheet) {
     const MOVE_SPEED = 150;
-    const SHOTS_PER_SECOND = 1;
+    const SHOTS_PER_SECOND = 3;
     const WALKING_ACTION = "walking";
     const STANDING_ACTION = "standing";
     const AIMING_ACTION = "aiming";
@@ -18,9 +18,13 @@ function Marine(game, spritesheet) {
 	//spriteSheet, frameWidth, frameHeight, sheetWidth, scale
     this.animation = new Animation(spritesheet, 64, 64, 17, 2, STANDING_ACTION);
 
-    this.isShooting = false;
-    //Mapping walking sprites
+    // Actual angle (where he's shooting)
+    this.trueAngle = 0;
 
+    // Whether he's shooting
+    this.isShooting = false;
+    this.timeSinceLastShot = 0;
+    this.shotsPerSecond = SHOTS_PER_SECOND;
     this.animation.createVerticalAnimationStates(WALKING_ACTION, 90, 2, this.degreesPerAngle, angles, 5, 9);
     this.animation.createVerticalAnimationStates(STANDING_ACTION, 90, 2, this.degreesPerAngle, angles, 5, 1);
     this.animation.createVerticalAnimationStates(AIMING_ACTION, 90, 2, this.degreesPerAngle, angles, 1, 3);
@@ -37,17 +41,27 @@ Marine.prototype.constructor = Marine;
 
 
 Marine.prototype.update = function () {
-
     var delta = this.game.clockTick;
     var moveFac = this.movementFactor;
     var speed = moveFac.speed;
 
+    this.timeSinceLastShot += delta;
 
-    //console.log("walking");
     if (this.isShooting) {
         this.animation.currentAction = "shooting";
-        var bullet = new Bullet(this.game, this.game.AM.getAsset("./img/player_bullet.png"), this, true, 45);
-        this.game.addEntity(bullet);    
+        // If it's time to create another bullet...
+        // (secondsBetweenShots = 1 / shotsPerSecond)
+        if (this.timeSinceLastShot >= (1 / this.shotsPerSecond)) {
+            // Create a bullet
+            var bullet = new Bullet(this.game,
+                                    this.game.assetManager.getAsset("./img/player_bullet.png"), 
+                                    this, true, this.trueAngle);
+            this.game.addEntity(bullet);    
+
+            // Reset timeSinceLastShot
+            this.timeSinceLastShot = 0;
+        }
+
     } else if (moveFac.getHorizontalDirection() == 0 && moveFac.getVerticalDirection() == 0) {
         this.animation.currentAction = "standing";
     } else {

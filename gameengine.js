@@ -14,8 +14,6 @@ function GameEngine() {
     this.ctx = null;
     this.surfaceWidth = null;
     this.surfaceHeight = null;
-    this.mouseX = 0;
-    this.mouseY = 0;
 }
 
 GameEngine.prototype.init = function (ctx) {
@@ -55,10 +53,13 @@ GameEngine.prototype.update = function () {
     for (var i = 0; i < entitiesCount; i++) {
         var entity = this.entities[i];
         
-        if (entity.removeFromWorld) {
-            this.entities.splice(i, 1)
-        } else {
-            entity.update();
+        if (typeof entity != 'undefined') {
+            if (entity.removeFromWorld) {
+                console.log("removing entity");
+                this.entities.splice(i, 1);
+            } else {
+                entity.update();
+            }
         }
     }
 }

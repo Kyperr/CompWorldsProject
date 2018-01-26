@@ -45,7 +45,6 @@ AM.downloadAll(function () {
     gameEngine.addEntity(marine);
 	gameEngine.addEntity(hydralisk);
 	gameEngine.addEntity(zergling);
-    gameEngine.addEntity(bullet);    
     gameEngine.start();
     console.log("All Done!");
 });

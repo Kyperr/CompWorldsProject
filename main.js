@@ -35,17 +35,17 @@ AM.downloadAll(function () {
     gameEngine.addEntity(new Background(gameEngine, AM.getAsset("./img/background.jpg")));
 
     var marine = new Marine(gameEngine, AM.getAsset("./img/marine.png"));
-	var hydralisk = new Hydralisk(gameEngine, AM.getAsset("./img/hydralisk.png"));
-
-	var zergling = new Zergling(gameEngine, AM.getAsset("./img/zergling.png"));
     var bullet = new Bullet(gameEngine, AM.getAsset("./img/player_bullet.png"), marine, true, 45);
+	var hydralisk = new Hydralisk(gameEngine, AM.getAsset("./img/hydralisk.png"));
+	var zergling = new Zergling(gameEngine, AM.getAsset("./img/zergling.png"));
+	
 	//init player
     initializePlayerListeners(marine, gameEngine, canvas);
 
     gameEngine.addEntity(marine);
+    gameEngine.addEntity(bullet);    
 	gameEngine.addEntity(hydralisk);
 	gameEngine.addEntity(zergling);
-    gameEngine.addEntity(bullet);    
     gameEngine.start();
     console.log("All Done!");
 });

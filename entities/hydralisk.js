@@ -11,7 +11,7 @@ function Hydralisk(game, spritesheet) {
 	this.sheetWidth = 17;
 	this.scale = 2;
 	
-	//spriteSheet, frameWidth, frameHeight, sheetWidth, scale
+	//spriteSheet, frameWidth, frameHeight, sheetWidth, scale, startingAction
     this.animation = new Animation(spritesheet, this.frameWidth, this.frameHeight, 
                                    this.sheetWidth, this.scale, STANDING_ACTION);
 

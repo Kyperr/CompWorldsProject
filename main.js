@@ -125,4 +125,9 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
         marine.animation.currentState = "standing";
     });
     
+<<<<<<< HEAD
 }
+=======
+}
+
+>>>>>>> 86c8646c279639e3a9c894d280d766afc5c319f0

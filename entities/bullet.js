@@ -1,16 +1,16 @@
 
 function Bullet(game, spritesheet, creator, fromPlayer, startingAngle) {
-    const MOVE_SPEED = 300
-
-	//spriteSheet, frameWidth, frameHeight, sheetWidth, scale
-    this.animation = new Animation(spritesheet, 32, 32, 5, 2);
+    const MOVE_SPEED = 300;
+    const DEFAULT_ACTION = "flying";
+	//spriteSheet, frameWidth, frameHeight, sheetWidth, scale, startingAction
+    this.animation = new Animation(spritesheet, 32, 32, 5, 2, DEFAULT_ACTION);
 
     this.angle = startingAngle;
     this.isPlayerBullet = fromPlayer;
 
     // arguments: name, angleIncrements, numberOfAngles, yIndex, frameCount 
     // temporarily set to 1 yIndex and 1 frameCount until horizontal animation implemented
-    this.animation.createAnimationStates("shooting", 360, 1, 1, 1);
+    this.animation.createAnimationStates(DEFAULT_ACTION, 90, 1, 1, 1);
 	
     this.movementFactor = new MovementFactor(MOVE_SPEED);
 

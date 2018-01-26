@@ -1,7 +1,12 @@
 
 function Marine(game, spritesheet) {
     const MOVE_SPEED = 150;
-    const SHOTS_PER_SECOND = 1
+    const SHOTS_PER_SECOND = 1;
+    const WALKING_ACTION = "walking";
+    const STANDING_ACTION = "standing";
+    const AIMING_ACTION = "aiming";
+    const SHOOTING_ACTION = "shooting";
+
 
 	//number of angles the entity can look
 	var angles = 16;
@@ -11,15 +16,15 @@ function Marine(game, spritesheet) {
 	this.degreesPerAngle = 360/angles;	//360 degrees in a circle 
 	
 	//spriteSheet, frameWidth, frameHeight, sheetWidth, scale
-    this.animation = new Animation(spritesheet, 64, 64, 17, 2);
+    this.animation = new Animation(spritesheet, 64, 64, 17, 2, STANDING_ACTION);
 
     this.isShooting = false;
     //Mapping walking sprites
 
-    this.animation.createAnimationStates("walking", this.degreesPerAngle, angles, 5, 9);
-    this.animation.createAnimationStates("standing", this.degreesPerAngle, angles, 5, 1);
-    this.animation.createAnimationStates("aiming", this.degreesPerAngle, angles, 1, 3);
-    this.animation.createAnimationStates("shooting", this.degreesPerAngle, angles, 3, 2);
+    this.animation.createAnimationStates(WALKING_ACTION, this.degreesPerAngle, angles, 5, 9);
+    this.animation.createAnimationStates(STANDING_ACTION, this.degreesPerAngle, angles, 5, 1);
+    this.animation.createAnimationStates(AIMING_ACTION, this.degreesPerAngle, angles, 1, 3);
+    this.animation.createAnimationStates(SHOOTING_ACTION, this.degreesPerAngle, angles, 3, 2);
 	
     this.movementFactor = new MovementFactor(MOVE_SPEED);
 

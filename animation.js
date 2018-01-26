@@ -1,11 +1,11 @@
-function Animation(spriteSheet, frameWidth, frameHeight, sheetWidth, scale) {
+function Animation(spriteSheet, frameWidth, frameHeight, sheetWidth, scale, startingAction) {
     this.spriteSheet = spriteSheet;
     this.frameWidth = frameWidth;
     this.frameHeight = frameHeight;
     this.sheetWidth = sheetWidth;
     this.elapsedTime = 0;
     this.scale = scale;
-    this.currentAction = "standing";
+    this.currentAction = startingAction;
     this.currentAngle = 0;
     this.animationStates = new Map();
 }
@@ -69,6 +69,7 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y) {
 
 Animation.prototype.currentFrame = function () {
     var state = this.animationStates[this.currentAction + this.currentAngle];
+    console.log("this.animationStates[" + this.currentAction + this.currentAngle+ "] = " + state)
     return Math.floor(this.elapsedTime / state.frameDuration);
 }
 

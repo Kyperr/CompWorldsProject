@@ -1,4 +1,6 @@
 function Hydralisk(game, spritesheet) {
+    const STANDING_ACTION = "standing";
+    const WALKING_ACTION = "walking";
 	//number of angles the entity can look
 	var angles = 16;
 	//degrees each angle covers
@@ -10,12 +12,13 @@ function Hydralisk(game, spritesheet) {
 	this.scale = 2;
 	
 	//spriteSheet, frameWidth, frameHeight, sheetWidth, scale
-    this.animation = new Animation(spritesheet, this.frameWidth, this.frameHeight, this.sheetWidth, this.scale);
+    this.animation = new Animation(spritesheet, this.frameWidth, this.frameHeight, 
+                                   this.sheetWidth, this.scale, STANDING_ACTION);
 
     //Mapping walking sprites
 
-    this.animation.createAnimationStates("walking", degrees, angles, 6, 7);
-    this.animation.createAnimationStates("standing", degrees, angles, 6, 1);
+    this.animation.createAnimationStates(WALKING_ACTION, degrees, angles, 6, 7);
+    this.animation.createAnimationStates(STANDING_ACTION, degrees, angles, 6, 1);
 	
     this.movementFactor = new MovementFactor(350);
 	this.changeTime = 0;		//time since last direction change

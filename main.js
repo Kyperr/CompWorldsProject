@@ -1,11 +1,6 @@
-
 var AM = new AssetManager();
 
 //Initialize the game engine
-
-
-
-//Animation moved to its own file.
 
 // no inheritance
 function Background(game, spritesheet) {
@@ -33,14 +28,15 @@ AM.queueDownload("./img/player_bullet.png");
 AM.downloadAll(function () {
     var canvas = document.getElementById("gameWorld");
     var ctx = canvas.getContext("2d");
-
     var gameEngine = new GameEngine();
-    gameEngine.init(ctx);
 
+    gameEngine.init(ctx);
+    gameEngine.assetManager = AM;
     gameEngine.addEntity(new Background(gameEngine, AM.getAsset("./img/background.jpg")));
 
     var marine = new Marine(gameEngine, AM.getAsset("./img/marine.png"));
 	var hydralisk = new Hydralisk(gameEngine, AM.getAsset("./img/hydralisk.png"));
+
 	var zergling = new Zergling(gameEngine, AM.getAsset("./img/zergling.png"));
     var bullet = new Bullet(gameEngine, AM.getAsset("./img/player_bullet.png"), marine, true, 45);
 	//init player
@@ -55,8 +51,6 @@ AM.downloadAll(function () {
 });
 
 function initializePlayerListeners(marine, gameEngine, canvas) {
-
-
     canvas.addEventListener("keypress", function (e) {
         //console.log(e.code);
         if (e.code === "KeyW") {
@@ -131,6 +125,10 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
         marine.animation.currentState = "standing";
     });
     
+}
+
+function initializeEnemyListeners(hydralisk, canvas) {
+	
 }
 
 function calculateNearestAngle(x1, y1, x2, y2, incrementAmount) {

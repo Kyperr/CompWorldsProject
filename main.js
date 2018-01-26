@@ -91,33 +91,30 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
     }, false);
 
     canvas.addEventListener("mousemove", function (e) {
-        // Offset X and Y are based on origin of canvas, as opposed to browser window
         if (marine.isShooting) {
             var marineCenterX = marine.x + (marine.animation.frameWidth * marine.animation.scale / 2);
             var marineCenterY = marine.y + (marine.animation.frameHeight * marine.animation.scale / 2);
             
+            newAngle = calculateAngle(e.offsetX, e.offsetY, marineCenterX, marineCenterY);
+            marine.trueAngle = newAngle;
             marine.isShooting = true;
             marine.animation.currentAction = "shooting"
-            marine.animation.currentAngle = calculateNearestAngle(e.offsetX,
-                                                                  e.offsetY,
-                                                                  marineCenterX,
-                                                                  marineCenterY,
-                                                                  marine.degreesPerAngle)
+            marine.animation.currentAngle = nearestAngle(newAngle, marine.degreesPerAngle);
         }
         
     });
 
     canvas.addEventListener("mousedown", function (e) {
+        // Offset X and Y are based on origin of canvas, as opposed to browser window
         var marineCenterX = marine.x + (marine.animation.frameWidth * marine.animation.scale / 2);
         var marineCenterY = marine.y + (marine.animation.frameHeight * marine.animation.scale / 2);
         
+        newAngle = calculateAngle(e.offsetX, e.offsetY, marineCenterX, marineCenterY);
+
+        marine.trueAngle = newAngle;
         marine.isShooting = true;
+        marine.animation.currentAngle = nearestAngle(newAngle, marine.degreesPerAngle);
         marine.animation.currentAction = "shooting"
-        marine.animation.currentAngle = calculateNearestAngle(e.offsetX,
-                                                              e.offsetY,
-                                                              marineCenterX,
-                                                              marineCenterY,
-                                                              marine.degreesPerAngle)
     });
 
     canvas.addEventListener("mouseup", function (e) {

@@ -1,15 +1,17 @@
+function calculateAngle(x1, y1, x2, y2) {
+    var dx = x1 - x2;
+    var dy = y1 - y2;
+
+    var radiansAngle = Math.atan2(dy, dx) * -1;
+    if (radiansAngle < 0) {
+        radiansAngle += 2 * Math.PI;
+    }
+
+    return radiansToDegrees(radiansAngle);
+}
+
 function calculateNearestAngle(x1, y1, x2, y2, incrementAmount) {
-        var dx = x1 - x2;
-        var dy = y1 - y2;
-
-        var radiansAngle = Math.atan2(dy, dx) * -1;
-        if (radiansAngle < 0) {
-            radiansAngle += 2 * Math.PI;
-        }
-
-        var degreesAngle = radiansToDegrees(radiansAngle);
-
-        return nearestAngle(degreesAngle, incrementAmount);
+    return nearestAngle(calculateAngle(x1, y1, x2, y2), incrementAmount);
 }
 
 /*

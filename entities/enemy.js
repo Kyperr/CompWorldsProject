@@ -3,15 +3,16 @@
 *	Not needed for Prototype. 
 */
 
-function Enemy(game, spritesheet) {
-    /*const STANDING_ACTION = "standing";
+function Enemy(entity, game, x, y) {
+    const STANDING_ACTION = "standing";
     const WALKING_ACTION = "walking";
 	//number of angles the entity can look
 	this.angles = 16;
 	//degrees each angle covers
 	this.degreesPerAngle = 360/this.angles;	//360 degrees in a circle 
 	
-    this.ctx = game.ctx;*/
+    //this.ctx = game.ctx;
+	Entity.call(entity, game, x, y);
 }
 
 Enemy.prototype = new Entity();
@@ -64,6 +65,7 @@ Enemy.prototype.update = function () {
 		this.x = newX;
 	} else {
 		this.animation.currentAngle = moveFac.reflect();
+		
 	}
 	if (newY + (this.frameHeight * this.scale) <= this.game.ctx.canvas.height && newY > 0) { 
 		this.y = newY;
@@ -77,7 +79,7 @@ Enemy.prototype.update = function () {
 
 Enemy.prototype.draw = function () {
     //if(alive){
-    this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
+    this.animation.drawFrame(this.game.clockTick, this.game.ctx, this.x, this.y);
     //} else if (dead){
     //this.deathanimation.dajsdnga;jsdng;sjdnfg;sjd
     //}

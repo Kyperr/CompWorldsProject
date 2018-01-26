@@ -1,3 +1,4 @@
+
 function Hydralisk(game, spritesheet) {
     const STANDING_ACTION = "standing";
     const WALKING_ACTION = "walking";
@@ -23,11 +24,12 @@ function Hydralisk(game, spritesheet) {
     this.movementFactor = new MovementFactor(350);
 	this.changeTime = 0;		//time since last direction change
 
+	this.game = game;
     this.ctx = game.ctx;
-    Entity.call(this, game, 400, 100);
+    Enemy.call(this, this.game, 400, 100);
 }
 
-Hydralisk.prototype = new Entity();
+Hydralisk.prototype = new Enemy();
 Hydralisk.prototype.constructor = Hydralisk;
 
 

@@ -76,7 +76,7 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y) {
 
 Animation.prototype.currentFrame = function () {
     var state = this.animationStates[this.currentAction + this.currentAngle];
-    console.log("this.animationStates[" + this.currentAction + this.currentAngle+ "] = " + state)
+    //console.log("this.animationStates[" + this.currentAction + this.currentAngle+ "] = " + state)
     return Math.floor(this.elapsedTime / state.frameDuration);
 }
 
@@ -92,7 +92,7 @@ Animation.prototype.createVerticalAnimationStates = function (animationName, fir
         if (angle < 0) {
             angle += 360;
         }
-        console.log(animationName + " created at angle " + angle);
+        //console.log(animationName + " created at angle " + angle);
 
         this.animationStates[animationName + angle] = new AnimationState(animationName + angle, AnimationDirection.VERTICAL, x, yIndex, frameCount, angle, .1, true, false);
     }

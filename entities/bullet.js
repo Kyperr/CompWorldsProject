@@ -8,7 +8,7 @@ function Bullet(game, spritesheet, creator, fromPlayer, startingAngle) {
     this.angle = startingAngle;
     this.isPlayerBullet = fromPlayer;
 
-    // arguments: name, angleIncrements, numberOfAngles, yIndex, frameCount 
+    // arguments: name, firstFrameAngle, angleIncrements, numberOfAngles, yIndex, frameCount 
     // temporarily set to 1 yIndex and 1 frameCount until horizontal animation implemented
     this.animation.createVerticalAnimationStates(DEFAULT_ACTION, 0, 0, 1, 1, 1);
 	
@@ -30,17 +30,25 @@ Bullet.prototype.update = function () {
     var hypotenusePixels = delta * speed;
 
     // cos(theta) = hypotenuse / adjacent
-    var horizontalPixels = hypotenusePixels / Math.cos(this.angle)
+    var horizontalPixels = hypotenusePixels / Math.cos(this.angle);
 
     // sin(theta) = opposite / hypotenuse
-    var verticalPixels = hypotenusePixels * Math.sin(this.angle)
+    var verticalPixels = hypotenusePixels * Math.sin(this.angle);
 
     this.x += horizontalPixels; 
     this.y -= verticalPixels;
-
+    console.log("(" + this.x + ", " + this.y + ")");
     Entity.prototype.update.call(this);
 
     this.lastUpdated = this.game.gameTime;
+
+    // The following is temporary code so as not to lag the game with off-screen bullets.
+    // Eventually this should be replaced with keeping track of distance the bullet has
+    // travelled and deleting it after a certain distance.
+    if (this.x > 1920 || this.x < -100 || this.y > -100 || this.y > 1080) {
+        this.isAlive = false;
+        this.removeFromWorld = true;
+    }
 }
 
 Bullet.prototype.draw = function () {

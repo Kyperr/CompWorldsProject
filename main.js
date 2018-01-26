@@ -27,6 +27,7 @@ Background.prototype.update = function () {
 AM.queueDownload("./img/background.jpg");
 AM.queueDownload("./img/marine.png");
 AM.queueDownload("./img/hydralisk.png");
+AM.queueDownload("./img/player_bullet.png");
 
 AM.downloadAll(function () {
     var canvas = document.getElementById("gameWorld");
@@ -39,7 +40,7 @@ AM.downloadAll(function () {
 
     var marine = new Marine(gameEngine, AM.getAsset("./img/marine.png"));
 	var hydralisk = new Hydralisk(gameEngine, AM.getAsset("./img/hydralisk.png"));
-
+    var bullet = new Bullet(gameEngine, AM.getAsset("./img/player_bullet.png"), marine, true, 45);
 	//init player
     initializePlayerListeners(marine, gameEngine, canvas);
 	
@@ -48,7 +49,7 @@ AM.downloadAll(function () {
 
     gameEngine.addEntity(marine);
 	gameEngine.addEntity(hydralisk);
-
+    gameEngine.addEntity(bullet);    
     gameEngine.start();
     console.log("All Done!");
 });

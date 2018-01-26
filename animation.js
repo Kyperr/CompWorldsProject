@@ -4,8 +4,6 @@ var AnimationDirection = {
 
 };
 
-
-
 function Animation(spriteSheet, frameWidth, frameHeight, sheetWidth, scale, startingAction) {
     this.spriteSheet = spriteSheet;
     this.frameWidth = frameWidth;

@@ -41,15 +41,14 @@ AM.downloadAll(function () {
 	var hydralisk = new Hydralisk(gameEngine, AM.getAsset("./img/hydralisk.png"));
 
 	var zergling = new Zergling(gameEngine, AM.getAsset("./img/zergling.png"));
-    var bullet = new Bullet(gameEngine, AM.getAsset("./img/player_bullet.png"), marine, true, 45);
-	//init player
+	
+    //init player
     initializePlayerListeners(marine, gameEngine, canvas);
 
     gameEngine.addEntity(map);
     gameEngine.addEntity(marine);
 	gameEngine.addEntity(hydralisk);
 	gameEngine.addEntity(zergling);
-    gameEngine.addEntity(bullet);    
     gameEngine.start();
     console.log("All Done!");
 });
@@ -102,6 +101,7 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
             newAngle = calculateAngle(e.offsetX, e.offsetY, marineCenterX, marineCenterY);
             marine.trueAngle = newAngle;
             marine.isShooting = true;
+
             marine.animation.currentAction = "shooting"
             marine.animation.currentAngle = nearestAngle(newAngle, marine.degreesPerAngle);
         }
@@ -117,6 +117,7 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
 
         marine.trueAngle = newAngle;
         marine.isShooting = true;
+        
         marine.animation.currentAngle = nearestAngle(newAngle, marine.degreesPerAngle);
         marine.animation.currentAction = "shooting"
     });

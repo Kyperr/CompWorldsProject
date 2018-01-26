@@ -1,0 +1,3 @@
+function Enemy(game, spritesheet) {
+
+}

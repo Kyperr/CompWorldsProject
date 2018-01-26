@@ -21,10 +21,10 @@ function Marine(game, spritesheet) {
     this.isShooting = false;
     //Mapping walking sprites
 
-    this.animation.createVerticalAnimationStates(WALKING_ACTION, 90, this.degreesPerAngle, angles, 5, 9);
-    this.animation.createVerticalAnimationStates(STANDING_ACTION, 90, this.degreesPerAngle, angles, 5, 1);
-    this.animation.createVerticalAnimationStates(AIMING_ACTION, 90, this.degreesPerAngle, angles, 1, 3);
-    this.animation.createVerticalAnimationStates(SHOOTING_ACTION, 90, this.degreesPerAngle, angles, 3, 2);
+    this.animation.createVerticalAnimationStates(WALKING_ACTION, 90, 2, this.degreesPerAngle, angles, 5, 9);
+    this.animation.createVerticalAnimationStates(STANDING_ACTION, 90, 2, this.degreesPerAngle, angles, 5, 1);
+    this.animation.createVerticalAnimationStates(AIMING_ACTION, 90, 2, this.degreesPerAngle, angles, 1, 3);
+    this.animation.createVerticalAnimationStates(SHOOTING_ACTION, 90, 2, this.degreesPerAngle, angles, 3, 2);
 	
     this.movementFactor = new MovementFactor(MOVE_SPEED);
 

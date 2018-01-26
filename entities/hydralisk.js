@@ -11,14 +11,14 @@ function Hydralisk(game, spritesheet) {
 	this.sheetWidth = 17;
 	this.scale = 2;
 	
-	//spriteSheet, frameWidth, frameHeight, sheetWidth, scale
+	//spriteSheet, frameWidth, frameHeight, sheetWidth, scale, startingAction
     this.animation = new Animation(spritesheet, this.frameWidth, this.frameHeight, 
                                    this.sheetWidth, this.scale, STANDING_ACTION);
 
     //Mapping walking sprites
 
-    this.animation.createVerticalAnimationStates(WALKING_ACTION, 90, degrees, angles, 6, 7);
-    this.animation.createVerticalAnimationStates(STANDING_ACTION, 90, degrees, angles, 6, 1);
+    this.animation.createVerticalAnimationStates(WALKING_ACTION, 90, 2, degrees, angles, 6, 7);
+    this.animation.createVerticalAnimationStates(STANDING_ACTION, 90, 2, degrees, angles, 6, 1);
 	
     this.movementFactor = new MovementFactor(350);
 	this.changeTime = 0;		//time since last direction change

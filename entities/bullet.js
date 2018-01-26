@@ -45,7 +45,7 @@ Bullet.prototype.update = function () {
     // The following is temporary code so as not to lag the game with off-screen bullets.
     // Eventually this should be replaced with keeping track of distance the bullet has
     // travelled and deleting it after a certain distance.
-    if (this.x > 1920 || this.x < -100 || this.y > -100 || this.y > 1080) {
+    if (this.x > 1920 || this.x < -100 || this.y < -100 || this.y > 1080) {
         this.isAlive = false;
         this.removeFromWorld = true;
     }

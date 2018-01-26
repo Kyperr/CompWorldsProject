@@ -18,8 +18,11 @@ function Marine(game, spritesheet) {
 	//spriteSheet, frameWidth, frameHeight, sheetWidth, scale
     this.animation = new Animation(spritesheet, 64, 64, 17, 2, STANDING_ACTION);
 
+    // Actual angle (where he's shooting)
+    this.trueAngle = 0;
+
+    // Whether he's shooting
     this.isShooting = false;
-    //Mapping walking sprites
 
     this.animation.createVerticalAnimationStates(WALKING_ACTION, 90, 2, this.degreesPerAngle, angles, 5, 9);
     this.animation.createVerticalAnimationStates(STANDING_ACTION, 90, 2, this.degreesPerAngle, angles, 5, 1);
@@ -42,11 +45,11 @@ Marine.prototype.update = function () {
     var moveFac = this.movementFactor;
     var speed = moveFac.speed;
 
-
-    //console.log("walking");
     if (this.isShooting) {
         this.animation.currentAction = "shooting";
-        var bullet = new Bullet(this.game, this.game.AM.getAsset("./img/player_bullet.png"), this, true, 45);
+
+        var bullet = new Bullet(this.game, this.game.assetManager.getAsset("./img/player_bullet.png"), this, true, this.trueAngle);
+
         this.game.addEntity(bullet);    
     } else if (moveFac.getHorizontalDirection() == 0 && moveFac.getVerticalDirection() == 0) {
         this.animation.currentAction = "standing";

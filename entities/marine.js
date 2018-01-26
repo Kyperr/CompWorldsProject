@@ -45,11 +45,11 @@ Marine.prototype.update = function () {
     var moveFac = this.movementFactor;
     var speed = moveFac.speed;
 
-
-    //console.log("walking");
     if (this.isShooting) {
         this.animation.currentAction = "shooting";
+
         var bullet = new Bullet(this.game, this.game.assetManager.getAsset("./img/player_bullet.png"), this, true, this.trueAngle);
+
         this.game.addEntity(bullet);    
     } else if (moveFac.getHorizontalDirection() == 0 && moveFac.getVerticalDirection() == 0) {
         this.animation.currentAction = "standing";

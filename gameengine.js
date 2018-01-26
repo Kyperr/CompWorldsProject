@@ -55,7 +55,8 @@ GameEngine.prototype.update = function () {
         
         if (typeof entity != 'undefined') {
             if (entity.removeFromWorld) {
-                this.entities.splice(i, 1)
+                console.log("removing entity");
+                this.entities.splice(i, 1);
             } else {
                 entity.update();
             }

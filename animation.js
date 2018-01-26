@@ -86,10 +86,10 @@ Animation.prototype.isDone = function () {
     return (this.elapsedTime >= this.totalTime);
 }
 
-Animation.prototype.createVerticalAnimationStates = function (animationName, firstFrameAngle, angleIncrements, numberOfAngles, yIndex, frameCount) {
+Animation.prototype.createVerticalAnimationStates = function (animationName, firstFrameAngle, frameIncrement, angleIncrements, numberOfAngles, yIndex, frameCount) {
 
     for (i = 0; i <= numberOfAngles / 2; i++) {
-        var x = 2 * i;
+        var x = frameIncrement * i;
         var angle = firstFrameAngle - (i * angleIncrements);
         if (angle < 0) {
             angle += 360;
@@ -100,7 +100,7 @@ Animation.prototype.createVerticalAnimationStates = function (animationName, fir
     }
 
     for (i = 1; i < numberOfAngles / 2; i++) {
-        var x = 2 * i;
+        var x = frameIncrement * i;
         var angle = firstFrameAngle + (i * angleIncrements);
 
         this.animationStates[animationName + angle] = new AnimationState(animationName + angle, AnimationDirection.VERTICAL, x, yIndex, frameCount, angle, .1, true, true);

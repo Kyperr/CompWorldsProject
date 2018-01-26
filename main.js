@@ -24,6 +24,7 @@ AM.queueDownload("./img/marine.png");
 AM.queueDownload("./img/hydralisk.png");
 AM.queueDownload("./img/zergling.png");
 AM.queueDownload("./img/player_bullet.png");
+AM.queueDownload("./img/bricks.png");
 
 AM.downloadAll(function () {
     var canvas = document.getElementById("gameWorld");
@@ -33,8 +34,7 @@ AM.downloadAll(function () {
     gameEngine.init(ctx);
     gameEngine.assetManager = AM;
     //gameEngine.addEntity(new Background(gameEngine, AM.getAsset("./img/background.jpg")));
-    var map = new MapMap(game, canvas.width / 32, canvas.height / 32, 32);
-    gameEngine.addEntity(map);
+    var map = new Map(gameEngine, canvas.width / 32, canvas.height / 32, 32);
 
 
     var marine = new Marine(gameEngine, AM.getAsset("./img/marine.png"));
@@ -45,6 +45,7 @@ AM.downloadAll(function () {
 	//init player
     initializePlayerListeners(marine, gameEngine, canvas);
 
+    gameEngine.addEntity(map);
     gameEngine.addEntity(marine);
 	gameEngine.addEntity(hydralisk);
 	gameEngine.addEntity(zergling);

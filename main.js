@@ -27,6 +27,7 @@ Background.prototype.update = function () {
 AM.queueDownload("./img/background.jpg");
 AM.queueDownload("./img/marine.png");
 AM.queueDownload("./img/hydralisk.png");
+AM.queueDownload("./img/zergling.png");
 AM.queueDownload("./img/player_bullet.png");
 
 AM.downloadAll(function () {
@@ -40,15 +41,14 @@ AM.downloadAll(function () {
 
     var marine = new Marine(gameEngine, AM.getAsset("./img/marine.png"));
 	var hydralisk = new Hydralisk(gameEngine, AM.getAsset("./img/hydralisk.png"));
+	var zergling = new Zergling(gameEngine, AM.getAsset("./img/zergling.png"));
     var bullet = new Bullet(gameEngine, AM.getAsset("./img/player_bullet.png"), marine, true, 45);
 	//init player
     initializePlayerListeners(marine, gameEngine, canvas);
-	
-	//init enemies
-	initializeEnemyListeners(hydralisk, canvas);
 
     gameEngine.addEntity(marine);
 	gameEngine.addEntity(hydralisk);
+	gameEngine.addEntity(zergling);
     gameEngine.addEntity(bullet);    
     gameEngine.start();
     console.log("All Done!");
@@ -131,10 +131,6 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
         marine.animation.currentState = "standing";
     });
     
-}
-
-function initializeEnemyListeners(hydralisk, canvas) {
-	
 }
 
 function calculateNearestAngle(x1, y1, x2, y2, incrementAmount) {

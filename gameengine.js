@@ -52,8 +52,12 @@ GameEngine.prototype.update = function () {
 
     for (var i = 0; i < entitiesCount; i++) {
         var entity = this.entities[i];
-
-        entity.update();
+        
+        if (entity.removeFromWorld) {
+            this.entities.splice(i, 1)
+        } else {
+            entity.update();
+        }
     }
 }
 

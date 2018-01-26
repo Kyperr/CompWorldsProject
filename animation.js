@@ -4,8 +4,6 @@ var AnimationDirection = {
 
 };
 
-
-
 function Animation(spriteSheet, frameWidth, frameHeight, sheetWidth, scale, startingAction) {
     this.spriteSheet = spriteSheet;
     this.frameWidth = frameWidth;
@@ -85,7 +83,7 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y) {
 
 Animation.prototype.currentFrame = function () {
     var state = this.animationStates[this.currentAction + this.currentAngle];
-    console.log("this.animationStates[" + this.currentAction + this.currentAngle+ "] = " + state)
+    //console.log("this.animationStates[" + this.currentAction + this.currentAngle+ "] = " + state)
     return Math.floor(this.elapsedTime / state.frameDuration);
 }
 

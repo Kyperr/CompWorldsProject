@@ -48,3 +48,12 @@ function nearestAngle(theDegrees, incrementAmount) {
  */
 function radiansToDegrees(radians) {
     return radians * (180 / Math.PI);
+}
+
+/*
+ * Converts degrees to radians.
+ * For example, degreesToRadians(0) returns 0, degreesToRadians(180) returns Math.pi.
+ */
+function degreesToRadians(degrees) {
+    return (180 / Math.PI) / degrees;
+}

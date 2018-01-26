@@ -30,15 +30,16 @@ Bullet.prototype.update = function () {
     var moveFac = this.movementFactor;
     var speed = moveFac.speed;
 
-    console.log("Angle of attack: " + this.angle);
     // length of hypotenuse
     var hypotenusePixels = delta * speed;
 
     // cos(theta) = hypotenuse / adjacent
-    var horizontalPixels = hypotenusePixels / Math.cos(this.angle);
+    var cosTheta = Math.cos(degreesToRadians(this.angle));
+    var horizontalPixels = hypotenusePixels * cosTheta;
 
     // sin(theta) = opposite / hypotenuse
-    var verticalPixels = hypotenusePixels * Math.sin(this.angle);
+    var sinTheta = Math.sin(degreesToRadians(this.angle));
+    var verticalPixels = hypotenusePixels * sinTheta; 
 
     this.x += horizontalPixels; 
     this.y -= verticalPixels;

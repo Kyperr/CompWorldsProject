@@ -31,7 +31,9 @@ Bullet.prototype.update = function () {
     var speed = moveFac.speed;
 
 
-    console.log("angle " + this.angle);
+    var rAngle = (this.angles / 180) * Math.PI;
+    console.log("rAngle " + rAngle);
+
 
     // length of hypotenuse
     var hypotenusePixels = delta * speed;

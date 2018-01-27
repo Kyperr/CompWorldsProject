@@ -2,7 +2,7 @@ function Bullet(game, spritesheet, creator, fromPlayer, startingAngle) {
     const MOVE_SPEED = 300;
     const DEFAULT_ACTION = "flying";
 	//spriteSheet, frameWidth, frameHeight, sheetWidth, scale, startingAction
-    this.animation = new Animation(spritesheet, 32, 32, 5, 2, DEFAULT_ACTION);
+    this.animation = new Animation(spritesheet, 32, 32, 5, 1.5, DEFAULT_ACTION);
 
     this.angle = startingAngle;
     this.isPlayerBullet = fromPlayer;

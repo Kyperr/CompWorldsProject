@@ -27,13 +27,12 @@ Bullet.prototype.constructor = Bullet;
 
 Bullet.prototype.update = function () {
     var delta = this.game.clockTick;
-    var moveFac = this.movementFactor;
-    var speed = moveFac.speed;
+    var speed = this.movementFactor.speed;
 
     // length of hypotenuse
     var hypotenusePixels = delta * speed;
 
-    // cos(theta) = hypotenuse / adjacent
+    // cos(theta) = adjacent / hypotenuse
     var cosTheta = Math.cos(degreesToRadians(this.angle));
     var horizontalPixels = hypotenusePixels * cosTheta;
 
@@ -43,7 +42,7 @@ Bullet.prototype.update = function () {
 
     this.x += horizontalPixels; 
     this.y -= verticalPixels;
-    //console.log("(" + this.x + ", " + this.y + ")");
+
     Entity.prototype.update.call(this);
 
     this.lastUpdated = this.game.gameTime;
@@ -51,7 +50,12 @@ Bullet.prototype.update = function () {
     // The following is temporary code so as not to lag the game with off-screen bullets.
     // Eventually this should be replaced with keeping track of distance the bullet has
     // travelled and deleting it after a certain distance.
-    if (this.x > 1920 || this.x < -100 || this.y < -100 || this.y > 1080) {
+    // If the bullet is offscreen, delete it.
+    if (this.x > this.game.surfaceWidth ||
+        this.x < 0 - this.animation.frameWidth * this.animation.scale || 
+        this.y > this.game.surfaceHeight ||
+        this.y < 0 - this.animation.frameHeight * this.animation.scale) { 
+
         this.isAlive = false;
         this.removeFromWorld = true;
     }

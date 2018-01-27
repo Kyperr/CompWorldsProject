@@ -34,7 +34,6 @@ GameEngine.prototype.start = function () {
 }
 
 GameEngine.prototype.addEntity = function (entity) {
-    console.log('added entity');
     this.entities.push(entity);
 }
 
@@ -55,7 +54,6 @@ GameEngine.prototype.update = function () {
         
         if (typeof entity != 'undefined') {
             if (entity.removeFromWorld) {
-                console.log("removing entity");
                 this.entities.splice(i, 1);
             } else {
                 entity.update();

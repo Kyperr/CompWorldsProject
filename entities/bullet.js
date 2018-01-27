@@ -1,9 +1,8 @@
-
 function Bullet(game, spritesheet, creator, fromPlayer, startingAngle) {
     const MOVE_SPEED = 300;
     const DEFAULT_ACTION = "flying";
 	//spriteSheet, frameWidth, frameHeight, sheetWidth, scale, startingAction
-    this.animation = new Animation(spritesheet, 32, 32, 5, 2, DEFAULT_ACTION);
+    this.animation = new Animation(spritesheet, 32, 32, 5, 1.5, DEFAULT_ACTION);
 
     this.angle = startingAngle;
     this.isPlayerBullet = fromPlayer;
@@ -12,7 +11,8 @@ function Bullet(game, spritesheet, creator, fromPlayer, startingAngle) {
 
     // arguments: name, firstFrameAngle, angleIncrements, numberOfAngles, yIndex, frameCount 
     // temporarily set to 1 yIndex and 1 frameCount until horizontal animation implemented
-    this.animation.createVerticalAnimationStates(DEFAULT_ACTION, 0, 1, 0, 1, 1, 1);
+    //this.animation.createVerticalAnimationStates(DEFAULT_ACTION, 0, 1, 0, 1, 1, 1);
+    this.animation.createHorizontalAnimationStates(DEFAULT_ACTION, 0, 1, 0, 1, 1, 5);
 
     var creatorCenterX = creator.x + (creator.animation.frameWidth * creator.animation.scale / 2);
     var creatorCenterY = creator.y + (creator.animation.frameHeight * creator.animation.scale / 2);
@@ -27,39 +27,23 @@ Bullet.prototype.constructor = Bullet;
 
 Bullet.prototype.update = function () {
     var delta = this.game.clockTick;
-    var moveFac = this.movementFactor;
-    var speed = moveFac.speed;
-
-
-    var rAngle = (this.angles / 180) * Math.PI;
-    console.log("rAngle " + rAngle);
-
+    var speed = this.movementFactor.speed;
 
     // length of hypotenuse
     var hypotenusePixels = delta * speed;
 
-    // cos(theta) = hypotenuse / adjacent
+    // cos(theta) = adjacent / hypotenuse
     var cosTheta = Math.cos(degreesToRadians(this.angle));
     var horizontalPixels = hypotenusePixels * cosTheta;
-    console.log("horiz " + horizontalPixels);
+    //console.log("horiz " + horizontalPixels);
 
     // sin(theta) = opposite / hypotenuse
     var sinTheta = Math.sin(degreesToRadians(this.angle));
     var verticalPixels = hypotenusePixels * sinTheta;
-    console.log("vert " + verticalPixels);
 
-    if (this.angle > 90 && this.angle < 270) {
-        this.x -= horizontalPixels;
-    } else {
-        this.x += horizontalPixels;
-    }
+    this.x += horizontalPixels;
+    this.y -= verticalPixels;
 
-    if (this.angle > 0 && this.angle < 180) {
-        this.y -= verticalPixels;
-    } else {
-        this.y += verticalPixels
-    }
-    //console.log("(" + this.x + ", " + this.y + ")");
     Entity.prototype.update.call(this);
 
     this.lastUpdated = this.game.gameTime;
@@ -67,7 +51,12 @@ Bullet.prototype.update = function () {
     // The following is temporary code so as not to lag the game with off-screen bullets.
     // Eventually this should be replaced with keeping track of distance the bullet has
     // travelled and deleting it after a certain distance.
-    if (this.x > 1920 || this.x < -100 || this.y < -100 || this.y > 1080) {
+    // If the bullet is offscreen, delete it.
+    if (this.x > this.game.surfaceWidth ||
+        this.x < 0 - this.animation.frameWidth * this.animation.scale || 
+        this.y > this.game.surfaceHeight ||
+        this.y < 0 - this.animation.frameHeight * this.animation.scale) { 
+
         this.isAlive = false;
         this.removeFromWorld = true;
     }

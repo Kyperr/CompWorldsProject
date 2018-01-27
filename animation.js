@@ -121,7 +121,7 @@ Animation.prototype.createHorizontalAnimationStates = function (animationName, f
             angle += 360;
         }
 
-        this.animationStates[animationName + angle] = new AnimationState(animationName + angle, AnimationDirection.Horizontal, xIndex, y, frameCount, angle, .1, true, false);
+        this.animationStates[animationName + angle] = new AnimationState(animationName + angle, AnimationDirection.Horizontal, yIndex, y, frameCount, angle, .1, true, false);
     }
 
     for (i = 1; i < numberOfAngles / 2; i++) {

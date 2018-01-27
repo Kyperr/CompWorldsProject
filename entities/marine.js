@@ -1,6 +1,6 @@
 
 function Marine(game, spritesheet) {
-    const MOVE_SPEED = 150;
+    const MOVE_SPEED = 200;
     const SHOTS_PER_SECOND = 3;
     const WALKING_ACTION = "walking";
     const STANDING_ACTION = "standing";

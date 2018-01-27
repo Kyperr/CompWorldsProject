@@ -1,6 +1,6 @@
 function Hydralisk(game, spritesheet) {
     const MOVE_SPEED = 250;
-    const ATTACKS_PER_SECOND = 3;
+    const ATTACKS_PER_SECOND = 1;
     const STANDING_ACTION = "standing";
     const WALKING_ACTION = "walking";
 	const ATTACK_ACTION = "attacking";
@@ -13,6 +13,8 @@ function Hydralisk(game, spritesheet) {
 	this.frameHeight =128;
 	this.sheetWidth = 17;
 	this.scale = 2;
+    // Actual angle (where he's shooting)
+    this.trueAngle = 0;
 	
 	//spriteSheet, frameWidth, frameHeight, sheetWidth, scale, startingAction
     this.animation = new Animation(spritesheet, this.frameWidth, this.frameHeight, 
@@ -41,119 +43,113 @@ Hydralisk.prototype.update = function () {
 
     var delta = this.game.clockTick;
     var moveFac = this.movementFactor;
-    var speed = moveFac.speed;
 
     this.timeSinceLastAttack += delta;
 	
-	if (this.timeSinceLastAttack > 1/this.attacksPerSecond) {
+	this.updateDirection();
+	if (this.timeSinceLastAttack >= 1/this.attacksPerSecond) {
 		this.attack(delta);
-	} else {
-		this.walk(delta);
-	}
-
-    if (this.isAttacking) {
-        this.animation.currentAction = "attacking";
-        // If it's time to create another bullet...
-        // (secondsBetweenShots = 1 / shotsPerSecond)
-        if (this.timeSinceLastAttack >= (1 / this.attacksPerSecond)) {
-            // Create a bullet
-            var bullet = new Bullet(this.game,
-                                    this.game.assetManager.getAsset("./img/enemy_bullet.png"), 
-                                    this, true, this.trueAngle);
-            this.game.addEntity(bullet);    
-
-            // Reset timeSinceLastShot
-            this.timeSinceLastAttack = 0;
-        }
-
-    } else if (moveFac.getHorizontalDirection() == 0 && moveFac.getVerticalDirection() == 0) {
+	} else if (moveFac.getHorizontalDirection() == 0 && moveFac.getVerticalDirection() == 0){
         this.animation.currentAction = "standing";
-    } else {
-        this.animation.currentAction = "walking";
         var angleToFace = moveFac.getDirectionalAngle();
         this.animation.currentAngle = angleToFace;
-    }
-
-	var newX = this.x + delta * speed * moveFac.getHorizontalDirection();
-	var newY = this.y - delta * speed * moveFac.getVerticalDirection();
-	
-	if (newX + (this.frameWidth * this.scale) <= this.game.ctx.canvas.width && newX > 0) { 
-		this.x = newX;
 	} else {
-		this.animation.currentAngle = moveFac.reflect();
-	}
-	if (newY + (this.frameHeight * this.scale) <= this.game.ctx.canvas.height && newY > 0) { 
-		this.y = newY;
-	} else {
-		this.animation.currentAngle = moveFac.reflect();
+		this.walk(delta);
 	}
 
     Entity.prototype.update.call(this);
     this.lastUpdated = this.game.gameTime;
 }
 
-Hydralisk.prototype.walk = function (delta) {
-	var that = this;
+Hydralisk.prototype.newX = function (delta, speed, moveFac) {	
+	return (this.x + delta * speed * moveFac.getHorizontalDirection());
+}
+
+Hydralisk.prototype.newY = function (delta, speed, moveFac) {	
+	return (this.y - delta * speed * moveFac.getVerticalDirection());
+}
 	
-	this.changeTime += delta;
+Hydralisk.prototype.updateDirection = function() {
 	
+	this.changeTime += this.game.clockTick;
 	if (this.changeTime >= 0.5) {
 		this.changeTime = 0;
 		//random movement
 		var dir = Math.floor(Math.random() * (4)); 
 		//0=n 1=e 2=s 3=w
-		that.movementFactor.reset();
+		this.movementFactor.reset();
 		switch (dir) {
 			case 0: 
-				that.movementFactor.north = 1;
+				this.movementFactor.north = 1;
 				break;
 			case 1: 
-				that.movementFactor.east = 1;
+				this.movementFactor.east = 1;
 				break;
 			case 2: 
-				that.movementFactor.south = 1;
+				this.movementFactor.south = 1;
 			break;
 			case 3: 
-				that.movementFactor.west = 1;
+				this.movementFactor.west = 1;
 				break;
 		}
 	}
 }
-
-Hydralisk.prototype.attack = function (delta) {
+	
+Hydralisk.prototype.walk = function (delta) {
 	var that = this;
 	
-	this.changeTime += delta;	
+    var speed = this.movementFactor.speed;
+	
+    this.animation.currentAction = "walking";
+    var angleToFace = this.movementFactor.getDirectionalAngle();
+    this.animation.currentAngle = angleToFace;
+	
+	var newX = this.newX(delta, speed, this.movementFactor);
+	var newY = this.newY(delta, speed, this.movementFactor);
+	
+	if (newX + (this.frameWidth * this.scale) <= this.game.ctx.canvas.width && newX > 0) { 
+		this.x = newX;
+	} else {
+		this.animation.currentAngle = this.movementFactor.reflect();
+		//this.x = this.newX(delta, speed, moveFac);	//this addition makes the boundary not work
+	}
+	if (newY + (this.frameHeight * this.scale) <= this.game.ctx.canvas.height && newY > 0) { 
+		this.y = newY;
+	} else {
+		this.animation.currentAngle = this.movementFactor.reflect();
+		//this.y = this.newY(delta, speed, moveFac);	//this addition makes the boundary not work
+	}
+}
+
+Hydralisk.prototype.attack = function (delta) {
+	
 	var availDir = [];
 	
-	if (this.changeTime >= 0.5) {
-		this.changeTime = 0;
-		var player = that.game.entities[1];
-		if (that.x > player.x) {
-			availDir.push("west");
-		} else {
-			availDir.push("east");
-		}	
-		if (that.y < player.y) {
-			availDir.push("south");
-		} else {
-			availDir.push("north");
-		}	
-		//random movement
-		var dir = Math.floor(Math.random() * (2)); 
-		//0=n 1=e 2=s 3=w
-		that.movementFactor.reset();
-		switch (dir) {
-			case 0: //look east or west
-				(availDir[0] === "west" ? that.movementFactor.west = 1 : that.movementFactor.east = 1);
-				break;
-			case 1: //look north or south
-				(availDir[1] === "north" ? that.movementFactor.north = 1 : that.movementFactor.south = 1);
-				break;
-		}
-		//reset the available directions array
-		availDir.length = 0;
-	}	
+	this.animation.currentAction = "attacking";
+        // If it's time to create another bullet...
+        // (secondsBetweenShots = 1 / shotsPerSecond)
+        if (this.timeSinceLastAttack >= (1 / this.attacksPerSecond)) {
+			var player = this.game.entities[1];
+			
+			var srcX = this.x + ((this.frameWidth * this.scale) / 2);
+			var srcY = this.y + ((this.frameHeight * this.scale) / 2);
+			console.log("Entity.scale = " + player.scale);
+			var dstX = player.x;// + ((player.frameWidth * player.scale) / 2);
+			var dstY = player.y;// + ((player.frameHeight * player.scale) / 2);
+			
+			var angleToPlayer = calculateAngle(dstX, dstY, srcX, srcY);
+			console.log("angle to player: " + angleToPlayer);
+			
+			
+            // Create a bullet
+            var bullet = new Bullet(this.game,
+                                    this.game.assetManager.getAsset("./img/enemy_bullet.png"), 
+                                    this, true, angleToPlayer);
+            this.game.addEntity(bullet);    
+
+            // Reset timeSinceLastShot
+            this.timeSinceLastAttack = 0;
+        }
 }
 
 Hydralisk.prototype.draw = function () {

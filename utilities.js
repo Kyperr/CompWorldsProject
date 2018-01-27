@@ -49,7 +49,11 @@ function nearestAngle(theDegrees, incrementAmount) {
  * For example, radiansToDegrees(0) returns 0, radiansToDegrees(Math.pi) returns 180.
  */
 function radiansToDegrees(radians) {
-    return radians * (180 / Math.PI);
+	radians = radians * (180 / Math.PI);
+	if(radians < 0){
+		radians += 360;
+	}
+    return radians;
 }
 
 /*

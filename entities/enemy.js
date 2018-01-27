@@ -3,7 +3,7 @@
 *	Not needed for Prototype. 
 */
 
-function Enemy(entity, game, x, y) {
+function Enemy(game, x, y) {
     const STANDING_ACTION = "standing";
     const WALKING_ACTION = "walking";
 	//number of angles the entity can look
@@ -12,7 +12,7 @@ function Enemy(entity, game, x, y) {
 	this.degreesPerAngle = 360/this.angles;	//360 degrees in a circle 
 	
     //this.ctx = game.ctx;
-	Entity.call(entity, game, x, y);
+	Entity.call(game, x, y);
 }
 
 Enemy.prototype = new Entity();

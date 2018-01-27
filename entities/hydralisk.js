@@ -26,7 +26,7 @@ function Hydralisk(game, spritesheet) {
 
 	this.game = game;
     this.ctx = game.ctx;
-    Enemy.call(this, this.game, 400, 100);
+    Enemy.call(this, game, 400, 100);
 }
 
 Hydralisk.prototype = new Enemy();

@@ -57,5 +57,5 @@ function radiansToDegrees(radians) {
  * For example, degreesToRadians(0) returns 0, degreesToRadians(180) returns Math.pi.
  */
 function degreesToRadians(degrees) {
-    return (180 / Math.PI) / degrees;
+    return degrees * (Math.PI / 180);
 }

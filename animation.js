@@ -13,7 +13,7 @@ function Animation(spriteSheet, frameWidth, frameHeight, sheetWidth, scale, star
     this.scale = scale;
     this.currentAction = startingAction;
     this.currentAngle = 0;
-    this.animationStates = new Map();
+    this.animationStates = {};
 }
 
 function AnimationState(name, animDirection, xIndex, yIndex, frames, rotationAngle, frameDuration, loop, reflect) {

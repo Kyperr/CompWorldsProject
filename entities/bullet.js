@@ -1,4 +1,3 @@
-
 function Bullet(game, spritesheet, creator, fromPlayer, startingAngle) {
     const MOVE_SPEED = 300;
     const DEFAULT_ACTION = "flying";
@@ -27,36 +26,37 @@ Bullet.prototype.constructor = Bullet;
 
 Bullet.prototype.update = function () {
     var delta = this.game.clockTick;
-    var moveFac = this.movementFactor;
-    var speed = moveFac.speed;
+    var speed = this.movementFactor.speed;
 
+    console.log("Degrees (for sure): " + this.angle);
+    console.log("Radians (calculated): " + degreesToRadians(this.angle));
 
-    console.log("angle " + this.angle);
+    //console.log("angle " + this.angle);
 
     // length of hypotenuse
     var hypotenusePixels = delta * speed;
-
-    // cos(theta) = hypotenuse / adjacent
+    //console.log("hypotenuse: " + hypotenusePixels);
+    // cos(theta) = adjacent / hypotenuse
     var cosTheta = Math.cos(degreesToRadians(this.angle));
     var horizontalPixels = hypotenusePixels * cosTheta;
-    console.log("horiz " + horizontalPixels);
+    //console.log("horiz " + horizontalPixels);
 
     // sin(theta) = opposite / hypotenuse
     var sinTheta = Math.sin(degreesToRadians(this.angle));
     var verticalPixels = hypotenusePixels * sinTheta;
-    console.log("vert " + verticalPixels);
+    //console.log("vert " + verticalPixels);
 
-    if (this.angle > 90 && this.angle < 270) {
-        this.x -= horizontalPixels;
-    } else {
+//    if (this.angle > 90 && this.angle < 270) {
+//        this.x -= horizontalPixels;
+//    } else {
         this.x += horizontalPixels;
-    }
+//    }
 
-    if (this.angle > 0 && this.angle < 180) {
+//    if (this.angle > 0 && this.angle < 180) {
+//        this.y -= verticalPixels;
+//    } else {
         this.y -= verticalPixels;
-    } else {
-        this.y += verticalPixels
-    }
+//    }
     //console.log("(" + this.x + ", " + this.y + ")");
     Entity.prototype.update.call(this);
 
@@ -65,7 +65,12 @@ Bullet.prototype.update = function () {
     // The following is temporary code so as not to lag the game with off-screen bullets.
     // Eventually this should be replaced with keeping track of distance the bullet has
     // travelled and deleting it after a certain distance.
-    if (this.x > 1920 || this.x < -100 || this.y < -100 || this.y > 1080) {
+    // If the bullet is offscreen, delete it.
+    if (this.x > this.game.surfaceWidth ||
+        this.x < 0 - this.animation.frameWidth * this.animation.scale || 
+        this.y > this.game.surfaceHeight ||
+        this.y < 0 - this.animation.frameHeight * this.animation.scale) { 
+
         this.isAlive = false;
         this.removeFromWorld = true;
     }

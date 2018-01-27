@@ -47,9 +47,14 @@ AM.downloadAll(function () {
 
     gameEngine.addEntity(map);
     gameEngine.addEntity(marine);
+<<<<<<< HEAD
     gameEngine.addEntity(bullet);    
 	gameEngine.addEntity(hydralisk);
 	gameEngine.addEntity(zergling);
+=======
+//	gameEngine.addEntity(hydralisk);
+//	gameEngine.addEntity(zergling);
+>>>>>>> 5505359a5dee5fbccd6d7fea5a398b4e341e8d1d
     gameEngine.start();
     console.log("All Done!");
 });

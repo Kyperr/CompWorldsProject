@@ -45,7 +45,7 @@ Hydralisk.prototype.update = function () {
 
     this.timeSinceLastAttack += delta;
 	
-	if (this.timeSinceLastAttack > this.attacksPerSecond) {
+	if (this.timeSinceLastAttack > 1/this.attacksPerSecond) {
 		this.attack(delta);
 	} else {
 		this.walk(delta);

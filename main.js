@@ -24,6 +24,7 @@ AM.queueDownload("./img/marine.png");
 AM.queueDownload("./img/hydralisk.png");
 AM.queueDownload("./img/zergling.png");
 AM.queueDownload("./img/player_bullet.png");
+AM.queueDownload("./img/enemy_bullet.png");
 AM.queueDownload("./img/bricks.png");
 
 AM.downloadAll(function () {
@@ -39,7 +40,6 @@ AM.downloadAll(function () {
 
     var marine = new Marine(gameEngine, AM.getAsset("./img/marine.png"));
 	var hydralisk = new Hydralisk(gameEngine, AM.getAsset("./img/hydralisk.png"));
-
 	var zergling = new Zergling(gameEngine, AM.getAsset("./img/zergling.png"));
 	
     //init player

@@ -7,16 +7,18 @@ function Marine(game, spritesheet) {
     const AIMING_ACTION = "aiming";
     const SHOOTING_ACTION = "shooting";
 
-
 	//number of angles the entity can look
 	var angles = 16;
-
+	this.frameWidth = 64;
+	this.frameHeight =64;
+	this.sheetWidth = 17;
+	this.scale = 2;
     this.stats = new CharacterStats(game, SHOTS_PER_SECOND);	
     //degrees each angle covers
 	this.degreesPerAngle = 360/angles;	//360 degrees in a circle 
 	
 	//spriteSheet, frameWidth, frameHeight, sheetWidth, scale
-    this.animation = new Animation(spritesheet, 64, 64, 17, 2, STANDING_ACTION);
+    this.animation = new Animation(spritesheet, this.frameWidth, this.frameHeight, this.sheetWidth, this.scale, STANDING_ACTION);
 
     // Actual angle (where he's shooting)
     this.trueAngle = 0;
@@ -86,18 +88,11 @@ Marine.prototype.update = function () {
             this.y = this.game.surfaceHeight - this.animation.frameHeight * this.animation.scale;
         }
     }
-
-
     Entity.prototype.update.call(this);
     this.lastUpdated = this.game.gameTime;
 }
 
 Marine.prototype.draw = function () {
-    //if(alive){
     this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
-    //} else if (dead){
-    //this.deathanimation.dajsdnga;jsdng;sjdnfg;sjd
-    //}
-
     Entity.prototype.draw.call(this);
 }

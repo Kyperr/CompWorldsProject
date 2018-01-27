@@ -2,7 +2,6 @@ var AM = new AssetManager();
 
 //Initialize the game engine
 
-// no inheritance
 function Background(game, spritesheet) {
     this.x = 0;
     this.y = 0;
@@ -34,7 +33,6 @@ AM.downloadAll(function () {
 
     gameEngine.init(ctx);
     gameEngine.assetManager = AM;
-    //gameEngine.addEntity(new Background(gameEngine, AM.getAsset("./img/background.jpg")));
     var map = new Map(gameEngine, canvas.width / 32, canvas.height / 32, 32);
 
     var marine = new Marine(gameEngine, AM.getAsset("./img/blue_marine.png"));

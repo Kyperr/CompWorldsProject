@@ -72,6 +72,19 @@ Marine.prototype.update = function () {
 
         this.x += delta * speed * moveFac.getHorizontalDirection();
         this.y -= delta * speed * moveFac.getVerticalDirection();
+        this.x > this.game.surfaceWidth
+
+        if (this.x < 0) {
+            this.x = 0;
+        } else if (this.x + this.animation.frameWidth * this.animation.scale > this.game.surfaceWidth) {
+            this.x = this.game.surfaceWidth - this.animation.frameWidth * this.animation.scale;
+        }
+
+        if (this.y < 0) {
+            this.y = 0;
+        } else if (this.y + this.animation.frameHeight * this.animation.scale > this.game.surfaceHeight) {
+            this.y = this.game.surfaceHeight - this.animation.frameHeight * this.animation.scale;
+        }
     }
 
 

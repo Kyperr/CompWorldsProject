@@ -1,5 +1,5 @@
 function Zergling(game, spritesheet) {
-
+    const SPEED = 400;
     const STANDING_ACTION = "standing";
     const WALKING_ACTION = "walking";
 	//number of angles the entity can look
@@ -21,7 +21,7 @@ function Zergling(game, spritesheet) {
     this.animation.createVerticalAnimationStates(WALKING_ACTION, 90, 2, degrees, angles, 6, 7);
     this.animation.createVerticalAnimationStates(STANDING_ACTION, 90, 2, degrees, angles, 6, 1);
 	
-    this.movementFactor = new MovementFactor(250);
+    this.movementFactor = new MovementFactor(SPEED);
 	this.changeTime = 0;		//time since last direction change
 
     this.ctx = game.ctx;

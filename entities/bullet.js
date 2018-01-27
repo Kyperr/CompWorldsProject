@@ -16,6 +16,7 @@ function Bullet(game, spritesheet, creator, fromPlayer, startingAngle) {
 
     var creatorCenterX = creator.x + (creator.animation.frameWidth * creator.animation.scale / 2);
     var creatorCenterY = creator.y + (creator.animation.frameHeight * creator.animation.scale / 2);
+
     var spawnX = creatorCenterX - (this.animation.frameWidth * this.animation.scale / 2);
     var spawnY = creatorCenterY - (this.animation.frameHeight * this.animation.scale / 2);
 

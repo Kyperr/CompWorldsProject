@@ -28,8 +28,8 @@ Bullet.prototype.update = function () {
     var delta = this.game.clockTick;
     var speed = this.movementFactor.speed;
 
-    console.log("Degrees (for sure): " + this.angle);
-    console.log("Radians (calculated): " + degreesToRadians(this.angle));
+    //console.log("Degrees (for sure): " + this.angle);
+    //console.log("Radians (calculated): " + degreesToRadians(this.angle));
 
     //console.log("angle " + this.angle);
 

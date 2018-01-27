@@ -30,19 +30,33 @@ Bullet.prototype.update = function () {
     var moveFac = this.movementFactor;
     var speed = moveFac.speed;
 
+
+    console.log("angle " + this.angle);
+
     // length of hypotenuse
     var hypotenusePixels = delta * speed;
 
     // cos(theta) = hypotenuse / adjacent
     var cosTheta = Math.cos(degreesToRadians(this.angle));
     var horizontalPixels = hypotenusePixels * cosTheta;
+    console.log("horiz " + horizontalPixels);
 
     // sin(theta) = opposite / hypotenuse
     var sinTheta = Math.sin(degreesToRadians(this.angle));
-    var verticalPixels = hypotenusePixels * sinTheta; 
+    var verticalPixels = hypotenusePixels * sinTheta;
+    console.log("vert " + verticalPixels);
 
-    this.x += horizontalPixels; 
-    this.y -= verticalPixels;
+    if (this.angle > 90 && this.angle < 270) {
+        this.x -= horizontalPixels;
+    } else {
+        this.x += horizontalPixels;
+    }
+
+    if (this.angle > 0 && this.angle < 180) {
+        this.y -= verticalPixels;
+    } else {
+        this.y += verticalPixels
+    }
     //console.log("(" + this.x + ", " + this.y + ")");
     Entity.prototype.update.call(this);
 

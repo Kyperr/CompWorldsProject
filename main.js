@@ -20,9 +20,9 @@ Background.prototype.update = function () {
 };
 
 AM.queueDownload("./img/background.jpg");
-AM.queueDownload("./img/marine.png");
-AM.queueDownload("./img/hydralisk.png");
-AM.queueDownload("./img/zergling.png");
+AM.queueDownload("./img/blue_marine.png");
+AM.queueDownload("./img/red_hydralisk.png");
+AM.queueDownload("./img/red_zergling.png");
 AM.queueDownload("./img/player_bullet.png");
 AM.queueDownload("./img/bricks.png");
 
@@ -37,10 +37,10 @@ AM.downloadAll(function () {
     var map = new Map(gameEngine, canvas.width / 32, canvas.height / 32, 32);
 
 
-    var marine = new Marine(gameEngine, AM.getAsset("./img/marine.png"));
-	var hydralisk = new Hydralisk(gameEngine, AM.getAsset("./img/hydralisk.png"));
+    var marine = new Marine(gameEngine, AM.getAsset("./img/blue_marine.png"));
+	var hydralisk = new Hydralisk(gameEngine, AM.getAsset("./img/red_hydralisk.png"));
 
-	var zergling = new Zergling(gameEngine, AM.getAsset("./img/zergling.png"));
+	var zergling = new Zergling(gameEngine, AM.getAsset("./img/red_zergling.png"));
 	
     //init player
     initializePlayerListeners(marine, gameEngine, canvas);

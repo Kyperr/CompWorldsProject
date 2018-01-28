@@ -4,7 +4,8 @@ var AnimationDirection = {
 
 };
 
-function Animation(spriteSheet, frameWidth, frameHeight, sheetWidth, scale, startingAction) {
+function Animation(entity, spriteSheet, frameWidth, frameHeight, sheetWidth, scale, startingAction) {
+    this.entity = entity;
     this.spriteSheet = spriteSheet;
     this.frameWidth = frameWidth;
     this.frameHeight = frameHeight;
@@ -12,7 +13,7 @@ function Animation(spriteSheet, frameWidth, frameHeight, sheetWidth, scale, star
     this.elapsedTime = 0;
     this.scale = scale;
     this.currentAction = startingAction;
-    this.currentAngle = 0;
+    //this.currentAngle = 0;
     this.animationStates = {};
 }
 
@@ -36,9 +37,10 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y) {
     }
 
 
-    //console.log("Current animation state: " + this.currentAction + this.currentAngle);
+    var animAngle = nearestAngle(this.entity.trueAngle, this.entity.angleIncrement);
+    console.log("animating angle : " + animAngle + " instead of angle + " + this.entity.trueAngle + " degree count : " + this.entity);
+    var state = this.animationStates[this.currentAction + animAngle];
 
-    var state = this.animationStates[this.currentAction + this.currentAngle];
     var frame = this.currentFrame();
     var xindex = state.xIndex;
     var yindex = state.yIndex;
@@ -82,8 +84,8 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y) {
 }
 
 Animation.prototype.currentFrame = function () {
-    var state = this.animationStates[this.currentAction + this.currentAngle];
-    //console.log("this.animationStates[" + this.currentAction + this.currentAngle+ "] = " + state)
+    var animAngle = nearestAngle(this.entity.trueAngle, this.entity.angleIncrement);
+    var state = this.animationStates[this.currentAction + animAngle];
     return Math.floor(this.elapsedTime / state.frameDuration);
 }
 

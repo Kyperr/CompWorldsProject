@@ -23,6 +23,10 @@ function nearestAngle(theDegrees, incrementAmount) {
     // Start at 0
     var nearestDegree = 0;
 
+    if (incrementAmount <= 0) {
+        return nearestDegree;
+    }
+
     // Continuously increment by incrementAmount until degrees is passed or met
     while (nearestDegree < theDegrees) {
         nearestDegree += incrementAmount;

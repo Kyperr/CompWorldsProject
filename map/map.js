@@ -9,9 +9,13 @@ function Map(game, width, height, tileSize/*Square*/) {
     var brickTile1 = new Tile(AM.getAsset("./img/bricks.png"), 32, 32, 0, 0);
     var brickTile2 = new Tile(AM.getAsset("./img/bricks.png"), 32, 32, 1, 0);
     var brickTile3 = new Tile(AM.getAsset("./img/bricks.png"), 32, 32, 2, 0);
+    var brickTile4 = new Tile(AM.getAsset("./img/bricks.png"), 32, 32, 3, 0);
+    var brickTile5 = new Tile(AM.getAsset("./img/bricks.png"), 32, 32, 4, 0);
     this.availableTiles["b1"] = brickTile1;
     this.availableTiles["b2"] = brickTile2;
     this.availableTiles["b3"] = brickTile3;
+    this.availableTiles["b4"] = brickTile4;
+    this.availableTiles["b5"] = brickTile5;
 
     this.tileArray = new Array(width);
     for (i = 0; i < width; i++) {
@@ -38,7 +42,7 @@ Map.prototype.renderTiles = function () {
     var ctx = this.cachedImage.getContext("2d");
     for (i = 0; i < this.width; i++) {
         for (j = 0; j < this.height; j++) {
-            var num = Math.floor(Math.random() * 3) + 1;
+            var num = Math.floor(Math.random() * 5) + 1;
             var tile = this.availableTiles["b" + num];//tileArray[i][j];
 
             var tileX = i * this.tileSize;

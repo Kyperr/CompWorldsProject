@@ -2,18 +2,18 @@ function Bullet(game, spritesheet, creator, fromPlayer, startingAngle) {
     const MOVE_SPEED = 300;
     const DEFAULT_ACTION = "flying";
 	//spriteSheet, frameWidth, frameHeight, sheetWidth, scale, startingAction
-    this.animation = new Animation(spritesheet, 32, 32, 5, 1.5, DEFAULT_ACTION);
-
-    this.angle = startingAngle;
+    this.animation = new Animation(this, spritesheet, 32, 32, 5, 1.5, DEFAULT_ACTION);
+    
     this.isPlayerBullet = fromPlayer;
     this.movementFactor = new MovementFactor(MOVE_SPEED);
     this.ctx = game.ctx;
+    this.trueAngle = startingAngle;
+    this.angleIncrement = 0;
 
     // arguments: name, firstFrameAngle, angleIncrements, numberOfAngles, yIndex, frameCount 
     // temporarily set to 1 yIndex and 1 frameCount until horizontal animation implemented
     //this.animation.createVerticalAnimationStates(DEFAULT_ACTION, 0, 1, 0, 1, 1, 1);
     this.animation.createHorizontalAnimationStates(DEFAULT_ACTION, 0, 1, 0, 1, 1, 5);
-
     var creatorCenterX = creator.x + (creator.animation.frameWidth * creator.animation.scale / 2);
     var creatorCenterY = creator.y + (creator.animation.frameHeight * creator.animation.scale / 2);
 
@@ -34,12 +34,12 @@ Bullet.prototype.update = function () {
     var hypotenusePixels = delta * speed;
 
     // cos(theta) = adjacent / hypotenuse
-    var cosTheta = Math.cos(degreesToRadians(this.angle));
+    var cosTheta = Math.cos(degreesToRadians(this.trueAngle));
     var horizontalPixels = hypotenusePixels * cosTheta;
     //console.log("horiz " + horizontalPixels);
 
     // sin(theta) = opposite / hypotenuse
-    var sinTheta = Math.sin(degreesToRadians(this.angle));
+    var sinTheta = Math.sin(degreesToRadians(this.trueAngle));
     var verticalPixels = hypotenusePixels * sinTheta;
 
     this.x += horizontalPixels;

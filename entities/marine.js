@@ -1,7 +1,7 @@
 
 function Marine(game, spritesheet) {
     const MOVE_SPEED = 200;
-    const SHOTS_PER_SECOND = 3;
+    const SHOTS_PER_SECOND = 30;
     const WALKING_ACTION = "walking";
     const STANDING_ACTION = "standing";
     const AIMING_ACTION = "aiming";
@@ -13,10 +13,10 @@ function Marine(game, spritesheet) {
 
     this.stats = new CharacterStats(game, SHOTS_PER_SECOND);	
     //degrees each angle covers
-	this.degreesPerAngle = 360/angles;	//360 degrees in a circle 
+	this.angleIncrement = 360/angles;	//360 degrees in a circle 
 	
 	//spriteSheet, frameWidth, frameHeight, sheetWidth, scale
-    this.animation = new Animation(spritesheet, 64, 64, 17, 2, STANDING_ACTION);
+    this.animation = new Animation(this, spritesheet, 64, 64, 17, 2, STANDING_ACTION);
 
     // Actual angle (where he's shooting)
     this.trueAngle = 0;
@@ -25,10 +25,10 @@ function Marine(game, spritesheet) {
     this.isShooting = false;
     this.timeSinceLastShot = 0;
     this.shotsPerSecond = SHOTS_PER_SECOND;
-    this.animation.createVerticalAnimationStates(WALKING_ACTION, 90, 2, this.degreesPerAngle, angles, 5, 9);
-    this.animation.createVerticalAnimationStates(STANDING_ACTION, 90, 2, this.degreesPerAngle, angles, 5, 1);
-    this.animation.createVerticalAnimationStates(AIMING_ACTION, 90, 2, this.degreesPerAngle, angles, 1, 3);
-    this.animation.createVerticalAnimationStates(SHOOTING_ACTION, 90, 2, this.degreesPerAngle, angles, 3, 2);
+    this.animation.createVerticalAnimationStates(WALKING_ACTION, 90, 2, this.angleIncrement, angles, 5, 9);
+    this.animation.createVerticalAnimationStates(STANDING_ACTION, 90, 2, this.angleIncrement, angles, 5, 1);
+    this.animation.createVerticalAnimationStates(AIMING_ACTION, 90, 2, this.angleIncrement, angles, 1, 3);
+    this.animation.createVerticalAnimationStates(SHOOTING_ACTION, 90, 2, this.angleIncrement, angles, 3, 2);
 	
     this.movementFactor = new MovementFactor(MOVE_SPEED);
 
@@ -68,7 +68,7 @@ Marine.prototype.update = function () {
         this.animation.currentAction = "walking";
 
         var angleToFace = moveFac.getDirectionalAngle();
-        this.animation.currentAngle = angleToFace;
+        this.trueAngle = angleToFace;
 
         this.x += delta * speed * moveFac.getHorizontalDirection();
         this.y -= delta * speed * moveFac.getVerticalDirection();

@@ -81,6 +81,7 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y) {
 
 Animation.prototype.currentFrame = function () {
     var animAngle = nearestAngle(this.entity.trueAngle, this.entity.angleIncrement);
+    console.log("animAngle " + animAngle);
     var state = this.animationStates[this.currentAction + animAngle];
     return Math.floor(this.elapsedTime / state.frameDuration);
 }

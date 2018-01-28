@@ -5,21 +5,22 @@ function Zergling(game, spritesheet) {
 	//number of angles the entity can look
 	var angles = 16;
 	//degrees each angle covers
-    var angleIncrement = 360/angles;	//360 degrees in a circle 
+    this.angleIncrement = 360/angles;	//360 degrees in a circle 
 	
 	this.frameWidth = 128;
 	this.frameHeight =128;
 	this.sheetWidth = 17;
-	this.scale = 2;
+    this.scale = 2;
+    this.trueAngle = 0;
 	
 	//spriteSheet, frameWidth, frameHeight, sheetWidth, scale, startingAction
     this.animation = new Animation(this, spritesheet, this.frameWidth, this.frameHeight, 
-                                   this.sheetWidth, this.scale, STANDING_ACTION);
-
+        this.sheetWidth, this.scale, STANDING_ACTION);
+    
     //Mapping walking sprites
 
-    this.animation.createVerticalAnimationStates(WALKING_ACTION, 90, 2, angleIncrement, angles, 6, 7);
-    this.animation.createVerticalAnimationStates(STANDING_ACTION, 90, 2, angleIncrement, angles, 6, 1);
+    this.animation.createVerticalAnimationStates(WALKING_ACTION, 90, 2, this.angleIncrement, angles, 6, 7);
+    this.animation.createVerticalAnimationStates(STANDING_ACTION, 90, 2, this.angleIncrement, angles, 6, 1);
 	
     this.movementFactor = new MovementFactor(SPEED);
 	this.changeTime = 0;		//time since last direction change
@@ -66,7 +67,7 @@ Zergling.prototype.update = function () {
     } else {
         this.animation.currentAction = "walking";
         var angleToFace = moveFac.getDirectionalAngle();
-        this.animation.currentAngle = angleToFace;
+        this.trueAngle = angleToFace;
     }
 
 	var newX = this.x + delta * speed * moveFac.getHorizontalDirection();
@@ -75,12 +76,12 @@ Zergling.prototype.update = function () {
 	if (newX + (this.frameWidth * this.scale) <= this.game.ctx.canvas.width && newX > 0) { 
 		this.x = newX;
 	} else {
-		this.animation.currentAngle = moveFac.reflect();
+		this.trueAngle = moveFac.reflect();
 	}
 	if (newY + (this.frameHeight * this.scale) <= this.game.ctx.canvas.height && newY > 0) { 
 		this.y = newY;
 	} else {
-		this.animation.currentAngle = moveFac.reflect();
+		this.trueAngle = moveFac.reflect();
 	}
 
     Entity.prototype.update.call(this);

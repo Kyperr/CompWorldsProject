@@ -31,11 +31,11 @@ BasicEnemyAI.prototype.update = function () {
     } else {
         this.updateDirection();
         var angleToFace = moveFac.getDirectionalAngle();
-        if (interpolate(this.entity, angleToFace, 8)) {
+        //if (interpolate(this.entity, angleToFace, 8)) {
             console.log("angle to face " + angleToFace);
             this.entity.trueAngle = angleToFace;
             this.walk(delta);
-        }
+        //}
     }
 
     Entity.prototype.update.call(this);
@@ -115,7 +115,7 @@ BasicEnemyAI.prototype.attack = function (delta) {
         console.log("angle to player: " + angleToPlayer);
 
         //Interpolate. If interpolate returns true (interpolation complete) then create bullet.
-        if (interpolate(this.entity, angleToPlayer, 8)) {
+        //if (interpolate(this.entity, angleToPlayer, 8)) {
             this.entity.animation.currentAction = "attacking";
             // Create a bullet
             var bullet = new Bullet(this.entity.game,
@@ -124,6 +124,6 @@ BasicEnemyAI.prototype.attack = function (delta) {
             this.entity.game.addEntity(bullet);
             // Reset timeSinceLastShot
             this.timeSinceLastAttack = 0;
-        }
+        //}
     }
 }

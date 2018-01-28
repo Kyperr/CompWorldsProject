@@ -36,7 +36,6 @@ Bullet.prototype.update = function () {
     // cos(theta) = adjacent / hypotenuse
     var cosTheta = Math.cos(degreesToRadians(this.trueAngle));
     var horizontalPixels = hypotenusePixels * cosTheta;
-    //console.log("horiz " + horizontalPixels);
 
     // sin(theta) = opposite / hypotenuse
     var sinTheta = Math.sin(degreesToRadians(this.trueAngle));
@@ -65,6 +64,5 @@ Bullet.prototype.update = function () {
 
 Bullet.prototype.draw = function () {
     this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
-
     Entity.prototype.draw.call(this);
 }

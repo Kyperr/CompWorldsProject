@@ -16,9 +16,8 @@ function Hydralisk(game, spritesheet) {
 	var angles = 16;
 	//degrees each angle covers
     this.angleIncrement = 360/angles;	//360 degrees in a circle 
-    
 	this.frameWidth = 128;
-	this.frameHeight =128;
+	this.frameHeight = 128;
 	this.sheetWidth = 17;
 	this.scale = 2;
     // Actual angle (where he's shooting)
@@ -37,12 +36,11 @@ function Hydralisk(game, spritesheet) {
 	
     this.movementFactor = new MovementFactor(MOVE_SPEED);
 	this.changeTime = 0;		//time since last direction change
-
+    
 }
 
 Hydralisk.prototype = new Entity();
 Hydralisk.prototype.constructor = Hydralisk;
-
 
 Hydralisk.prototype.update = function () {
     this.ai.update();

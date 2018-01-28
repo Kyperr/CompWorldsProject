@@ -28,13 +28,10 @@ function Zergling(game, spritesheet) {
     Entity.call(this, game, 100, 400);
 }
 
-
 Zergling.prototype = new Entity();
 Zergling.prototype.constructor = Zergling;
 
-
 Zergling.prototype.update = function () {
-
     var delta = this.game.clockTick;
     var moveFac = this.movementFactor;
     var speed = moveFac.speed;
@@ -64,7 +61,6 @@ Zergling.prototype.update = function () {
 		}
 	}
 
-
     if (moveFac.getHorizontalDirection() == 0 && moveFac.getVerticalDirection() == 0) {
         this.animation.currentAction = "standing";
     } else {
@@ -92,11 +88,6 @@ Zergling.prototype.update = function () {
 }
 
 Zergling.prototype.draw = function () {
-    //if(alive){
     this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
-    //} else if (dead){
-    //this.deathanimation.dajsdnga;jsdng;sjdnfg;sjd
-    //}
-
     Entity.prototype.draw.call(this);
 }

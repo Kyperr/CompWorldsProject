@@ -31,11 +31,10 @@ BasicEnemyAI.prototype.update = function () {
     } else {
         this.updateDirection();
         var angleToFace = moveFac.getDirectionalAngle();
-        //if (interpolate(this.entity, angleToFace, 8)) {
-            console.log("angle to face " + angleToFace);
+        if (interpolate(this.entity, angleToFace, 8)) {
             this.entity.trueAngle = angleToFace;
             this.walk(delta);
-        //}
+        }
     }
 
     Entity.prototype.update.call(this);
@@ -70,7 +69,7 @@ BasicEnemyAI.prototype.updateDirection = function () {
 }
 
 BasicEnemyAI.prototype.walk = function (delta) {
-    var that = this;
+    var anim = this.entity.animation;
 
     var moveFac = this.entity.movementFactor;
 
@@ -83,12 +82,12 @@ BasicEnemyAI.prototype.walk = function (delta) {
     var newX = this.entity.x + delta * speed * moveFac.getHorizontalDirection();
     var newY = this.entity.y - delta * speed * moveFac.getVerticalDirection();
 
-    if (newX + (this.entity.frameWidth * this.entity.scale) <= this.entity.game.ctx.canvas.width && newX > 0) {
+    if (newX + (anim.frameWidth * anim.scale) <= this.entity.game.ctx.canvas.width && newX > 0) {
         this.entity.x = newX;
     } else {
         this.entity.trueAngle = this.entity.movementFactor.reflect();
     }
-    if (newY + (this.entity.frameHeight * this.entity.scale) <= this.entity.game.ctx.canvas.height && newY > 0) {
+    if (newY + (anim.frameHeight * anim.scale) <= this.entity.game.ctx.canvas.height && newY > 0) {
         this.entity.y = newY;
     } else {
         this.entity.trueAngle = this.entity.movementFactor.reflect();
@@ -103,9 +102,10 @@ BasicEnemyAI.prototype.attack = function (delta) {
     // (secondsBetweenShots = 1 / shotsPerSecond)
     if (this.timeSinceLastAttack >= (1 / this.entity.attacksPerSecond)) {
         var player = this.entity.game.entities[1];
+        var anim = this.entity.animation;
 
-        var srcX = this.entity.x + ((this.entity.frameWidth * this.entity.scale) / 2);
-        var srcY = this.entity.y + ((this.entity.frameHeight * this.entity.scale) / 2);
+        var srcX = this.entity.x + ((anim.frameWidth * anim.scale) / 2);
+        var srcY = this.entity.y + ((anim.frameHeight * anim.scale) / 2);
         var dstX = player.x;
         var dstY = player.y;
 
@@ -115,7 +115,7 @@ BasicEnemyAI.prototype.attack = function (delta) {
         console.log("angle to player: " + angleToPlayer);
 
         //Interpolate. If interpolate returns true (interpolation complete) then create bullet.
-        //if (interpolate(this.entity, angleToPlayer, 8)) {
+        if (interpolate(this.entity, angleToPlayer, 8)) {
             this.entity.animation.currentAction = "attacking";
             // Create a bullet
             var bullet = new Bullet(this.entity.game,
@@ -124,6 +124,6 @@ BasicEnemyAI.prototype.attack = function (delta) {
             this.entity.game.addEntity(bullet);
             // Reset timeSinceLastShot
             this.timeSinceLastAttack = 0;
-        //}
+        }
     }
 }

@@ -3,16 +3,17 @@ var AnimationDirection = {
     VERTICAL: 2
 };
 
-function Animation(entity, spriteSheet, frameWidth, frameHeight, sheetWidth, scale, startingAction) {
+function Animation(entity, spriteSheet, frameWidth, frameHeight, sheetWidth, numberOfAngles, scale, startingAction) {
     this.entity = entity;
     this.spriteSheet = spriteSheet;
     this.frameWidth = frameWidth;
     this.frameHeight = frameHeight;
     this.sheetWidth = sheetWidth;
+    this.numberOfAngles = numberOfAngles;
+    this.angleIncrement = 360 / numberOfAngles;
     this.elapsedTime = 0;
     this.scale = scale;
     this.currentAction = startingAction;
-    //this.currentAngle = 0;
     this.animationStates = {};
 }
 
@@ -35,7 +36,7 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y) {
         if (this.loop) this.elapsedTime = 0;
     }
 
-    var animAngle = nearestAngle(this.entity.trueAngle, this.entity.angleIncrement);
+    var animAngle = nearestAngle(this.entity.trueAngle, this.angleIncrement);
     var state = this.animationStates[this.currentAction + animAngle];
     var frame = this.currentFrame();
     var xindex = state.xIndex;
@@ -51,7 +52,7 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y) {
     }
 
 	ctx.save();
-	
+    
     if (state.reflect) {
 		ctx.scale(-1, 1);
 		
@@ -80,8 +81,8 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y) {
 }
 
 Animation.prototype.currentFrame = function () {
-    var animAngle = nearestAngle(this.entity.trueAngle, this.entity.angleIncrement);
-    console.log("animAngle " + animAngle);
+    var animAngle = nearestAngle(this.entity.trueAngle, this.angleIncrement);
+    //console.log("current state = " + this.currentAction + animAngle);
     var state = this.animationStates[this.currentAction + animAngle];
     return Math.floor(this.elapsedTime / state.frameDuration);
 }
@@ -90,36 +91,36 @@ Animation.prototype.isDone = function () {
     return (this.elapsedTime >= this.totalTime);
 }
 
-Animation.prototype.createVerticalAnimationStates = function (animationName, firstFrameAngle, frameIncrement, angleIncrements, numberOfAngles, yIndex, frameCount) {
-    for (i = 0; i <= numberOfAngles / 2; i++) {
+Animation.prototype.createVerticalAnimationStates = function (animationName, firstFrameAngle, frameIncrement, yIndex, frameCount, frameDuration) {
+    for (i = 0; i <= this.numberOfAngles / 2; i++) {
         var x = frameIncrement * i;
-        var angle = firstFrameAngle - (i * angleIncrements);
+        var angle = firstFrameAngle - (i * this.angleIncrement);
         if (angle < 0) {
             angle += 360;
         }
-        this.animationStates[animationName + angle] = new AnimationState(animationName + angle, AnimationDirection.VERTICAL, x, yIndex, frameCount, angle, .1, true, false);
+        this.animationStates[animationName + angle] = new AnimationState(animationName + angle, AnimationDirection.VERTICAL, x, yIndex, frameCount, angle, frameDuration, true, false);
     }
 
-    for (i = 1; i < numberOfAngles / 2; i++) {
+    for (i = 1; i < this.numberOfAngles / 2; i++) {
         var x = frameIncrement * i;
-        var angle = firstFrameAngle + (i * angleIncrements);
-        this.animationStates[animationName + angle] = new AnimationState(animationName + angle, AnimationDirection.VERTICAL, x, yIndex, frameCount, angle, .1, true, true);
+        var angle = firstFrameAngle + (i * this.angleIncrement);
+        this.animationStates[animationName + angle] = new AnimationState(animationName + angle, AnimationDirection.VERTICAL, x, yIndex, frameCount, angle, frameDuration, true, true);
     }
 }
 
-Animation.prototype.createHorizontalAnimationStates = function (animationName, firstFrameAngle, frameIncrement, angleIncrements, numberOfAngles, yIndex, frameCount) {
-    for (i = 0; i <= numberOfAngles / 2; i++) {
+Animation.prototype.createHorizontalAnimationStates = function (animationName, firstFrameAngle, frameIncrement, yIndex, frameCount, frameDuration) {
+    for (i = 0; i <= this.numberOfAngles / 2; i++) {
         var y = frameIncrement * i;
-        var angle = firstFrameAngle - (i * angleIncrements);
+        var angle = firstFrameAngle - (i * this.angleIncrement);
         if (angle < 0) {
             angle += 360;
         }
-        this.animationStates[animationName + angle] = new AnimationState(animationName + angle, AnimationDirection.Horizontal, yIndex, y, frameCount, angle, .1, true, false);
+        this.animationStates[animationName + angle] = new AnimationState(animationName + angle, AnimationDirection.Horizontal, yIndex, y, frameCount, angle, frameDuration, true, false);
     }
 
-    for (i = 1; i < numberOfAngles / 2; i++) {
+    for (i = 1; i < this.numberOfAngles / 2; i++) {
         var x = frameIncrement * i;
-        var angle = firstFrameAngle + (i * angleIncrements);
-        this.animationStates[animationName + angle] = new AnimationState(animationName + angle, AnimationDirection.VERTICAL, x, yIndex, frameCount, angle, .1, true, true);
+        var angle = firstFrameAngle + (i * this.angleIncrement);
+        this.animationStates[animationName + angle] = new AnimationState(animationName + angle, AnimationDirection.VERTICAL, x, yIndex, frameCount, angle, frameDuration, true, true);
     }
 }

@@ -1,19 +1,26 @@
-function Entity(game, x, y) {
-    this.game = game;
-    this.x = x;
-    this.y = y;
-    this.removeFromWorld = false;
+
+function PhysicalEntity(game, ctx, x, y, spritesheet, movementFactor) {
+
+    /*Super init*/
+    Entity.call(this, game, x, y);
+
+    /*Sub init*/
+    this.trueAngle = 0;
+    this.ctx = ctx;
+    this.movementFactor = movementFactor;
+
+    this.animation = this.createAnimation(spritesheet);
 }
 
+PhysicalEntity.prototype = new Entity();
+PhysicalEntity.prototype.constructor = PhysicalEntity
 
-Entity.prototype = new Entity();
-Entity.prototype.constructor = Entity;
 
-
-Entity.prototype.update = function () {
+/*This must return an animation object. Creation of animations is rather cumbersome, so it is made into its own function.*/
+PhysicalEntity.prototype.createAnimation = function (spritesheet) {
 }
 
-Entity.prototype.draw = function (ctx) {
+PhysicalEntity.prototype.draw = function (ctx) {
     if (this.game.showOutlines && this.radius) {
         this.game.ctx.beginPath();
         this.game.ctx.strokeStyle = "green";
@@ -23,7 +30,7 @@ Entity.prototype.draw = function (ctx) {
     }
 }
 
-Entity.prototype.rotateAndCache = function (image, angle) {
+PhysicalEntity.prototype.rotateAndCache = function (image, angle) {
     var offscreenCanvas = document.createElement('canvas');
     var size = Math.max(image.width, image.height);
     offscreenCanvas.width = size;

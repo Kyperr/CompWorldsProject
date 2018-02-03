@@ -1,46 +1,41 @@
 
 function Marine(game, spritesheet) {
-    const MOVE_SPEED = 200;
-    const SHOTS_PER_SECOND = 3;
-    const WALKING_ACTION = "walking";
-    const STANDING_ACTION = "standing";
-    const AIMING_ACTION = "aiming";
-    const SHOOTING_ACTION = "shooting";
 
-	//number of angles the entity can look
-	var angles = 16;
-	this.frameWidth = 64;
-	this.frameHeight =64;
-	this.sheetWidth = 17;
-	this.scale = 2;
-    this.stats = new CharacterStats(game, SHOTS_PER_SECOND);	
-    //degrees each angle covers
-	this.angleIncrement = 360/angles;	//360 degrees in a circle 
-	
-	//spriteSheet, frameWidth, frameHeight, sheetWidth, scale
-    this.animation = new Animation(this, spritesheet, this.frameWidth, this.frameHeight, this.sheetWidth, this.scale, STANDING_ACTION);
+    /*Super init*/
+    var movementFactor = new MovementFactor(MAR_MOVE_SPEED);
+        //var stats = new CharacterStats(game, SHOTS_PER_SECOND);
+    
+    PhysicalEntity.call(this, game, game.ctx, 0, 0, spritesheet, movementFactor);
 
-    // Actual angle (where he's shooting)
-    this.trueAngle = 0;
+    /*Sub init*/
+    this.stats = new CharacterStats(game, MAR_SHOTS_PER_SECOND);
 
-    // Whether he's shooting
-    this.isShooting = false;
+    this.isShooting = false;// Whether he's shooting
     this.timeSinceLastShot = 0;
-    this.shotsPerSecond = SHOTS_PER_SECOND;
-    this.animation.createVerticalAnimationStates(WALKING_ACTION, 90, 2, this.angleIncrement, angles, 5, 9);
-    this.animation.createVerticalAnimationStates(STANDING_ACTION, 90, 2, this.angleIncrement, angles, 5, 1);
-    this.animation.createVerticalAnimationStates(AIMING_ACTION, 90, 2, this.angleIncrement, angles, 1, 3);
-    this.animation.createVerticalAnimationStates(SHOOTING_ACTION, 90, 2, this.angleIncrement, angles, 3, 2);
-	
-    this.movementFactor = new MovementFactor(MOVE_SPEED);
-
-    this.ctx = game.ctx;
-    Entity.call(this, game, 0, 0);
+    this.shotsPerSecond = MAR_SHOTS_PER_SECOND;
 }
 
-Marine.prototype = new Entity();
+Marine.prototype = new PhysicalEntity();
 Marine.prototype.constructor = Marine;
 
+//Called by super class.
+Marine.prototype.createAnimation = function (spritesheet) {
+    var numberOfAngles = 16;
+    var frameWidth = 64;
+    var frameHeight = 64;
+    var sheetWidth = 17;
+    var scale = 2;
+
+    var animation = new Animation(this, spritesheet, frameWidth, frameHeight, sheetWidth, numberOfAngles, scale, STANDING_ACTION);
+
+    //Really should do away with these magic numbers.
+    animation.createVerticalAnimationStates(WALKING_ACTION, 90, 2, 5, 9, .1);
+    animation.createVerticalAnimationStates(STANDING_ACTION, 90, 2, 5, 1, .1);
+    animation.createVerticalAnimationStates(AIMING_ACTION, 90, 2, 1, 3, .1);
+    animation.createVerticalAnimationStates(SHOOTING_ACTION, 90, 2, 3, 2, .1);
+
+    return animation;
+}
 
 Marine.prototype.update = function () {
     var delta = this.game.clockTick;
@@ -88,11 +83,11 @@ Marine.prototype.update = function () {
             this.y = this.game.surfaceHeight - this.animation.frameHeight * this.animation.scale;
         }
     }
-    Entity.prototype.update.call(this);
+    PhysicalEntity.prototype.update.call(this);
     this.lastUpdated = this.game.gameTime;
 }
 
 Marine.prototype.draw = function () {
     this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
-    Entity.prototype.draw.call(this);
+    PhysicalEntity.prototype.draw.call(this);
 }

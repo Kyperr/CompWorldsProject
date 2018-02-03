@@ -86,8 +86,3 @@ Marine.prototype.update = function () {
     PhysicalEntity.prototype.update.call(this);
     this.lastUpdated = this.game.gameTime;
 }
-
-Marine.prototype.draw = function () {
-    this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
-    PhysicalEntity.prototype.draw.call(this);
-}

@@ -81,8 +81,3 @@ Bullet.prototype.update = function () {
         this.removeFromWorld = true;
     }
 }
-
-Bullet.prototype.draw = function () {
-    this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
-    PhysicalEntity.prototype.draw.call(this);
-}

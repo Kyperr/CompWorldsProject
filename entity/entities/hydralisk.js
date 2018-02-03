@@ -14,7 +14,7 @@ function Hydralisk(game, spritesheet) {
     
 }
 
-Hydralisk.prototype = new PhysicalEntity();
+Hydralisk.prototype = new BotEntity();
 Hydralisk.prototype.constructor = Hydralisk;
 
 Hydralisk.prototype.createAnimation = function (spritesheet) {
@@ -33,13 +33,4 @@ Hydralisk.prototype.createAnimation = function (spritesheet) {
     animation.createVerticalAnimationStates(ATTACK_ACTION, 90, 2, 1, 7, .1);
 
     return animation;
-}
-
-Hydralisk.prototype.update = function () {
-    this.ai.update();
-}
-
-Hydralisk.prototype.draw = function () {
-    this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
-    PhysicalEntity.prototype.draw.call(this);
 }

@@ -95,9 +95,6 @@ BasicEnemyAI.prototype.walk = function (delta) {
 }
 
 BasicEnemyAI.prototype.attack = function (delta) {
-
-    var availDir = [];
-
     // If it's time to create another bullet...
     // (secondsBetweenShots = 1 / shotsPerSecond)
     if (this.timeSinceLastAttack >= (1 / this.entity.attacksPerSecond)) {
@@ -112,7 +109,6 @@ BasicEnemyAI.prototype.attack = function (delta) {
         var angleToPlayer = calculateAngle(dstX, dstY, srcX, srcY);
 
         //this.entity.trueAngle = angleToFace;
-        console.log("angle to player: " + angleToPlayer);
 
         //Interpolate. If interpolate returns true (interpolation complete) then create bullet.
         if (interpolate(this.entity, angleToPlayer, 8)) {

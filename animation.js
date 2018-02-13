@@ -3,16 +3,16 @@ var AnimationDirection = {
     VERTICAL: 2
 };
 
-function Animation(entity, spriteSheet, frameWidth, frameHeight, sheetWidth, numberOfAngles, scale, startingAction) {
+function Animation(entity, spriteSheet, sheetWidth, numberOfAngles, startingAction) {
     this.entity = entity;
     this.spriteSheet = spriteSheet;
-    this.frameWidth = frameWidth;
-    this.frameHeight = frameHeight;
+    this.frameWidth = entity.physics.width;;
+    this.frameHeight = entity.physics.height;;
     this.sheetWidth = sheetWidth;
     this.numberOfAngles = numberOfAngles;
     this.angleIncrement = 360 / numberOfAngles;
     this.elapsedTime = 0;
-    this.scale = scale;
+    this.scale = entity.physics.scale;
     this.currentAction = startingAction;
     this.animationStates = {};
 }
@@ -36,7 +36,9 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y) {
         if (this.loop) this.elapsedTime = 0;
     }
 
-    var animAngle = nearestAngle(this.entity.trueAngle, this.angleIncrement);
+    var physics = this.entity.physics;
+
+    var animAngle = nearestAngle(physics.calculateFacingAngle(), this.angleIncrement);
     var state = this.animationStates[this.currentAction + animAngle];
     var frame = this.currentFrame();
     var xindex = state.xIndex;

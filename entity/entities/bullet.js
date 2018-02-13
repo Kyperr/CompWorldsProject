@@ -2,23 +2,27 @@
 function Bullet(game, spritesheet, creator, fromPlayer, directionX, directionY) {
 
     /*Super init*/
-    var physics = new Physics(0, 0, 32, 32, 2, true);
+    var physics = new Physics(this, 0, 0, 32, 32, 2, true);
     physics.directionX = directionX;
     physics.directionY = directionY;
+    physics.velocity = BUL_MOVE_SPEED;
     
     PhysicalEntity.call(this, game, game.ctx, spritesheet, physics);
     
     /*Sub init*/
     this.isPlayerBullet = fromPlayer;
-    
-    var creatorCenterX = creator.x + (creator.animation.frameWidth * creator.animation.scale / 2);
-    var creatorCenterY = creator.y + (creator.animation.frameHeight * creator.animation.scale / 2);
 
-    var spawnX = creatorCenterX - (this.animation.frameWidth * this.animation.scale / 2);
-    var spawnY = creatorCenterY - (this.animation.frameHeight * this.animation.scale / 2);
+    this.debug_timeExist = 0;
 
-    this.x = spawnX;
-    this.y = spawnY;
+    //Position
+    var creatorCenterX = creator.physics.x + (creator.physics.width * creator.physics.scale / 2);
+    var creatorCenterY = creator.physics.y + (creator.physics.height * creator.physics.scale / 2);
+
+    var spawnX = creatorCenterX - (physics.width * physics.scale / 2);
+    var spawnY = creatorCenterY - (physics.height * physics.scale / 2);
+
+    this.physics.x = spawnX;
+    this.physics.y = spawnY;
     
 }
 
@@ -45,6 +49,7 @@ Bullet.prototype.createAnimation = function (spritesheet) {
 
 Bullet.prototype.update = function () {
     var delta = this.game.clockTick;
+    this.debug_timeExist += delta;
 
     // length of hypotenuse
     //var hypotenusePixels = delta * speed;
@@ -61,15 +66,13 @@ Bullet.prototype.update = function () {
     //this.y -= verticalPixels;
 
     this.physics.updateLocation(delta);
+    
 
     // The following is temporary code so as not to lag the game with off-screen bullets.
     // Eventually this should be replaced with keeping track of distance the bullet has
     // travelled and deleting it after a certain distance.
     // If the bullet is offscreen, delete it.
-    if (this.x > this.game.surfaceWidth ||
-        this.x < 0 - this.animation.frameWidth * this.animation.scale || 
-        this.y > this.game.surfaceHeight ||
-        this.y < 0 - this.animation.frameHeight * this.animation.scale) { 
+    if (this.debug_timeExist > 2) { 
 
         this.isAlive = false;
         this.removeFromWorld = true;

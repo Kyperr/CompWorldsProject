@@ -83,8 +83,8 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y) {
 }
 
 Animation.prototype.currentFrame = function () {
-    var animAngle = nearestAngle(this.physicalEntity.trueAngle, this.angleIncrement);
-    //console.log("current state = " + this.currentAction + animAngle);
+    var animAngle = nearestAngle(this.physicalEntity.physics.calculateFacingAngle(), this.angleIncrement);
+    console.log("current state = " + this.currentAction + animAngle);
     var state = this.animationStates[this.currentAction + animAngle];
     return Math.floor(this.elapsedTime / state.frameDuration);
 }
@@ -117,8 +117,6 @@ Animation.prototype.createHorizontalAnimationStates = function (animationName, f
         if (angle < 0) {
             angle += 360;
         }
-        console.log("angle inc: " + this.angleIncrement);
-        console.log("adding: " + animationName + angle);
         this.animationStates[animationName + angle] = new AnimationState(animationName + angle, AnimationDirection.Horizontal, yIndex, y, frameCount, angle, frameDuration, true, false);
     }
 

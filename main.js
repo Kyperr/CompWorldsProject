@@ -12,7 +12,7 @@ function Background(game, spritesheet) {
 
 Background.prototype.draw = function () {
     this.ctx.drawImage(this.spritesheet,
-                   this.x, this.y);
+        this.x, this.y);
 };
 
 Background.prototype.update = function () {
@@ -25,6 +25,7 @@ AM.queueDownload("./img/red_zergling.png");
 AM.queueDownload("./img/player_bullet.png");
 AM.queueDownload("./img/enemy_bullet.png");
 AM.queueDownload("./img/bricks.png");
+AM.queueDownload("./img/mud_tiles.png");
 
 AM.downloadAll(function () {
     var canvas = document.getElementById("gameWorld");
@@ -34,110 +35,131 @@ AM.downloadAll(function () {
     gameEngine.init(ctx);
     gameEngine.assetManager = AM;
     var map = new Map(gameEngine, canvas.width / 32, canvas.height / 32, 32);
-    
+
     var marine = new Marine(gameEngine, AM.getAsset("./img/blue_marine.png"));
-	var hydralisk = new Hydralisk(gameEngine, AM.getAsset("./img/red_hydralisk.png"));
-	//var zergling = new Zergling(gameEngine, AM.getAsset("./img/red_zergling.png"));
-	
+    var hydralisk = new Hydralisk(gameEngine, AM.getAsset("./img/red_hydralisk.png"));
+    //var zergling = new Zergling(gameEngine, AM.getAsset("./img/red_zergling.png"));
+
     //init player
     initializePlayerListeners(marine, gameEngine, canvas);
 
     gameEngine.addEntity(map);
     gameEngine.addEntity(marine);
-	//gameEngine.addEntity(hydralisk);
-	//gameEngine.addEntity(zergling);
+    gameEngine.addEntity(hydralisk);
+    //gameEngine.addEntity(zergling);
     gameEngine.start();
     console.log("All Done!");
 });
 
+//These should be moved into the appropriate class(marine).
 function initializePlayerListeners(marine, gameEngine, canvas) {
+
+    var w = 0;
+    var a = 0;
+    var s = 0;
+    var d = 0;
+
     canvas.addEventListener("keydown", function (e) {
 
-        var horizontal = marine.physics.directionX;
-        var vertical = marine.physics.directionY;
-
-        if (e.code === "KeyW" && vertical < 1) {
-            vertical += 1;
-        }
-
-        if (e.code === "KeyS" && vertical > -1) {
-            vertical -= 1;
-        }
-
-        if (e.code === "KeyA" && horizontal > -1) {
-            horizontal -= 1;
-        }
-
-        if (e.code === "KeyD" && horizontal < 1) {
-            horizontal += 1;
-        }
-
-        marine.physics.directionX = horizontal;
-        marine.physics.directionY = vertical;
-
-    }, false);
-    
-    canvas.addEventListener("keyup", function (e) {
-
-
-        var horizontal = marine.physics.directionX;
-        var vertical = marine.physics.directionY;
-
-        if (e.code === "KeyW") {
-            vertical -= 1;
-        }
-
-        if (e.code === "KeyS") {
-            vertical += 1;
-        }
-
         if (e.code === "KeyA") {
-            horizontal += 1;
+            a = 1;
         }
 
         if (e.code === "KeyD") {
-            horizontal -= 1;
+            d = 1;
+        }
+        if (e.code === "KeyW") {
+            w = 1;
         }
 
-        marine.physics.directionX = horizontal;
-        marine.physics.directionY = vertical;
+        if (e.code === "KeyS") {
+            s = 1;
+        }
+
+        if (!marine.isShooting) {
+
+            var horizontal = d - a;
+            marine.physics.directionX = horizontal;
+
+            var vertical = w - s;
+            marine.physics.directionY = vertical;
+
+            if (horizontal != 0 || vertical != 0) {
+                marine.physics.velocity = MAR_MOVE_SPEED;
+            }
+        }
+
+
     }, false);
 
-    canvas.addEventListener("mousemove", function (e) {
-        var physics = marine.physics;
-        if (marine.isShooting) {
-            //newAngle = calculateAngle(e.offsetX, e.offsetY, marineCenterX, marineCenterY);
-            marine.physics.directionY = e.offsetY;
-            marine.physics.directionX = e.offsetX;
-            marine.isShooting = true;
+    canvas.addEventListener("keyup", function (e) {
 
-            marine.animation.currentAction = "shooting"
+        if (e.code === "KeyA") {
+            a = 0;
         }
-        
-    });
 
-    canvas.addEventListener("mousedown", function (e) {
-        // Offset X and Y are based on origin of canvas, as opposed to browser window
-        marine.physics.directionY = e.offsetY;
-        marine.physics.directionX = e.offsetX;
+        if (e.code === "KeyD") {
+            d = 0;
+        }
+
+        if (e.code === "KeyW") {
+            w = 0;
+        }
+
+        if (e.code === "KeyS") {
+            s = 0;
+        }
+
+
+        if (!marine.isShooting) {
+            var vertical = w - s;
+            marine.physics.directionY = vertical;
+
+            var horizontal = d - a;
+            marine.physics.directionX = horizontal;
+
+            if (horizontal == 0 && vertical == 0) {
+                marine.physics.velocity = 0;
+            }
+        }
+
+
+    }, false);
+
+    var aimAndShootFunc = function (e) {
+        var physics = marine.physics;
+
+        physics.velocity = 0;
+
+        var srcX = physics.x + (physics.width / 2);
+        var srcY = physics.y + (physics.height / 2);
+
+        var angle = calculateAngleRadians(e.offsetX - (16*2), e.offsetY - (16*2), srcX, srcY);//The +16 magic number comes from the size of the bullets. It is 1/2 the height/width of a bullet. Can fix later. *2 is for scale.
+
+        physics.directionX = Math.cos(angle);
+
+        physics.directionY = Math.sin(angle);
+
         marine.isShooting = true;
 
-        //var marineCenterX = physics.x + (physics.width * physics.scale / 2);
-        //var marineCenterY = physics.y + (physics.height * physics.scale / 2);
-        
-        //newAngle = calculateAngle(e.offsetX, e.offsetY, marineCenterX, marineCenterY);
-
-        //marine.trueAngle = newAngle;
-        //marine.isShooting = true;
-        
-        //marine.animation.currentAngle = nearestAngle(newAngle, marine.degreesPerAngle);
         marine.animation.currentAction = "shooting"
+    };
+
+    canvas.addEventListener("mousemove", function (e) {
+        if (marine.isShooting) {
+            aimAndShootFunc(e);
+        }
     });
+
+    canvas.addEventListener("mousedown", aimAndShootFunc);
 
     canvas.addEventListener("mouseup", function (e) {
         marine.isShooting = false;
-        marine.animation.currentState = "standing";
+        var horizontal = d - a;
+        marine.physics.directionX = horizontal;
+        var vertical = w - s;
+        marine.physics.directionY = vertical;
     });
-    
+
 }
 

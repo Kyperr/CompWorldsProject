@@ -2,7 +2,7 @@
 function Marine(game, spritesheet) {
 
     /*Super init*/
-    var physics = new Physics(0, 0, 64, 64, 2, true);
+    var physics = new Physics(this, 0, 0, 64, 64, 2, true);
 
     PhysicalEntity.call(this, game, game.ctx, spritesheet, physics);
 
@@ -35,30 +35,30 @@ Marine.prototype.createAnimation = function (spritesheet) {
 
 Marine.prototype.update = function () {
     var delta = this.game.clockTick;
-    var physics = this.physics
+    var physics = this.physics;
 
     this.timeSinceLastShot += delta;
 
-    if (this.isShooting) {
-        this.animation.currentAction = "shooting";
-        this.physics.velocity = 0;
+    //console.log("X: " + physics.x + " Y:" + physics.y);
 
+    if (this.isShooting) {
+        this.animation.currentAction = "shooting"; 
         if (this.timeSinceLastShot >= (1 / this.shotsPerSecond)) {
 
             //game, spritesheet, creator, fromPlayer, startingAngle
             var bullet = new Bullet(this.game,
                 this.game.assetManager.getAsset("./img/player_bullet.png"),
-                this, true, this.physics.directionX, this.physics.directionY);
+                this, true, physics.directionX, physics.directionY);
             
             this.game.addEntity(bullet);
 
             this.timeSinceLastShot = 0;
         }
 
-    } else if (physics.velocityX != 0 || physics.velocityY != 0) {
+    } else if (physics.velocity != 0) {
         this.animation.currentAction = "walking";
-        this.physics.velocity = MAR_MOVE_SPEED;
     } else {
+        //console.log("Why isn't it standing now?")
         this.animation.currentAction = "standing";
         this.physics.velocity = 0;
     }

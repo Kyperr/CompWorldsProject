@@ -3,9 +3,9 @@ function Hydralisk(game, spritesheet) {
 
 
     //Super init
-    var movementFactor = new MovementFactor(HYD_MOVE_SPEED);
+    var physics = new Physics(400, 100, 128, 128, 2, true);
 
-    PhysicalEntity.call(this, game, game.ctx, 400, 100, spritesheet, movementFactor);
+    PhysicalEntity.call(this, game, game.ctx, spritesheet, physics);
 
     //Sub init    
     this.ai = new BasicEnemyAI(this, HYD_ATTACKS_PER_SECOND, HYD_PAUSE_AFTER_ATTACK);    
@@ -19,13 +19,9 @@ Hydralisk.prototype.constructor = Hydralisk;
 
 Hydralisk.prototype.createAnimation = function (spritesheet) {
     var numberOfAngles = 16;
-    var frameWidth = 128;
-    var frameHeight = 128;
     var sheetWidth = 17;
-    var scale = 2;
 
-
-    var animation = new Animation(this, spritesheet, frameWidth, frameHeight, sheetWidth, numberOfAngles, scale, STANDING_ACTION);
+    var animation = new Animation(this, spritesheet, sheetWidth, numberOfAngles, STANDING_ACTION);
 
     //Really should do away with these magic numbers.
     animation.createVerticalAnimationStates(WALKING_ACTION, 90, 2, 6, 7, .1);

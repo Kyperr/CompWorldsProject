@@ -29,7 +29,10 @@ function Map(game, width, height, tileSize/*Square*/) {
     this.y = 0;
 
     this.ctx = game.ctx;
-    Entity.call(this, game, this.x, this.y);
+
+
+
+    Entity.call(this, game);
 
     this.renderTiles();
 
@@ -66,8 +69,7 @@ Map.prototype.update = function () {
 }
 
 Map.prototype.draw = function () {
-    this.ctx.drawImage(this.cachedImage, 0, 0);
-    Entity.prototype.draw.call(this);
+    this.ctx.drawImage(this.cachedImage, this.x, this.y);
 }
 
 function Tile(assetSheet, frameWidth, frameHeight, frameX, frameY) {

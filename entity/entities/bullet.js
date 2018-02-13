@@ -1,18 +1,16 @@
-function Bullet(game, spritesheet, creator, fromPlayer, startingAngle) {
+
+function Bullet(game, spritesheet, creator, fromPlayer, directionX, directionY) {
 
     /*Super init*/
-    var movementFactor = new MovementFactor(BUL_MOVE_SPEED);
-
-    console.log("1");
-
-    PhysicalEntity.call(this, game, game.ctx, 0, 0, spritesheet, movementFactor);
-
-    console.log("2");
+    var physics = new Physics(0, 0, 32, 32, 2, true);
+    physics.directionX = directionX;
+    physics.directionY = directionY;
+    
+    PhysicalEntity.call(this, game, game.ctx, spritesheet, physics);
+    
     /*Sub init*/
     this.isPlayerBullet = fromPlayer;
-    this.trueAngle = startingAngle;
-
-
+    
     var creatorCenterX = creator.x + (creator.animation.frameWidth * creator.animation.scale / 2);
     var creatorCenterY = creator.y + (creator.animation.frameHeight * creator.animation.scale / 2);
 
@@ -21,9 +19,7 @@ function Bullet(game, spritesheet, creator, fromPlayer, startingAngle) {
 
     this.x = spawnX;
     this.y = spawnY;
-
-    console.log("3");
-
+    
 }
 
 Bullet.prototype = new PhysicalEntity();
@@ -37,36 +33,34 @@ Bullet.prototype.createAnimation = function (spritesheet) {
     var sheetWidth = 5;
     var scale = 2;//Set to two for testing purposes. Fine tune later.
 
-    var animation = new Animation(this, spritesheet, frameWidth, frameHeight, sheetWidth, numberOfAngles, scale, FLYING_ACTION);
+    var animation = new Animation(this, spritesheet, sheetWidth, numberOfAngles, FLYING_ACTION);
 
     //Really should do away with these magic numbers.
                                                 //animationName, firstFrameAngle, frameIncrement, yIndex, frameCount
     animation.createHorizontalAnimationStates(FLYING_ACTION, 0, 1, 1, 5, .05);
+    
 
     return animation;
 }
 
 Bullet.prototype.update = function () {
     var delta = this.game.clockTick;
-    var speed = this.movementFactor.speed;
 
     // length of hypotenuse
-    var hypotenusePixels = delta * speed;
+    //var hypotenusePixels = delta * speed;
 
     // cos(theta) = adjacent / hypotenuse
-    var cosTheta = Math.cos(degreesToRadians(this.trueAngle));
-    var horizontalPixels = hypotenusePixels * cosTheta;
+    //var cosTheta = Math.cos(degreesToRadians(this.trueAngle));
+    //var horizontalPixels = hypotenusePixels * cosTheta;
 
     // sin(theta) = opposite / hypotenuse
-    var sinTheta = Math.sin(degreesToRadians(this.trueAngle));
-    var verticalPixels = hypotenusePixels * sinTheta;
+    //var sinTheta = Math.sin(degreesToRadians(this.trueAngle));
+    //var verticalPixels = hypotenusePixels * sinTheta;
 
-    this.x += horizontalPixels;
-    this.y -= verticalPixels;
+    //this.x += horizontalPixels;
+    //this.y -= verticalPixels;
 
-    PhysicalEntity.prototype.update.call(this);
-
-    this.lastUpdated = this.game.gameTime;
+    this.physics.updateLocation(delta);
 
     // The following is temporary code so as not to lag the game with off-screen bullets.
     // Eventually this should be replaced with keeping track of distance the bullet has

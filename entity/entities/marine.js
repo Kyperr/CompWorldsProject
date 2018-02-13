@@ -2,10 +2,9 @@
 function Marine(game, spritesheet) {
 
     /*Super init*/
-    var movementFactor = new MovementFactor(MAR_MOVE_SPEED);
-        //var stats = new CharacterStats(game, SHOTS_PER_SECOND);
-    
-    PhysicalEntity.call(this, game, game.ctx, 0, 0, spritesheet, movementFactor);
+    var physics = new Physics(0, 0, 64, 64, 2, true);
+
+    PhysicalEntity.call(this, game, game.ctx, spritesheet, physics);
 
     /*Sub init*/
     this.stats = new CharacterStats(game, MAR_SHOTS_PER_SECOND);
@@ -21,12 +20,9 @@ Marine.prototype.constructor = Marine;
 //Called by super class.
 Marine.prototype.createAnimation = function (spritesheet) {
     var numberOfAngles = 16;
-    var frameWidth = 64;
-    var frameHeight = 64;
     var sheetWidth = 17;
-    var scale = 2;
 
-    var animation = new Animation(this, spritesheet, frameWidth, frameHeight, sheetWidth, numberOfAngles, scale, STANDING_ACTION);
+    var animation = new Animation(this, spritesheet, sheetWidth, numberOfAngles, STANDING_ACTION);
 
     //Really should do away with these magic numbers.
     animation.createVerticalAnimationStates(WALKING_ACTION, 90, 2, 5, 9, .1);
@@ -39,50 +35,34 @@ Marine.prototype.createAnimation = function (spritesheet) {
 
 Marine.prototype.update = function () {
     var delta = this.game.clockTick;
-    var moveFac = this.movementFactor;
-    var speed = moveFac.speed;
+    var physics = this.physics
 
     this.timeSinceLastShot += delta;
 
     if (this.isShooting) {
         this.animation.currentAction = "shooting";
-        // If it's time to create another bullet...
-        // (secondsBetweenShots = 1 / shotsPerSecond)
-        if (this.timeSinceLastShot >= (1 / this.shotsPerSecond)) {
-            // Create a bullet
-            var bullet = new Bullet(this.game,
-                                    this.game.assetManager.getAsset("./img/player_bullet.png"), 
-                                    this, true, this.trueAngle);
-            this.game.addEntity(bullet);    
+        this.physics.velocity = 0;
 
-            // Reset timeSinceLastShot
+        if (this.timeSinceLastShot >= (1 / this.shotsPerSecond)) {
+
+            //game, spritesheet, creator, fromPlayer, startingAngle
+            var bullet = new Bullet(this.game,
+                this.game.assetManager.getAsset("./img/player_bullet.png"),
+                this, true, this.physics.directionX, this.physics.directionY);
+            
+            this.game.addEntity(bullet);
+
             this.timeSinceLastShot = 0;
         }
 
-    } else if (moveFac.getHorizontalDirection() == 0 && moveFac.getVerticalDirection() == 0) {
-        this.animation.currentAction = "standing";
-    } else {
+    } else if (physics.velocityX != 0 || physics.velocityY != 0) {
         this.animation.currentAction = "walking";
-
-        var angleToFace = moveFac.getDirectionalAngle();
-        this.trueAngle = angleToFace;
-
-        this.x += delta * speed * moveFac.getHorizontalDirection();
-        this.y -= delta * speed * moveFac.getVerticalDirection();
-        this.x > this.game.surfaceWidth
-
-        if (this.x < 0) {
-            this.x = 0;
-        } else if (this.x + this.animation.frameWidth * this.animation.scale > this.game.surfaceWidth) {
-            this.x = this.game.surfaceWidth - this.animation.frameWidth * this.animation.scale;
-        }
-
-        if (this.y < 0) {
-            this.y = 0;
-        } else if (this.y + this.animation.frameHeight * this.animation.scale > this.game.surfaceHeight) {
-            this.y = this.game.surfaceHeight - this.animation.frameHeight * this.animation.scale;
-        }
+        this.physics.velocity = MAR_MOVE_SPEED;
+    } else {
+        this.animation.currentAction = "standing";
+        this.physics.velocity = 0;
     }
+    this.physics.updateLocation(delta);
     PhysicalEntity.prototype.update.call(this);
     this.lastUpdated = this.game.gameTime;
 }

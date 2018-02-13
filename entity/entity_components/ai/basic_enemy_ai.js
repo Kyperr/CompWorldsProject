@@ -1,12 +1,18 @@
-function BasicEnemyAI(entity, attacksPerSecond, pauseAfterAttack) {
-    console.log("entity: " + entity);
+function BasicEnemyAI(entity, viewDistance, attackDistance, attacksPerSecond, movementSpeed) {
     AI.call(this, entity);
 
-    this.timeSinceLastAttack = 0;
+    //Constructor fields
+    this.viewDistance = viewDistance;
 
-    this.pauseAfterAttack = pauseAfterAttack;
+    this.attackDistance = attackDistance;
 
     this.attacksPerSecond = attacksPerSecond;
+
+    this.movementSpeed = movementSpeed;
+
+    //Other instance fields.
+    this.timeSinceLastAttack = 0;
+    this.timeSinceLastMoved = 0;
 }
 
 BasicEnemyAI.prototype = new AI();
@@ -14,112 +20,103 @@ BasicEnemyAI.prototype.constructor = BasicEnemyAI;
 
 BasicEnemyAI.prototype.update = function () {
     var delta = this.entity.game.clockTick;
-    var moveFac = this.entity.movementFactor;
 
 
     this.timeSinceLastAttack += delta;
+    this.timeSinceLastMoved += delta;
 
+    //Getting target location
+    var target = this.entity.game.entities[1];
+    var tX = target.physics.x;
+    var tY = target.physics.y;
 
-    if (this.timeSinceLastAttack >= 1 / this.entity.attacksPerSecond) {
+    //Distance between target and self.
+    var sX = this.entity.physics.x;
+    var sY = this.entity.physics.y;
+    var distance = Math.sqrt(Math.pow((tX - sX), 2) + Math.pow((tY - sY), 2));
 
-        this.attack(delta);
-
-    } else if (moveFac.getDirectionalAngle == 0 || this.timeSinceLastAttack * 1000 < this.pauseAfterAttack) {
-
-        this.entity.animation.currentAction = "standing";
-
-    } else {
-        this.updateDirection();
-        var angleToFace = moveFac.getDirectionalAngle();
-        if (interpolate(this.entity, angleToFace, 8)) {
-            this.entity.trueAngle = angleToFace;
-            this.walk(delta);
+    if (distance < this.viewDistance) {
+        if (distance > this.attackDistance - 5) {
+            this.timeSinceLastMoved = 0;
+            this.moveTowards(tX, tY);
+        } else {
+            if (this.timeSinceLastMoved > .5) {
+                this.attack(delta);
+            }
         }
     }
+
+    this.entity.physics.updateLocation(delta);
 
     Entity.prototype.update.call(this);
     this.entity.lastUpdated = this.entity.game.gameTime;
 }
 
 
-BasicEnemyAI.prototype.updateDirection = function () {
+BasicEnemyAI.prototype.moveTowards = function (tX, tY) {
 
-    this.entity.changeTime += this.entity.game.clockTick;
-    if (this.entity.changeTime >= 0.5) {
-        this.entity.changeTime = 0;
-        //random movement
-        var dir = Math.floor(Math.random() * (4));
-        //0=n 1=e 2=s 3=w
-        this.entity.movementFactor.reset();
-        switch (dir) {
-            case 0:
-                this.entity.movementFactor.north = 1;
-                break;
-            case 1:
-                this.entity.movementFactor.east = 1;
-                break;
-            case 2:
-                this.entity.movementFactor.south = 1;
-                break;
-            case 3:
-                this.entity.movementFactor.west = 1;
-                break;
-        }
+    //This is super rudimentary. If we add obstacles, we will need to make a more complex algorithm.
+
+    var physics = this.entity.physics;
+
+    var angle = calculateAngleRadians(tX, tY, physics.x, physics.y);
+
+
+    //Getting target location
+    var target = this.entity.game.entities[1];
+    var tX = target.physics.x;
+    var tY = target.physics.y;
+
+    //10 degrees in radians. Fairly fast. This is a magic number and should be standardized.
+    var interpSpeed = 10 * Math.PI / 180;
+
+    var tolerance = 10 * Math.PI / 180;
+
+    if (interpolate(this.entity, angle, interpSpeed, tolerance)) {
+        physics.velocity = this.movementSpeed;
     }
-}
-
-BasicEnemyAI.prototype.walk = function (delta) {
-    var anim = this.entity.animation;
-
-    var moveFac = this.entity.movementFactor;
-
-    var speed = moveFac.speed;
-
+    //Idk, maybe this should be inside the interp check.
     this.entity.animation.currentAction = "walking";
-
-    //Direction
-
-    var newX = this.entity.x + delta * speed * moveFac.getHorizontalDirection();
-    var newY = this.entity.y - delta * speed * moveFac.getVerticalDirection();
-
-    if (newX + (anim.frameWidth * anim.scale) <= this.entity.game.ctx.canvas.width && newX > 0) {
-        this.entity.x = newX;
-    } else {
-        this.entity.trueAngle = this.entity.movementFactor.reflect();
-    }
-    if (newY + (anim.frameHeight * anim.scale) <= this.entity.game.ctx.canvas.height && newY > 0) {
-        this.entity.y = newY;
-    } else {
-        this.entity.trueAngle = this.entity.movementFactor.reflect();
-    }
 }
 
 BasicEnemyAI.prototype.attack = function (delta) {
-    // If it's time to create another bullet...
-    // (secondsBetweenShots = 1 / shotsPerSecond)
-    if (this.timeSinceLastAttack >= (1 / this.entity.attacksPerSecond)) {
-        var player = this.entity.game.entities[1];
-        var anim = this.entity.animation;
 
-        var srcX = this.entity.x + ((anim.frameWidth * anim.scale) / 2);
-        var srcY = this.entity.y + ((anim.frameHeight * anim.scale) / 2);
-        var dstX = player.x;
-        var dstY = player.y;
+    //This will be done outside the loop so the enemy appears to
+    //"track" the player even when the enemy isn't shooting.
 
-        var angleToPlayer = calculateAngle(dstX, dstY, srcX, srcY);
+    var physics = this.entity.physics;
 
-        //this.entity.trueAngle = angleToFace;
+    physics.velocity = 0;
+    this.entity.animation.currentAction = "attacking";
 
-        //Interpolate. If interpolate returns true (interpolation complete) then create bullet.
-        if (interpolate(this.entity, angleToPlayer, 8)) {
-            this.entity.animation.currentAction = "attacking";
-            // Create a bullet
-            var bullet = new Bullet(this.entity.game,
-                this.entity.game.assetManager.getAsset("./img/enemy_bullet.png"),
-                this.entity, true, angleToPlayer);
-            this.entity.game.addEntity(bullet);
-            // Reset timeSinceLastShot
-            this.timeSinceLastAttack = 0;
-        }
+    var target = this.entity.game.entities[1];
+
+    var srcX = physics.x + ((physics.width * physics.scale) / 2);
+    var srcY = physics.y + ((physics.height * physics.scale) / 2);
+    var dstX = target.physics.x + (target.physics.width / 2);
+    var dstY = target.physics.y + (target.physics.height / 2);
+
+    var angle = calculateAngleRadians(dstX, dstY, srcX, srcY);
+
+    var interpSpeed = 10 * Math.PI / 180;
+    var tolerance = 10 * Math.PI / 180;
+    interpolate(this.entity, angle, interpSpeed, tolerance);
+
+    if (this.timeSinceLastAttack >= (1 / this.attacksPerSecond)) {
+        // Create a bullet
+        var bullet = new Bullet(this.entity.game,
+            this.entity.game.assetManager.getAsset("./img/enemy_bullet.png"),
+            this.entity, true, Math.cos(angle), Math.sin(angle));
+
+        /*
+
+        var bullet = new Bullet(this.game,
+                this.game.assetManager.getAsset("./img/player_bullet.png"),
+                this, true, physics.directionX, physics.directionY);
+
+        */
+        this.entity.game.addEntity(bullet);
+        // Reset timeSinceLastShot
+        this.timeSinceLastAttack = 0;
     }
 }

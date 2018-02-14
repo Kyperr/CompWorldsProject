@@ -96,8 +96,6 @@ BasicEnemyAI.prototype.walk = function (delta) {
 
 BasicEnemyAI.prototype.attack = function (delta) {
 
-    var availDir = [];
-
     // If it's time to create another bullet...
     // (secondsBetweenShots = 1 / shotsPerSecond)
     if (this.timeSinceLastAttack >= (1 / this.entity.attacksPerSecond)) {

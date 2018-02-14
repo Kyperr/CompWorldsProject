@@ -1,13 +1,12 @@
 
-function PhysicalEntity(game, ctx, x, y, spritesheet, movementFactor) {
+function PhysicalEntity(game, ctx, spritesheet, physics) {
 
     /*Super init*/
-    Entity.call(this, game, x, y);
+    Entity.call(this, game);
 
     /*Sub init*/
-    this.trueAngle = 0;
     this.ctx = ctx;
-    this.movementFactor = movementFactor;
+    this.physics = physics;
 
     this.animation = this.createAnimation(spritesheet);
 }
@@ -20,24 +19,7 @@ PhysicalEntity.prototype.constructor = PhysicalEntity;
 PhysicalEntity.prototype.createAnimation = function (spritesheet) {
 }
 
-PhysicalEntity.prototype.rotateAndCache = function (image, angle) {
-    var offscreenCanvas = document.createElement('canvas');
-    var size = Math.max(image.width, image.height);
-    offscreenCanvas.width = size;
-    offscreenCanvas.height = size;
-    var offscreenCtx = offscreenCanvas.getContext('2d');
-    offscreenCtx.save();
-    offscreenCtx.translate(size / 2, size / 2);
-    offscreenCtx.rotate(angle);
-    offscreenCtx.translate(0, 0);
-    offscreenCtx.drawImage(image, -(image.width / 2), -(image.height / 2));
-    offscreenCtx.restore();
-    //offscreenCtx.strokeStyle = "red";
-    //offscreenCtx.strokeRect(0,0,size,size);
-    return offscreenCanvas;
-}
-
 PhysicalEntity.prototype.draw = function () {
-    this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
+    this.animation.drawFrame(this.game.clockTick, this.ctx, this.physics.x, this.physics.y);
 }
 

@@ -2,6 +2,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+body {
+  background-color: grey;
+}
+
+canvas {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+</style>
     <meta charset="utf-8">
     <title>Game Project Shell</title>
     <script type="text/javascript" src="./gameengine.js"></script>
@@ -10,12 +22,12 @@
     <script type="text/javascript" src="./utilities.js"></script>
     <script type="text/javascript" src="./utilities/interpolator.js"></script>
     <script type="text/javascript" src="./utilities/constants.js"></script>
-    <script type="text/javascript" src="./movement_factor.js"></script>
 
     <script type="text/javascript" src="./entity/entity.js"></script>
     <script type="text/javascript" src="./entity/physical_entity.js"></script>
     <script type="text/javascript" src="./entity/bot_entity.js"></script>
-    
+
+    <script type="text/javascript" src="./entity/entity_components/physics.js"></script>
     <script type="text/javascript" src="./entity/entity_components/ai/ai.js"></script>
     <script type="text/javascript" src="./entity/entity_components/ai/basic_enemy_ai.js"></script>
 
@@ -29,6 +41,6 @@
     <script type="text/javascript" src="./animation.js"></script>
 </head>
 <body>
-    <canvas id="gameWorld" tabindex="1" width="800" height="700" style="border: 1px solid brown; background: lightskyblue"></canvas>
+    <canvas id="gameWorld" tabindex="1" width="800" height="800"></canvas>
 </body>
 </html>

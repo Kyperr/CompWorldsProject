@@ -3,16 +3,16 @@ var AnimationDirection = {
     VERTICAL: 2
 };
 
-function Animation(entity, spriteSheet, frameWidth, frameHeight, sheetWidth, numberOfAngles, scale, startingAction) {
-    this.entity = entity;
+function Animation(physicalEntity, spriteSheet, sheetWidth, numberOfAngles, startingAction) {
+    this.physicalEntity = physicalEntity;
     this.spriteSheet = spriteSheet;
-    this.frameWidth = frameWidth;
-    this.frameHeight = frameHeight;
+    this.frameWidth = physicalEntity.physics.width;;
+    this.frameHeight = physicalEntity.physics.height;
     this.sheetWidth = sheetWidth;
     this.numberOfAngles = numberOfAngles;
     this.angleIncrement = 360 / numberOfAngles;
     this.elapsedTime = 0;
-    this.scale = scale;
+    this.scale = physicalEntity.physics.scale;
     this.currentAction = startingAction;
     this.animationStates = {};
 }
@@ -35,8 +35,10 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y) {
     if (this.isDone()) {
         if (this.loop) this.elapsedTime = 0;
     }
+    
+    var physics = this.physicalEntity.physics;
 
-    var animAngle = nearestAngle(this.entity.trueAngle, this.angleIncrement);
+    var animAngle = nearestAngle(physics.calculateFacingAngle(), this.angleIncrement);
     var state = this.animationStates[this.currentAction + animAngle];
     var frame = this.currentFrame();
     var xindex = state.xIndex;
@@ -81,7 +83,7 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y) {
 }
 
 Animation.prototype.currentFrame = function () {
-    var animAngle = nearestAngle(this.entity.trueAngle, this.angleIncrement);
+    var animAngle = nearestAngle(this.physicalEntity.physics.calculateFacingAngle(), this.angleIncrement);
     //console.log("current state = " + this.currentAction + animAngle);
     var state = this.animationStates[this.currentAction + animAngle];
     return Math.floor(this.elapsedTime / state.frameDuration);

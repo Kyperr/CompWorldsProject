@@ -6,11 +6,11 @@ function Map(game, width, height, tileSize/*Square*/) {
     this.cachedImage.setAttribute("width", width * tileSize);
     this.cachedImage.setAttribute("height", height * tileSize);
     this.availableTiles = {};
-    var brickTile1 = new Tile(AM.getAsset("./img/bricks.png"), 32, 32, 0, 0);
-    var brickTile2 = new Tile(AM.getAsset("./img/bricks.png"), 32, 32, 1, 0);
-    var brickTile3 = new Tile(AM.getAsset("./img/bricks.png"), 32, 32, 2, 0);
-    var brickTile4 = new Tile(AM.getAsset("./img/bricks.png"), 32, 32, 3, 0);
-    var brickTile5 = new Tile(AM.getAsset("./img/bricks.png"), 32, 32, 4, 0);
+    var brickTile1 = new Tile(AM.getAsset("./img/mud_tiles.png"), 32, 32, 0, 0);
+    var brickTile2 = new Tile(AM.getAsset("./img/mud_tiles.png"), 32, 32, 1, 0);
+    var brickTile3 = new Tile(AM.getAsset("./img/mud_tiles.png"), 32, 32, 2, 0);
+    var brickTile4 = new Tile(AM.getAsset("./img/mud_tiles.png"), 32, 32, 3, 0);
+    var brickTile5 = new Tile(AM.getAsset("./img/mud_tiles.png"), 32, 32, 4, 0);
     this.availableTiles["b1"] = brickTile1;
     this.availableTiles["b2"] = brickTile2;
     this.availableTiles["b3"] = brickTile3;
@@ -29,7 +29,10 @@ function Map(game, width, height, tileSize/*Square*/) {
     this.y = 0;
 
     this.ctx = game.ctx;
-    Entity.call(this, game, this.x, this.y);
+
+
+
+    Entity.call(this, game);
 
     this.renderTiles();
 
@@ -42,13 +45,13 @@ Map.prototype.renderTiles = function () {
     var ctx = this.cachedImage.getContext("2d");
     for (i = 0; i < this.width; i++) {
         for (j = 0; j < this.height; j++) {
-            var num = Math.floor(Math.random() * 5) + 1;
+            var num = Math.floor(Math.random() * 2) + 1;
             var tile = this.availableTiles["b" + num];//tileArray[i][j];
 
             var tileX = i * this.tileSize;
             var tileY = j * this.tileSize;
 
-            ctx.drawImage(AM.getAsset("./img/bricks.png"),//tile.assetSheet,
+            ctx.drawImage(AM.getAsset("./img/mud_tiles.png"),//tile.assetSheet,
                 tile.frameX * tile.frameWidth,
                 tile.frameY * tile.frameHeight,  // source from sheet
                 tile.frameWidth,
@@ -66,8 +69,7 @@ Map.prototype.update = function () {
 }
 
 Map.prototype.draw = function () {
-    this.ctx.drawImage(this.cachedImage, 0, 0);
-    Entity.prototype.draw.call(this);
+    this.ctx.drawImage(this.cachedImage, this.x, this.y);
 }
 
 function Tile(assetSheet, frameWidth, frameHeight, frameX, frameY) {

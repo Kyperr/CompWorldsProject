@@ -1,4 +1,4 @@
-function calculateAngle(x1, y1, x2, y2) {
+function calculateAngleRadians(x1, y1, x2, y2) {
     var dx = x1 - x2;
     var dy = y1 - y2;
 
@@ -7,7 +7,11 @@ function calculateAngle(x1, y1, x2, y2) {
         radiansAngle += 2 * Math.PI;
     }
 
-    return radiansToDegrees(radiansAngle);
+    return radiansAngle;
+}
+
+function calculateAngle(x1, y1, x2, y2) {
+    return radiansToDegrees(calculateAngleRadians(x1, y1, x2, y2));
 }
 
 function calculateNearestAngle(x1, y1, x2, y2, incrementAmount) {
@@ -31,7 +35,7 @@ function nearestAngle(theDegrees, incrementAmount) {
     while (nearestDegree < theDegrees) {
         nearestDegree += incrementAmount;
     }
-    
+
     // Calculate which is closer, the current nearestDegree or the prior one
     var currentDistance = Math.abs(theDegrees - nearestDegree);
     var priorDistance = Math.abs(theDegrees - (nearestDegree - incrementAmount));
@@ -40,11 +44,40 @@ function nearestAngle(theDegrees, incrementAmount) {
     if (priorDistance < currentDistance) {
         nearestDegree -= incrementAmount;
     }
-    
+
     if (nearestDegree == 360) {
         return 0;
     } else {
-        return nearestDegree;   
+        return nearestDegree;
+    }
+}
+
+function nearestAngleRadians(theAngle, incrementAmount) {
+    // Start at 0
+    var nearestAngle = 0;
+
+    if (incrementAmount <= 0) {
+        return nearestAngle;
+    }
+
+    // Continuously increment by incrementAmount until degrees is passed or met
+    while (nearestAngle < theAngle) {
+        nearestAngle += incrementAmount;
+    }
+
+    // Calculate which is closer, the current nearestDegree or the prior one
+    var currentDistance = Math.abs(theAngle - nearestAngle);
+    var priorDistance = Math.abs(theAngle - (nearestAngle - incrementAmount));
+    
+    // If prior nearestDegree was closer to degrees, decrement by incrementAmount
+    if (priorDistance < currentDistance) {
+        nearestAngle -= incrementAmount;
+    }
+
+    if (nearestAngle == 2 * Math.PI) {
+        return 0;
+    } else {
+        return nearestAngle;
     }
 }
 

@@ -1,5 +1,5 @@
 
-function Hydralisk(game, spritesheet) {
+function Devourer(game, spritesheet) {
 	
 	//get random x and y coordinates that are > 0 and < the canvas x and y
 	var x = Math.floor(Math.random() * game.surfaceWidth);
@@ -15,10 +15,10 @@ function Hydralisk(game, spritesheet) {
     
 }
 
-Hydralisk.prototype = new BotEntity();
-Hydralisk.prototype.constructor = Hydralisk;
+Devourer.prototype = new BotEntity();
+Devourer.prototype.constructor = Devourer;
 
-Hydralisk.prototype.createAnimation = function (spritesheet) {
+Devourer.prototype.createAnimation = function (spritesheet) {
 
     var animation = new Animation(this, spritesheet, HYD_SHEET_WIDTH, HYD_ANGLES, STANDING_ACTION);
 

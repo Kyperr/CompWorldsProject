@@ -26,7 +26,7 @@ BasicEnemyAI.prototype.update = function () {
     this.timeSinceLastMoved += delta;
 
     //Getting target location
-    var target = this.entity.game.entities[1];
+    var target = this.entity.game.player;
     var tX = target.physics.x;
     var tY = target.physics.y;
 
@@ -63,7 +63,7 @@ BasicEnemyAI.prototype.moveTowards = function (tX, tY) {
 
 
     //Getting target location
-    var target = this.entity.game.entities[1];
+    var target = this.entity.game.player;
     var tX = target.physics.x;
     var tY = target.physics.y;
 
@@ -89,7 +89,7 @@ BasicEnemyAI.prototype.attack = function (delta) {
     physics.velocity = 0;
     this.entity.animation.currentAction = "attacking";
 
-    var target = this.entity.game.entities[1];
+    var target = this.entity.game.player;
 
     var srcX = physics.x + ((physics.width * physics.scale) / 2);
     var srcY = physics.y + ((physics.height * physics.scale) / 2);
@@ -115,7 +115,7 @@ BasicEnemyAI.prototype.attack = function (delta) {
                 this, true, physics.directionX, physics.directionY);
 
         */
-        this.entity.game.addEntity(bullet);
+        this.entity.game.addBullet(bullet);
         // Reset timeSinceLastShot
         this.timeSinceLastAttack = 0;
     }

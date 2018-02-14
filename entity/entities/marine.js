@@ -50,7 +50,7 @@ Marine.prototype.update = function () {
                 this.game.assetManager.getAsset("./img/player_bullet.png"),
                 this, true, physics.directionX, physics.directionY);
             
-            this.game.addEntity(bullet);
+            this.game.addBullet(bullet);
 
             this.timeSinceLastShot = 0;
         }

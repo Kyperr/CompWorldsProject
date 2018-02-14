@@ -43,9 +43,9 @@ AM.downloadAll(function () {
     //init player
     initializePlayerListeners(marine, gameEngine, canvas);
 
-    gameEngine.addEntity(map);
-    gameEngine.addEntity(marine);
-    gameEngine.addEntity(hydralisk);
+    gameEngine.addMap(map);
+    gameEngine.addPlayer(marine);
+    gameEngine.addEnemy(hydralisk);
     //gameEngine.addEntity(zergling);
     gameEngine.start();
     console.log("All Done!");
@@ -53,7 +53,6 @@ AM.downloadAll(function () {
 
 //These should be moved into the appropriate class(marine).
 function initializePlayerListeners(marine, gameEngine, canvas) {
-
     var w = 0;
     var a = 0;
     var s = 0;

@@ -28,3 +28,9 @@ Hydralisk.prototype.createAnimation = function (spritesheet) {
 
     return animation;
 }
+
+/*
+Hydralisk.prototype.update = function () {
+    this.ai.update();
+}
+*/

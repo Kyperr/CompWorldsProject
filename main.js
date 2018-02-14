@@ -21,6 +21,7 @@ Background.prototype.update = function () {
 AM.queueDownload("./img/blue_marine.png");
 AM.queueDownload("./img/red_hydralisk.png");
 AM.queueDownload("./img/red_zergling.png");
+AM.queueDownload("./img/red_devourer.png");
 AM.queueDownload("./img/player_bullet.png");
 AM.queueDownload("./img/enemy_bullet.png");
 AM.queueDownload("./img/bricks.png");
@@ -37,7 +38,8 @@ AM.downloadAll(function () {
 
     var marine = new Marine(gameEngine, AM.getAsset("./img/blue_marine.png"));
     var hydralisk = new Hydralisk(gameEngine, AM.getAsset("./img/red_hydralisk.png"));
-    //var zergling = new Zergling(gameEngine, AM.getAsset("./img/red_zergling.png"));
+    var zergling = new Zergling(gameEngine, AM.getAsset("./img/red_zergling.png"));
+    var devourer = new Devourer(gameEngine, AM.getAsset("./img/red_devourer.png"));
 
     //init player
     initializePlayerListeners(marine, gameEngine, canvas);
@@ -45,7 +47,8 @@ AM.downloadAll(function () {
     gameEngine.addMap(map);
     gameEngine.addPlayer(marine);
     gameEngine.addEnemy(hydralisk);
-    //gameEngine.addEntity(zergling);
+    gameEngine.addEnemy(zergling);
+    gameEngine.addEnemy(devourer);
     gameEngine.start();
     console.log("All Done!");
 });

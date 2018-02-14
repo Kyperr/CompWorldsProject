@@ -44,7 +44,10 @@ BasicEnemyAI.prototype.update = function () {
                 this.attack(delta);
             }
         }
-    }
+    } else {
+		this.entity.physics.velocity = 0;
+		this.entity.animation.currentAction = "standing";
+	}
 
     this.entity.physics.updateLocation(delta);
 
@@ -86,7 +89,11 @@ BasicEnemyAI.prototype.attack = function (delta) {
     var physics = this.entity.physics;
 
     physics.velocity = 0;
-    this.entity.animation.currentAction = "attacking";
+	
+	var attackAnimationTime = .35;//Magic numbers, YAY!
+    if (this.timeSinceLastAttack > attackAnimationTime) {
+		this.entity.animation.currentAction = "standing";
+	}
 
     var target = this.entity.game.player;
 
@@ -102,6 +109,8 @@ BasicEnemyAI.prototype.attack = function (delta) {
     interpolate(this.entity, angle, interpSpeed, tolerance);
 
     if (this.timeSinceLastAttack >= (1 / this.attacksPerSecond)) {
+		this.entity.animation.elapsedTime = 0;
+		this.entity.animation.currentAction = "attacking";
         // Create a bullet
         var bullet = new Bullet(this.entity.game,
             this.entity.game.assetManager.getAsset("./img/enemy_bullet.png"),

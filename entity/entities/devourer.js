@@ -6,12 +6,12 @@ function Devourer(game, spritesheet) {
 	var y = Math.floor(Math.random() * game.surfaceHeight);
 	
     //Super init
-    var physics = new Physics(this, x, y, HYD_FRAME_DIM, HYD_FRAME_DIM, SCALE_2, true);
+    var physics = new Physics(this, x, y, DEV_FRAME_DIM, DEV_FRAME_DIM, SCALE_2, true);
 
     PhysicalEntity.call(this, game, game.ctx, spritesheet, physics);
 
     //Sub init                  entity, viewDistance, attackDistance, attacksPerSecond, movementSpeed
-    this.ai = new BasicEnemyAI(this, HYD_VIEW_DISTANCE, HYD_ATTACK_DISTANCE, HYD_ATTACKS_PER_SECOND, HYD_MOVE_SPEED);
+    this.ai = new BasicEnemyAI(this, DEV_VIEW_DISTANCE, DEV_ATTACK_DISTANCE, DEV_ATTACKS_PER_SECOND, DEV_MOVE_SPEED);
     
 }
 
@@ -20,12 +20,12 @@ Devourer.prototype.constructor = Devourer;
 
 Devourer.prototype.createAnimation = function (spritesheet) {
 
-    var animation = new Animation(this, spritesheet, HYD_SHEET_WIDTH, HYD_ANGLES, STANDING_ACTION);
+    var animation = new Animation(this, spritesheet, DEV_SHEET_WIDTH, DEV_ANGLES, STANDING_ACTION);
 
     //Really should do away with these magic numbers.
-    animation.createVerticalAnimationStates(WALKING_ACTION, HYD_FIRST_FRAME_ANGLE, HYD_FRAME_INCREMENT, 6, 7, .1);
-    animation.createVerticalAnimationStates(STANDING_ACTION, HYD_FIRST_FRAME_ANGLE, HYD_FRAME_INCREMENT, 6, 1, .1);
-    animation.createVerticalAnimationStates(ATTACK_ACTION, HYD_FIRST_FRAME_ANGLE, HYD_FRAME_INCREMENT, 1, 7, .1);//Should calculate the duration to sync up with attacks!!!
+    animation.createVerticalAnimationStates(WALKING_ACTION, DEV_FIRST_FRAME_ANGLE, DEV_FRAME_INCREMENT, 1, 7, .1);
+    animation.createVerticalAnimationStates(STANDING_ACTION, DEV_FIRST_FRAME_ANGLE, DEV_FRAME_INCREMENT, 1, 1, .1);
+    animation.createVerticalAnimationStates(ATTACK_ACTION, DEV_FIRST_FRAME_ANGLE, DEV_FRAME_INCREMENT, 7, 3, .1);//Should calculate the duration to sync up with attacks!!!
 
     return animation;
 }

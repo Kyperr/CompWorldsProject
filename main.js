@@ -29,6 +29,8 @@ AM.queueDownload("./img/mud_tiles.png");
 
 AM.downloadAll(function () {
     var canvas = document.getElementById("gameWorld");
+	canvas.style.display = "none";
+    var startMenu = document.getElementById("startMenu");
     var ctx = canvas.getContext("2d");
     var gameEngine = new GameEngine();
 
@@ -49,7 +51,23 @@ AM.downloadAll(function () {
     gameEngine.addEnemy(hydralisk);
     gameEngine.addEnemy(zergling);
     gameEngine.addEnemy(devourer);
-    gameEngine.start();
+	
+	//start game when canvas is clicked
+	startMenu.addEventListener("mousedown", function (e) {
+		if (!gameEngine.hasStarted) {
+			startMenu.style.display = "none";
+			canvas.style.display = "block";
+			canvas.focus();
+			
+			var evt = document.createEvent("MouseEvents");
+			evt.initMouseEvent("mousedown", true, true);
+			
+			canvas.dispatchEvent(new MouseEvent("mousedown"));
+			canvas.focus();
+			gameEngine.hasStarted = true;	
+			gameEngine.start();
+		}
+	},  false);
     console.log("All Done!");
 });
 

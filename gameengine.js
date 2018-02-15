@@ -14,6 +14,8 @@ function GameEngine() {
     this.map = null;
     this.player = null;
     this.camera = null;
+	this.hasStarted =  false;
+	this.paused = true;
     this.enemies = [];
     this.bullets = [];
 

@@ -82,6 +82,22 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
             s = 1;
         }
 
+        if (e.code === "Equal") {
+            marine.health++;
+            if (marine.health > marine.maxHealth) {
+                marine.health = marine.maxHealth;
+            }
+            console.log("HP UP");
+        }
+
+        if (e.code === "Minus") {
+            marine.health--;
+            if (marine.health < 1) {
+                marine.health = 1;
+            }
+            console.log("HP DOWN");
+        }
+
         if (!marine.isShooting) {
 
             var horizontal = d - a;

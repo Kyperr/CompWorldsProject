@@ -1,6 +1,7 @@
 
 function Marine(game, spritesheet) {
     // Factor out eventually
+    this.maxHealth = 10;
     this.health = 10;
 
     /*Super init*/

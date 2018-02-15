@@ -12,22 +12,10 @@
 function HudElement(game, ctx, 
                     backdropImage, bWidth, bHeight, bCenterX, bCenterY, 
                     displaySpritesheet, dWidth, dHeight) {
-
-    /*
-    this.spriteSheet = spriteSheet;
-    this.frameWidth = frameWidth;
-    this.frameDuration = frameDuration;
-    this.frameHeight = frameHeight;
-    this.sheetWidth = sheetWidth;
-    this.frames = frames;
-    this.totalTime = frameDuration * frames;
-    this.elapsedTime = 0;
-    this.loop = loop;
-    this.scale = scale;
-    */
-
     /*Super init*/
     Entity.call(this, game);
+
+    this.backdropScale = 0.35;
 
     /*Sub init*/
     this.ctx = ctx;
@@ -35,17 +23,22 @@ function HudElement(game, ctx,
     this.display = displaySpritesheet;
     this.displayWidth = dWidth;
     this.displayHeight = dHeight;
-    this.backdropX = game.surfaceWidth - bWidth;
-    this.backdropY = game.surfaceHeight - bHeight;
-    this.displayX = this.backdropX + bCenterX - Math.floor(dWidth / 2);
-    this.displayY = this.backdropY + bCenterY - Math.floor(dHeight / 2);
+    this.backdropWidth = bWidth * this.backdropScale;
+    this.backdropHeight = bHeight * this.backdropScale;
+    this.backdropX = game.surfaceWidth - this.backdropWidth;
+    this.backdropY = game.surfaceHeight - this.backdropHeight;
+    this.displayX = this.backdropX + (bCenterX * this.backdropScale) - Math.floor(dWidth / 2);
+    this.displayY = this.backdropY + (bCenterY * this.backdropScale) - Math.floor(dHeight / 2);
+    this.sourceX = 0;
+    this.sourceY = null;
 }
 
 HudElement.prototype = new Entity();
 HudElement.prototype.constructor = HudElement;
 
 HudElement.prototype.update = function () {
-    // Change sourceX and sourceY based on player HP
+    yIndex = this.game.player.maxHealth - this.game.player.health;
+    this.sourceY = yIndex * this.displayHeight;
 }
 
 
@@ -69,12 +62,10 @@ HudElement.prototype.draw = function () {
                  this.frameHeight * this.scale);
     */
     
-    sourceX = 0;
-    sourceY = 0;
+    this.ctx.drawImage(this.backdrop, this.backdropX, this.backdropY, this.backdropWidth, this.backdropHeight);
 
-    this.ctx.drawImage(this.backdrop, this.backdropX, this.backdropY);
     this.ctx.drawImage(this.display, 
-                       sourceX, sourceY, this.displayWidth, this.displayHeight,
+                       this.sourceX, this.sourceY, this.displayWidth, this.displayHeight,
                        this.displayX, this.displayY, this.displayWidth, this.displayHeight);
 }
 

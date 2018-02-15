@@ -14,6 +14,7 @@ function GameEngine() {
     this.map = null;
     this.player = null;
     this.camera = null;
+    this.hud = null;
     this.enemies = [];
     this.bullets = [];
 
@@ -47,6 +48,10 @@ GameEngine.prototype.addCamera = function (camera) {
     this.camera = camera;
 }
 
+GameEngine.prototype.addHUD = function (hud) {
+    this.hud = hud;
+}
+
 GameEngine.prototype.addPlayer = function (player) {
     this.player = player;
 }
@@ -77,12 +82,17 @@ GameEngine.prototype.draw = function () {
         this.bullets[i].draw(this.ctx);
     }
 
+    // Draw HUD on top
+    this.hud.draw();
+
     this.ctx.restore();
 }
 
 GameEngine.prototype.update = function () {
     // Update player
     this.player.update();
+
+    this.hud.update();
 
     // Update enemies
     var enemyCount = this.enemies.length;

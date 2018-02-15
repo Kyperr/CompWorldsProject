@@ -26,6 +26,8 @@ AM.queueDownload("./img/player_bullet.png");
 AM.queueDownload("./img/enemy_bullet.png");
 AM.queueDownload("./img/bricks.png");
 AM.queueDownload("./img/mud_tiles.png");
+AM.queueDownload("./img/hud_gray_50.png");
+AM.queueDownload("./img/wireframe.png");
 
 AM.downloadAll(function () {
     var canvas = document.getElementById("gameWorld");
@@ -35,7 +37,9 @@ AM.downloadAll(function () {
     gameEngine.init(ctx);
     gameEngine.assetManager = AM;
     var map = new Map(gameEngine, canvas.width / 32, canvas.height / 32, 32);
-
+    var hud = new HudElement(gameEngine, ctx,
+                             AM.getAsset("./img/hud_gray_50.png"), 240, 333, 109, 191,
+                             AM.getAsset("./img/wireframe.png"), 64, 64);
     var marine = new Marine(gameEngine, AM.getAsset("./img/blue_marine.png"));
     var hydralisk = new Hydralisk(gameEngine, AM.getAsset("./img/red_hydralisk.png"));
     var zergling = new Zergling(gameEngine, AM.getAsset("./img/red_zergling.png"));
@@ -46,6 +50,7 @@ AM.downloadAll(function () {
 
     gameEngine.addMap(map);
     gameEngine.addPlayer(marine);
+    gameEngine.addHUD(hud);
     gameEngine.addEnemy(hydralisk);
     gameEngine.addEnemy(zergling);
     gameEngine.addEnemy(devourer);

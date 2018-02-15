@@ -5,7 +5,7 @@ function Marine(game, spritesheet) {
     this.health = 10;
 
     /*Super init*/
-    var physics = new Physics(this, 0, 0, MAR_FRAME_DIM, MAR_FRAME_DIM, SCALE_2, true);
+    var physics = new Physics(this, 0, 0, MAR_FRAME_DIM, MAR_FRAME_DIM, SCALE, true);
 
     PhysicalEntity.call(this, game, game.ctx, spritesheet, physics);
 

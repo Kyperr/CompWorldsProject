@@ -6,7 +6,7 @@ function Zergling(game, spritesheet) {
 	var y = Math.floor(Math.random() * game.surfaceHeight);
 	
     //Super init
-    var physics = new Physics(this, x, y, ZER_FRAME_DIM, ZER_FRAME_DIM, SCALE_2, true);
+    var physics = new Physics(this, x, y, ZER_FRAME_DIM, ZER_FRAME_DIM, SCALE, true);
 
     PhysicalEntity.call(this, game, game.ctx, spritesheet, physics);
 

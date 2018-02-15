@@ -140,7 +140,7 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
         var srcX = physics.x + (physics.width / 2);
         var srcY = physics.y + (physics.height / 2);
 
-        var angle = calculateAngleRadians(e.offsetX - (16*2), e.offsetY - (16*2), srcX, srcY);//The +16 magic number comes from the size of the bullets. It is 1/2 the height/width of a bullet. Can fix later. *2 is for scale.
+        var angle = calculateAngleRadians(e.offsetX - (16), e.offsetY - (16), srcX, srcY);//The +16 magic number comes from the size of the bullets. It is 1/2 the height/width of a bullet. Can fix later. *2 is for scale.
 
         physics.directionX = Math.cos(angle);
 

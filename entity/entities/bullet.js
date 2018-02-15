@@ -2,7 +2,7 @@
 function Bullet(game, spritesheet, creator, fromPlayer, directionX, directionY) {
 
     /*Super init*/
-    var physics = new Physics(this, 0, 0, 32, 32, 2, true);
+    var physics = new Physics(this, 0, 0, 32, 32, 1, true);
     physics.directionX = directionX;
     physics.directionY = directionY;
     physics.velocity = BUL_MOVE_SPEED;

@@ -67,7 +67,6 @@ GameEngine.prototype.addBullet = function (bullet) {
 
 GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.surfaceWidth, this.surfaceHeight);
-    this.ctx.save();
 
     // Draw map
     this.map.draw(this.ctx);
@@ -86,11 +85,13 @@ GameEngine.prototype.draw = function () {
 
     // Draw HUD on top
     this.hud.draw();
-
-    this.ctx.restore();
+    
 }
 
 GameEngine.prototype.update = function () {
+
+    //this.camera.update();
+
     // Update player
     this.player.update();
 

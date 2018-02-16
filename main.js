@@ -2,22 +2,6 @@ var AM = new AssetManager();
 
 //Initialize the game engine
 
-function Background(game, spritesheet) {
-    this.x = 0;
-    this.y = 0;
-    this.spritesheet = spritesheet;
-    this.game = game;
-    this.ctx = game.ctx;
-};
-
-Background.prototype.draw = function () {
-    this.ctx.drawImage(this.spritesheet,
-        this.x, this.y);
-};
-
-Background.prototype.update = function () {
-};
-
 AM.queueDownload("./img/blue_marine.png");
 AM.queueDownload("./img/red_hydralisk.png");
 AM.queueDownload("./img/red_zergling.png");
@@ -56,6 +40,8 @@ AM.downloadAll(function () {
     gameEngine.addEnemy(hydralisk);
     gameEngine.addEnemy(zergling);
     gameEngine.addEnemy(devourer);
+
+    gameEngine.camera = new Camera(gameEngine);
 	
 	//start game when canvas is clicked
 	startMenu.addEventListener("mousedown", function (e) {

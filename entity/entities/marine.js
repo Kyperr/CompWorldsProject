@@ -1,8 +1,11 @@
 
 function Marine(game, spritesheet) {
+    // Factor out eventually
+    this.maxHealth = 10;
+    this.health = 10;
 
     /*Super init*/
-    var physics = new Physics(this, 0, 0, 64, 64, 1.5, true);
+    var physics = new Physics(this, 0, 0, MAR_FRAME_DIM, MAR_FRAME_DIM, SCALE, true);
 
     PhysicalEntity.call(this, game, game.ctx, spritesheet, physics);
 
@@ -21,14 +24,16 @@ Marine.prototype.constructor = Marine;
 Marine.prototype.createAnimation = function (spritesheet) {
     var numberOfAngles = 16;
     var sheetWidth = 17;
+	var firstFrameAngle = 90;
+	var frameIncrement = 2;
 
     var animation = new Animation(this, spritesheet, sheetWidth, numberOfAngles, STANDING_ACTION);
 
     //Really should do away with these magic numbers.
-    animation.createVerticalAnimationStates(WALKING_ACTION, 90, 2, 5, 9, .1);
-    animation.createVerticalAnimationStates(STANDING_ACTION, 90, 2, 5, 1, .1);
-    animation.createVerticalAnimationStates(AIMING_ACTION, 90, 2, 1, 3, .1);
-    animation.createVerticalAnimationStates(SHOOTING_ACTION, 90, 2, 3, 2, .1);
+    animation.createVerticalAnimationStates(WALKING_ACTION, firstFrameAngle, frameIncrement, 5, 9, .1);
+    animation.createVerticalAnimationStates(STANDING_ACTION, firstFrameAngle, frameIncrement, 5, 1, .1);
+    animation.createVerticalAnimationStates(AIMING_ACTION, firstFrameAngle, frameIncrement, 1, 3, .1);
+    animation.createVerticalAnimationStates(SHOOTING_ACTION, firstFrameAngle, frameIncrement, 3, 2, .1);
 
     return animation;
 }
@@ -50,7 +55,7 @@ Marine.prototype.update = function () {
                 this.game.assetManager.getAsset("./img/player_bullet.png"),
                 this, true, physics.directionX, physics.directionY);
             
-            this.game.addEntity(bullet);
+            this.game.addBullet(bullet);
 
             this.timeSinceLastShot = 0;
         }

@@ -1,4 +1,8 @@
-function Camera() {
+function Camera(game) {
+
+
+
+
 }
 
 Camera.prototype = new Camera();

@@ -18,42 +18,66 @@ Background.prototype.draw = function () {
 Background.prototype.update = function () {
 };
 
-//AM.queueDownload("./img/background.jpg");
 AM.queueDownload("./img/blue_marine.png");
 AM.queueDownload("./img/red_hydralisk.png");
 AM.queueDownload("./img/red_zergling.png");
+AM.queueDownload("./img/red_devourer.png");
 AM.queueDownload("./img/player_bullet.png");
 AM.queueDownload("./img/enemy_bullet.png");
 AM.queueDownload("./img/bricks.png");
 AM.queueDownload("./img/mud_tiles.png");
+AM.queueDownload("./img/hud_gray_50.png");
+AM.queueDownload("./img/wireframe.png");
 
 AM.downloadAll(function () {
     var canvas = document.getElementById("gameWorld");
+	canvas.style.display = "none";
+    var startMenu = document.getElementById("startMenu");
     var ctx = canvas.getContext("2d");
     var gameEngine = new GameEngine();
 
     gameEngine.init(ctx);
     gameEngine.assetManager = AM;
     var map = new Map(gameEngine, canvas.width / 32, canvas.height / 32, 32);
-
+    var hud = new HudElement(gameEngine, ctx,
+                             AM.getAsset("./img/hud_gray_50.png"), 240, 333, 109, 191,
+                             AM.getAsset("./img/wireframe.png"), 64, 64);
     var marine = new Marine(gameEngine, AM.getAsset("./img/blue_marine.png"));
     var hydralisk = new Hydralisk(gameEngine, AM.getAsset("./img/red_hydralisk.png"));
-    //var zergling = new Zergling(gameEngine, AM.getAsset("./img/red_zergling.png"));
+    var zergling = new Zergling(gameEngine, AM.getAsset("./img/red_zergling.png"));
+    var devourer = new Devourer(gameEngine, AM.getAsset("./img/red_devourer.png"));
 
     //init player
     initializePlayerListeners(marine, gameEngine, canvas);
 
-    gameEngine.addEntity(map);
-    gameEngine.addEntity(marine);
-    gameEngine.addEntity(hydralisk);
-    //gameEngine.addEntity(zergling);
-    gameEngine.start();
+    gameEngine.addMap(map);
+    gameEngine.addPlayer(marine);
+    gameEngine.addHUD(hud);
+    gameEngine.addEnemy(hydralisk);
+    gameEngine.addEnemy(zergling);
+    gameEngine.addEnemy(devourer);
+	
+	//start game when canvas is clicked
+	startMenu.addEventListener("mousedown", function (e) {
+		if (!gameEngine.hasStarted) {
+			startMenu.style.display = "none";
+			canvas.style.display = "block";
+			canvas.focus();
+			
+			var evt = document.createEvent("MouseEvents");
+			evt.initMouseEvent("mousedown", true, true);
+			
+			canvas.dispatchEvent(new MouseEvent("mousedown"));
+			canvas.focus();
+			gameEngine.hasStarted = true;	
+			gameEngine.start();
+		}
+	},  false);
     console.log("All Done!");
 });
 
 //These should be moved into the appropriate class(marine).
 function initializePlayerListeners(marine, gameEngine, canvas) {
-
     var w = 0;
     var a = 0;
     var s = 0;
@@ -74,6 +98,22 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
 
         if (e.code === "KeyS") {
             s = 1;
+        }
+
+        if (e.code === "Equal") {
+            marine.health++;
+            if (marine.health > marine.maxHealth) {
+                marine.health = marine.maxHealth;
+            }
+            console.log("HP UP");
+        }
+
+        if (e.code === "Minus") {
+            marine.health--;
+            if (marine.health < 1) {
+                marine.health = 1;
+            }
+            console.log("HP DOWN");
         }
 
         if (!marine.isShooting) {
@@ -134,7 +174,7 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
         var srcX = physics.x + (physics.width / 2);
         var srcY = physics.y + (physics.height / 2);
 
-        var angle = calculateAngleRadians(e.offsetX - (16*2), e.offsetY - (16*2), srcX, srcY);//The +16 magic number comes from the size of the bullets. It is 1/2 the height/width of a bullet. Can fix later. *2 is for scale.
+        var angle = calculateAngleRadians(e.offsetX - (16), e.offsetY - (16), srcX, srcY);//The +16 magic number comes from the size of the bullets. It is 1/2 the height/width of a bullet. Can fix later. *2 is for scale.
 
         physics.directionX = Math.cos(angle);
 

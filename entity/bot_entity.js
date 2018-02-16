@@ -1,7 +1,7 @@
 function BotEntity(game, ctx, x, y, spritesheet, movementFactor, ai) {
 
     /*Super init*/
-    PhysicalEntity.call(this, game, ctx, 400, 100, spritesheet, movementFactor);
+    PhysicalEntity.call(this, game, ctx, x, y, spritesheet, movementFactor);
 
     /*Sub init*/
     this.ai = ai;

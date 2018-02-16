@@ -10,7 +10,16 @@ window.requestAnimFrame = (function () {
 })();
 
 function GameEngine() {
-    this.entities = [];
+    // Decomposed this.entities for easy access
+    this.map = null;
+    this.player = null;
+    this.camera = null;
+	this.hasStarted =  false;
+	this.paused = true;
+    this.hud = null;
+    this.enemies = [];
+    this.bullets = [];
+
     this.ctx = null;
     this.surfaceWidth = null;
     this.surfaceHeight = null;
@@ -33,30 +42,84 @@ GameEngine.prototype.start = function () {
     })();
 }
 
-GameEngine.prototype.addEntity = function (entity) {
-    this.entities.push(entity);
+GameEngine.prototype.addMap = function (map) {
+    this.map = map;
+}
+
+GameEngine.prototype.addCamera = function (camera) {
+    this.camera = camera;
+}
+
+GameEngine.prototype.addHUD = function (hud) {
+    this.hud = hud;
+}
+
+GameEngine.prototype.addPlayer = function (player) {
+    this.player = player;
+}
+GameEngine.prototype.addEnemy = function (enemy) {
+    this.enemies.push(enemy);
+}
+
+GameEngine.prototype.addBullet = function (bullet) {
+    this.bullets.push(bullet);
 }
 
 GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.surfaceWidth, this.surfaceHeight);
     this.ctx.save();
-    for (var i = 0; i < this.entities.length; i++) {
-        this.entities[i].draw(this.ctx);
+
+    // Draw map
+    this.map.draw(this.ctx);
+
+    // Draw player
+    this.player.draw(this.ctx);
+
+    // Draw enemies
+    for (var i = 0; i < this.enemies.length; i++) {
+        this.enemies[i].draw(this.ctx);
     }
+    // Draw bullets
+    for (var i = 0; i < this.bullets.length; i++) {
+        this.bullets[i].draw(this.ctx);
+    }
+
+    // Draw HUD on top
+    this.hud.draw();
+
     this.ctx.restore();
 }
 
 GameEngine.prototype.update = function () {
-    var entitiesCount = this.entities.length;
+    // Update player
+    this.player.update();
 
-    for (var i = 0; i < entitiesCount; i++) {
-        var entity = this.entities[i];
+    this.hud.update();
+
+    // Update enemies
+    var enemyCount = this.enemies.length;
+    for (var i = 0; i < enemyCount; i++) {
+        var enemy = this.enemies[i];
         
-        if (typeof entity != 'undefined') {
-            if (entity.removeFromWorld) {
-                this.entities.splice(i, 1);
+        if (typeof enemy != 'undefined') {
+            if (enemy.removeFromWorld) {
+                this.enemies.splice(i, 1);
             } else {
-                entity.update();
+                enemy.update();
+            }
+        }
+    }
+
+    // Update bullets
+    var bulletCount = this.bullets.length;
+    for (var i = 0; i < bulletCount; i++) {
+        var bullet = this.bullets[i];
+
+        if (typeof bullet != 'undefined') {
+            if (bullet.removeFromWorld) {
+                this.bullets.splice(i, 1);
+            } else {
+                bullet.update();
             }
         }
     }

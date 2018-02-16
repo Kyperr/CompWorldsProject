@@ -26,7 +26,7 @@ BasicEnemyAI.prototype.update = function () {
     this.timeSinceLastMoved += delta;
 
     //Getting target location
-    var target = this.entity.game.entities[1];
+    var target = this.entity.game.player;
     var tX = target.physics.x;
     var tY = target.physics.y;
 
@@ -44,7 +44,10 @@ BasicEnemyAI.prototype.update = function () {
                 this.attack(delta);
             }
         }
-    }
+    } else {
+		this.entity.physics.velocity = 0;
+		this.entity.animation.currentAction = "standing";
+	}
 
     this.entity.physics.updateLocation(delta);
 
@@ -63,7 +66,7 @@ BasicEnemyAI.prototype.moveTowards = function (tX, tY) {
 
 
     //Getting target location
-    var target = this.entity.game.entities[1];
+    var target = this.entity.game.player;
     var tX = target.physics.x;
     var tY = target.physics.y;
 
@@ -80,16 +83,19 @@ BasicEnemyAI.prototype.moveTowards = function (tX, tY) {
 }
 
 BasicEnemyAI.prototype.attack = function (delta) {
-
     //This will be done outside the loop so the enemy appears to
     //"track" the player even when the enemy isn't shooting.
 
     var physics = this.entity.physics;
 
     physics.velocity = 0;
-    this.entity.animation.currentAction = "standing";
+	
+	var attackAnimationTime = .35;//Magic numbers, YAY!
+    if (this.timeSinceLastAttack > attackAnimationTime) {
+		this.entity.animation.currentAction = "standing";
+	}
 
-    var target = this.entity.game.entities[1];
+    var target = this.entity.game.player;
 
     var srcX = physics.x + ((physics.width * physics.scale) / 2);
     var srcY = physics.y + ((physics.height * physics.scale) / 2);
@@ -103,7 +109,8 @@ BasicEnemyAI.prototype.attack = function (delta) {
     interpolate(this.entity, angle, interpSpeed, tolerance);
 
     if (this.timeSinceLastAttack >= (1 / this.attacksPerSecond)) {
-        this.entity.animation.currentAction = "attacking";
+		this.entity.animation.elapsedTime = 0;
+		this.entity.animation.currentAction = "attacking";
         // Create a bullet
         var bullet = new Bullet(this.entity.game,
             this.entity.game.assetManager.getAsset("./img/enemy_bullet.png"),
@@ -116,7 +123,7 @@ BasicEnemyAI.prototype.attack = function (delta) {
                 this, true, physics.directionX, physics.directionY);
 
         */
-        this.entity.game.addEntity(bullet);
+        this.entity.game.addBullet(bullet);
         // Reset timeSinceLastShot
         this.timeSinceLastAttack = 0;
     }

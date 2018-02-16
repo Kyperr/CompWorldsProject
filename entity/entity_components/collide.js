@@ -24,14 +24,40 @@ Collide.prototype.doesCollide = function(otherShape) {
 }
 
 Collide.prototype.doesCircleCircleCollide = function (shape, otherShape) {
-	
+	var dx = shape.x - otherShape.x;
+	var dy = shape.y - otherShape.y;
+	var distance = Math.sqrt(dx*dx + dy*dy);
+	if (distance < shape.radius + otherShape.radius){ 
+		return true;
+	}
+	return false;
 }
 
 Collide.prototype.doesCircleBoxCollide = function (shape, otherShape) {
+	if (shape.type === CIRCLE) {
+		//shape is circle, otherShape is box
+		return helperCircleBoxCollide(shape, otherShape);
+	} else {
+		//shape is box, otherShape is circle
+		return helperCircleboxCollide(otherShape, shape);
+	}
+}
+
+Collide.prototype.helperCircleBoxCollide = function (circle, box) {
+	var collide = false;
 	
+	//do circle box collision detection here
+	
+	return collide;
 }
 
 Collide.prototype.doesBoxBoxCollide = function (shape, otherShape) {
-	
+	if(shape.x < otherShape.x + otherShape.width 
+		&& shape.x + shape.width > otherShape.x 
+		&& shape.y < otherShape.y + otherShape.height 
+		&& shape.height + shape.y > otherShape.y) {
+			return true;
+	}
+	return false;
 }
 

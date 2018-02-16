@@ -53,8 +53,7 @@ Physics.prototype.updateLocation = function (delta) {
 
         this.x += this.directionX * this.velocity * delta;
 
-        this.y -= this.directionY * this.velocity * delta;
-    }
+
 
 }
 

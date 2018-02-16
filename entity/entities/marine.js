@@ -2,7 +2,7 @@
 function Marine(game, spritesheet) {
 
     /*Super init*/
-    var physics = new Physics(this, 0, 0, 64, 64, 2, true);
+    var physics = new Physics(this, 0, 0, 64, 64, 1.5, true);
 
     PhysicalEntity.call(this, game, game.ctx, spritesheet, physics);
 

@@ -87,7 +87,7 @@ BasicEnemyAI.prototype.attack = function (delta) {
     var physics = this.entity.physics;
 
     physics.velocity = 0;
-    this.entity.animation.currentAction = "attacking";
+    this.entity.animation.currentAction = "standing";
 
     var target = this.entity.game.entities[1];
 
@@ -103,6 +103,7 @@ BasicEnemyAI.prototype.attack = function (delta) {
     interpolate(this.entity, angle, interpSpeed, tolerance);
 
     if (this.timeSinceLastAttack >= (1 / this.attacksPerSecond)) {
+        this.entity.animation.currentAction = "attacking";
         // Create a bullet
         var bullet = new Bullet(this.entity.game,
             this.entity.game.assetManager.getAsset("./img/enemy_bullet.png"),

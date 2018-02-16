@@ -1,23 +1,20 @@
 
 function Marine(game, spritesheet) {
-    // Factor out eventually
-    this.maxHealth = 10;
-    this.health = 10;
+    console.log("Marine");
+    console.log(game);
 
     /*Super init*/
     var physics = new Physics(this, 0, 0, MAR_FRAME_DIM, MAR_FRAME_DIM, SCALE, true);
 
-    PhysicalEntity.call(this, game, game.ctx, spritesheet, physics);
+    CharacterEntity.call(this, game, spritesheet, physics, MAR_MAX_HP);
 
     /*Sub init*/
-    this.stats = new CharacterStats(game, MAR_SHOTS_PER_SECOND);
-
     this.isShooting = false;// Whether he's shooting
     this.timeSinceLastShot = 0;
     this.shotsPerSecond = MAR_SHOTS_PER_SECOND;
 }
 
-Marine.prototype = new PhysicalEntity();
+Marine.prototype = new CharacterEntity();
 Marine.prototype.constructor = Marine;
 
 //Called by super class.
@@ -54,7 +51,9 @@ Marine.prototype.update = function () {
             var bullet = new Bullet(this.game,
                 this.game.assetManager.getAsset("./img/player_bullet.png"),
                 this, true, physics.directionX, physics.directionY);
-            
+
+            bullet.init(this.game);            
+
             this.game.addBullet(bullet);
 
             this.timeSinceLastShot = 0;

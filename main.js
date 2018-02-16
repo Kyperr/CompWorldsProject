@@ -38,15 +38,24 @@ AM.downloadAll(function () {
 
     gameEngine.init(ctx);
     gameEngine.assetManager = AM;
+
     var map = new Map(gameEngine, canvas.width / 32, canvas.height / 32, 32);
 	var startMenu = new StartMenu(gameEngine, ctx);
     var hud = new HudElement(gameEngine, ctx,
-                             AM.getAsset("./img/hud_gray_50.png"), 240, 333, 109, 191,
-                             AM.getAsset("./img/wireframe.png"), 64, 64);
+                             AM.getAsset("./img/hud_gray_50.png"), 
+                             HUD_HEALTH_BACKDROP_WIDTH, HUD_HEALTH_BACKDROP_HEIGHT, 
+                             HUD_HEALTH_BACKDROP_CENTER_X, HUD_HEALTH_BACKDROP_CENTER_Y,
+                             AM.getAsset("./img/wireframe.png"),
+                             HUD_HEALTH_DISPLAY_WIDTH, HUD_HEALTH_DISPLAY_HEIGHT);
+
     var marine = new Marine(gameEngine, AM.getAsset("./img/blue_marine.png"));
+    marine.init(gameEngine);
     var hydralisk = new Hydralisk(gameEngine, AM.getAsset("./img/red_hydralisk.png"));
+    hydralisk.init(gameEngine);
     var zergling = new Zergling(gameEngine, AM.getAsset("./img/red_zergling.png"));
+    zergling.init(gameEngine);
     var devourer = new Devourer(gameEngine, AM.getAsset("./img/red_devourer.png"));
+    devourer.init(gameEngine);
 
     //init player
     initializePlayerListeners(marine, gameEngine, canvas);
@@ -93,19 +102,15 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
         }
 
         if (e.code === "Equal") {
-            marine.health++;
-            if (marine.health > marine.maxHealth) {
-                marine.health = marine.maxHealth;
+            if (marine.stats.hp != marine.stats.maxHP) {
+                marine.stats.hp++;
             }
-            console.log("HP UP");
         }
 
         if (e.code === "Minus") {
-            marine.health--;
-            if (marine.health < 1) {
-                marine.health = 1;
+            if (marine.stats.hp != 1) {
+                marine.stats.hp--;
             }
-            console.log("HP DOWN");
         }
 
         if (!marine.isShooting) {

@@ -6,6 +6,7 @@ var AnimationDirection = {
 function Animation(physicalEntity, spriteSheet, sheetWidth, numberOfAngles, startingAction) {
     this.physicalEntity = physicalEntity;
     this.spriteSheet = spriteSheet;
+
     this.frameWidth = physicalEntity.physics.width;;
     this.frameHeight = physicalEntity.physics.height;
     this.sheetWidth = sheetWidth;

@@ -37,7 +37,7 @@ HudElement.prototype = new Entity();
 HudElement.prototype.constructor = HudElement;
 
 HudElement.prototype.update = function () {
-    yIndex = this.game.player.maxHealth - this.game.player.health;
+    yIndex = this.game.player.stats.maxHP - this.game.player.stats.hp;
     this.sourceY = yIndex * this.displayHeight;
 }
 

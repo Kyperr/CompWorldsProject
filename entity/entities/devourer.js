@@ -8,11 +8,11 @@ function Devourer(game, spritesheet) {
     //Super init
     var physics = new Physics(this, x, y, DEV_FRAME_DIM, DEV_FRAME_DIM, SCALE, true);
 
-    PhysicalEntity.call(this, game, game.ctx, spritesheet, physics);
 
     //Sub init                  entity, viewDistance, attackDistance, attacksPerSecond, movementSpeed
-    this.ai = new BasicEnemyAI(this, DEV_VIEW_DISTANCE, DEV_ATTACK_DISTANCE, DEV_ATTACKS_PER_SECOND, DEV_MOVE_SPEED);
+    var ai = new BasicEnemyAI(this, DEV_VIEW_DISTANCE, DEV_ATTACK_DISTANCE, DEV_ATTACKS_PER_SECOND, DEV_MOVE_SPEED);
     
+    BotEntity.call(this, game, spritesheet, physics, ai, DEV_MAX_HP);
 }
 
 Devourer.prototype = new BotEntity();

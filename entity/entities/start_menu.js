@@ -17,7 +17,7 @@ StartMenu.prototype.update = function () {
 }
 
 StartMenu.prototype.draw = function () {
-    if (this.game.paused) {
+    /*if (this.game.paused) {
         this.ctx.font = "24pt Impact";
         this.ctx.fillStyle = "lightblue";
         if (this.game.mouse) { this.ctx.fillStyle = "darkblue"; }
@@ -25,5 +25,5 @@ StartMenu.prototype.draw = function () {
     }
     else {
         this.ctx.fillText("Game Over!", this.x-30, this.y);
-    }
+    }*/
 }

@@ -43,12 +43,8 @@ Collide.prototype.doesCircleBoxCollide = function (shape, otherShape) {
 	}
 }
 
-Collide.prototype.helperCircleBoxCollide = function (circle, box) {
-	var collide = false;
-	
+Collide.prototype.helperCircleBoxCollide = function (circle, box) 
 	//do circle box collision detection here
-	
-	return collide;
 }
 
 Collide.prototype.doesBoxBoxCollide = function (shape, otherShape) {

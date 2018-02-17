@@ -12,8 +12,6 @@ const FLYING_ACTION = "flying";
 const NO_ACTION = "";
 
 const SCALE = 1.5;
-const CIRCLE = "circle";
-const BOX = "rectangle";
 
 
 /**

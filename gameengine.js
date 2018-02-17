@@ -17,6 +17,7 @@ function GameEngine() {
 	this.hasStarted =  false;
 	this.paused = true;
     this.hud = null;
+	this.startMenu = null;
     this.enemies = [];
     this.bullets = [];
 
@@ -54,6 +55,10 @@ GameEngine.prototype.addHUD = function (hud) {
     this.hud = hud;
 }
 
+GameEngine.prototype.addStartMenu = function (startMenu) {
+    this.startMenu = startMenu;
+}
+
 GameEngine.prototype.addPlayer = function (player) {
     this.player = player;
 }
@@ -86,6 +91,12 @@ GameEngine.prototype.draw = function () {
 
     // Draw HUD on top
     this.hud.draw();
+	
+	//draw start menu if the game hasn't started
+	//if (!this.hasStarted) {
+		this.paused = true;
+		this.startMenu.draw();
+	//}
 
     this.ctx.restore();
 }

@@ -31,8 +31,8 @@ AM.queueDownload("./img/wireframe.png");
 
 AM.downloadAll(function () {
     var canvas = document.getElementById("gameWorld");
-	canvas.style.display = "none";
-    var startMenu = document.getElementById("startMenu");
+	//canvas.style.display = "none";
+    //var startMenu = document.getElementById("startMenu");
     var ctx = canvas.getContext("2d");
     var gameEngine = new GameEngine();
 
@@ -40,6 +40,7 @@ AM.downloadAll(function () {
     gameEngine.assetManager = AM;
 
     var map = new Map(gameEngine, canvas.width / 32, canvas.height / 32, 32);
+	var startMenu = new StartMenu(gameEngine, ctx);
     var hud = new HudElement(gameEngine, ctx,
                              AM.getAsset("./img/hud_gray_50.png"), 
                              HUD_HEALTH_BACKDROP_WIDTH, HUD_HEALTH_BACKDROP_HEIGHT, 
@@ -59,6 +60,7 @@ AM.downloadAll(function () {
     //init player
     initializePlayerListeners(marine, gameEngine, canvas);
 
+	
     gameEngine.addMap(map);
     gameEngine.addPlayer(marine);
     gameEngine.addHUD(hud);
@@ -66,22 +68,12 @@ AM.downloadAll(function () {
     gameEngine.addEnemy(zergling);
     gameEngine.addEnemy(devourer);
 	
-	//start game when canvas is clicked
-	startMenu.addEventListener("mousedown", function (e) {
-		if (!gameEngine.hasStarted) {
-			startMenu.style.display = "none";
-			canvas.style.display = "block";
-			canvas.focus();
-			
-			var evt = document.createEvent("MouseEvents");
-			evt.initMouseEvent("mousedown", true, true);
-			
-			canvas.dispatchEvent(new MouseEvent("mousedown"));
-			canvas.focus();
-			gameEngine.hasStarted = true;	
-			gameEngine.start();
-		}
-	},  false);
+    gameEngine.addStartMenu(startMenu);
+	if (!gameEngine.hasStarted) {
+		gameEngine.hasStarted = true;	
+		gameEngine.paused = true;
+		gameEngine.start();
+	}
     console.log("All Done!");
 });
 

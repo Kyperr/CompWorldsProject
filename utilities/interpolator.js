@@ -42,7 +42,6 @@ function interpolate(entity, targetAngle, interpSpeed, tolerance) {//interpSpeed
         newAngle = srcAngle -= interpSpeed;
     } else if (srcAngle - targetAngle < 0) {
         newAngle = srcAngle += interpSpeed;
-        console.log(newAngle);
     } else {
         throw new Error("This should have never been reached.");
         return false;

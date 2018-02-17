@@ -3,7 +3,7 @@ function Shape(x, y) {
 	this.y = y;
 }
 
-Shape.prototype = Shape();
+Shape.prototype = new Shape();
 Shape.prototype.constructor = Shape;
 
 Shape.prototype.doesCollide = function(otherShape) {
@@ -43,7 +43,7 @@ Shape.prototype.doesCircleBoxCollide = function (shape, otherShape) {
 	}
 }
 
-Shape.prototype.helperCircleBoxCollide = function (circle, box) 
+Shape.prototype.helperCircleBoxCollide = function (circle, box) {
 	//do circle box collision detection here
 	var collision = false;
 	var b = {x: box.x - circle.radius, y: box.y - circle.radius, w: box.width + 2 * (circle.radius), h: box.height + 2 * (circle.radius)};

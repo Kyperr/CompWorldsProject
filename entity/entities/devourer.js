@@ -1,9 +1,5 @@
 
-function Devourer(game, spritesheet) {
-	
-	//get random x and y coordinates that are > 0 and < the canvas x and y
-	var x = Math.floor(Math.random() * game.surfaceWidth);
-	var y = Math.floor(Math.random() * game.surfaceHeight);
+function Devourer(x, y, game, spritesheet) {
 	
     //Super init
     var physics = new Physics(this, x, y, DEV_FRAME_DIM, DEV_FRAME_DIM, SCALE, true);

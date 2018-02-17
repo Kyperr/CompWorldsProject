@@ -14,12 +14,14 @@ function GameEngine() {
     this.map = null;
     this.player = null;
     this.camera = null;
-	this.hasStarted =  false;
+	this.running =  false;
 	this.paused = true;
     this.hud = null;
 	this.startMenu = null;
     this.enemies = [];
     this.bullets = [];
+	this.enemiesKilled = 0;
+	this.spawnBoss = false;
 
     this.ctx = null;
     this.surfaceWidth = null;
@@ -93,10 +95,10 @@ GameEngine.prototype.draw = function () {
     this.hud.draw();
 	
 	//draw start menu if the game hasn't started
-	//if (!this.hasStarted) {
+	if (!this.running) {
 		this.paused = true;
 		this.startMenu.draw();
-	//}
+	}
 
     this.ctx.restore();
 }
@@ -115,6 +117,11 @@ GameEngine.prototype.update = function () {
         if (typeof enemy != 'undefined') {
             if (enemy.removeFromWorld) {
                 this.enemies.splice(i, 1);
+				enemiesKilled++;
+				if (enemiesKilled === TOTAL_ENEMIES) {
+					//spawn devourer
+					spawnBoss = true;
+				}
             } else {
                 enemy.update();
             }

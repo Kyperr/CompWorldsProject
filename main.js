@@ -50,13 +50,7 @@ AM.downloadAll(function () {
 
     var marine = new Marine(gameEngine, AM.getAsset("./img/blue_marine.png"));
     marine.init(gameEngine);
-    var hydralisk = new Hydralisk(gameEngine, AM.getAsset("./img/red_hydralisk.png"));
-    hydralisk.init(gameEngine);
-    var zergling = new Zergling(gameEngine, AM.getAsset("./img/red_zergling.png"));
-    zergling.init(gameEngine);
-    var devourer = new Devourer(gameEngine, AM.getAsset("./img/red_devourer.png"));
-    devourer.init(gameEngine);
-
+	
     //init player
     initializePlayerListeners(marine, gameEngine, canvas);
 
@@ -64,13 +58,46 @@ AM.downloadAll(function () {
     gameEngine.addMap(map);
     gameEngine.addPlayer(marine);
     gameEngine.addHUD(hud);
-    gameEngine.addEnemy(hydralisk);
-    gameEngine.addEnemy(zergling);
-    gameEngine.addEnemy(devourer);
+	
+	//generate enemies
+	var mapDim = gameEngine.map.size();
+	
+	var x;
+    var y;
+	var hydralisk; 
+	var zergling;
+	var i = 0;
+	
+	while (i < ZERGLINGS) {
+		x = Math.floor(Math.random() * mapDim[0]);
+		y = Math.floor(Math.random() * mapDim[1]);
+		zergling = new Zergling(x, y, gameEngine, AM.getAsset("./img/red_zergling.png"));
+		zergling.init(gameEngine);
+		gameEngine.addEnemy(zergling);
+		i++;
+	} 
+	
+	i = 0;
+	while (i < HYDRALISKS) {
+		x = Math.floor(Math.random() * mapDim[0]);
+		y = Math.floor(Math.random() * mapDim[1]);
+		hydralisk = new Hydralisk(x, y, gameEngine, AM.getAsset("./img/red_hydralisk.png"));
+		hydralisk.init(gameEngine);
+		gameEngine.addEnemy(hydralisk);
+		i++;
+	}
+	
+	//if game.spawnBoss === true spawn Devourer
+	/*
+	x = Math.floor(Math.random() * mapDim[0]);
+	y = Math.floor(Math.random() * mapDim[1]);
+	var devourer = new Devourer(x, y, gameEngine, AM.getAsset("./img/red_devourer.png"));
+    devourer.init(gameEngine);
+    gameEngine.addEnemy(devourer);*/
 	
     gameEngine.addStartMenu(startMenu);
-	if (!gameEngine.hasStarted) {
-		gameEngine.hasStarted = true;	
+	if (!gameEngine.running) {
+		gameEngine.running = true;	
 		gameEngine.paused = true;
 		gameEngine.start();
 	}

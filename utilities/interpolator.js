@@ -35,17 +35,15 @@ function interpolate(entity, targetAngle, interpSpeed, tolerance) {//interpSpeed
         return true;
     }
 
-    var angleDelta = Math.abs(srcAngle - targetAngle);
+    var angleDelta = (srcAngle - targetAngle);
     var newAngle;
-    
-    if (srcAngle - targetAngle > 0) {
+     
+
+    if ((angleDelta > 0 && angleDelta < Math.PI) || angleDelta < -Math.PI) {
         newAngle = srcAngle -= interpSpeed;
-    } else if (srcAngle - targetAngle < 0) {
+    } else {
         newAngle = srcAngle += interpSpeed;
         console.log(newAngle);
-    } else {
-        throw new Error("This should have never been reached.");
-        return false;
     }
     
     physics.directionX = Math.cos(newAngle);

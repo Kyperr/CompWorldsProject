@@ -14,7 +14,12 @@ Camera.prototype.constructor = Camera;
 
 Camera.prototype.update = function () {
     this.calcPosition();
+    this.game.ctx.save();
     this.game.ctx.translate(-this.x, -this.y);
+
+    this.drawView();
+
+    this.game.ctx.restore();
 }
 
 Camera.prototype.calcPosition = function(){
@@ -27,30 +32,26 @@ Camera.prototype.calcPosition = function(){
 
     this.x = targetMidX - (width / 2);
     this.y = targetMidY - (height / 2);
-    
-
 }
 
 Camera.prototype.drawView = function () {
+
     var game = this.game;
 
+    game.ctx.clearRect(0, 0, game.surfaceWidth, game.surfaceHeight);
+
     // Draw map
-
-    var mapX = game.map.x - this.x;
-    var mapY = game.map.y - this.y;
-
     game.map.draw(this.ctx);
 
     // Draw player
-    this.player.draw(this.ctx);
+    game.player.draw(this.ctx);
 
     // Draw enemies
-    for (var i = 0; i < this.enemies.length; i++) {
-        this.enemies[i].draw(this.ctx);
+    for (var i = 0; i < game.enemies.length; i++) {
+        game.enemies[i].draw(this.ctx);
     }
     // Draw bullets
-    for (var i = 0; i < this.bullets.length; i++) {
-        this.bullets[i].draw(this.ctx);
+    for (var i = 0; i < game.bullets.length; i++) {
+        game.bullets[i].draw(this.ctx);
     }
-
 }

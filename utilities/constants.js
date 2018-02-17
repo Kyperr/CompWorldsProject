@@ -1,5 +1,10 @@
 //***Constants
 
+/*
+ * Flags for debugging
+ */
+const DRAW_HITBOXES = false;
+
 /**
   * Common constants.
  */
@@ -24,6 +29,25 @@ const PAUSED_MENU = "paused";
 const DEAD_MENU = "dead";
 const WIN_MENU = "won";
 
+/*
+ * Constants for wall collision.
+ */
+const WALL_W_HITBOX_X = 0;
+const WALL_W_HITBOX_Y = 0;
+const WALL_W_HITBOX_W = 227;
+const WALL_W_HITBOX_H = 1600;
+const WALL_N_HITBOX_X = 0;
+const WALL_N_HITBOX_Y = 0;
+const WALL_N_HITBOX_W = 1600;
+const WALL_N_HITBOX_H = 259;
+const WALL_E_HITBOX_X = 1370;
+const WALL_E_HITBOX_Y = 0;
+const WALL_E_HITBOX_W = 230;
+const WALL_E_HITBOX_H = 1600;
+const WALL_S_HITBOX_X = 0;
+const WALL_S_HITBOX_Y = 1410;
+const WALL_S_HITBOX_W = 1600;
+const WALL_S_HITBOX_H = 190;
 
 /**
   * Constants for Marine class

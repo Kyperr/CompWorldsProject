@@ -77,7 +77,6 @@ AM.downloadAll(function () {
 	y = Math.floor(Math.random() * mapDim[1]);
 	var devourer = new Devourer(x, y, gameEngine, AM.getAsset("./img/red_devourer.png"));
     devourer.init(gameEngine);
->>>>>>> dd938a589005a2d4e2264b6d1c74ada16282744a
     gameEngine.addEnemy(devourer);
 
     gameEngine.camera = new Camera(gameEngine);

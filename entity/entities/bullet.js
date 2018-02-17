@@ -67,9 +67,11 @@ Bullet.prototype.update = function () {
         } else {
             player = bullet.game.player;
             player.hitshapes.forEach(function (theirShape) {
+                console.log(theirShape);
+                console.log("mS.dC(tS) = " + myShape.doesCollide(theirShape));
+                console.log("ts.dC(mS) = " + theirShape.doesCollide(myShape));
                 if (myShape.doesCollide(theirShape)) {
                     player.stats.hp--;
-                    bullet.removeFromWorld = true;
                 }
             });
         }

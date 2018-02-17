@@ -12,16 +12,16 @@ Shape.prototype.constructor = Shape;
 
 Shape.prototype.doesCollide = function(otherShape) {
 	var collides = false;
-	if (otherShape instanceof Circle && this.shape instanceof Circle) {
+	if (otherShape instanceof Circle && this instanceof Circle) {
 		//circle circle collision
-		collides = doesCircleCircleCollide(this.shape, otherShape);
-	} else if ((otherShape instanceof Circle && this.shape instanceof Box) 
-				|| (otherShape instanceof Box && this.shape instanceof Circle)) {
+		collides = this.doesCircleCircleCollide(this, otherShape);
+	} else if ((otherShape instanceof Circle && this instanceof Box) 
+				|| (otherShape instanceof Box && this instanceof Circle)) {
 		//circle box collision
-		collides = doesCircleBoxCollide(this.shape, otherShape);
-	} else if (otherShape instanceof Box && this.shape instanceof Box) {
+		collides = this.doesCircleBoxCollide(this, otherShape);
+	} else if (otherShape instanceof Box && this instanceof Box) {
 		//box box collision
-		collides = doesBoxBoxCollide(this.shape, otherShape);
+		collides = this.doesBoxBoxCollide(this, otherShape);
 	}
 	
 	return collides;
@@ -40,41 +40,41 @@ Shape.prototype.doesCircleCircleCollide = function (shape, otherShape) {
 Shape.prototype.doesCircleBoxCollide = function (shape, otherShape) {
 	if (shape instanceof Circle) {
 		//shape is circle, otherShape is box
-		return helperCircleBoxCollide(shape, otherShape);
+		return this.helperCircleBoxCollide(shape, otherShape);
 	} else {
 		//shape is box, otherShape is circle
-		return helperCircleboxCollide(otherShape, shape);
+		return this.helperCircleBoxCollide(otherShape, shape);
 	}
 }
 
 Shape.prototype.helperCircleBoxCollide = function (circle, box) {
 	//do circle box collision detection here
 	var collision = false;
-	var b = {x: box.x - circle.r, y: box.y - circle.r, w: box.width + 2 * (circle.r), h: box.height + 2 * (circle.r)};
+	var b = {x: box.x - circle.r, y: box.y - circle.r, w: box.w + 2 * (circle.r), h: box.h + 2 * (circle.r)};
 	if (circle.x > b.x && circle.x < (b.x + b.w)
 		&& circle.y > b.y && circle.y < (b.y + b.h)) {
 		
 		//circle center is within the (box+circle r box) so check new box corners
 		var left = box.x; 
-		var right = box.x + box.width;
+		var right = box.x + box.w;
 		var up = box.y;
-		var down = box.y + box.height;
+		var down = box.y + box.h;
 		if ((circle.x < left || circle.x > right) 
 			&& (circle.y > up || circle.y < down)) {
 			//check shaded box corners because circle if withing outer box and within r of box corner
 			//new circle with xy as box xy r = 0 
 			//circle circle collision with circle and new circle		
 			var pointCircle = {x: box.x, y: box.y, r: 0};			//top left corner of box
-			collision |= doesCircleCircleCollide(circle, pointCircle);
+			collision |= this.doesCircleCircleCollide(circle, pointCircle);
 			
 			pointCircle = {x: box.x, y: box.y + box.height, r: 0};	//bottom left corner of box
-			collision |= doesCircleCircleCollide(circle, pointCircle);
+			collision |= this.doesCircleCircleCollide(circle, pointCircle);
 			
 			pointCircle = {x: box.x + box.width, y: box.y, r: 0};	//top right corner of box
-			collision |= doesCircleCircleCollide(circle, pointCircle);
+			collision |= this.doesCircleCircleCollide(circle, pointCircle);
 			
 			pointCircle = {x: box.x + box.width, y: box.y + box.height, r: 0};	//bottom right corner of box
-			collision |= doesCircleCircleCollide(circle, pointCircle);
+			collision |= this.doesCircleCircleCollide(circle, pointCircle);
 		} else { 	//not in corner, but colliding
 			collision = true;
 		}
@@ -83,9 +83,9 @@ Shape.prototype.helperCircleBoxCollide = function (circle, box) {
 }
 
 Shape.prototype.doesBoxBoxCollide = function (shape, otherShape) {
-	if(shape.x < (otherShape.x + otherShape.width) 
-		&& otherShape.x < (shape.x + shape.width) 
-		&& shape.y < (otherShape.y + otherShape.height) 
+	if(shape.x < (otherShape.x + otherShape.w) 
+		&& otherShape.x < (shape.x + shape.w)  
+		&& shape.y < (otherShape.y + otherShape.h) 
 		&& otherShape.y < (shape.height + shape.y) ) {
 			return true;
 	}

@@ -116,7 +116,6 @@ GameEngine.prototype.update = function () {
             if (enemy.removeFromWorld) {
                 this.enemies.splice(i, 1);
             } else {
-                console.log(enemy.constructor.name);
                 enemy.update();
             }
         }

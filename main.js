@@ -48,8 +48,8 @@ AM.downloadAll(function () {
     gameEngine.addMap(map);
     gameEngine.addPlayer(marine);
     gameEngine.addHUD(hud);
-    gameEngine.addEnemy(hydralisk);
-    gameEngine.addEnemy(zergling);
+//    gameEngine.addEnemy(hydralisk);
+//    gameEngine.addEnemy(zergling);
     gameEngine.addEnemy(devourer);
 
     gameEngine.camera = new Camera(gameEngine);

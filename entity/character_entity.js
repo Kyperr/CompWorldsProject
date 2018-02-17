@@ -19,6 +19,17 @@ CharacterEntity.prototype.update = function () {
     if (this.stats.hp <= 0) {
         this.removeFromWorld = true;
     }
+
+    var character = this;
+    character.hitshapes.forEach(function (characterShape) {
+        map = character.game.map;
+        map.hitshapes.forEach(function (wall) {
+            if (characterShape.doesCollide(wall)) {
+                character.physics.velocity = 0;
+            }
+        });
+    });
+
     PhysicalEntity.prototype.update.call(this);    
 }
 

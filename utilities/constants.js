@@ -4,6 +4,7 @@
  * Flags for debugging
  */
 const DRAW_HITBOXES = false;
+const ENABLE_CHEATS = false;
 
 /**
   * Common constants.

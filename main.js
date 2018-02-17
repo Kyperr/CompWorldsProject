@@ -84,14 +84,18 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
         }
 
         if (e.code === "Equal") {
-            if (marine.stats.hp != marine.stats.maxHP) {
-                marine.stats.hp++;
+            if (ENABLE_CHEATS) {
+                if (marine.stats.hp < marine.stats.maxHP) {
+                    marine.stats.hp++;
+                }
             }
         }
 
         if (e.code === "Minus") {
-            if (marine.stats.hp != 1) {
-                marine.stats.hp--;
+            if (ENABLE_CHEATS) {
+                if (marine.stats.hp > 0) {
+                    marine.stats.hp--;
+                }
             }
         }
 

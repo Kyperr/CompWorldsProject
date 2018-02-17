@@ -12,9 +12,9 @@ const FLYING_ACTION = "flying";
 const NO_ACTION = "";
 
 const SCALE = 1.5;
-const TOTAL_ENEMIES = 15;	//number of enemies to kill before devourer spawns
-const HYDRALISKS = TOTAL_ENEMIES/3;
-const ZERGLINGS = (2*TOTAL_ENEMIES)/3;
+const TOTAL_ENEMIES = 1;	//number of enemies to kill before devourer spawns
+const HYDRALISKS = TOTAL_ENEMIES/1;
+const ZERGLINGS = (2*TOTAL_ENEMIES)/2;
 
 /**
   * Constants for Menu types

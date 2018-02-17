@@ -72,12 +72,12 @@ AM.downloadAll(function () {
 	}
 	
 	//if game.spawnBoss === true spawn Devourer
-	/*
+	
 	x = Math.floor(Math.random() * mapDim[0]);
 	y = Math.floor(Math.random() * mapDim[1]);
 	var devourer = new Devourer(x, y, gameEngine, AM.getAsset("./img/red_devourer.png"));
     devourer.init(gameEngine);
-    gameEngine.addEnemy(devourer);*/
+    gameEngine.addEnemy(devourer);
 
     gameEngine.camera = new Camera(gameEngine);
 	

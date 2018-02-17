@@ -6,7 +6,15 @@
         body {
             background-color: grey;
         }
-
+		
+		p {
+			width: 900px;
+			height: 100px;
+			margin: 0px auto;
+			font-size: 18pt;
+			pointer-events : none;
+		}
+		
         canvas {
             position: absolute;
             left: 50%;
@@ -46,6 +54,7 @@
 
     <script type="text/javascript" src="./map/map.js"></script>
     <script type="text/javascript" src="./animation.js"></script>
+	
 </head>
 <body>
     <canvas id="gameWorld" tabindex="1" width="800" height="600"></canvas>

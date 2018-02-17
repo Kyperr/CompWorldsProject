@@ -43,7 +43,7 @@ Shape.prototype.doesCircleBoxCollide = function (shape, otherShape) {
 		return this.helperCircleBoxCollide(shape, otherShape);
 	} else {
 		//shape is box, otherShape is circle
-		return this.helperCircleboxCollide(otherShape, shape);
+		return this.helperCircleBoxCollide(otherShape, shape);
 	}
 }
 

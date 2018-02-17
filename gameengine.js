@@ -129,7 +129,11 @@ GameEngine.prototype.createBoss = function () {
 
 GameEngine.prototype.update = function () {
     // Update player
-    this.player.update();
+    if (this.player.removeFromWorld) {
+
+    } else {
+        this.player.update();
+    }
 
     this.hud.update();
 
@@ -142,11 +146,14 @@ GameEngine.prototype.update = function () {
     for (var i = 0; i < enemyCount; i++) {
         var enemy = this.enemies[i];
         
-        if (typeof enemy != 'undefined') {
+        if (typeof enemy !== 'undefined') {
             if (enemy.removeFromWorld) {
                 this.enemies.splice(i, 1);
 				this.enemiesKilled++;
-				
+				if (this.enemiesKilled === TOTAL_ENEMIES) {
+					//spawn devourer
+					spawnBoss = true;
+				}
             } else {
                 enemy.update();
             }
@@ -158,7 +165,7 @@ GameEngine.prototype.update = function () {
     for (var i = 0; i < bulletCount; i++) {
         var bullet = this.bullets[i];
 
-        if (typeof bullet != 'undefined') {
+        if (typeof bullet !== 'undefined') {
             if (bullet.removeFromWorld) {
                 this.bullets.splice(i, 1);
             } else {

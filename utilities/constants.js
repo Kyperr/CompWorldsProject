@@ -1,5 +1,10 @@
 //***Constants
 
+/*
+ * Flags for debugging
+ */
+const DRAW_HITBOXES = false;
+
 /**
   * Common constants.
  */
@@ -24,6 +29,25 @@ const PAUSED_MENU = "paused";
 const DEAD_MENU = "dead";
 const WIN_MENU = "won";
 
+/*
+ * Constants for wall collision.
+ */
+const WALL_W_HITBOX_X = 0;
+const WALL_W_HITBOX_Y = 0;
+const WALL_W_HITBOX_W = 227;
+const WALL_W_HITBOX_H = 1600;
+const WALL_N_HITBOX_X = 0;
+const WALL_N_HITBOX_Y = 0;
+const WALL_N_HITBOX_W = 1600;
+const WALL_N_HITBOX_H = 259;
+const WALL_E_HITBOX_X = 1370;
+const WALL_E_HITBOX_Y = 0;
+const WALL_E_HITBOX_W = 230;
+const WALL_E_HITBOX_H = 1600;
+const WALL_S_HITBOX_X = 0;
+const WALL_S_HITBOX_Y = 1410;
+const WALL_S_HITBOX_W = 1600;
+const WALL_S_HITBOX_H = 190;
 
 /**
   * Constants for Marine class
@@ -101,8 +125,13 @@ const ZER_HITBOX_H = 24;
  */
 const DEV_VIEW_DISTANCE = 1000;
 const DEV_ATTACK_DISTANCE = 350;
+<<<<<<< HEAD
+const DEV_MOVE_SPEED = 75;
+const DEV_ATTACKS_PER_SECOND = 0.5;
+=======
 const DEV_MOVE_SPEED = 100;
 const DEV_ATTACKS_PER_SECOND = 3;
+>>>>>>> 24aec0b0f5e576738ef41dc8a361d3a1a707bca2
 const DEV_PAUSE_AFTER_ATTACK = 400; //milliseconds
 const DEV_FRAME_DIM = 96;
 const DEV_SCALE = 1;

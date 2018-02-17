@@ -2,22 +2,6 @@ var AM = new AssetManager();
 
 //Initialize the game engine
 
-function Background(game, spritesheet) {
-    this.x = 0;
-    this.y = 0;
-    this.spritesheet = spritesheet;
-    this.game = game;
-    this.ctx = game.ctx;
-};
-
-Background.prototype.draw = function () {
-    this.ctx.drawImage(this.spritesheet,
-        this.x, this.y);
-};
-
-Background.prototype.update = function () {
-};
-
 AM.queueDownload("./img/blue_marine.png");
 AM.queueDownload("./img/red_hydralisk.png");
 AM.queueDownload("./img/red_zergling.png");
@@ -28,6 +12,7 @@ AM.queueDownload("./img/bricks.png");
 AM.queueDownload("./img/mud_tiles.png");
 AM.queueDownload("./img/hud_gray_50.png");
 AM.queueDownload("./img/wireframe.png");
+AM.queueDownload("./img/dirt_tileset.png");
 
 AM.downloadAll(function () {
     var canvas = document.getElementById("gameWorld");
@@ -38,8 +23,7 @@ AM.downloadAll(function () {
 
     gameEngine.init(ctx);
     gameEngine.assetManager = AM;
-
-    var map = new Map(gameEngine, canvas.width / 32, canvas.height / 32, 32);
+    var map = new Map(gameEngine, 25, 25, 32);
 	var startMenu = new StartMenu(gameEngine, ctx);
     var hud = new HudElement(gameEngine, ctx,
                              AM.getAsset("./img/hud_gray_50.png"), 
@@ -67,6 +51,8 @@ AM.downloadAll(function () {
     gameEngine.addEnemy(hydralisk);
     gameEngine.addEnemy(zergling);
     gameEngine.addEnemy(devourer);
+
+    gameEngine.camera = new Camera(gameEngine);
 	
     gameEngine.addStartMenu(startMenu);
 	if (!gameEngine.hasStarted) {
@@ -164,6 +150,7 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
     }, false);
 
     var aimAndShootFunc = function (e) {
+        var game = marine.game;
         var physics = marine.physics;
 
         physics.velocity = 0;
@@ -171,7 +158,10 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
         var srcX = physics.x + (physics.width / 2);
         var srcY = physics.y + (physics.height / 2);
 
-        var angle = calculateAngleRadians(e.offsetX - (16), e.offsetY - (16), srcX, srcY);//The +16 magic number comes from the size of the bullets. It is 1/2 the height/width of a bullet. Can fix later. *2 is for scale.
+        var trgX = (e.offsetX - 16) + game.camera.x;
+        var trgY = (e.offsetY - 16) + game.camera.y;
+
+        var angle = calculateAngleRadians(trgX, trgY, srcX, srcY);//The 16 magic number comes from the size of the bullets. It is 1/2 the height/width of a bullet. Can fix later. *2 is for scale.
 
         physics.directionX = Math.cos(angle);
 

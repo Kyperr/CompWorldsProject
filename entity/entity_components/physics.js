@@ -52,12 +52,13 @@ Physics.prototype.updateLocation = function (delta) {
         var roundedDirY = Math.sin(angle);
 
         this.x += this.directionX * this.velocity * delta;
-
         this.y -= this.directionY * this.velocity * delta;
+
+
+
     }
 
-}
-
-Physics.prototype.reflect = function () {
-    return (this.calculateAngle() + 180) % 360;
+    Physics.prototype.reflect = function () {
+        return (this.calculateAngle() + 180) % 360;
+    }
 }

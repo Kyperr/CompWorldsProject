@@ -108,6 +108,7 @@ GameEngine.prototype.update = function () {
 					spawnBoss = true;
 				}
             } else {
+                console.log(enemy.constructor.name);
                 enemy.update();
             }
         }

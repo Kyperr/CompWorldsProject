@@ -7,9 +7,10 @@ function BotEntity(game, spritesheet, physics, ai, maxHealth) {
     this.ai = ai;
 }
 
-BotEntity.prototype = new CharacterEntity();
+BotEntity.prototype = Object.create(CharacterEntity.prototype);
 BotEntity.prototype.constructor = BotEntity;
 
 BotEntity.prototype.update = function () {
     this.ai.update();
+    CharacterEntity.prototype.update.call(this);
 }

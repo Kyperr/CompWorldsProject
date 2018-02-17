@@ -1,7 +1,7 @@
-function Circle(x, y, radius) {
+function Circle(x, y, radius, owner) {
 	/*Super init*/
-	Shape.call(x, y);
-	this.radius = radius;
+	Shape.call(this, x, y, owner);
+	this.r = radius;
 }
 
 Circle.prototype = new Shape();

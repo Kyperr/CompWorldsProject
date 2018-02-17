@@ -1,6 +1,6 @@
-function Box(x, y, width, height) {
+function Box(x, y, width, height, owner) {
 	/*Super init*/
-	Shape.call(x, y);
+	Shape.call(this, x, y, owner);
 	
 	this.w = width;
 	this.h = height;

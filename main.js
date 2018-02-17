@@ -13,6 +13,7 @@ AM.queueDownload("./img/mud_tiles.png");
 AM.queueDownload("./img/hud_gray_50.png");
 AM.queueDownload("./img/wireframe.png");
 AM.queueDownload("./img/dirt_tileset.png");
+AM.queueDownload("./img/map.png");
 
 AM.downloadAll(function () {
     var canvas = document.getElementById("gameWorld");
@@ -23,7 +24,7 @@ AM.downloadAll(function () {
 
     gameEngine.init(ctx);
     gameEngine.assetManager = AM;
-    var map = new Map(gameEngine, 25, 25, 32);
+    var map = new Map(gameEngine, 4096, 4096);
 	var startMenu = new StartMenu(gameEngine, ctx);
     var hud = new HudElement(gameEngine, ctx,
                              AM.getAsset("./img/hud_gray_50.png"), 

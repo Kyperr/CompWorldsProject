@@ -16,25 +16,35 @@ AM.queueDownload("./img/dirt_tileset.png");
 
 AM.downloadAll(function () {
     var canvas = document.getElementById("gameWorld");
-	canvas.style.display = "none";
-    var startMenu = document.getElementById("startMenu");
+	//canvas.style.display = "none";
+    //var startMenu = document.getElementById("startMenu");
     var ctx = canvas.getContext("2d");
     var gameEngine = new GameEngine();
 
     gameEngine.init(ctx);
     gameEngine.assetManager = AM;
     var map = new Map(gameEngine, 25, 25, 32);
+	var startMenu = new StartMenu(gameEngine, ctx);
     var hud = new HudElement(gameEngine, ctx,
-                             AM.getAsset("./img/hud_gray_50.png"), 240, 333, 109, 191,
-                             AM.getAsset("./img/wireframe.png"), 64, 64);
+                             AM.getAsset("./img/hud_gray_50.png"), 
+                             HUD_HEALTH_BACKDROP_WIDTH, HUD_HEALTH_BACKDROP_HEIGHT, 
+                             HUD_HEALTH_BACKDROP_CENTER_X, HUD_HEALTH_BACKDROP_CENTER_Y,
+                             AM.getAsset("./img/wireframe.png"),
+                             HUD_HEALTH_DISPLAY_WIDTH, HUD_HEALTH_DISPLAY_HEIGHT);
+
     var marine = new Marine(gameEngine, AM.getAsset("./img/blue_marine.png"));
+    marine.init(gameEngine);
     var hydralisk = new Hydralisk(gameEngine, AM.getAsset("./img/red_hydralisk.png"));
+    hydralisk.init(gameEngine);
     var zergling = new Zergling(gameEngine, AM.getAsset("./img/red_zergling.png"));
+    zergling.init(gameEngine);
     var devourer = new Devourer(gameEngine, AM.getAsset("./img/red_devourer.png"));
+    devourer.init(gameEngine);
 
     //init player
     initializePlayerListeners(marine, gameEngine, canvas);
 
+	
     gameEngine.addMap(map);
     gameEngine.addPlayer(marine);
     gameEngine.addHUD(hud);
@@ -44,22 +54,12 @@ AM.downloadAll(function () {
 
     gameEngine.camera = new Camera(gameEngine);
 	
-	//start game when canvas is clicked
-	startMenu.addEventListener("mousedown", function (e) {
-		if (!gameEngine.hasStarted) {
-			startMenu.style.display = "none";
-			canvas.style.display = "block";
-			canvas.focus();
-			
-			var evt = document.createEvent("MouseEvents");
-			evt.initMouseEvent("mousedown", true, true);
-			
-			canvas.dispatchEvent(new MouseEvent("mousedown"));
-			canvas.focus();
-			gameEngine.hasStarted = true;	
-			gameEngine.start();
-		}
-	},  false);
+    gameEngine.addStartMenu(startMenu);
+	if (!gameEngine.hasStarted) {
+		gameEngine.hasStarted = true;	
+		gameEngine.paused = true;
+		gameEngine.start();
+	}
     console.log("All Done!");
 });
 
@@ -88,19 +88,15 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
         }
 
         if (e.code === "Equal") {
-            marine.health++;
-            if (marine.health > marine.maxHealth) {
-                marine.health = marine.maxHealth;
+            if (marine.stats.hp != marine.stats.maxHP) {
+                marine.stats.hp++;
             }
-            console.log("HP UP");
         }
 
         if (e.code === "Minus") {
-            marine.health--;
-            if (marine.health < 1) {
-                marine.health = 1;
+            if (marine.stats.hp != 1) {
+                marine.stats.hp--;
             }
-            console.log("HP DOWN");
         }
 
         if (!marine.isShooting) {

@@ -115,6 +115,7 @@ BasicEnemyAI.prototype.attack = function (delta) {
         var bullet = new Bullet(this.entity.game,
             this.entity.game.assetManager.getAsset("./img/enemy_bullet.png"),
             this.entity, true, Math.cos(angle), Math.sin(angle));
+        bullet.init(this.entity.game);
 
         /*
 

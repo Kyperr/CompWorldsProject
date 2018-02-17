@@ -7,7 +7,7 @@ function Bullet(game, spritesheet, creator, fromPlayer, directionX, directionY) 
     physics.directionY = directionY;
     physics.velocity = BUL_MOVE_SPEED;
     
-    PhysicalEntity.call(this, game, game.ctx, spritesheet, physics);
+    PhysicalEntity.call(this, game, spritesheet, physics);
     
     /*Sub init*/
     this.isPlayerBullet = fromPlayer;
@@ -23,7 +23,6 @@ function Bullet(game, spritesheet, creator, fromPlayer, directionX, directionY) 
 
     this.physics.x = spawnX;
     this.physics.y = spawnY;
-    
 }
 
 Bullet.prototype = new PhysicalEntity();

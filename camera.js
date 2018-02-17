@@ -14,12 +14,6 @@ Camera.prototype.constructor = Camera;
 
 Camera.prototype.update = function () {
     this.calcPosition();
-    this.game.ctx.save();
-    this.game.ctx.translate(-this.x, -this.y);
-
-    this.drawView();
-
-    this.game.ctx.restore();
 }
 
 Camera.prototype.calcPosition = function(){
@@ -38,8 +32,10 @@ Camera.prototype.drawView = function () {
 
     var game = this.game;
 
-    game.ctx.clearRect(0, 0, game.surfaceWidth, game.surfaceHeight);
+    game.ctx.save();
 
+    game.ctx.translate(-this.x, -this.y);
+    
     // Draw map
     game.map.draw(this.ctx);
 
@@ -54,4 +50,6 @@ Camera.prototype.drawView = function () {
     for (var i = 0; i < game.bullets.length; i++) {
         game.bullets[i].draw(this.ctx);
     }
+
+    this.game.ctx.restore();
 }

@@ -1,6 +1,4 @@
-
 function Zergling(game, spritesheet) {
-	
 	//get random x and y coordinates that are > 0 and < the canvas x and y
 	var x = Math.floor(Math.random() * game.surfaceWidth);
 	var y = Math.floor(Math.random() * game.surfaceHeight);
@@ -8,11 +6,10 @@ function Zergling(game, spritesheet) {
     //Super init
     var physics = new Physics(this, x, y, ZER_FRAME_DIM, ZER_FRAME_DIM, SCALE, true);
 
-    PhysicalEntity.call(this, game, game.ctx, spritesheet, physics);
-
     //Sub init                  entity, viewDistance, attackDistance, attacksPerSecond, movementSpeed
-    this.ai = new BasicEnemyAI(this, ZER_VIEW_DISTANCE, ZER_ATTACK_DISTANCE, ZER_ATTACKS_PER_SECOND, ZER_MOVE_SPEED);
+    var ai = new BasicEnemyAI(this, ZER_VIEW_DISTANCE, ZER_ATTACK_DISTANCE, ZER_ATTACKS_PER_SECOND, ZER_MOVE_SPEED);
     
+    BotEntity.call(this, game, spritesheet, physics, ai, ZER_MAX_HP);
 }
 
 Zergling.prototype = new BotEntity();

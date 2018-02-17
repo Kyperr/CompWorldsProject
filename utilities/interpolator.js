@@ -43,7 +43,6 @@ function interpolate(entity, targetAngle, interpSpeed, tolerance) {//interpSpeed
         newAngle = srcAngle -= interpSpeed;
     } else {
         newAngle = srcAngle += interpSpeed;
-        console.log(newAngle);
     }
     
     physics.directionX = Math.cos(newAngle);

@@ -1,11 +1,10 @@
 
-function PhysicalEntity(game, ctx, spritesheet, physics) {
-
+function PhysicalEntity(game, spritesheet, physics) {
     /*Super init*/
     Entity.call(this, game);
 
     /*Sub init*/
-    this.ctx = ctx;
+    this.ctx = null;
     this.physics = physics;
 
     this.animation = this.createAnimation(spritesheet);
@@ -14,6 +13,9 @@ function PhysicalEntity(game, ctx, spritesheet, physics) {
 PhysicalEntity.prototype = new Entity();
 PhysicalEntity.prototype.constructor = PhysicalEntity;
 
+PhysicalEntity.prototype.init = function (game) {
+    this.ctx = game.ctx;
+}
 
 /*This must return an animation object. Creation of animations is rather cumbersome, so it is made into its own function.*/
 PhysicalEntity.prototype.createAnimation = function (spritesheet) {

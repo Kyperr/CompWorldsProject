@@ -23,6 +23,8 @@ function Bullet(game, spritesheet, creator, fromPlayer, directionX, directionY) 
 
     this.physics.x = spawnX;
     this.physics.y = spawnY;
+
+    this.hitshapes.push(new Box(BUL_HITBOX_X, BUL_HITCIRCLE_Y, BUL_HITCIRCLE_R));
 }
 
 Bullet.prototype = new PhysicalEntity();
@@ -50,30 +52,23 @@ Bullet.prototype.update = function () {
     var delta = this.game.clockTick;
     this.debug_timeExist += delta;
 
-    // length of hypotenuse
-    //var hypotenusePixels = delta * speed;
-
-    // cos(theta) = adjacent / hypotenuse
-    //var cosTheta = Math.cos(degreesToRadians(this.trueAngle));
-    //var horizontalPixels = hypotenusePixels * cosTheta;
-
-    // sin(theta) = opposite / hypotenuse
-    //var sinTheta = Math.sin(degreesToRadians(this.trueAngle));
-    //var verticalPixels = hypotenusePixels * sinTheta;
-
-    //this.x += horizontalPixels;
-    //this.y -= verticalPixels;
-
     this.physics.updateLocation(delta);
-    
 
     // The following is temporary code so as not to lag the game with off-screen bullets.
     // Eventually this should be replaced with keeping track of distance the bullet has
     // travelled and deleting it after a certain distance.
     // If the bullet is offscreen, delete it.
-    if (this.debug_timeExist > 2) { 
+    if (this.debug_timeExist > 4) { 
 
         this.isAlive = false;
         this.removeFromWorld = true;
     }
+
+    this.hitshapes.forEach(function (myShape) {
+        if (this.isPlayerBullet) {
+            this.game.player.hitshapes.forEach(function (theirShape) {
+                console.log("TODO");
+            });
+        }
+    });
 }

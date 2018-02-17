@@ -5,11 +5,10 @@ function Zergling(game, spritesheet) {
 	
     //Super init
     var physics = new Physics(this, x, y, ZER_FRAME_DIM, ZER_FRAME_DIM, SCALE, true);
-
-    //Sub init                  entity, viewDistance, attackDistance, attacksPerSecond, movementSpeed
     var ai = new BasicEnemyAI(this, ZER_VIEW_DISTANCE, ZER_ATTACK_DISTANCE, ZER_ATTACKS_PER_SECOND, ZER_MOVE_SPEED);
-    
     BotEntity.call(this, game, spritesheet, physics, ai, ZER_MAX_HP);
+
+    this.hitshapes.push(new Box(ZER_HITBOX_X, ZER_HITBOX_Y, ZER_HITBOX_W, ZER_HITBOX_X));
 }
 
 Zergling.prototype = new BotEntity();

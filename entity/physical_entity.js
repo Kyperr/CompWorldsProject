@@ -7,6 +7,8 @@ function PhysicalEntity(game, spritesheet, physics) {
     this.ctx = null;
     this.physics = physics;
 
+    this.hitshapes = [];
+
     this.animation = this.createAnimation(spritesheet);
 }
 

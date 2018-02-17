@@ -9,6 +9,7 @@ function Marine(game, spritesheet) {
     this.isShooting = false;// Whether he's shooting
     this.timeSinceLastShot = 0;
     this.shotsPerSecond = MAR_SHOTS_PER_SECOND;
+    this.hitshapes.push(new Box(MAR_HITBOX_X, MAR_HITBOX_Y, MAR_HITBOX_W, MAR_HITBOX_H));
 }
 
 Marine.prototype = new CharacterEntity();

@@ -7,12 +7,11 @@ function Hydralisk(game, spritesheet) {
 	
     //Super init
     var physics = new Physics(this, x, y, HYD_FRAME_DIM, HYD_FRAME_DIM, SCALE, true);
-
-    //Sub init                  entity, viewDistance, attackDistance, attacksPerSecond, movementSpeed
     var ai = new BasicEnemyAI(this, HYD_VIEW_DISTANCE, HYD_ATTACK_DISTANCE, HYD_ATTACKS_PER_SECOND, HYD_MOVE_SPEED);
-
     BotEntity.call(this, game, spritesheet, physics, ai, HYD_MAX_HP);
-    
+
+    this.hitshapes.push(new Box(HYD_HITBOX_X, HYD_HITBOX_Y, HYD_HITBOX_W, HYD_HITBOX_H));
+
 }
 
 Hydralisk.prototype = new BotEntity();

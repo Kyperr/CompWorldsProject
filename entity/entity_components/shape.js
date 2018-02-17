@@ -67,6 +67,7 @@ Shape.prototype.helperCircleBoxCollide = function (circle, box) {
 			var pointCircle = {x: box.x, y: box.y, r: 0};			//top left corner of box
 			collision |= this.doesCircleCircleCollide(circle, pointCircle);
 			
+<<<<<<< HEAD
 			pointCircle = {x: box.x, y: box.y + box.height, r: 0};	//bottom left corner of box
 			collision |= this.doesCircleCircleCollide(circle, pointCircle);
 			
@@ -74,6 +75,15 @@ Shape.prototype.helperCircleBoxCollide = function (circle, box) {
 			collision |= this.doesCircleCircleCollide(circle, pointCircle);
 			
 			pointCircle = {x: box.x + box.width, y: box.y + box.height, r: 0};	//bottom right corner of box
+=======
+			pointCircle = {x: box.x, y: box.y + box.h, r: 0};	//bottom left corner of box
+			collision |= this.doesCircleCircleCollide(circle, pointCircle);
+			
+			pointCircle = {x: box.x + box.w, y: box.y, r: 0};	//top right corner of box
+			collision |= this.doesCircleCircleCollide(circle, pointCircle);
+			
+			pointCircle = {x: box.x + box.w, y: box.y + box.h, r: 0};	//bottom right corner of box
+>>>>>>> dd938a589005a2d4e2264b6d1c74ada16282744a
 			collision |= this.doesCircleCircleCollide(circle, pointCircle);
 		} else { 	//not in corner, but colliding
 			collision = true;
@@ -84,9 +94,15 @@ Shape.prototype.helperCircleBoxCollide = function (circle, box) {
 
 Shape.prototype.doesBoxBoxCollide = function (shape, otherShape) {
 	if(shape.x < (otherShape.x + otherShape.w) 
+<<<<<<< HEAD
 		&& otherShape.x < (shape.x + shape.w)  
 		&& shape.y < (otherShape.y + otherShape.h) 
 		&& otherShape.y < (shape.height + shape.y) ) {
+=======
+		&& otherShape.x < (shape.x + shape.w) 
+		&& shape.y < (otherShape.y + otherShape.h) 
+		&& otherShape.y < (shape.h + shape.y) ) {
+>>>>>>> dd938a589005a2d4e2264b6d1c74ada16282744a
 			return true;
 	}
 	return false;

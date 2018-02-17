@@ -1,7 +1,4 @@
-function Zergling(game, spritesheet) {
-	//get random x and y coordinates that are > 0 and < the canvas x and y
-	var x = Math.floor(Math.random() * game.surfaceWidth);
-	var y = Math.floor(Math.random() * game.surfaceHeight);
+function Zergling(x, y, game, spritesheet) {
 	
     //Super init
     var physics = new Physics(this, x, y, ZER_FRAME_DIM, ZER_FRAME_DIM, SCALE, true);

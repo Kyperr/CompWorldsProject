@@ -14,12 +14,14 @@ function GameEngine() {
     this.map = null;
     this.player = null;
     this.camera = null;
-	this.hasStarted =  false;
+	this.running =  false;
 	this.paused = true;
     this.hud = null;
 	this.startMenu = null;
     this.enemies = [];
     this.bullets = [];
+	this.enemiesKilled = 0;
+	this.spawnBoss = false;
 
     this.ctx = null;
     this.surfaceWidth = null;
@@ -73,30 +75,15 @@ GameEngine.prototype.addBullet = function (bullet) {
 GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.surfaceWidth, this.surfaceHeight);
     this.camera.drawView();
-    /*
-    // Draw map
-    this.map.draw(this.ctx);
-
-    // Draw player
-    this.player.draw(this.ctx);
-
-    // Draw enemies
-    for (var i = 0; i < this.enemies.length; i++) {
-        this.enemies[i].draw(this.ctx);
-    }
-    // Draw bullets
-    for (var i = 0; i < this.bullets.length; i++) {
-        this.bullets[i].draw(this.ctx);
-    }*/
-
+	
     // Draw HUD on top
     this.hud.draw();
 	
 	//draw start menu if the game hasn't started
-	//if (!this.hasStarted) {
+	if (!this.running) {
 		this.paused = true;
 		this.startMenu.draw();
-	//}
+	}
 
     this.ctx.restore();
 }
@@ -115,6 +102,11 @@ GameEngine.prototype.update = function () {
         if (typeof enemy != 'undefined') {
             if (enemy.removeFromWorld) {
                 this.enemies.splice(i, 1);
+				enemiesKilled++;
+				if (enemiesKilled === TOTAL_ENEMIES) {
+					//spawn devourer
+					spawnBoss = true;
+				}
             } else {
                 enemy.update();
             }

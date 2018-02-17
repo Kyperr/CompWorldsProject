@@ -99,8 +99,8 @@ BasicEnemyAI.prototype.attack = function (delta) {
 
     var srcX = physics.x + ((physics.width * physics.scale) / 2);
     var srcY = physics.y + ((physics.height * physics.scale) / 2);
-    var dstX = target.physics.x + (target.physics.width / 2);
-    var dstY = target.physics.y + (target.physics.height / 2);
+    var dstX = target.physics.x + (target.physics.width / 2) * SCALE;
+    var dstY = target.physics.y + (target.physics.height / 2) * SCALE;
 
     var angle = calculateAngleRadians(dstX, dstY, srcX, srcY);
 

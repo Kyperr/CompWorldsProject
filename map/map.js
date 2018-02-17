@@ -72,6 +72,13 @@ Map.prototype.draw = function () {
     this.ctx.drawImage(this.cachedImage, this.x, this.y);
 }
 
+Map.prototype.size = function() {
+	var tile = this.availableTiles["b1"];
+	var x = this.width * this.tileSize;// * tile.frameWidth;
+	var y = this.height * this.tileSize;// * tile.frameHeight;
+	return [x, y];
+}
+
 function Tile(assetSheet, frameWidth, frameHeight, frameX, frameY) {
     this.assetSheet = assetSheet;
     this.frameWidth = frameWidth;

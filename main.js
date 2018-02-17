@@ -16,31 +16,25 @@ AM.queueDownload("./img/dirt_tileset.png");
 
 AM.downloadAll(function () {
     var canvas = document.getElementById("gameWorld");
-	//canvas.style.display = "none";
-    //var startMenu = document.getElementById("startMenu");
     var ctx = canvas.getContext("2d");
     var gameEngine = new GameEngine();
 
     gameEngine.init(ctx);
     gameEngine.assetManager = AM;
     var map = new Map(gameEngine, 25, 25, 32);
-	var startMenu = new StartMenu(gameEngine, ctx);
+	var startMenu = new Menu(gameEngine, START_MENU);
     var hud = new HudElement(gameEngine, ctx,
                              AM.getAsset("./img/hud_gray_50.png"), 
                              HUD_HEALTH_BACKDROP_WIDTH, HUD_HEALTH_BACKDROP_HEIGHT, 
                              HUD_HEALTH_BACKDROP_CENTER_X, HUD_HEALTH_BACKDROP_CENTER_Y,
                              AM.getAsset("./img/wireframe.png"),
                              HUD_HEALTH_DISPLAY_WIDTH, HUD_HEALTH_DISPLAY_HEIGHT);
-
-    var marine = new Marine(gameEngine, AM.getAsset("./img/blue_marine.png"));
+							 
+	var marX = (gameEngine.surfaceWidth/2) - MAR_FRAME_DIM * SCALE;
+	var marY = (gameEngine.surfaceHeight/2) - MAR_FRAME_DIM * SCALE;							 
+    var marine = new Marine(marX, marY, gameEngine, AM.getAsset("./img/blue_marine.png"));
     marine.init(gameEngine);
-    var hydralisk = new Hydralisk(gameEngine, AM.getAsset("./img/red_hydralisk.png"));
-    hydralisk.init(gameEngine);
-    var zergling = new Zergling(gameEngine, AM.getAsset("./img/red_zergling.png"));
-    zergling.init(gameEngine);
-    var devourer = new Devourer(gameEngine, AM.getAsset("./img/red_devourer.png"));
-    devourer.init(gameEngine);
-
+	
     //init player
     initializePlayerListeners(marine, gameEngine, canvas);
 
@@ -48,15 +42,49 @@ AM.downloadAll(function () {
     gameEngine.addMap(map);
     gameEngine.addPlayer(marine);
     gameEngine.addHUD(hud);
-//    gameEngine.addEnemy(hydralisk);
-//    gameEngine.addEnemy(zergling);
+	
+	//generate enemies
+	var mapDim = gameEngine.map.size();
+	
+	var x;
+    var y;
+	var hydralisk; 
+	var zergling;
+	var i = 0;
+	
+	while (i < ZERGLINGS) {
+		x = Math.floor(Math.random() * mapDim[0]);
+		y = Math.floor(Math.random() * mapDim[1]);
+		zergling = new Zergling(x, y, gameEngine, AM.getAsset("./img/red_zergling.png"));
+		zergling.init(gameEngine);
+		gameEngine.addEnemy(zergling);
+		i++;
+	} 
+	
+	i = 0;
+	while (i < HYDRALISKS) {
+		x = Math.floor(Math.random() * mapDim[0]);
+		y = Math.floor(Math.random() * mapDim[1]);
+		hydralisk = new Hydralisk(x, y, gameEngine, AM.getAsset("./img/red_hydralisk.png"));
+		hydralisk.init(gameEngine);
+		gameEngine.addEnemy(hydralisk);
+		i++;
+	}
+	
+	//if game.spawnBoss === true spawn Devourer
+	
+	x = Math.floor(Math.random() * mapDim[0]);
+	y = Math.floor(Math.random() * mapDim[1]);
+	var devourer = new Devourer(x, y, gameEngine, AM.getAsset("./img/red_devourer.png"));
+    devourer.init(gameEngine);
+>>>>>>> dd938a589005a2d4e2264b6d1c74ada16282744a
     gameEngine.addEnemy(devourer);
 
     gameEngine.camera = new Camera(gameEngine);
 	
     gameEngine.addStartMenu(startMenu);
-	if (!gameEngine.hasStarted) {
-		gameEngine.hasStarted = true;	
+	if (!gameEngine.running) {
+		gameEngine.running = true;	
 		gameEngine.paused = true;
 		gameEngine.start();
 	}

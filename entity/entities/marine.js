@@ -1,7 +1,7 @@
 
-function Marine(game, spritesheet) {
+function Marine(x, y, game, spritesheet) {
     /*Super init*/
-    var physics = new Physics(this, 0, 0, MAR_FRAME_DIM, MAR_FRAME_DIM, SCALE, true);
+    var physics = new Physics(this, x, y, MAR_FRAME_DIM, MAR_FRAME_DIM, SCALE, true);
 
     CharacterEntity.call(this, game, spritesheet, physics, MAR_MAX_HP);
 

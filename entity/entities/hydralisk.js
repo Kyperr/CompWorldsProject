@@ -1,9 +1,5 @@
 
-function Hydralisk(game, spritesheet) {
-	
-	//get random x and y coordinates that are > 0 and < the canvas x and y
-	var x = Math.floor(Math.random() * game.surfaceWidth);
-	var y = Math.floor(Math.random() * game.surfaceHeight);
+function Hydralisk(x, y, game, spritesheet) {
 	
     //Super init
     var physics = new Physics(this, x, y, HYD_FRAME_DIM, HYD_FRAME_DIM, SCALE, true);

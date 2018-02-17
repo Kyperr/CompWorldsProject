@@ -1,8 +1,5 @@
 
 function Marine(game, spritesheet) {
-    console.log("Marine");
-    console.log(game);
-
     /*Super init*/
     var physics = new Physics(this, 0, 0, MAR_FRAME_DIM, MAR_FRAME_DIM, SCALE, true);
 

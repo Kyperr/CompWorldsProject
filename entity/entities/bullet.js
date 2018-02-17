@@ -64,7 +64,6 @@ Bullet.prototype.update = function () {
     //this.x += horizontalPixels;
     //this.y -= verticalPixels;
 
-    //console.log(this);
     this.physics.updateLocation(delta);
     
 

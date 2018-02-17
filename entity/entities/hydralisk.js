@@ -10,11 +10,12 @@ function Hydralisk(game, spritesheet) {
     var ai = new BasicEnemyAI(this, HYD_VIEW_DISTANCE, HYD_ATTACK_DISTANCE, HYD_ATTACKS_PER_SECOND, HYD_MOVE_SPEED);
     BotEntity.call(this, game, spritesheet, physics, ai, HYD_MAX_HP);
 
-    this.hitshapes.push(new Box(HYD_HITBOX_X, HYD_HITBOX_Y, HYD_HITBOX_W, HYD_HITBOX_H));
+    this.hitshapes.push(new Box(HYD_HITBOX_X, HYD_HITBOX_Y, 
+                                HYD_HITBOX_W * SCALE, HYD_HITBOX_H * SCALE, this));
 
 }
 
-Hydralisk.prototype = new BotEntity();
+Hydralisk.prototype = Object.create(BotEntity.prototype);//new BotEntity();
 Hydralisk.prototype.constructor = Hydralisk;
 
 Hydralisk.prototype.createAnimation = function (spritesheet) {

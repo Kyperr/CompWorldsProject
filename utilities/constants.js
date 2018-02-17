@@ -12,9 +12,9 @@ const FLYING_ACTION = "flying";
 const NO_ACTION = "";
 
 const SCALE = 1.5;
-const TOTAL_ENEMIES = 3;	//number of enemies to kill before devourer spawns. should be divisible by 3
-const HYDRALISKS = TOTAL_ENEMIES/3;
-const ZERGLINGS = (2*TOTAL_ENEMIES)/3;
+const TOTAL_ENEMIES = 3;	//number of enemies to kill before devourer spawns
+const HYDRALISKS = TOTAL_ENEMIES / 3;
+const ZERGLINGS = (2*TOTAL_ENEMIES) / 3;
 
 /**
   * Constants for Menu types
@@ -28,7 +28,7 @@ const WIN_MENU = "won";
 /**
   * Constants for Marine class
  */
-const MAR_MOVE_SPEED = 150;
+const MAR_MOVE_SPEED = 175;
 const MAR_SHOTS_PER_SECOND = 3;
 const MAR_STARTING_ANGLE = 0;
 const MAR_FRAME_DIM = 64;
@@ -62,7 +62,7 @@ const HUD_HEALTH_DISPLAY_HEIGHT = 64;
 const HYD_VIEW_DISTANCE = 1000;
 const HYD_ATTACK_DISTANCE = 350;
 const HYD_MOVE_SPEED = 100;
-const HYD_ATTACKS_PER_SECOND = 1.25;
+const HYD_ATTACKS_PER_SECOND = 1.5;
 const HYD_PAUSE_AFTER_ATTACK = 300; //milliseconds
 const HYD_FRAME_DIM = 128;
 const HYD_SCALE = 2;
@@ -81,7 +81,7 @@ const HYD_HITBOX_H = 40;
  */
 const ZER_VIEW_DISTANCE = 500;
 const ZER_ATTACK_DISTANCE = 100;
-const ZER_MOVE_SPEED = 200;
+const ZER_MOVE_SPEED = 190;
 const ZER_ATTACKS_PER_SECOND = 1.25;
 const ZER_PAUSE_AFTER_ATTACK = 300; //milliseconds
 const ZER_FRAME_DIM = 128;
@@ -101,16 +101,16 @@ const ZER_HITBOX_H = 24;
  */
 const DEV_VIEW_DISTANCE = 1000;
 const DEV_ATTACK_DISTANCE = 350;
-const DEV_MOVE_SPEED = 75;
-const DEV_ATTACKS_PER_SECOND = .5;
+const DEV_MOVE_SPEED = 100;
+const DEV_ATTACKS_PER_SECOND = 3;
 const DEV_PAUSE_AFTER_ATTACK = 400; //milliseconds
 const DEV_FRAME_DIM = 96;
-const DEV_SCALE = 2;
+const DEV_SCALE = 1;
 const DEV_ANGLES = 16;
 const DEV_SHEET_WIDTH = 17;
 const DEV_FIRST_FRAME_ANGLE = 90;
 const DEV_FRAME_INCREMENT = 2;
-const DEV_MAX_HP = 10;
+const DEV_MAX_HP = 30;
 const DEV_HITCIRCLE_X = 47;
 const DEV_HITCIRCLE_Y = 43;
 const DEV_HITCIRCLE_R = 29;

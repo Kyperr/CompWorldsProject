@@ -40,3 +40,4 @@ Map.prototype.draw = function () {
         this.width,
         this.height);
 }
+

@@ -14,12 +14,14 @@ function GameEngine() {
     this.map = null;
     this.player = null;
     this.camera = null;
-	this.hasStarted =  false;
+	this.running =  false;
 	this.paused = true;
     this.hud = null;
 	this.startMenu = null;
     this.enemies = [];
     this.bullets = [];
+	this.enemiesKilled = 0;
+	this.bossSpawned = false;
 
     this.ctx = null;
     this.surfaceWidth = null;
@@ -36,11 +38,41 @@ GameEngine.prototype.init = function (ctx) {
 
 GameEngine.prototype.start = function () {
     console.log("starting game");
+	this.createEnemies();
     var that = this;
     (function gameLoop() {
         that.loop();
         requestAnimFrame(gameLoop, that.ctx.canvas);
     })();
+}
+
+GameEngine.prototype.createEnemies = function() {
+	//generate enemies
+	
+	var x;
+    var y;
+	var hydralisk; 
+	var zergling;
+	var i = 0;
+	
+    while (i < ZERGLINGS) {
+        x = Math.floor(Math.random() * this.map.width);
+        y = Math.floor(Math.random() * this.map.height);
+		zergling = new Zergling(x, y, this, AM.getAsset("./img/red_zergling.png"));
+		zergling.init(this);
+		this.addEnemy(zergling);
+		i++;
+	} 
+	
+	i = 0;
+	while (i < HYDRALISKS) {
+        x = Math.floor(Math.random() * this.map.width);
+        y = Math.floor(Math.random() * this.map.height);
+		hydralisk = new Hydralisk(x, y, this, AM.getAsset("./img/red_hydralisk.png"));
+		hydralisk.init(this);
+		this.addEnemy(hydralisk);
+		i++;
+	}
 }
 
 GameEngine.prototype.addMap = function (map) {
@@ -73,32 +105,26 @@ GameEngine.prototype.addBullet = function (bullet) {
 GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.surfaceWidth, this.surfaceHeight);
     this.camera.drawView();
-    /*
-    // Draw map
-    this.map.draw(this.ctx);
-
-    // Draw player
-    this.player.draw(this.ctx);
-
-    // Draw enemies
-    for (var i = 0; i < this.enemies.length; i++) {
-        this.enemies[i].draw(this.ctx);
-    }
-    // Draw bullets
-    for (var i = 0; i < this.bullets.length; i++) {
-        this.bullets[i].draw(this.ctx);
-    }*/
-
+	
     // Draw HUD on top
     this.hud.draw();
 	
 	//draw start menu if the game hasn't started
-	//if (!this.hasStarted) {
+	if (!this.running) {
 		this.paused = true;
 		this.startMenu.draw();
-	//}
+	}
 
     this.ctx.restore();
+}
+
+GameEngine.prototype.createBoss = function () {
+    var x = Math.floor(Math.random() * this.map.width);
+    var y = Math.floor(Math.random() * this.map.height);
+	var devourer = new Devourer(x, y, this, AM.getAsset("./img/red_devourer.png"));
+	devourer.init(this);
+	this.addEnemy(devourer);	
+	this.bossSpawned = true;
 }
 
 GameEngine.prototype.update = function () {
@@ -107,6 +133,10 @@ GameEngine.prototype.update = function () {
 
     this.hud.update();
 
+	if (this.enemiesKilled === TOTAL_ENEMIES && !this.bossSpawned) { 
+		this.createBoss(); 
+	}
+	
     // Update enemies
     var enemyCount = this.enemies.length;
     for (var i = 0; i < enemyCount; i++) {
@@ -115,6 +145,8 @@ GameEngine.prototype.update = function () {
         if (typeof enemy != 'undefined') {
             if (enemy.removeFromWorld) {
                 this.enemies.splice(i, 1);
+				this.enemiesKilled++;
+				
             } else {
                 enemy.update();
             }

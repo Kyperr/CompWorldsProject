@@ -1,7 +1,7 @@
 
-function Marine(game, spritesheet) {
+function Marine(x, y, game, spritesheet) {
     /*Super init*/
-    var physics = new Physics(this, 0, 0, MAR_FRAME_DIM, MAR_FRAME_DIM, SCALE, true);
+    var physics = new Physics(this, x, y, MAR_FRAME_DIM, MAR_FRAME_DIM, SCALE, true);
 
     CharacterEntity.call(this, game, spritesheet, physics, MAR_MAX_HP);
 
@@ -9,6 +9,9 @@ function Marine(game, spritesheet) {
     this.isShooting = false;// Whether he's shooting
     this.timeSinceLastShot = 0;
     this.shotsPerSecond = MAR_SHOTS_PER_SECOND;
+
+    this.hitshapes.push(new Box(MAR_HITBOX_X, MAR_HITBOX_Y, 
+                                MAR_HITBOX_W * SCALE, MAR_HITBOX_H * SCALE, this));
 }
 
 Marine.prototype = new CharacterEntity();
@@ -37,8 +40,6 @@ Marine.prototype.update = function () {
     var physics = this.physics;
 
     this.timeSinceLastShot += delta;
-
-    //console.log("X: " + physics.x + " Y:" + physics.y);
 
     if (this.isShooting) {
         this.animation.currentAction = "shooting"; 

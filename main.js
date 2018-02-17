@@ -15,49 +15,44 @@ AM.queueDownload("./img/wireframe.png");
 AM.queueDownload("./img/dirt_tileset.png");
 AM.queueDownload("./img/map.png");
 
+AM.queueDownload("./img/start_screen.png");
+AM.queueDownload("./img/paused_screen.png");
+AM.queueDownload("./img/dead_screen.png");
+AM.queueDownload("./img/won_screen.png");
+
 AM.downloadAll(function () {
     var canvas = document.getElementById("gameWorld");
-	//canvas.style.display = "none";
-    //var startMenu = document.getElementById("startMenu");
     var ctx = canvas.getContext("2d");
     var gameEngine = new GameEngine();
 
     gameEngine.init(ctx);
     gameEngine.assetManager = AM;
-    var map = new Map(gameEngine, 4096, 4096);
-	var startMenu = new StartMenu(gameEngine, ctx);
+    var map = new Map(gameEngine, 1600, 1600);
+	var startMenu = new Menu(gameEngine, START_MENU);
     var hud = new HudElement(gameEngine, ctx,
                              AM.getAsset("./img/hud_gray_50.png"), 
                              HUD_HEALTH_BACKDROP_WIDTH, HUD_HEALTH_BACKDROP_HEIGHT, 
                              HUD_HEALTH_BACKDROP_CENTER_X, HUD_HEALTH_BACKDROP_CENTER_Y,
                              AM.getAsset("./img/wireframe.png"),
                              HUD_HEALTH_DISPLAY_WIDTH, HUD_HEALTH_DISPLAY_HEIGHT);
-
-    var marine = new Marine(gameEngine, AM.getAsset("./img/blue_marine.png"));
+							 
+	var marX = (gameEngine.surfaceWidth/2) - MAR_FRAME_DIM * SCALE;
+	var marY = (gameEngine.surfaceHeight/2) - MAR_FRAME_DIM * SCALE;							 
+    var marine = new Marine(marX, marY, gameEngine, AM.getAsset("./img/blue_marine.png"));
     marine.init(gameEngine);
-    var hydralisk = new Hydralisk(gameEngine, AM.getAsset("./img/red_hydralisk.png"));
-    hydralisk.init(gameEngine);
-    var zergling = new Zergling(gameEngine, AM.getAsset("./img/red_zergling.png"));
-    zergling.init(gameEngine);
-    var devourer = new Devourer(gameEngine, AM.getAsset("./img/red_devourer.png"));
-    devourer.init(gameEngine);
-
+	
     //init player
     initializePlayerListeners(marine, gameEngine, canvas);
-
-	
     gameEngine.addMap(map);
     gameEngine.addPlayer(marine);
     gameEngine.addHUD(hud);
-    gameEngine.addEnemy(hydralisk);
-    gameEngine.addEnemy(zergling);
-    gameEngine.addEnemy(devourer);
-
+	
+	
     gameEngine.camera = new Camera(gameEngine);
 	
     gameEngine.addStartMenu(startMenu);
-	if (!gameEngine.hasStarted) {
-		gameEngine.hasStarted = true;	
+	if (!gameEngine.running) {
+		gameEngine.running = true;	
 		gameEngine.paused = true;
 		gameEngine.start();
 	}

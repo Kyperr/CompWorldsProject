@@ -7,10 +7,12 @@ function PhysicalEntity(game, spritesheet, physics) {
     this.ctx = null;
     this.physics = physics;
 
+    this.hitshapes = [];
+
     this.animation = this.createAnimation(spritesheet);
 }
 
-PhysicalEntity.prototype = new Entity();
+PhysicalEntity.prototype = Object.create(Entity.prototype);
 PhysicalEntity.prototype.constructor = PhysicalEntity;
 
 PhysicalEntity.prototype.init = function (game) {
@@ -21,6 +23,27 @@ PhysicalEntity.prototype.init = function (game) {
 PhysicalEntity.prototype.createAnimation = function (spritesheet) {
 }
 
+PhysicalEntity.prototype.update = function () {
+    var entity = this;
+    entity.hitshapes.forEach(function (shape) {
+        shape.update();
+    });
+}
+
 PhysicalEntity.prototype.draw = function () {
     this.animation.drawFrame(this.game.clockTick, this.ctx, this.physics.x, this.physics.y);
+    
+    var entity = this;
+    entity.hitshapes.forEach(function (shape) {
+        entity.ctx.beginPath();
+        entity.ctx.lineWidth=2;
+        entity.ctx.strokeStyle="green";
+        if (shape instanceof Circle) {
+            entity.ctx.arc(shape.x, shape.y, shape.r, 0, 2*Math.PI);
+        } else if (shape instanceof Box) {
+            entity.ctx.rect(shape.x, shape.y, shape.w, shape.h); 
+        }
+        entity.ctx.stroke();
+        entity.ctx.closePath();
+    });
 }

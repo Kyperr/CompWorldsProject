@@ -1,18 +1,16 @@
-function Zergling(game, spritesheet) {
-	//get random x and y coordinates that are > 0 and < the canvas x and y
-	var x = Math.floor(Math.random() * game.surfaceWidth);
-	var y = Math.floor(Math.random() * game.surfaceHeight);
+function Zergling(x, y, game, spritesheet) {
 	
     //Super init
     var physics = new Physics(this, x, y, ZER_FRAME_DIM, ZER_FRAME_DIM, SCALE, true);
-
-    //Sub init                  entity, viewDistance, attackDistance, attacksPerSecond, movementSpeed
     var ai = new BasicEnemyAI(this, ZER_VIEW_DISTANCE, ZER_ATTACK_DISTANCE, ZER_ATTACKS_PER_SECOND, ZER_MOVE_SPEED);
-    
+
     BotEntity.call(this, game, spritesheet, physics, ai, ZER_MAX_HP);
+
+    this.hitshapes.push(new Box(ZER_HITBOX_X, ZER_HITBOX_Y, 
+                                ZER_HITBOX_W * SCALE, ZER_HITBOX_H * SCALE, this));
 }
 
-Zergling.prototype = new BotEntity();
+Zergling.prototype = Object.create(BotEntity.prototype);
 Zergling.prototype.constructor = Zergling;
 
 Zergling.prototype.createAnimation = function (spritesheet) {

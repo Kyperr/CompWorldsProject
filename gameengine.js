@@ -21,7 +21,7 @@ function GameEngine() {
     this.enemies = [];
     this.bullets = [];
 	this.enemiesKilled = 0;
-	this.spawnBoss = false;
+	this.bossSpawned = false;
 
     this.ctx = null;
     this.surfaceWidth = null;
@@ -38,11 +38,42 @@ GameEngine.prototype.init = function (ctx) {
 
 GameEngine.prototype.start = function () {
     console.log("starting game");
+	this.createEnemies();
     var that = this;
     (function gameLoop() {
         that.loop();
         requestAnimFrame(gameLoop, that.ctx.canvas);
     })();
+}
+
+GameEngine.prototype.createEnemies = function() {
+	//generate enemies
+	var mapDim = this.map.size();
+	
+	var x;
+    var y;
+	var hydralisk; 
+	var zergling;
+	var i = 0;
+	
+	while (i < ZERGLINGS) {
+		x = Math.floor(Math.random() * mapDim[0]);
+		y = Math.floor(Math.random() * mapDim[1]);
+		zergling = new Zergling(x, y, this, AM.getAsset("./img/red_zergling.png"));
+		zergling.init(this);
+		this.addEnemy(zergling);
+		i++;
+	} 
+	
+	i = 0;
+	while (i < HYDRALISKS) {
+		x = Math.floor(Math.random() * mapDim[0]);
+		y = Math.floor(Math.random() * mapDim[1]);
+		hydralisk = new Hydralisk(x, y, this, AM.getAsset("./img/red_hydralisk.png"));
+		hydralisk.init(this);
+		this.addEnemy(hydralisk);
+		i++;
+	}
 }
 
 GameEngine.prototype.addMap = function (map) {
@@ -88,12 +119,26 @@ GameEngine.prototype.draw = function () {
     this.ctx.restore();
 }
 
+GameEngine.prototype.createBoss = function() {	
+	var mapDim = this.map.size();
+	var x = Math.floor(Math.random() * mapDim[0]);
+	var y = Math.floor(Math.random() * mapDim[1]);
+	var devourer = new Devourer(x, y, this, AM.getAsset("./img/red_devourer.png"));
+	devourer.init(this);
+	this.addEnemy(devourer);	
+	this.bossSpawned = true;
+}
+
 GameEngine.prototype.update = function () {
     // Update player
     this.player.update();
 
     this.hud.update();
 
+	if (this.enemiesKilled === TOTAL_ENEMIES && !this.bossSpawned) { 
+		this.createBoss(); 
+	}
+	
     // Update enemies
     var enemyCount = this.enemies.length;
     for (var i = 0; i < enemyCount; i++) {
@@ -102,11 +147,8 @@ GameEngine.prototype.update = function () {
         if (typeof enemy != 'undefined') {
             if (enemy.removeFromWorld) {
                 this.enemies.splice(i, 1);
-				enemiesKilled++;
-				if (enemiesKilled === TOTAL_ENEMIES) {
-					//spawn devourer
-					spawnBoss = true;
-				}
+				this.enemiesKilled++;
+				
             } else {
                 enemy.update();
             }

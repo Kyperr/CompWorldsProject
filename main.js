@@ -13,6 +13,12 @@ AM.queueDownload("./img/mud_tiles.png");
 AM.queueDownload("./img/hud_gray_50.png");
 AM.queueDownload("./img/wireframe.png");
 AM.queueDownload("./img/dirt_tileset.png");
+AM.queueDownload("./img/map.png");
+
+AM.queueDownload("./img/start_screen.png");
+AM.queueDownload("./img/paused_screen.png");
+AM.queueDownload("./img/dead_screen.png");
+AM.queueDownload("./img/won_screen.png");
 
 AM.downloadAll(function () {
     var canvas = document.getElementById("gameWorld");
@@ -21,7 +27,7 @@ AM.downloadAll(function () {
 
     gameEngine.init(ctx);
     gameEngine.assetManager = AM;
-    var map = new Map(gameEngine, 25, 25, 32);
+    var map = new Map(gameEngine, 1600, 1600);
 	var startMenu = new Menu(gameEngine, START_MENU);
     var hud = new HudElement(gameEngine, ctx,
                              AM.getAsset("./img/hud_gray_50.png"), 
@@ -37,48 +43,11 @@ AM.downloadAll(function () {
 	
     //init player
     initializePlayerListeners(marine, gameEngine, canvas);
-
-	
     gameEngine.addMap(map);
     gameEngine.addPlayer(marine);
     gameEngine.addHUD(hud);
 	
-	//generate enemies
-	var mapDim = gameEngine.map.size();
 	
-	var x;
-    var y;
-	var hydralisk; 
-	var zergling;
-	var i = 0;
-	
-	while (i < ZERGLINGS) {
-		x = Math.floor(Math.random() * mapDim[0]);
-		y = Math.floor(Math.random() * mapDim[1]);
-		zergling = new Zergling(x, y, gameEngine, AM.getAsset("./img/red_zergling.png"));
-		zergling.init(gameEngine);
-		gameEngine.addEnemy(zergling);
-		i++;
-	} 
-	
-	i = 0;
-	while (i < HYDRALISKS) {
-		x = Math.floor(Math.random() * mapDim[0]);
-		y = Math.floor(Math.random() * mapDim[1]);
-		hydralisk = new Hydralisk(x, y, gameEngine, AM.getAsset("./img/red_hydralisk.png"));
-		hydralisk.init(gameEngine);
-		gameEngine.addEnemy(hydralisk);
-		i++;
-	}
-	
-	//if game.spawnBoss === true spawn Devourer
-	
-	x = Math.floor(Math.random() * mapDim[0]);
-	y = Math.floor(Math.random() * mapDim[1]);
-	var devourer = new Devourer(x, y, gameEngine, AM.getAsset("./img/red_devourer.png"));
-    devourer.init(gameEngine);
-    gameEngine.addEnemy(devourer);
-
     gameEngine.camera = new Camera(gameEngine);
 	
     gameEngine.addStartMenu(startMenu);

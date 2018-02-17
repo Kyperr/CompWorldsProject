@@ -1,5 +1,5 @@
 function AI (entity) {
-    console.log("entity in ai : " + entity);
+    //console.log("entity in ai : " + entity);
     this.entity = entity;
 }
 

@@ -12,7 +12,7 @@ const FLYING_ACTION = "flying";
 const NO_ACTION = "";
 
 const SCALE = 1.5;
-const TOTAL_ENEMIES = 3;	//number of enemies to kill before devourer spawns
+const TOTAL_ENEMIES = 3;	//number of enemies to kill before devourer spawns. should be divisible by 3
 const HYDRALISKS = TOTAL_ENEMIES/3;
 const ZERGLINGS = (2*TOTAL_ENEMIES)/3;
 

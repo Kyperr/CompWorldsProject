@@ -24,4 +24,3 @@ PhysicalEntity.prototype.createAnimation = function (spritesheet) {
 PhysicalEntity.prototype.draw = function () {
     this.animation.drawFrame(this.game.clockTick, this.ctx, this.physics.x, this.physics.y);
 }
-

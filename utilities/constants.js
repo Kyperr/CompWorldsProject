@@ -17,6 +17,15 @@ const HYDRALISKS = TOTAL_ENEMIES/3;
 const ZERGLINGS = (2*TOTAL_ENEMIES)/3;
 
 /**
+  * Constants for Menu types
+ */
+const START_MENU = "start";
+const PAUSED_MENU = "paused";
+const DEAD_MENU = "dead";
+const WIN_MENU = "won";
+
+
+/**
   * Constants for Marine class
  */
 const MAR_MOVE_SPEED = 150;

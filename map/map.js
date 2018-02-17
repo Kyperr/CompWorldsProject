@@ -74,8 +74,8 @@ Map.prototype.draw = function () {
 
 Map.prototype.size = function() {
 	var tile = this.availableTiles["b1"];
-	var x = this.width * this.tileSize * tile.frameWidth;
-	var y = this.height * this.tileSize * tile.frameHeight;
+	var x = this.width * this.tileSize;// * tile.frameWidth;
+	var y = this.height * this.tileSize;// * tile.frameHeight;
 	return [x, y];
 }
 

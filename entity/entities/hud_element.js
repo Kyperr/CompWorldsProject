@@ -42,26 +42,7 @@ HudElement.prototype.update = function () {
 }
 
 
-HudElement.prototype.draw = function () {
-    /*
-    this.elapsedTime += tick;
-    if (this.isDone()) {
-        if (this.loop) this.elapsedTime = 0;
-    }
-    var frame = this.currentFrame();
-    var xindex = 0;
-    var yindex = 0;
-    xindex = frame % this.sheetWidth;
-    yindex = Math.floor(frame / this.sheetWidth);
-
-    ctx.drawImage(this.spriteSheet,
-                 xindex * this.frameWidth, yindex * this.frameHeight,  // source from sheet
-                 this.frameWidth, this.frameHeight,
-                 x, y,
-                 this.frameWidth * this.scale,
-                 this.frameHeight * this.scale);
-    */
-    
+HudElement.prototype.draw = function () {    
     this.ctx.drawImage(this.backdrop, this.backdropX, this.backdropY, this.backdropWidth, this.backdropHeight);
 
     this.ctx.drawImage(this.display, 
@@ -69,12 +50,3 @@ HudElement.prototype.draw = function () {
                        this.displayX, this.displayY, this.displayWidth, this.displayHeight);
 }
 
-/*
-Animation.prototype.currentFrame = function () {
-    return Math.floor(this.elapsedTime / this.frameDuration);
-}
-
-Animation.prototype.isDone = function () {
-    return (this.elapsedTime >= this.totalTime);
-}
-*/

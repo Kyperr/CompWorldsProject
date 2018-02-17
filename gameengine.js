@@ -74,23 +74,8 @@ GameEngine.prototype.addBullet = function (bullet) {
 
 GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.surfaceWidth, this.surfaceHeight);
-    this.ctx.save();
-
-    // Draw map
-    this.map.draw(this.ctx);
-
-    // Draw player
-    this.player.draw(this.ctx);
-
-    // Draw enemies
-    for (var i = 0; i < this.enemies.length; i++) {
-        this.enemies[i].draw(this.ctx);
-    }
-    // Draw bullets
-    for (var i = 0; i < this.bullets.length; i++) {
-        this.bullets[i].draw(this.ctx);
-    }
-
+    this.camera.drawView();
+	
     // Draw HUD on top
     this.hud.draw();
 	
@@ -141,6 +126,9 @@ GameEngine.prototype.update = function () {
             }
         }
     }
+
+    this.camera.update();
+
 }
 
 GameEngine.prototype.loop = function () {

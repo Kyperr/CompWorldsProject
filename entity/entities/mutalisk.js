@@ -27,7 +27,7 @@ Mutalisk.prototype.createAnimation = function (spritesheet) {
 
 Devourer.prototype.createDeathAnimation = function (deathSpriteSheet) {
     var numberOfAngles = 1;
-    var sheetWidth = 17;
+    var sheetWidth = 8;
     var firstFrameAngle = 0;
     var frameIncrement = 1;
 

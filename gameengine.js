@@ -58,8 +58,8 @@ GameEngine.prototype.createEnemies = function() {
 	var i = 0;
 	
     while (i < ZERGLINGS) {
-        x = Math.floor(Math.random() * this.map.width);
-        y = Math.floor(Math.random() * this.map.height);
+		x = this.calcX(ZER_FRAME_DIM);
+		y = this.calcY(ZER_FRAME_DIM);
 		zergling = new Zergling(x, y, this, AM.getAsset("./img/red_zergling.png"));
 		zergling.init(this);
 		this.addEnemy(zergling);
@@ -68,13 +68,33 @@ GameEngine.prototype.createEnemies = function() {
 	
 	i = 0;
 	while (i < HYDRALISKS) {
-        x = Math.floor(Math.random() * this.map.width);
-        y = Math.floor(Math.random() * this.map.height);
+		x = this.calcX(HYD_FRAME_DIM);
+		y = this.calcY(HYD_FRAME_DIM);
 		hydralisk = new Hydralisk(x, y, this, AM.getAsset("./img/red_hydralisk.png"));
 		hydralisk.init(this);
 		this.addEnemy(hydralisk);
 		i++;
 	}
+}
+
+GameEngine.prototype.calcX = function (creatureDim) {
+	var marX = (this.surfaceWidth/2) + MAR_FRAME_DIM * SCALE;
+	var marDim = MAR_FRAME_DIM * SCALE;
+	var x = marX - BUFFER;
+	while (x >= (marX - BUFFER) && x <= (marX + marDim + BUFFER)) {
+		x = randomBetweenTwoNumbers(WALL_W_HITBOX_W, this.map.width - WALL_E_HITBOX_W - creatureDim);
+	}
+	return x;
+}
+
+GameEngine.prototype.calcY = function (creatureDim) {
+	var marY = (this.surfaceHeight/2) + MAR_FRAME_DIM * SCALE;
+	var marDim = MAR_FRAME_DIM * SCALE;
+	var y = marY - BUFFER;
+	while (y >= (marY - BUFFER) && y <= (marY + marDim + BUFFER)) {
+		y = randomBetweenTwoNumbers(WALL_N_HITBOX_H, this.map.height - WALL_S_HITBOX_H - creatureDim);			
+	}
+	return y;
 }
 
 GameEngine.prototype.addMap = function (map) {
@@ -134,8 +154,16 @@ GameEngine.prototype.draw = function () {
 }
 
 GameEngine.prototype.createBoss = function () {
-    var x = Math.floor(Math.random() * this.map.width);
-    var y = Math.floor(Math.random() * this.map.height);
+	var x = this.camera.x;
+	var y = this.camera.y;
+	while (x >= this.camera.x && x <= (this.camera.x + this.surfaceWidth)) {
+		x = randomBetweenTwoNumbers(WALL_W_HITBOX_W, this.map.width - WALL_E_HITBOX_W);
+	}
+	while (y >= this.camera.y && y <= (this.camera.y + this.surfaceHeight)) {
+		y = randomBetweenTwoNumbers(WALL_N_HITBOX_H, this.map.height - WALL_S_HITBOX_H);			
+	}
+	
+	
 	var devourer = new Devourer(x, y, this, AM.getAsset("./img/red_devourer.png"));
 	devourer.init(this);
 	this.addEnemy(devourer);	

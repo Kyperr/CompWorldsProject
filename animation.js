@@ -105,6 +105,7 @@ Animation.prototype.isDone = function () {
     var physics = this.physicalEntity.physics;
     var animAngle = nearestAngle(physics.calculateFacingAngle(), this.angleIncrement);
     var state = this.animationStates[this.currentAction + animAngle];
+    console.log("time elapsed: " + this.elapsedTime + " >= " + state.totalTime + " equals " + (this.elapsedTime >= state.totalTime));
     return (this.elapsedTime >= state.totalTime);
 }
 

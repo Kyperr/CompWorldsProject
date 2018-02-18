@@ -1,39 +1,35 @@
 
-function Ultralisk(x, y, game, spritesheet, deathSpriteSheet) {
+function Lurker(x, y, game, spritesheet, deathSpriteSheet) {
 	
     //Super init
-    var physics = new Physics(this, x, y, ULT_FRAME_DIM, ULT_FRAME_DIM, SCALE, true);
-    var ai = new BasicEnemyAI(this, ULT_VIEW_DISTANCE, ULT_ATTACK_DISTANCE, ULT_ATTACKS_PER_SECOND, ULT_MOVE_SPEED);
-    BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai, ULT_MAX_HP);
+    var physics = new Physics(this, x, y, LUR_FRAME_DIM, LUR_FRAME_DIM, SCALE, true);
+    var ai = new BasicEnemyAI(this, LUR_VIEW_DISTANCE, LUR_ATTACK_DISTANCE, LUR_ATTACKS_PER_SECOND, LUR_MOVE_SPEED);
+    BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai, LUR_MAX_HP);
 
-    this.hitshapes.push(new Circle(ULT_HITCIRCLE_X, ULT_HITCIRCLE_Y, ULT_HITCIRCLE_R * SCALE, this));
+    this.hitshapes.push(new Circle(LUR_HITCIRCLE_X, LUR_HITCIRCLE_Y, LUR_HITCIRCLE_R * SCALE, this));
 
 }
 
-Ultralisk.prototype = Object.create(BotEntity.prototype);
-Ultralisk.prototype.constructor = Ultralisk;
+Lurker.prototype = Object.create(BotEntity.prototype);
+Lurker.prototype.constructor = Lurker;
 
-Ultralisk.prototype.createAnimation = function (spritesheet) {
+Lurker.prototype.createAnimation = function (spritesheet) {
 
-    var animation = new Animation(this, spritesheet, ULT_SHEET_WIDTH, ULT_ANGLES, STANDING_ACTION);
+    var animation = new Animation(this, spritesheet, LUR_SHEET_WIDTH, LUR_ANGLES, STANDING_ACTION);
 
     //Really should do away with these magic numbers.
-    animation.createVerticalAnimationStates(WALKING_ACTION, ULT_FIRST_FRAME_ANGLE, ULT_FRAME_INCREMENT, 1, 5, .1);
-    animation.createVerticalAnimationStates(STANDING_ACTION, ULT_FIRST_FRAME_ANGLE, ULT_FRAME_INCREMENT, 1, 1, .1);
-    animation.createVerticalAnimationStates(ATTACK_ACTION, ULT_FIRST_FRAME_ANGLE, ULT_FRAME_INCREMENT, 1, 5, .1);//Should calculate the duration to sync up with attacks!!!
+    animation.createVerticalAnimationStates(WALKING_ACTION, LUR_FIRST_FRAME_ANGLE, LUR_FRAME_INCREMENT, 1, 7, .1);
+    animation.createVerticalAnimationStates(STANDING_ACTION, LUR_FIRST_FRAME_ANGLE, LUR_FRAME_INCREMENT, 1, 1, .1);
+    animation.createVerticalAnimationStates(ATTACK_ACTION, LUR_FIRST_FRAME_ANGLE, LUR_FRAME_INCREMENT, 1, 1, .1);//Should calculate the duration to sync up with attacks!!!
 
     return animation;
 }
 
-Ultralisk.prototype.createDeathAnimation = function (deathSpriteSheet) {
-    var numberOfAngles = 1;
-    var sheetWidth = 8;
-    var firstFrameAngle = 0;
-    var frameIncrement = 1;
+Lurker.prototype.createDeathAnimation = function (deathSpriteSheet) {
 
-    var deathAnimation = new Animation(this, deathSpriteSheet, sheetWidth, numberOfAngles, DYING_ACTION);
+    var deathAnimation = new Animation(this, deathSpriteSheet, LUR_SHEET_WIDTH, LUR_ANGLES, DYING_ACTION);
 
-    deathAnimation.createSingleAnimState(DYING_ACTION + 0, AnimationDirection.HORIZONTAL, 0, 15, 10, 0, .1, false, false);//title, animationDirection, xIndex, yIndex, frameCount, angle, frameDuration, loop, reflect
+    deathAnimation.createVerticalAnimationStates(DYING_ACTION, LUR_FIRST_FRAME_ANGLE, LUR_FRAME_INCREMENT, 26, 10, .1);//title, animationDirection, xIndex, yIndex, frameCount, angle, frameDuration, loop, reflect
 
     return deathAnimation;
 }

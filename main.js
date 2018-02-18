@@ -8,6 +8,8 @@ AM.queueDownload("./img/red_zergling.png");
 AM.queueDownload("./img/red_devourer.png");
 AM.queueDownload("./img/red_mutalisk.png");
 AM.queueDownload("./img/red_ultralisk.png");
+AM.queueDownload("./img/red_lurker.png");
+
 AM.queueDownload("./img/player_bullet.png");
 AM.queueDownload("./img/enemy_bullet.png");
 AM.queueDownload("./img/dev_zairdthl.png");

@@ -132,16 +132,16 @@ GameEngine.prototype.createEnemies = function() {
             this.addEnemy(guardian);
             i++;
         }
-        
+        /*
         i = 0;
         while (i < LURKERS) {
             x = this.calcX(LUR_FRAME_DIM);
             y = this.calcY(LUR_FRAME_DIM);
-            lurker = new Lurker(x, y, this, AM.getAsset("./img/red_lurker.png"));
+            lurker = new Lurker(x, y, this, AM.getAsset("./img/red_lurker.png"), AM.getAsset("./img/red_lurker.png"));
             lurker.init(this);
             this.addEnemy(lurker);
             i++;
-        }
+        }*/
     }
 }
 

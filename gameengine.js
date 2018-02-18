@@ -97,9 +97,9 @@ GameEngine.prototype.createEnemies = function() {
         while (i < MUTALISKS) {
             x = this.calcX(MUT_FRAME_DIM);
             y = this.calcY(MUT_FRAME_DIM);
-            hydralisk = new Hydralisk(x, y, this, AM.getAsset("./img/red_mutalisk.png"), AM.getAsset("./img/mut_zairdthl.png"));
-            hydralisk.init(this);
-            this.addEnemy(hydralisk);
+            mutalisk = new Mutalisk(x, y, this, AM.getAsset("./img/red_mutalisk.png"), AM.getAsset("./img/mut_zairdthl.png"));
+            mutalisk.init(this);
+            this.addEnemy(mutalisk);
             i++;
         }
         

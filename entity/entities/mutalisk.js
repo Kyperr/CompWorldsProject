@@ -1,10 +1,10 @@
 
-function Mutalisk(x, y, game, spritesheet) {
+function Mutalisk(x, y, game, spritesheet, deathSpriteSheet) {
 	
     //Super init
     var physics = new Physics(this, x, y, MUT_FRAME_DIM, MUT_FRAME_DIM, SCALE, true);
     var ai = new BasicEnemyAI(this, MUT_VIEW_DISTANCE, MUT_ATTACK_DISTANCE, MUT_ATTACKS_PER_SECOND, MUT_MOVE_SPEED);
-    BotEntity.call(this, game, spritesheet, physics, ai, MUT_MAX_HP);
+    BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai, MUT_MAX_HP);
 
     this.hitshapes.push(new Circle(MUT_HITCIRCLE_X, MUT_HITCIRCLE_Y, MUT_HITCIRCLE_R * SCALE, this));
 
@@ -25,7 +25,7 @@ Mutalisk.prototype.createAnimation = function (spritesheet) {
     return animation;
 }
 
-Devourer.prototype.createDeathAnimation = function (deathSpriteSheet) {
+Mutalisk.prototype.createDeathAnimation = function (deathSpriteSheet) {
     var numberOfAngles = 1;
     var sheetWidth = 8;
     var firstFrameAngle = 0;

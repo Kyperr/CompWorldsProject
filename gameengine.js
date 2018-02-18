@@ -67,7 +67,7 @@ GameEngine.prototype.createEnemies = function() {
         while (i < ZERGLINGS) {
             x = this.calcX(ZER_FRAME_DIM);
             y = this.calcY(ZER_FRAME_DIM);
-            zergling = new Zergling(x, y, this, AM.getAsset("./img/red_zergling.png"));
+            zergling = new Zergling(x, y, this, AM.getAsset("./img/red_zergling.png"), AM.getAsset("./img/red_zergling.png"));
             zergling.init(this);
             this.addEnemy(zergling);
             i++;
@@ -77,7 +77,7 @@ GameEngine.prototype.createEnemies = function() {
         while (i < HYDRALISKS) {
             x = this.calcX(HYD_FRAME_DIM);
             y = this.calcY(HYD_FRAME_DIM);
-            hydralisk = new Hydralisk(x, y, this, AM.getAsset("./img/red_hydralisk.png"));
+            hydralisk = new Hydralisk(x, y, this, AM.getAsset("./img/red_hydralisk.png"), AM.getAsset("./img/red_hydralisk.png"));
             hydralisk.init(this);
             this.addEnemy(hydralisk);
             i++;
@@ -160,7 +160,7 @@ GameEngine.prototype.calcY = function (creatureDim) {
 	var marDim = MAR_FRAME_DIM * SCALE;
 	var y = marY - BUFFER;
 	while (y >= (marY - BUFFER) && y <= (marY + marDim + BUFFER)) {
-		y = randomBetweenTwoNumbers(WALL_N_HITBOX_H, this.map.height - WALL_S_HITBOX_H - creatureDim);			
+		y = randomBetweenTwoNumbers(WALL_N_HITBOX_H, this.map.height - WALL_S_HITBOX_H - creatureDim);	
 	}
 	return y;
 }
@@ -232,7 +232,7 @@ GameEngine.prototype.createBoss = function () {
 	}
 	
 	
-	var devourer = new Devourer(x, y, this, AM.getAsset("./img/red_devourer.png"));
+    var devourer = new Devourer(x, y, this, AM.getAsset("./img/red_devourer.png"), AM.getAsset("./img/dev_zairdthl.png"));
 	devourer.init(this);
 	this.addEnemy(devourer);	
 	this.bossSpawned = true;

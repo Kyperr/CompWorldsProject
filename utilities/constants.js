@@ -161,8 +161,18 @@ const NO_ACTION = "";
 
 const SCALE = 1.5;
 const BUFFER = MAR_FRAME_DIM * 2;
-const TOTAL_ENEMIES = 6;	//number of enemies to kill before devourer spawns
-const HYD_PROPORTION = 1.0 / 3.0;
-const ZER_PROPORTION = 2.0 / 3.0;
-const HYDRALISKS = TOTAL_ENEMIES * HYD_PROPORTION;
-const ZERGLINGS = TOTAL_ENEMIES * ZER_PROPORTION;
+
+//tier 1
+const ZERGLINGS = 2;
+const HYDRALISKS = 4;
+//tier 2
+const ULTRALISKS = 0;
+const MUTALISKS = 0;
+//tier 2.5 (special)
+const TERRANS = 0;
+const SCOURGES = 0;
+//tier 3
+const GUARDIANS = 0;
+const LURKERS = 0;
+//total tiered enemies
+const TOTAL_ENEMIES = ZERGLINGS + HYDRALISKS + ULTRALISKS + MUTALISKS + TERRANS + SCOURGES + GUARDIANS + LURKERS;	//number of enemies to kill before boss spawns

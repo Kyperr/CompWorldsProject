@@ -53,8 +53,15 @@ GameEngine.prototype.createEnemies = function() {
 	
 	var x;
     var y;
-	var hydralisk; 
 	var zergling;
+	var hydralisk; 
+	var ultralisk;
+	var mutalisk;
+	var scourge;
+	var terran;
+	var guardian;
+	var lurker;
+	
     if (SPAWN_ENEMIES) {
         var i = 0;
         while (i < ZERGLINGS) {
@@ -73,6 +80,66 @@ GameEngine.prototype.createEnemies = function() {
             hydralisk = new Hydralisk(x, y, this, AM.getAsset("./img/red_hydralisk.png"));
             hydralisk.init(this);
             this.addEnemy(hydralisk);
+            i++;
+        }
+        
+        i = 0;
+        while (i < ULTRALISKS) {
+            x = this.calcX(ULT_FRAME_DIM);
+            y = this.calcY(ULT_FRAME_DIM);
+            ultralisk = new Ultralisk(x, y, this, AM.getAsset("./img/red_ultralisk.png"));
+            ultralisk.init(this);
+            this.addEnemy(ultralisk);
+            i++;
+        }
+        
+        i = 0;
+        while (i < MUTALISKS) {
+            x = this.calcX(MUT_FRAME_DIM);
+            y = this.calcY(MUT_FRAME_DIM);
+            hydralisk = new Hydralisk(x, y, this, AM.getAsset("./img/red_mutalisk.png"));
+            hydralisk.init(this);
+            this.addEnemy(hydralisk);
+            i++;
+        }
+        
+        i = 0;
+        while (i < SCOURGES) {
+            x = this.calcX(SCO_FRAME_DIM);
+            y = this.calcY(SCO_FRAME_DIM);
+            scourge = new Scourge(x, y, this, AM.getAsset("./img/red_scourge.png"));
+            scourge.init(this);
+            this.addEnemy(scourge);
+            i++;
+        }
+        
+        i = 0;
+        while (i < TERRANS) {
+            x = this.calcX(INF_FRAME_DIM);
+            y = this.calcY(INF_FRAME_DIM);
+            terran = new InfestedTerran(x, y, this, AM.getAsset("./img/red_infested_terran.png"));
+            terran.init(this);
+            this.addEnemy(terran);
+            i++;
+        }
+        
+        i = 0;
+        while (i < GUARDIANS) {
+            x = this.calcX(GUA_FRAME_DIM);
+            y = this.calcY(GUA_FRAME_DIM);
+            guardian = new Guardian(x, y, this, AM.getAsset("./img/red_guardian.png"));
+            guardian.init(this);
+            this.addEnemy(guardian);
+            i++;
+        }
+        
+        i = 0;
+        while (i < LURKERS) {
+            x = this.calcX(LUR_FRAME_DIM);
+            y = this.calcY(LUR_FRAME_DIM);
+            lurker = new Lurker(x, y, this, AM.getAsset("./img/red_lurker.png"));
+            lurker.init(this);
+            this.addEnemy(lurker);
             i++;
         }
     }

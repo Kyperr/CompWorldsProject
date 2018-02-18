@@ -87,7 +87,7 @@ GameEngine.prototype.createEnemies = function() {
         while (i < ULTRALISKS) {
             x = this.calcX(ULT_FRAME_DIM);
             y = this.calcY(ULT_FRAME_DIM);
-            ultralisk = new Ultralisk(x, y, this, AM.getAsset("./img/red_ultralisk.png"));
+            ultralisk = new Ultralisk(x, y, this, AM.getAsset("./img/red_ultralisk.png"), AM.getAsset("./img/red_ultralisk.png"));
             ultralisk.init(this);
             this.addEnemy(ultralisk);
             i++;

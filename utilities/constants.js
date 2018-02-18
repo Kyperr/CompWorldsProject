@@ -330,8 +330,8 @@ const BUFFER = MAR_FRAME_DIM * 2;
 const ZERGLINGS = 0;
 const HYDRALISKS = 0;
 //tier 2
-const ULTRALISKS = 0;
-const MUTALISKS = 1;
+const ULTRALISKS = 1;
+const MUTALISKS = 0;
 //tier 2.5 (special)
 const TERRANS = 0;
 const SCOURGES = 0;

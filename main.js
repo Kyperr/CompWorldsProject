@@ -3,9 +3,10 @@ var AM = new AssetManager();
 //Initialize the game engine
 
 AM.queueDownload("./img/blue_marine.png");
-AM.queueDownload("./img/red_hydralisk.png");
 AM.queueDownload("./img/red_zergling.png");
+AM.queueDownload("./img/red_hydralisk.png");
 AM.queueDownload("./img/red_devourer.png");
+AM.queueDownload("./img/red_ultralisk.png");
 AM.queueDownload("./img/red_mutalisk.png");
 AM.queueDownload("./img/red_guardian.png");
 AM.queueDownload("./img/player_bullet.png");

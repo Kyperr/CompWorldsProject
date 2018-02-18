@@ -58,7 +58,7 @@ GameEngine.prototype.createEnemies = function() {
     while (i < ZERGLINGS) {
         x = Math.floor(Math.random() * this.map.width);
         y = Math.floor(Math.random() * this.map.height);
-		zergling = new Zergling(x, y, this, AM.getAsset("./img/red_zergling.png"));
+        zergling = new Zergling(x, y, this, AM.getAsset("./img/red_zergling.png"), AM.getAsset("./img/red_zergling.png"));
 		zergling.init(this);
 		this.addEnemy(zergling);
 		i++;
@@ -68,7 +68,7 @@ GameEngine.prototype.createEnemies = function() {
 	while (i < HYDRALISKS) {
         x = Math.floor(Math.random() * this.map.width);
         y = Math.floor(Math.random() * this.map.height);
-		hydralisk = new Hydralisk(x, y, this, AM.getAsset("./img/red_hydralisk.png"));
+        hydralisk = new Hydralisk(x, y, this, AM.getAsset("./img/red_hydralisk.png"), AM.getAsset("./img/red_hydralisk.png"));
 		hydralisk.init(this);
 		this.addEnemy(hydralisk);
 		i++;
@@ -121,7 +121,7 @@ GameEngine.prototype.draw = function () {
 GameEngine.prototype.createBoss = function () {
     var x = Math.floor(Math.random() * this.map.width);
     var y = Math.floor(Math.random() * this.map.height);
-	var devourer = new Devourer(x, y, this, AM.getAsset("./img/red_devourer.png"));
+    var devourer = new Devourer(x, y, this, AM.getAsset("./img/red_devourer.png"), AM.getAsset("./img/red_devourer.png"));
 	devourer.init(this);
 	this.addEnemy(devourer);	
 	this.bossSpawned = true;

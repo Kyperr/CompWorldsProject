@@ -38,7 +38,7 @@ AM.downloadAll(function () {
 							 
 	var marX = (gameEngine.surfaceWidth/2) - MAR_FRAME_DIM * SCALE;
 	var marY = (gameEngine.surfaceHeight/2) - MAR_FRAME_DIM * SCALE;							 
-    var marine = new Marine(marX, marY, gameEngine, AM.getAsset("./img/blue_marine.png"));
+    var marine = new Marine(marX, marY, gameEngine, AM.getAsset("./img/blue_marine.png"), AM.getAsset("./img/blue_marine.png"));
     marine.init(gameEngine);
 	
     //init player

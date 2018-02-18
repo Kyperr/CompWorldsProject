@@ -15,6 +15,7 @@ const ATTACK_ACTION = "attacking";
 const SHOOTING_ACTION = "shooting";
 const AIMING_ACTION = "aiming";
 const FLYING_ACTION = "flying";
+const DYING_ACTION = "dying";
 const NO_ACTION = "";
 
 const SCALE = 1.5;

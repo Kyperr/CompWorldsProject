@@ -225,10 +225,10 @@ GameEngine.prototype.createBoss = function () {
 	var x = this.camera.x;
 	var y = this.camera.y;
 	while (x >= this.camera.x && x <= (this.camera.x + this.surfaceWidth)) {
-		x = randomBetweenTwoNumbers(WALL_W_HITBOX_W, this.map.width - WALL_E_HITBOX_W);
+		x = randomBetweenTwoNumbers(WALL_W_HITBOX_W, this.map.width - WALL_E_HITBOX_W - DEV_FRAME_DIM);
 	}
 	while (y >= this.camera.y && y <= (this.camera.y + this.surfaceHeight)) {
-		y = randomBetweenTwoNumbers(WALL_N_HITBOX_H, this.map.height - WALL_S_HITBOX_H);			
+		y = randomBetweenTwoNumbers(WALL_N_HITBOX_H, this.map.height - WALL_S_HITBOX_H - DEV_FRAME_DIM);			
 	}
 	
 	

@@ -28,7 +28,9 @@ AM.downloadAll(function () {
     gameEngine.init(ctx);
     gameEngine.assetManager = AM;
     var map = new Map(gameEngine, 1600, 1600);
-	var startMenu = new Menu(gameEngine, START_MENU);
+	var startScreen = new Menu(gameEngine, ctx, START_SCREEN, AM);
+	var deadScreen = new Menu(gameEngine, ctx, DEAD_SCREEN, AM);
+	var winScreen = new Menu(gameEngine, ctx, WIN_SCREEN, AM);
     var hud = new HudElement(gameEngine, ctx,
                              AM.getAsset("./img/hud_gray_50.png"), 
                              HUD_HEALTH_BACKDROP_WIDTH, HUD_HEALTH_BACKDROP_HEIGHT, 
@@ -50,12 +52,16 @@ AM.downloadAll(function () {
 	
     gameEngine.camera = new Camera(gameEngine);
 	
-    gameEngine.addStartMenu(startMenu);
-	if (!gameEngine.running) {
-		gameEngine.running = true;	
-		gameEngine.paused = true;
-		gameEngine.start();
-	}
+    gameEngine.addStartScreen(startScreen);
+	gameEngine.addDeadScreen(deadScreen);
+	gameEngine.addWinScreen(winScreen);
+	canvas.addEventListener("mousedown", function (e) {
+		if (!gameEngine.running && !gameEngine.hasStarted) {
+			gameEngine.hasStarted = true;	
+			gameEngine.running = true;	
+			gameEngine.start();
+		}
+	});
     console.log("All Done!");
 });
 

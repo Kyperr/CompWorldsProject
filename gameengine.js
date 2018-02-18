@@ -55,26 +55,27 @@ GameEngine.prototype.createEnemies = function() {
     var y;
 	var hydralisk; 
 	var zergling;
-	var i = 0;
-	
-    while (i < ZERGLINGS) {
-		x = this.calcX(ZER_FRAME_DIM);
-		y = this.calcY(ZER_FRAME_DIM);
-		zergling = new Zergling(x, y, this, AM.getAsset("./img/red_zergling.png"));
-		zergling.init(this);
-		this.addEnemy(zergling);
-		i++;
-	} 
-	
-	i = 0;
-	while (i < HYDRALISKS) {
-		x = this.calcX(HYD_FRAME_DIM);
-		y = this.calcY(HYD_FRAME_DIM);
-		hydralisk = new Hydralisk(x, y, this, AM.getAsset("./img/red_hydralisk.png"));
-		hydralisk.init(this);
-		this.addEnemy(hydralisk);
-		i++;
-	}
+    if (SPAWN_ENEMIES) {
+        var i = 0;
+        while (i < ZERGLINGS) {
+            x = this.calcX(ZER_FRAME_DIM);
+            y = this.calcY(ZER_FRAME_DIM);
+            zergling = new Zergling(x, y, this, AM.getAsset("./img/red_zergling.png"));
+            zergling.init(this);
+            this.addEnemy(zergling);
+            i++;
+        } 
+        
+        i = 0;
+        while (i < HYDRALISKS) {
+            x = this.calcX(HYD_FRAME_DIM);
+            y = this.calcY(HYD_FRAME_DIM);
+            hydralisk = new Hydralisk(x, y, this, AM.getAsset("./img/red_hydralisk.png"));
+            hydralisk.init(this);
+            this.addEnemy(hydralisk);
+            i++;
+        }
+    }
 }
 
 GameEngine.prototype.calcX = function (creatureDim) {

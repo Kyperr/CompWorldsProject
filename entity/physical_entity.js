@@ -1,11 +1,12 @@
 
-function PhysicalEntity(game, spritesheet, physics) {
+function PhysicalEntity(game, spritesheet, physics, wallBehaviorFunction) {
     /*Super init*/
     Entity.call(this, game);
 
     /*Sub init*/
     this.ctx = null;
     this.physics = physics;
+    this.wallBehaviorFunction;
 
     this.hitshapes = [];
 
@@ -21,6 +22,11 @@ PhysicalEntity.prototype.init = function (game) {
 
 /*This must return an animation object. Creation of animations is rather cumbersome, so it is made into its own function.*/
 PhysicalEntity.prototype.createAnimation = function (spritesheet) {
+}
+
+PhysicalEntity.prototype.wallBehavior = function (x, y) {
+    this.physics.x = x;
+    this.physics.y = y;
 }
 
 PhysicalEntity.prototype.update = function () {

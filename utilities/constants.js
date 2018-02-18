@@ -8,24 +8,6 @@ const ENABLE_CHEATS = false;
 const SPAWN_ENEMIES = true;
 
 /**
-  * Common constants.
- */
-const STANDING_ACTION = "standing";
-const WALKING_ACTION = "walking";
-const ATTACK_ACTION = "attacking";
-const SHOOTING_ACTION = "shooting";
-const AIMING_ACTION = "aiming";
-const FLYING_ACTION = "flying";
-const NO_ACTION = "";
-
-const SCALE = 1.5;
-const TOTAL_ENEMIES = 6;	//number of enemies to kill before devourer spawns
-const HYD_PROPORTION = 1.0 / 3.0;
-const ZER_PROPORTION = 2.0 / 3.0;
-const HYDRALISKS = TOTAL_ENEMIES * HYD_PROPORTION;
-const ZERGLINGS = TOTAL_ENEMIES * ZER_PROPORTION;
-
-/**
   * Constants for Menu 
  */
 const CAN_W = 800;
@@ -150,7 +132,6 @@ const DEV_HITCIRCLE_R = 29;
 /**
   * Common constants.
  */
-/*
 const STANDING_ACTION = "standing";
 const WALKING_ACTION = "walking";
 const ATTACK_ACTION = "attacking";
@@ -166,4 +147,3 @@ const HYD_PROPORTION = 1.0 / 3.0;
 const ZER_PROPORTION = 2.0 / 3.0;
 const HYDRALISKS = TOTAL_ENEMIES * HYD_PROPORTION;
 const ZERGLINGS = TOTAL_ENEMIES * ZER_PROPORTION;
-*/

@@ -3,8 +3,8 @@
 /*
  * Flags for debugging
  */
-const DRAW_HITBOXES = true;
-const ENABLE_CHEATS = true;
+const DRAW_HITBOXES = false;
+const ENABLE_CHEATS = false;
 
 /**
   * Common constants.
@@ -18,7 +18,7 @@ const FLYING_ACTION = "flying";
 const NO_ACTION = "";
 
 const SCALE = 1.5;
-const TOTAL_ENEMIES = 3;	//number of enemies to kill before devourer spawns
+const TOTAL_ENEMIES = 6;	//number of enemies to kill before devourer spawns
 const HYD_PROPORTION = 1.0 / 3.0;
 const ZER_PROPORTION = 2.0 / 3.0;
 const HYDRALISKS = TOTAL_ENEMIES * HYD_PROPORTION;

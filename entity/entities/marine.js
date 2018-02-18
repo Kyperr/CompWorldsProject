@@ -65,6 +65,12 @@ Marine.prototype.update = function () {
         this.physics.velocity = 0;
     }
     this.physics.updateLocation(delta);
-    PhysicalEntity.prototype.update.call(this);
+    CharacterEntity.prototype.update.call(this);
     this.lastUpdated = this.game.gameTime;
+}
+
+Marine.prototype.draw = function () {
+    if (!this.removeFromWorld) {
+        CharacterEntity.prototype.draw.call(this);
+    }
 }

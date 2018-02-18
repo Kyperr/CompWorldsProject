@@ -39,13 +39,18 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y) {
     var state = this.animationStates[this.currentAction + animAngle];
 
     this.elapsedTime += tick;
-    if (this.isDone()) {
+
+    var isDone = this.isDone();
+
+    if (isDone) {
         if (state.loop) {
             this.elapsedTime = 0;
         } else {
         }
     }
-    
+
+    if (!isDone || state.loop){
+
         var frame = this.currentFrame();
         var xindex = state.xIndex;
         var yindex = state.yIndex;
@@ -86,6 +91,7 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y) {
         }
 
         ctx.restore();
+    }
 }
 
 Animation.prototype.currentFrame = function () {

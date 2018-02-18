@@ -1,5 +1,5 @@
 
-function Devourer(x, y, game, spritesheet) {
+function Devourer(x, y, game, spritesheet, deathSpriteSheet) {
 	
     //Super init
     var physics = new Physics(this, x, y, DEV_FRAME_DIM, DEV_FRAME_DIM, SCALE, true);
@@ -21,4 +21,17 @@ Devourer.prototype.createAnimation = function (spritesheet) {
     animation.createVerticalAnimationStates(ATTACK_ACTION, DEV_FIRST_FRAME_ANGLE, DEV_FRAME_INCREMENT, 7, 3, .1);//Should calculate the duration to sync up with attacks!!!
 
     return animation;
+}
+
+Devourer.prototype.createDeathAnimation = function (deathSpriteSheet) {
+    var numberOfAngles = 1;
+    var sheetWidth = 17;
+    var firstFrameAngle = 0;
+    var frameIncrement = 1;
+
+    var deathAnimation = new Animation(this, deathSpriteSheet, sheetWidth, numberOfAngles, DYING_ACTION);
+
+    deathAnimation.createSingleAnimState(DYING_ACTION + 0, AnimationDirection.HORIZONTAL, 0, 0, 8, 0, .1, false, false);//title, animationDirection, xIndex, yIndex, frameCount, angle, frameDuration, loop, reflect
+
+    return deathAnimation;
 }

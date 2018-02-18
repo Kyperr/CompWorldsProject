@@ -14,10 +14,12 @@ function GameEngine() {
     this.map = null;
     this.player = null;
     this.camera = null;
+	this.hasStarted = false;
 	this.running =  false;
-	this.paused = true;
     this.hud = null;
-	this.startMenu = null;
+	this.startScreen = null;
+	this.deadScreen = null;
+	this.winScreen = null;
     this.enemies = [];
     this.bullets = [];
 	this.enemiesKilled = 0;
@@ -53,26 +55,47 @@ GameEngine.prototype.createEnemies = function() {
     var y;
 	var hydralisk; 
 	var zergling;
-	var i = 0;
-	
-    while (i < ZERGLINGS) {
-        x = Math.floor(Math.random() * this.map.width);
-        y = Math.floor(Math.random() * this.map.height);
-        zergling = new Zergling(x, y, this, AM.getAsset("./img/red_zergling.png"), AM.getAsset("./img/red_zergling.png"));
-		zergling.init(this);
-		this.addEnemy(zergling);
-		i++;
-	} 
-	
-	i = 0;
-	while (i < HYDRALISKS) {
-        x = Math.floor(Math.random() * this.map.width);
-        y = Math.floor(Math.random() * this.map.height);
-        hydralisk = new Hydralisk(x, y, this, AM.getAsset("./img/red_hydralisk.png"), AM.getAsset("./img/red_hydralisk.png"));
-		hydralisk.init(this);
-		this.addEnemy(hydralisk);
-		i++;
+    if (SPAWN_ENEMIES) {
+        var i = 0;
+        while (i < ZERGLINGS) {
+            x = this.calcX(ZER_FRAME_DIM);
+            y = this.calcY(ZER_FRAME_DIM);
+            zergling = new Zergling(x, y, this, AM.getAsset("./img/red_zergling.png"), AM.getAsset("./img/red_zergling.png"));
+            zergling.init(this);
+            this.addEnemy(zergling);
+            i++;
+        } 
+        
+        i = 0;
+        while (i < HYDRALISKS) {
+            x = this.calcX(HYD_FRAME_DIM);
+            y = this.calcY(HYD_FRAME_DIM);
+            hydralisk = new Hydralisk(x, y, this, AM.getAsset("./img/red_hydralisk.png"), AM.getAsset("./img/red_hydralisk.png"));
+            hydralisk.init(this);
+            this.addEnemy(hydralisk);
+            i++;
+        }
+    }
+}
+
+GameEngine.prototype.calcX = function (creatureDim) {
+	var marX = (this.surfaceWidth/2) + MAR_FRAME_DIM * SCALE;
+	var marDim = MAR_FRAME_DIM * SCALE;
+	var x = marX - BUFFER;
+	while (x >= (marX - BUFFER) && x <= (marX + marDim + BUFFER)) {
+		x = randomBetweenTwoNumbers(WALL_W_HITBOX_W, this.map.width - WALL_E_HITBOX_W - creatureDim);
 	}
+	return x;
+}
+
+GameEngine.prototype.calcY = function (creatureDim) {
+	var marY = (this.surfaceHeight/2) + MAR_FRAME_DIM * SCALE;
+	var marDim = MAR_FRAME_DIM * SCALE;
+	var y = marY - BUFFER;
+	while (y >= (marY - BUFFER) && y <= (marY + marDim + BUFFER)) {
+		y = randomBetweenTwoNumbers(WALL_N_HITBOX_H, this.map.height - WALL_S_HITBOX_H - creatureDim);	
+	}
+	return y;
 }
 
 GameEngine.prototype.addMap = function (map) {
@@ -87,8 +110,17 @@ GameEngine.prototype.addHUD = function (hud) {
     this.hud = hud;
 }
 
-GameEngine.prototype.addStartMenu = function (startMenu) {
-    this.startMenu = startMenu;
+GameEngine.prototype.addStartScreen = function (screen) {
+    this.startScreen = screen;
+	this.startScreen.draw();
+}
+
+GameEngine.prototype.addDeadScreen = function (screen) {
+    this.deadScreen = screen;
+}
+
+GameEngine.prototype.addWinScreen = function (screen) {
+    this.winScreen = screen;
 }
 
 GameEngine.prototype.addPlayer = function (player) {
@@ -111,17 +143,29 @@ GameEngine.prototype.draw = function () {
 	
 	//draw start menu if the game hasn't started
 	if (!this.running) {
-		this.paused = true;
-		this.startMenu.draw();
+		this.startScreen.draw();
+	}
+	if (this.won) {
+		this.winScreen.draw();
+	} else if (this.dead) {
+		this.deadScreen.draw();
 	}
 
     this.ctx.restore();
 }
 
 GameEngine.prototype.createBoss = function () {
-    var x = Math.floor(Math.random() * this.map.width);
-    var y = Math.floor(Math.random() * this.map.height);
-    var devourer = new Devourer(x, y, this, AM.getAsset("./img/red_devourer.png"), AM.getAsset("./img/red_devourer.png"));
+	var x = this.camera.x;
+	var y = this.camera.y;
+	while (x >= this.camera.x && x <= (this.camera.x + this.surfaceWidth)) {
+		x = randomBetweenTwoNumbers(WALL_W_HITBOX_W, this.map.width - WALL_E_HITBOX_W);
+	}
+	while (y >= this.camera.y && y <= (this.camera.y + this.surfaceHeight)) {
+		y = randomBetweenTwoNumbers(WALL_N_HITBOX_H, this.map.height - WALL_S_HITBOX_H);			
+	}
+	
+	
+    var devourer = new Devourer(x, y, this, AM.getAsset("./img/red_devourer.png"), AM.getAsset("./img/dev_zairdthl.png"));
 	devourer.init(this);
 	this.addEnemy(devourer);	
 	this.bossSpawned = true;
@@ -130,7 +174,7 @@ GameEngine.prototype.createBoss = function () {
 GameEngine.prototype.update = function () {
     // Update player
     if (this.player.removeFromWorld) {
-        console.log("GAME OVER");
+		this.dead = true;
     } else {
         this.player.update();
     }
@@ -153,6 +197,8 @@ GameEngine.prototype.update = function () {
 				if (this.enemiesKilled === TOTAL_ENEMIES) {
 					//spawn devourer
 					spawnBoss = true;
+				} else if (this.enemiesKilled === (TOTAL_ENEMIES + 1)) {
+					this.won = true;
 				}
             } else {
                 enemy.update();

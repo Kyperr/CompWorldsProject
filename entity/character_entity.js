@@ -51,10 +51,11 @@ CharacterEntity.prototype.draw = function () {
     if (this.stats.hp > 0) {
         this.animation.drawFrame(this.game.clockTick, this.ctx, this.physics.x, this.physics.y);
     } else {
-        this.deathAnimation.drawFrame(this.game.clockTick, this.ctx, this.physics.x, this.physics.y);
         if (this.deathAnimation.isDone()) {
             console.log("deathAnim is done!");
             this.removeFromWorld = true;
+        } else {
+            this.deathAnimation.drawFrame(this.game.clockTick, this.ctx, this.physics.x, this.physics.y);
         }
     }
 

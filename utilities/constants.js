@@ -5,33 +5,18 @@
  */
 const DRAW_HITBOXES = false;
 const ENABLE_CHEATS = false;
+const SPAWN_ENEMIES = true;
 
 /**
-  * Common constants.
+  * Constants for Menu 
  */
-const STANDING_ACTION = "standing";
-const WALKING_ACTION = "walking";
-const ATTACK_ACTION = "attacking";
-const SHOOTING_ACTION = "shooting";
-const AIMING_ACTION = "aiming";
-const FLYING_ACTION = "flying";
-const DYING_ACTION = "dying";
-const NO_ACTION = "";
+const CAN_W = 800;
+const CAN_H = 600;
+const START_SCREEN = "start";
+const PAUSED_SCREEN = "paused";
+const DEAD_SCREEN = "dead";
+const WIN_SCREEN = "won";
 
-const SCALE = 1.5;
-const TOTAL_ENEMIES = 6;	//number of enemies to kill before devourer spawns
-const HYD_PROPORTION = 1.0 / 3.0;
-const ZER_PROPORTION = 2.0 / 3.0;
-const HYDRALISKS = TOTAL_ENEMIES * HYD_PROPORTION;
-const ZERGLINGS = TOTAL_ENEMIES * ZER_PROPORTION;
-
-/**
-  * Constants for Menu types
- */
-const START_MENU = "start";
-const PAUSED_MENU = "paused";
-const DEAD_MENU = "dead";
-const WIN_MENU = "won";
 
 /*
  * Constants for wall collision.
@@ -98,7 +83,7 @@ const HYD_ANGLES = 16;
 const HYD_SHEET_WIDTH = 17;
 const HYD_FIRST_FRAME_ANGLE = 90;
 const HYD_FRAME_INCREMENT = 2;
-const HYD_MAX_HP = 4;
+const HYD_MAX_HP = 5;
 const HYD_HITBOX_X = 48;
 const HYD_HITBOX_Y = 45;
 const HYD_HITBOX_W = 31;
@@ -125,12 +110,31 @@ const ZER_HITBOX_W = 25;
 const ZER_HITBOX_H = 24;
 
 /**
+  * Constants for Mutalisk class.
+ */
+const MUT_VIEW_DISTANCE = 1000;
+const MUT_ATTACK_DISTANCE = 350;
+const MUT_MOVE_SPEED = 200;
+const MUT_ATTACKS_PER_SECOND = 2.25;
+const MUT_PAUSE_AFTER_ATTACK = 300; //milliseconds
+const MUT_FRAME_DIM = 128;
+const MUT_SCALE = 2;
+const MUT_ANGLES = 16;
+const MUT_SHEET_WIDTH = 17;
+const MUT_FIRST_FRAME_ANGLE = 90;
+const MUT_FRAME_INCREMENT = 2;
+const MUT_MAX_HP = 6;
+const MUT_HITCIRCLE_X = 69;
+const MUT_HITCIRCLE_Y = 54;
+const MUT_HITCIRCLE_R = 29;
+
+/**
   * Constants for Devourer class.
  */
 const DEV_VIEW_DISTANCE = 1000;
 const DEV_ATTACK_DISTANCE = 350;
 const DEV_MOVE_SPEED = 100;
-const DEV_ATTACKS_PER_SECOND = 3;
+const DEV_ATTACKS_PER_SECOND = 3.5;
 const DEV_PAUSE_AFTER_ATTACK = 400; //milliseconds
 const DEV_FRAME_DIM = 96;
 const DEV_SCALE = 1;
@@ -143,3 +147,23 @@ const DEV_HITCIRCLE_X = 47;
 const DEV_HITCIRCLE_Y = 43;
 const DEV_HITCIRCLE_R = 29;
 
+
+/**
+  * Common constants.
+ */
+const STANDING_ACTION = "standing";
+const WALKING_ACTION = "walking";
+const ATTACK_ACTION = "attacking";
+const SHOOTING_ACTION = "shooting";
+const AIMING_ACTION = "aiming";
+const FLYING_ACTION = "flying";
+const DYING_ACTION = "dying";
+const NO_ACTION = "";
+
+const SCALE = 1.5;
+const BUFFER = MAR_FRAME_DIM * 2;
+const TOTAL_ENEMIES = 6;	//number of enemies to kill before devourer spawns
+const HYD_PROPORTION = 1.0 / 3.0;
+const ZER_PROPORTION = 2.0 / 3.0;
+const HYDRALISKS = TOTAL_ENEMIES * HYD_PROPORTION;
+const ZERGLINGS = TOTAL_ENEMIES * ZER_PROPORTION;

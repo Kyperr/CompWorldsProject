@@ -45,6 +45,10 @@ Bullet.prototype.createAnimation = function (spritesheet) {
     return animation;
 }
 
+Bullet.prototype.wallBehavior = function (x, y) {
+    this.removeFromWorld = true;
+}
+
 Bullet.prototype.update = function () {
     var delta = this.game.clockTick;
     this.debug_timeExist += delta;

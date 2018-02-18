@@ -8,6 +8,7 @@ AM.queueDownload("./img/red_zergling.png");
 AM.queueDownload("./img/red_devourer.png");
 AM.queueDownload("./img/player_bullet.png");
 AM.queueDownload("./img/enemy_bullet.png");
+AM.queueDownload("./img/dev_zairdthl.png");
 AM.queueDownload("./img/bricks.png");
 AM.queueDownload("./img/mud_tiles.png");
 AM.queueDownload("./img/hud_gray_50.png");
@@ -28,34 +29,40 @@ AM.downloadAll(function () {
     gameEngine.init(ctx);
     gameEngine.assetManager = AM;
     var map = new Map(gameEngine, 1600, 1600);
-	var startMenu = new Menu(gameEngine, START_MENU);
+    var startScreen = new Menu(gameEngine, ctx, START_SCREEN, AM);
+    var deadScreen = new Menu(gameEngine, ctx, DEAD_SCREEN, AM);
+    var winScreen = new Menu(gameEngine, ctx, WIN_SCREEN, AM);
     var hud = new HudElement(gameEngine, ctx,
-                             AM.getAsset("./img/hud_gray_50.png"), 
-                             HUD_HEALTH_BACKDROP_WIDTH, HUD_HEALTH_BACKDROP_HEIGHT, 
-                             HUD_HEALTH_BACKDROP_CENTER_X, HUD_HEALTH_BACKDROP_CENTER_Y,
-                             AM.getAsset("./img/wireframe.png"),
-                             HUD_HEALTH_DISPLAY_WIDTH, HUD_HEALTH_DISPLAY_HEIGHT);
-							 
-	var marX = (gameEngine.surfaceWidth/2) - MAR_FRAME_DIM * SCALE;
-	var marY = (gameEngine.surfaceHeight/2) - MAR_FRAME_DIM * SCALE;							 
+        AM.getAsset("./img/hud_gray_50.png"),
+        HUD_HEALTH_BACKDROP_WIDTH, HUD_HEALTH_BACKDROP_HEIGHT,
+        HUD_HEALTH_BACKDROP_CENTER_X, HUD_HEALTH_BACKDROP_CENTER_Y,
+        AM.getAsset("./img/wireframe.png"),
+        HUD_HEALTH_DISPLAY_WIDTH, HUD_HEALTH_DISPLAY_HEIGHT);
+
+    var marX = (gameEngine.surfaceWidth / 2) - MAR_FRAME_DIM * SCALE;
+    var marY = (gameEngine.surfaceHeight / 2) - MAR_FRAME_DIM * SCALE;
     var marine = new Marine(marX, marY, gameEngine, AM.getAsset("./img/blue_marine.png"), AM.getAsset("./img/blue_marine.png"));
     marine.init(gameEngine);
-	
+
     //init player
     initializePlayerListeners(marine, gameEngine, canvas);
     gameEngine.addMap(map);
     gameEngine.addPlayer(marine);
     gameEngine.addHUD(hud);
-	
-	
+
+
     gameEngine.camera = new Camera(gameEngine);
-	
-    gameEngine.addStartMenu(startMenu);
-	if (!gameEngine.running) {
-		gameEngine.running = true;	
-		gameEngine.paused = true;
-		gameEngine.start();
-	}
+
+    gameEngine.addStartScreen(startScreen);
+    gameEngine.addDeadScreen(deadScreen);
+    gameEngine.addWinScreen(winScreen);
+    canvas.addEventListener("mousedown", function (e) {
+        if (!gameEngine.running && !gameEngine.hasStarted) {
+            gameEngine.hasStarted = true;
+            gameEngine.running = true;
+            gameEngine.start();
+        }
+    });
     console.log("All Done!");
 });
 

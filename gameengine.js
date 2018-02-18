@@ -127,7 +127,7 @@ GameEngine.prototype.createEnemies = function() {
         while (i < GUARDIANS) {
             x = this.calcX(GUA_FRAME_DIM);
             y = this.calcY(GUA_FRAME_DIM);
-            guardian = new Guardian(x, y, this, AM.getAsset("./img/red_guardian.png"));
+            guardian = new Guardian(x, y, this, AM.getAsset("./img/red_guardian.png"), AM.getAsset("./img/gua_zairdthl.png"));
             guardian.init(this);
             this.addEnemy(guardian);
             i++;

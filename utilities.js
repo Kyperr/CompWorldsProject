@@ -100,3 +100,11 @@ function radiansToDegrees(radians) {
 function degreesToRadians(degrees) {
     return degrees * (Math.PI / 180);
 }
+
+/* 
+ * Calculates a number between the max and min (inclusive)
+ * 
+*/
+function randomBetweenTwoNumbers(min, max) {
+	return Math.floor(Math.random()*(max+1-min+1)+min);
+}

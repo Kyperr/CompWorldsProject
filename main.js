@@ -38,8 +38,8 @@ AM.downloadAll(function () {
                              AM.getAsset("./img/wireframe.png"),
                              HUD_HEALTH_DISPLAY_WIDTH, HUD_HEALTH_DISPLAY_HEIGHT);
 							 
-	var marX = (gameEngine.surfaceWidth/2) - MAR_FRAME_DIM * SCALE;
-	var marY = (gameEngine.surfaceHeight/2) - MAR_FRAME_DIM * SCALE;							 
+	var marX = (gameEngine.surfaceWidth/2) + MAR_FRAME_DIM * SCALE;
+	var marY = (gameEngine.surfaceHeight/2) + MAR_FRAME_DIM * SCALE;							 
     var marine = new Marine(marX, marY, gameEngine, AM.getAsset("./img/blue_marine.png"));
     marine.init(gameEngine);
 	

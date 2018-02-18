@@ -3,8 +3,8 @@
 /*
  * Flags for debugging
  */
-const DRAW_HITBOXES = false;
-const ENABLE_CHEATS = false;
+const DRAW_HITBOXES = true;
+const ENABLE_CHEATS = true;
 
 /**
   * Common constants.
@@ -19,8 +19,10 @@ const NO_ACTION = "";
 
 const SCALE = 1.5;
 const TOTAL_ENEMIES = 3;	//number of enemies to kill before devourer spawns
-const HYDRALISKS = TOTAL_ENEMIES / 3;
-const ZERGLINGS = (2*TOTAL_ENEMIES) / 3;
+const HYD_PROPORTION = 1.0 / 3.0;
+const ZER_PROPORTION = 2.0 / 3.0;
+const HYDRALISKS = TOTAL_ENEMIES * HYD_PROPORTION;
+const ZERGLINGS = TOTAL_ENEMIES * ZER_PROPORTION;
 
 /**
   * Constants for Menu types
@@ -40,7 +42,7 @@ const WALL_W_HITBOX_H = 1600;
 const WALL_N_HITBOX_X = 0;
 const WALL_N_HITBOX_Y = 0;
 const WALL_N_HITBOX_W = 1600;
-const WALL_N_HITBOX_H = 259;
+const WALL_N_HITBOX_H = 195;
 const WALL_E_HITBOX_X = 1370;
 const WALL_E_HITBOX_Y = 0;
 const WALL_E_HITBOX_W = 230;

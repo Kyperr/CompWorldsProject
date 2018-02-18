@@ -25,7 +25,10 @@ CharacterEntity.prototype.update = function () {
         map = character.game.map;
         map.hitshapes.forEach(function (wall) {
             if (characterShape.doesCollide(wall)) {
+                console.log("COLLISION DETECTED");
                 character.physics.velocity = 0;
+                character.physics.directionX = 0;
+                character.physics.directionY = 0;
             }
         });
     });

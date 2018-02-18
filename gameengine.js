@@ -130,7 +130,7 @@ GameEngine.prototype.createBoss = function () {
 GameEngine.prototype.update = function () {
     // Update player
     if (this.player.removeFromWorld) {
-
+        console.log("GAME OVER");
     } else {
         this.player.update();
     }
@@ -175,6 +175,7 @@ GameEngine.prototype.update = function () {
     }
 
     this.camera.update();
+    this.map.update();
 
 }
 

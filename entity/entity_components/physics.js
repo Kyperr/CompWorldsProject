@@ -50,26 +50,34 @@ Physics.prototype.updateLocation = function (delta) {
 
         //angle = nearestAngleRadians(angle, increment);
 
-        var roundedDirX = Math.cos(angle);
-        var roundedDirY = Math.sin(angle);
+        //var roundedDirX = Math.cos(angle);
+        //var roundedDirY = Math.sin(angle);
 
-        this.lastX = this.x;
-        this.lastY = this.y;
+        var tempLastX = this.x;
+        var tempLastY = this.y;
+
+        //this.lastX = this.x;
+        //this.lastY = this.y;
 
         this.x += this.directionX * this.velocity * delta;
         this.y -= this.directionY * this.velocity * delta;
 
         var entity = this.physicalEntity;
 
+        var collides = false;
         entity.hitshapes.forEach(function (entityShape) {
+            entityShape.update();
             var map = entity.game.map;
             map.hitshapes.forEach(function (wallShape) {
                 if (entityShape.doesCollide(wallShape)) {
-                    dx = entity.physics.x - entity.physics.lastX;
-                    dy = entity.physics.y - entity.physics.lastY;
-                    pushbackMultiplier = 2;
-                    entity.physics.x -= dx * pushbackMultiplier;
-                    entity.physics.y -= dy * pushbackMultiplier;
+                    entity.physics.x = tempLastX;
+                    entity.physics.y = tempLastY;
+                    
+                    //dx = entity.physics.x - entity.physics.lastX;
+                    //dy = entity.physics.y - entity.physics.lastY;
+                    //pushbackMultiplier = 1;
+                    //entity.physics.x -= dx * pushbackMultiplier;
+                    //entity.physics.y -= dy * pushbackMultiplier;
                     /*
                     if (dx > 0 || dx < 0) {
                         entity.physics.x -= dx * pushbackMultiplier;

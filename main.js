@@ -3,15 +3,17 @@ var AM = new AssetManager();
 //Initialize the game engine
 
 AM.queueDownload("./img/blue_marine.png");
-AM.queueDownload("./img/red_hydralisk.png");
 AM.queueDownload("./img/red_zergling.png");
+AM.queueDownload("./img/red_hydralisk.png");
 AM.queueDownload("./img/red_devourer.png");
-AM.queueDownload("./img/red_mutalisk.png");
 AM.queueDownload("./img/red_ultralisk.png");
+AM.queueDownload("./img/red_mutalisk.png");
+AM.queueDownload("./img/red_guardian.png");
 AM.queueDownload("./img/player_bullet.png");
 AM.queueDownload("./img/enemy_bullet.png");
 AM.queueDownload("./img/dev_zairdthl.png");
 AM.queueDownload("./img/mut_zairdthl.png");
+AM.queueDownload("./img/gua_zairdthl.png");
 AM.queueDownload("./img/bricks.png");
 AM.queueDownload("./img/mud_tiles.png");
 AM.queueDownload("./img/hud_gray_50.png");

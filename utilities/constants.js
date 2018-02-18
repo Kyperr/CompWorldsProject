@@ -336,7 +336,7 @@ const MUTALISKS = 0;
 const TERRANS = 0;
 const SCOURGES = 0;
 //tier 3
-const GUARDIANS = 1;
+const GUARDIANS = 0;
 const LURKERS = 0;
 //total tiered enemies
 const TOTAL_ENEMIES = ZERGLINGS + HYDRALISKS + ULTRALISKS + MUTALISKS + TERRANS + SCOURGES + GUARDIANS + LURKERS;	//number of enemies to kill before boss spawns

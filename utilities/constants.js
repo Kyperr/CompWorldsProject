@@ -110,6 +110,25 @@ const ZER_HITBOX_W = 25;
 const ZER_HITBOX_H = 24;
 
 /**
+  * Constants for Mutalisk class.
+ */
+const MUT_VIEW_DISTANCE = 1000;
+const MUT_ATTACK_DISTANCE = 350;
+const MUT_MOVE_SPEED = 200;
+const MUT_ATTACKS_PER_SECOND = 2.25;
+const MUT_PAUSE_AFTER_ATTACK = 300; //milliseconds
+const MUT_FRAME_DIM = 128;
+const MUT_SCALE = 2;
+const MUT_ANGLES = 16;
+const MUT_SHEET_WIDTH = 17;
+const MUT_FIRST_FRAME_ANGLE = 90;
+const MUT_FRAME_INCREMENT = 2;
+const MUT_MAX_HP = 6;
+const MUT_HITCIRCLE_X = 69;
+const MUT_HITCIRCLE_Y = 54;
+const MUT_HITCIRCLE_R = 29;
+
+/**
   * Constants for Devourer class.
  */
 const DEV_VIEW_DISTANCE = 1000;

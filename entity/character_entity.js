@@ -20,19 +20,6 @@ CharacterEntity.prototype.update = function () {
         this.removeFromWorld = true;
     }
 
-    var character = this;
-    character.hitshapes.forEach(function (characterShape) {
-        map = character.game.map;
-        map.hitshapes.forEach(function (wall) {
-            if (characterShape.doesCollide(wall)) {
-                console.log("COLLISION DETECTED");
-                character.physics.velocity = 0;
-                character.physics.directionX = 0;
-                character.physics.directionY = 0;
-            }
-        });
-    });
-
     PhysicalEntity.prototype.update.call(this);    
 }
 

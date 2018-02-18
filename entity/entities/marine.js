@@ -64,6 +64,7 @@ Marine.prototype.update = function () {
         this.animation.currentAction = "standing";
         this.physics.velocity = 0;
     }
+
     this.physics.updateLocation(delta);
     CharacterEntity.prototype.update.call(this);
     this.lastUpdated = this.game.gameTime;

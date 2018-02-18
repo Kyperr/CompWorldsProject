@@ -1,37 +1,36 @@
 
-function Menu(game, type) {
-	this.game = game;
-	this.type = type;
+function Menu(game, ctx, type, AM) {
     Entity.call(game);
+	//this.game = game;
+	this.ctx = ctx;
+	this.type = type;
+	this.AM = AM;
 }
 
 Menu.prototype = new Entity();
 Menu.prototype.constructor = Menu;
 
-Menu.prototype.reset = function () {
-    this.game.running = false;
-	this.game.paused = true;
-}
 Menu.prototype.update = function () {
-	if (this.type === START_MENU) {
-		reset();
-	} else if (this.type === PAUSED_MENU) {
-		
-	} else if (this.type === DEAD_MENU) {
-		
-	} else if (this.type === WON_MENU) {
-		
-	}
+	if (this.type === START_SCREEN) {
+		//start game logic
+	} else if (this.type === PAUSED_SCREEN) {
+		//paused game logic
+	} else if (this.type === DEAD_SCREEN || this.type === WIN_SCREEN) {
+		//stop game logic
+	} 
 }
 
 Menu.prototype.draw = function () {
-	if (this.type === START_MENU) {
-		
-	} else if (this.type === PAUSED_MENU) {
-		
-	} else if (this.type === DEAD_MENU) {
-		
-	} else if (this.type === WON_MENU) {
-		
+	var screen;
+	var canvas = document.getElementById("canvas");
+	if (this.type === START_SCREEN) {
+		this.ctx.drawImage(this.AM.getAsset("./img/start_screen.png"), 0, 0, CAN_W, CAN_H);
+		console.log("start added");
+	} else if (this.type === PAUSED_SCREEN) {
+		this.ctx.drawImage(this.AM.getAsset("./img/paused_screen.png"), 0, 0, CAN_W, CAN_H);
+	} else if (this.type === DEAD_SCREEN) {
+		this.ctx.drawImage(this.AM.getAsset("./img/dead_screen.png"), 0, 0, CAN_W, CAN_H);
+	} else if (this.type === WIN_SCREEN) {
+		this.ctx.drawImage(this.AM.getAsset("./img/won_screen.png"), 0, 0, CAN_W, CAN_H);
 	}
 }

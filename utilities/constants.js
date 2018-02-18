@@ -25,12 +25,14 @@ const HYDRALISKS = TOTAL_ENEMIES * HYD_PROPORTION;
 const ZERGLINGS = TOTAL_ENEMIES * ZER_PROPORTION;
 
 /**
-  * Constants for Menu types
+  * Constants for Menu 
  */
-const START_MENU = "start";
-const PAUSED_MENU = "paused";
-const DEAD_MENU = "dead";
-const WIN_MENU = "won";
+const CAN_W = 800;
+const CAN_H = 600;
+const START_SCREEN = "start";
+const PAUSED_SCREEN = "paused";
+const DEAD_SCREEN = "dead";
+const WIN_SCREEN = "won";
 
 /*
  * Constants for wall collision.

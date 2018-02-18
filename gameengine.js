@@ -14,10 +14,12 @@ function GameEngine() {
     this.map = null;
     this.player = null;
     this.camera = null;
+	this.hasStarted = false;
 	this.running =  false;
-	this.paused = true;
     this.hud = null;
-	this.startMenu = null;
+	this.startScreen = null;
+	this.deadScreen = null;
+	this.winScreen = null;
     this.enemies = [];
     this.bullets = [];
 	this.enemiesKilled = 0;
@@ -87,8 +89,17 @@ GameEngine.prototype.addHUD = function (hud) {
     this.hud = hud;
 }
 
-GameEngine.prototype.addStartMenu = function (startMenu) {
-    this.startMenu = startMenu;
+GameEngine.prototype.addStartScreen = function (screen) {
+    this.startScreen = screen;
+	this.startScreen.draw();
+}
+
+GameEngine.prototype.addDeadScreen = function (screen) {
+    this.deadScreen = screen;
+}
+
+GameEngine.prototype.addWinScreen = function (screen) {
+    this.winScreen = screen;
 }
 
 GameEngine.prototype.addPlayer = function (player) {
@@ -111,8 +122,12 @@ GameEngine.prototype.draw = function () {
 	
 	//draw start menu if the game hasn't started
 	if (!this.running) {
-		this.paused = true;
-		this.startMenu.draw();
+		this.startScreen.draw();
+	}
+	if (this.won) {
+		this.winScreen.draw();
+	} else if (this.dead) {
+		this.deadScreen.draw();
 	}
 
     this.ctx.restore();
@@ -130,7 +145,7 @@ GameEngine.prototype.createBoss = function () {
 GameEngine.prototype.update = function () {
     // Update player
     if (this.player.removeFromWorld) {
-        console.log("GAME OVER");
+		this.dead = true;
     } else {
         this.player.update();
     }
@@ -153,6 +168,8 @@ GameEngine.prototype.update = function () {
 				if (this.enemiesKilled === TOTAL_ENEMIES) {
 					//spawn devourer
 					spawnBoss = true;
+				} else if (this.enemiesKilled === (TOTAL_ENEMIES + 1)) {
+					this.won = true;
 				}
             } else {
                 enemy.update();

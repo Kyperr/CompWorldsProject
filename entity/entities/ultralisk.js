@@ -18,9 +18,9 @@ Ultralisk.prototype.createAnimation = function (spritesheet) {
     var animation = new Animation(this, spritesheet, ULT_SHEET_WIDTH, ULT_ANGLES, STANDING_ACTION);
 
     //Really should do away with these magic numbers.
-    animation.createVerticalAnimationStates(WALKING_ACTION, ULT_FIRST_FRAME_ANGLE, ULT_FRAME_INCREMENT, 1, 5, .1);
+    animation.createVerticalAnimationStates(WALKING_ACTION, ULT_FIRST_FRAME_ANGLE, ULT_FRAME_INCREMENT, 1, 10, .1);
     animation.createVerticalAnimationStates(STANDING_ACTION, ULT_FIRST_FRAME_ANGLE, ULT_FRAME_INCREMENT, 1, 1, .1);
-    animation.createVerticalAnimationStates(ATTACK_ACTION, ULT_FIRST_FRAME_ANGLE, ULT_FRAME_INCREMENT, 1, 5, .1);//Should calculate the duration to sync up with attacks!!!
+    animation.createVerticalAnimationStates(ATTACK_ACTION, ULT_FIRST_FRAME_ANGLE, ULT_FRAME_INCREMENT, 11, 6, .1);//Should calculate the duration to sync up with attacks!!!
 
     return animation;
 }

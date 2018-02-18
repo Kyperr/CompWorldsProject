@@ -1,9 +1,9 @@
 
-function Marine(x, y, game, spritesheet) {
+function Marine(x, y, game, spritesheet, deathSpriteSheet) {
     /*Super init*/
     var physics = new Physics(this, x, y, MAR_FRAME_DIM, MAR_FRAME_DIM, SCALE, true);
 
-    CharacterEntity.call(this, game, spritesheet, physics, MAR_MAX_HP);
+    CharacterEntity.call(this, game, spritesheet, deathSpriteSheet, physics, MAR_MAX_HP);
 
     /*Sub init*/
     this.isShooting = false;// Whether he's shooting
@@ -21,8 +21,8 @@ Marine.prototype.constructor = Marine;
 Marine.prototype.createAnimation = function (spritesheet) {
     var numberOfAngles = 16;
     var sheetWidth = 17;
-	var firstFrameAngle = 90;
-	var frameIncrement = 2;
+    var firstFrameAngle = 90;
+    var frameIncrement = 2;
 
     var animation = new Animation(this, spritesheet, sheetWidth, numberOfAngles, STANDING_ACTION);
 
@@ -33,6 +33,20 @@ Marine.prototype.createAnimation = function (spritesheet) {
     animation.createVerticalAnimationStates(SHOOTING_ACTION, firstFrameAngle, frameIncrement, 3, 2, .1);
 
     return animation;
+}
+
+Marine.prototype.createDeathAnimation = function (deathSpriteSheet) {
+    var numberOfAngles = 1;
+    var sheetWidth = 17;
+    var firstFrameAngle = 90;
+    var frameIncrement = 1;
+
+    var deathAnimation = new Animation(this, deathSpriteSheet, sheetWidth, numberOfAngles, DYING_ACTION);
+
+    //Really should do away with these magic numbers.
+    deathAnimation.createSingleAnimState(DYING_ACTION + 0, AnimationDirection.HORIZONTAL, 1, 13, 8, 0, .1, false, false);//title, animationDirection, xIndex, yIndex, frameCount, angle, frameDuration, loop, reflect
+
+    return deathAnimation;
 }
 
 Marine.prototype.update = function () {
@@ -64,8 +78,6 @@ Marine.prototype.update = function () {
         this.animation.currentAction = "standing";
         this.physics.velocity = 0;
     }
-
-    this.physics.updateLocation(delta);
     CharacterEntity.prototype.update.call(this);
     this.lastUpdated = this.game.gameTime;
 }

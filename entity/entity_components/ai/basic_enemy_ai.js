@@ -49,8 +49,6 @@ BasicEnemyAI.prototype.update = function () {
 		this.entity.animation.currentAction = "standing";
 	}
 
-    this.entity.physics.updateLocation(delta);
-
     Entity.prototype.update.call(this);
     this.entity.lastUpdated = this.entity.game.gameTime;
 }

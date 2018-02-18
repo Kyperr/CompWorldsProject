@@ -30,8 +30,12 @@ PhysicalEntity.prototype.wallBehavior = function (x, y) {
 }
 
 PhysicalEntity.prototype.update = function () {
-    var entity = this;
-    entity.hitshapes.forEach(function (shape) {
+
+    var delta = this.game.clockTick;
+
+    this.physics.updateLocation(delta);
+    
+    this.hitshapes.forEach(function (shape) {
         shape.update();
     });
 }

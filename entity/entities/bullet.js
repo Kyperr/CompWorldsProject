@@ -34,7 +34,6 @@ Bullet.prototype.createAnimation = function (spritesheet) {
     var frameWidth = 32;
     var frameHeight = 32;
     var sheetWidth = 5;
-    var scale = 2;//Set to two for testing purposes. Fine tune later.
 
     var animation = new Animation(this, spritesheet, sheetWidth, numberOfAngles, FLYING_ACTION);
 
@@ -53,9 +52,7 @@ Bullet.prototype.wallBehavior = function (x, y) {
 Bullet.prototype.update = function () {
     var delta = this.game.clockTick;
     this.debug_timeExist += delta;
-
-    this.physics.updateLocation(delta);
-
+    
     var bullet = this;
 
     bullet.hitshapes.forEach(function (myShape) {
@@ -87,5 +84,5 @@ Bullet.prototype.update = function () {
         this.removeFromWorld = true;
     }
 
-    PhysicalEntity.prototype.update.call(this);    
+    PhysicalEntity.prototype.update.call(this); 
 }

@@ -147,25 +147,47 @@ const MUT_HITCIRCLE_X = 69;
 const MUT_HITCIRCLE_Y = 54;
 const MUT_HITCIRCLE_R = 29;
 
+/**
+  * Constants for Scourge class.
+  * NOTE: HITBOXES ARE INACCURATE
+ */
+const SCO_VIEW_DISTANCE = 1000;
+const SCO_ATTACK_DISTANCE = 350;
+const SCO_MOVE_SPEED = 100;
+const SCO_ATTACKS_PER_SECOND = 1.5;
+const SCO_PAUSE_AFTER_ATTACK = 300; //milliseconds
+const SCO_FRAME_DIM = 48;
+const SCO_SCALE = 2;
+const SCO_ANGLES = 16;
+const SCO_SHEET_WIDTH = 17;
+const SCO_FIRST_FRAME_ANGLE = 90;
+const SCO_FRAME_INCREMENT = 2;
+const SCO_MAX_HP = 4;
+const SCO_HITBOX_X = 48;
+const SCO_HITBOX_Y = 45;
+const SCO_HITBOX_W = 31;
+const SCO_HITBOX_H = 40;
 
 /**
-  * Constants for Lurker class.
+  * Constants for Infested Marine class.
+  * NOTE: HITBOXES ARE INACCURATE
  */
-const LUR_VIEW_DISTANCE = 1000;
-const LUR_ATTACK_DISTANCE = 600;
-const LUR_MOVE_SPEED = 200;
-const LUR_ATTACKS_PER_SECOND = 2;
-const LUR_PAUSE_AFTER_ATTACK = 300; //milliseconds
-const LUR_FRAME_DIM = 128;
-const LUR_SCALE = 2;
-const LUR_ANGLES = 16;
-const LUR_SHEET_WIDTH = 17;
-const LUR_FIRST_FRAME_ANGLE = 90;
-const LUR_FRAME_INCREMENT = 2;
-const LUR_MAX_HP = 10;
-const LUR_HITCIRCLE_X = 67;
-const LUR_HITCIRCLE_Y = 63;
-const LUR_HITCIRCLE_R = 29;
+const INF_VIEW_DISTANCE = 1000;
+const INF_ATTACK_DISTANCE = 350;
+const INF_MOVE_SPEED = 100;
+const INF_ATTACKS_PER_SECOND = 1.5;
+const INF_PAUSE_AFTER_ATTACK = 300; //milliseconds
+const INF_FRAME_DIM = 64;
+const INF_SCALE = 2;
+const INF_ANGLES = 16;
+const INF_SHEET_WIDTH = 17;
+const INF_FIRST_FRAME_ANGLE = 90;
+const INF_FRAME_INCREMENT = 2;
+const INF_MAX_HP = 4;
+const INF_HITBOX_X = 48;
+const INF_HITBOX_Y = 45;
+const INF_HITBOX_W = 31;
+const INF_HITBOX_H = 40;
 
 /**
   * Constants for Guardian class.
@@ -187,6 +209,25 @@ const GUA_HITCIRCLE_Y = 48;
 const GUA_HITCIRCLE_R = 35;
 
 /**
+  * Constants for Lurker class.
+ */
+const LUR_VIEW_DISTANCE = 1000;
+const LUR_ATTACK_DISTANCE = 600;
+const LUR_MOVE_SPEED = 200;
+const LUR_ATTACKS_PER_SECOND = 2;
+const LUR_PAUSE_AFTER_ATTACK = 300; //milliseconds
+const LUR_FRAME_DIM = 128;
+const LUR_SCALE = 2;
+const LUR_ANGLES = 16;
+const LUR_SHEET_WIDTH = 17;
+const LUR_FIRST_FRAME_ANGLE = 90;
+const LUR_FRAME_INCREMENT = 2;
+const LUR_MAX_HP = 10;
+const LUR_HITCIRCLE_X = 67;
+const LUR_HITCIRCLE_Y = 63;
+const LUR_HITCIRCLE_R = 29;
+
+/**
   * Constants for Defiler class.
   * NOTE: HITBOXES ARE INACCURATE
  */
@@ -195,7 +236,7 @@ const DEF_ATTACK_DISTANCE = 350;
 const DEF_MOVE_SPEED = 100;
 const DEF_ATTACKS_PER_SECOND = 1.5;
 const DEF_PAUSE_AFTER_ATTACK = 300; //milliseconds
-const DEF_FRAME_DIM = 128;
+const DEF_FRAME_DIM = 80;
 const DEF_SCALE = 2;
 const DEF_ANGLES = 16;
 const DEF_SHEET_WIDTH = 17;
@@ -237,7 +278,7 @@ const BRO_ATTACK_DISTANCE = 350;
 const BRO_MOVE_SPEED = 100;
 const BRO_ATTACKS_PER_SECOND = 1.5;
 const BRO_PAUSE_AFTER_ATTACK = 300; //milliseconds
-const BRO_FRAME_DIM = 128;
+const BRO_FRAME_DIM = 48;
 const BRO_SCALE = 2;
 const BRO_ANGLES = 16;
 const BRO_SHEET_WIDTH = 17;
@@ -268,47 +309,6 @@ const DEV_HITCIRCLE_X = 47;
 const DEV_HITCIRCLE_Y = 43;
 const DEV_HITCIRCLE_R = 29;
 
-/**
-  * Constants for Scourge class.
-  * NOTE: HITBOXES ARE INACCURATE
- */
-const SCO_VIEW_DISTANCE = 1000;
-const SCO_ATTACK_DISTANCE = 350;
-const SCO_MOVE_SPEED = 100;
-const SCO_ATTACKS_PER_SECOND = 1.5;
-const SCO_PAUSE_AFTER_ATTACK = 300; //milliseconds
-const SCO_FRAME_DIM = 128;
-const SCO_SCALE = 2;
-const SCO_ANGLES = 16;
-const SCO_SHEET_WIDTH = 17;
-const SCO_FIRST_FRAME_ANGLE = 90;
-const SCO_FRAME_INCREMENT = 2;
-const SCO_MAX_HP = 4;
-const SCO_HITBOX_X = 48;
-const SCO_HITBOX_Y = 45;
-const SCO_HITBOX_W = 31;
-const SCO_HITBOX_H = 40;
-
-/**
-  * Constants for Infested Marine class.
-  * NOTE: HITBOXES ARE INACCURATE
- */
-const INF_VIEW_DISTANCE = 1000;
-const INF_ATTACK_DISTANCE = 350;
-const INF_MOVE_SPEED = 100;
-const INF_ATTACKS_PER_SECOND = 1.5;
-const INF_PAUSE_AFTER_ATTACK = 300; //milliseconds
-const INF_FRAME_DIM = 128;
-const INF_SCALE = 2;
-const INF_ANGLES = 16;
-const INF_SHEET_WIDTH = 17;
-const INF_FIRST_FRAME_ANGLE = 90;
-const INF_FRAME_INCREMENT = 2;
-const INF_MAX_HP = 4;
-const INF_HITBOX_X = 48;
-const INF_HITBOX_Y = 45;
-const INF_HITBOX_W = 31;
-const INF_HITBOX_H = 40;
 
 
 /**
@@ -320,12 +320,23 @@ const ATTACK_ACTION = "attacking";
 const SHOOTING_ACTION = "shooting";
 const AIMING_ACTION = "aiming";
 const FLYING_ACTION = "flying";
+const DYING_ACTION = "dying";
 const NO_ACTION = "";
 
 const SCALE = 1.5;
 const BUFFER = MAR_FRAME_DIM * 2;
-const TOTAL_ENEMIES = 6;	//number of enemies to kill before devourer spawns
-const HYD_PROPORTION = 1.0 / 3.0;
-const ZER_PROPORTION = 2.0 / 3.0;
-const HYDRALISKS = TOTAL_ENEMIES * HYD_PROPORTION;
-const ZERGLINGS = TOTAL_ENEMIES * ZER_PROPORTION;
+
+//tier 1
+const ZERGLINGS = 2;
+const HYDRALISKS = 4;
+//tier 2
+const ULTRALISKS = 0;
+const MUTALISKS = 0;
+//tier 2.5 (special)
+const TERRANS = 0;
+const SCOURGES = 0;
+//tier 3
+const GUARDIANS = 0;
+const LURKERS = 0;
+//total tiered enemies
+const TOTAL_ENEMIES = ZERGLINGS + HYDRALISKS + ULTRALISKS + MUTALISKS + TERRANS + SCOURGES + GUARDIANS + LURKERS;	//number of enemies to kill before boss spawns

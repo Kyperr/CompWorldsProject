@@ -67,7 +67,7 @@ Physics.prototype.updateLocation = function (delta) {
                 if (entityShape.doesCollide(wallShape)) {
                     dx = entity.physics.x - entity.physics.lastX;
                     dy = entity.physics.y - entity.physics.lastY;
-                    pushbackMultiplier = 3;
+                    pushbackMultiplier = 2;
                     if (dx > 0 || dx < 0) {
                         entity.physics.x -= dx * pushbackMultiplier;
                     } /*else if (dx < 0) {

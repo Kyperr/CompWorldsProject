@@ -36,8 +36,7 @@ CharacterEntity.prototype.update = function () {
     PhysicalEntity.prototype.update.call(this);    
 }
 
-/*
 CharacterEntity.prototype.draw = function () {
-    //this.animation.drawFrame(this.game.clockTick, this.ctx, this.physics.x, this.physics.y);
+    PhysicalEntity.prototype.draw.call(this);
 }
-*/
+

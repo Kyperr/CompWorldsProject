@@ -6,12 +6,11 @@ function Mutalisk(x, y, game, spritesheet) {
     var ai = new BasicEnemyAI(this, MUT_VIEW_DISTANCE, MUT_ATTACK_DISTANCE, MUT_ATTACKS_PER_SECOND, MUT_MOVE_SPEED);
     BotEntity.call(this, game, spritesheet, physics, ai, MUT_MAX_HP);
 
-    this.hitshapes.push(new Box(MUT_HITBOX_X, MUT_HITBOX_Y, 
-                                MUT_HITBOX_W * SCALE, MUT_HITBOX_H * SCALE, this));
+    this.hitshapes.push(new Circle(MUT_HITCIRCLE_X, MUT_HITCIRCLE_Y, MUT_HITCIRCLE_R * SCALE, this));
 
 }
 
-Mutalisk.prototype = Object.create(BotEntity.prototype);//new BotEntity();
+Mutalisk.prototype = Object.create(BotEntity.prototype);
 Mutalisk.prototype.constructor = Mutalisk;
 
 Mutalisk.prototype.createAnimation = function (spritesheet) {

@@ -3,8 +3,8 @@
 /*
  * Flags for debugging
  */
-const DRAW_HITBOXES = false;
-const ENABLE_CHEATS = false;
+const DRAW_HITBOXES = true;
+const ENABLE_CHEATS = true;
 
 /**
   * Common constants.

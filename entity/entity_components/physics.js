@@ -68,12 +68,16 @@ Physics.prototype.updateLocation = function (delta) {
                     dx = entity.physics.x - entity.physics.lastX;
                     dy = entity.physics.y - entity.physics.lastY;
                     pushbackMultiplier = 2;
+                    entity.physics.x -= dx * pushbackMultiplier;
+                    entity.physics.y -= dy * pushbackMultiplier;
+                    /*
                     if (dx > 0 || dx < 0) {
                         entity.physics.x -= dx * pushbackMultiplier;
                     } /*else if (dx < 0) {
                         entity.physics.x -= dx * pushbackMultiplier;
                     }
                     */
+                    /*
                     if (dy > 0 || dy < 0) {
                         entity.physics.y -= dy * pushbackMultiplier;
                     } /*else if (dy < 0) {

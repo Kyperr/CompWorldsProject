@@ -243,7 +243,7 @@ GameEngine.prototype.update = function () {
     if (this.player.removeFromWorld) {
 		this.dead = true;
     } else {
-        this.player.update();
+        this.player.update(); 
     }
 
     this.hud.update();

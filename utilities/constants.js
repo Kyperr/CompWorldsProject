@@ -74,8 +74,8 @@ const HUD_HEALTH_DISPLAY_HEIGHT = 64;
  */
 const ZER_VIEW_DISTANCE = 500;
 const ZER_ATTACK_DISTANCE = 100;
-const ZER_MOVE_SPEED = 190;
-const ZER_ATTACKS_PER_SECOND = 1.25;
+const ZER_MOVE_SPEED = 300;
+const ZER_ATTACKS_PER_SECOND = 3;
 const ZER_PAUSE_AFTER_ATTACK = 300; //milliseconds
 const ZER_FRAME_DIM = 128;
 const ZER_SCALE = 2;
@@ -93,9 +93,9 @@ const ZER_HITBOX_H = 24;
   * Constants for Hydralisk class.
  */
 const HYD_VIEW_DISTANCE = 1000;
-const HYD_ATTACK_DISTANCE = 350;
+const HYD_ATTACK_DISTANCE = 400;
 const HYD_MOVE_SPEED = 100;
-const HYD_ATTACKS_PER_SECOND = 1.5;
+const HYD_ATTACKS_PER_SECOND = 1;
 const HYD_PAUSE_AFTER_ATTACK = 300; //milliseconds
 const HYD_FRAME_DIM = 128;
 const HYD_SCALE = 2;
@@ -113,9 +113,9 @@ const HYD_HITBOX_H = 40;
   * Constants for Ultralisk class.
  */
 const ULT_VIEW_DISTANCE = 1000;
-const ULT_ATTACK_DISTANCE = 350;
-const ULT_MOVE_SPEED = 100;
-const ULT_ATTACKS_PER_SECOND = 1.5;
+const ULT_ATTACK_DISTANCE = 100;
+const ULT_MOVE_SPEED = 40;
+const ULT_ATTACKS_PER_SECOND = 1;
 const ULT_PAUSE_AFTER_ATTACK = 300; //milliseconds
 const ULT_FRAME_DIM = 128;
 const ULT_SCALE = 2;
@@ -123,7 +123,7 @@ const ULT_ANGLES = 16;
 const ULT_SHEET_WIDTH = 17;
 const ULT_FIRST_FRAME_ANGLE = 90;
 const ULT_FRAME_INCREMENT = 2;
-const ULT_MAX_HP = 4;
+const ULT_MAX_HP = 10;
 const ULT_HITCIRCLE_X = 71;
 const ULT_HITCIRCLE_Y = 59;
 const ULT_HITCIRCLE_R = 33;
@@ -132,9 +132,9 @@ const ULT_HITCIRCLE_R = 33;
   * Constants for Mutalisk class.
  */
 const MUT_VIEW_DISTANCE = 1000;
-const MUT_ATTACK_DISTANCE = 350;
-const MUT_MOVE_SPEED = 200;
-const MUT_ATTACKS_PER_SECOND = 2.25;
+const MUT_ATTACK_DISTANCE = 700;
+const MUT_MOVE_SPEED = 300;
+const MUT_ATTACKS_PER_SECOND = 2;
 const MUT_PAUSE_AFTER_ATTACK = 300; //milliseconds
 const MUT_FRAME_DIM = 128;
 const MUT_SCALE = 2;
@@ -142,7 +142,7 @@ const MUT_ANGLES = 16;
 const MUT_SHEET_WIDTH = 17;
 const MUT_FIRST_FRAME_ANGLE = 90;
 const MUT_FRAME_INCREMENT = 2;
-const MUT_MAX_HP = 6;
+const MUT_MAX_HP = 8;
 const MUT_HITCIRCLE_X = 69;
 const MUT_HITCIRCLE_Y = 54;
 const MUT_HITCIRCLE_R = 29;
@@ -193,9 +193,9 @@ const INF_HITBOX_H = 40;
   * Constants for Guardian class.
  */
 const GUA_VIEW_DISTANCE = 1000;
-const GUA_ATTACK_DISTANCE = 350;
-const GUA_MOVE_SPEED = 100;
-const GUA_ATTACKS_PER_SECOND = 1.5;
+const GUA_ATTACK_DISTANCE = 800;
+const GUA_MOVE_SPEED = 75;
+const GUA_ATTACKS_PER_SECOND = 2;
 const GUA_PAUSE_AFTER_ATTACK = 300; //milliseconds
 const GUA_FRAME_DIM = 96;
 const GUA_SCALE = 2;
@@ -203,7 +203,7 @@ const GUA_ANGLES = 16;
 const GUA_SHEET_WIDTH = 17;
 const GUA_FIRST_FRAME_ANGLE = 90;
 const GUA_FRAME_INCREMENT = 2;
-const GUA_MAX_HP = 4;
+const GUA_MAX_HP = 15;
 const GUA_HITCIRCLE_X = 53;
 const GUA_HITCIRCLE_Y = 48;
 const GUA_HITCIRCLE_R = 35;
@@ -212,9 +212,9 @@ const GUA_HITCIRCLE_R = 35;
   * Constants for Lurker class.
  */
 const LUR_VIEW_DISTANCE = 1000;
-const LUR_ATTACK_DISTANCE = 350;
-const LUR_MOVE_SPEED = 100;
-const LUR_ATTACKS_PER_SECOND = 1.5;
+const LUR_ATTACK_DISTANCE = 600;
+const LUR_MOVE_SPEED = 200;
+const LUR_ATTACKS_PER_SECOND = 2;
 const LUR_PAUSE_AFTER_ATTACK = 300; //milliseconds
 const LUR_FRAME_DIM = 128;
 const LUR_SCALE = 2;
@@ -222,7 +222,7 @@ const LUR_ANGLES = 16;
 const LUR_SHEET_WIDTH = 17;
 const LUR_FIRST_FRAME_ANGLE = 90;
 const LUR_FRAME_INCREMENT = 2;
-const LUR_MAX_HP = 4;
+const LUR_MAX_HP = 10;
 const LUR_HITCIRCLE_X = 67;
 const LUR_HITCIRCLE_Y = 63;
 const LUR_HITCIRCLE_R = 29;
@@ -295,8 +295,8 @@ const BRO_HITBOX_H = 40;
  */
 const DEV_VIEW_DISTANCE = 1000;
 const DEV_ATTACK_DISTANCE = 350;
-const DEV_MOVE_SPEED = 100;
-const DEV_ATTACKS_PER_SECOND = 3.5;
+const DEV_MOVE_SPEED = 200;
+const DEV_ATTACKS_PER_SECOND = 5;
 const DEV_PAUSE_AFTER_ATTACK = 400; //milliseconds
 const DEV_FRAME_DIM = 96;
 const DEV_SCALE = 1;

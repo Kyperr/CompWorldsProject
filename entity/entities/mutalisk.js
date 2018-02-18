@@ -25,3 +25,16 @@ Mutalisk.prototype.createAnimation = function (spritesheet) {
 
     return animation;
 }
+
+Devourer.prototype.createDeathAnimation = function (deathSpriteSheet) {
+    var numberOfAngles = 1;
+    var sheetWidth = 17;
+    var firstFrameAngle = 0;
+    var frameIncrement = 1;
+
+    var deathAnimation = new Animation(this, deathSpriteSheet, sheetWidth, numberOfAngles, DYING_ACTION);
+
+    deathAnimation.createSingleAnimState(DYING_ACTION + 0, AnimationDirection.HORIZONTAL, 0, 0, 8, 0, .1, false, false);//title, animationDirection, xIndex, yIndex, frameCount, angle, frameDuration, loop, reflect
+
+    return deathAnimation;
+}

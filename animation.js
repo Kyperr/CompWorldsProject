@@ -77,6 +77,17 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y) {
         x, y,
         this.frameWidth * this.scale,
         this.frameHeight * this.scale);
+		
+		if(this.currentAction == "shooting"){			
+			ctx.drawImage(this.spriteSheet,
+				xindex * this.frameWidth,
+				((yindex + 2) * this.frameHeight) + (this.frameHeight / 2),  // source from sheet
+				this.frameWidth,
+				(this.frameHeight / 2),
+				x, y + ((this.frameHeight * this.scale) / 2),
+				this.frameWidth * this.scale,
+				(this.frameHeight * this.scale) / 2);	
+		}
 	}
 	
 	ctx.restore();

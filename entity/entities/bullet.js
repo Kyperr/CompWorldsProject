@@ -1,13 +1,11 @@
-
 function Bullet(game, spritesheet, creator, fromPlayer, directionX, directionY) {
-
     /*Super init*/
     var physics = new Physics(this, 0, 0, 32, 32, 1, true);
     physics.directionX = directionX;
     physics.directionY = directionY;
     physics.velocity = BUL_MOVE_SPEED;
     
-    PhysicalEntity.call(this, game, game.ctx, spritesheet, physics);
+    PhysicalEntity.call(this, game, spritesheet, physics);
     
     /*Sub init*/
     this.isPlayerBullet = fromPlayer;
@@ -23,7 +21,8 @@ function Bullet(game, spritesheet, creator, fromPlayer, directionX, directionY) 
 
     this.physics.x = spawnX;
     this.physics.y = spawnY;
-    
+
+    this.hitshapes.push(new Circle(BUL_HITCIRCLE_X, BUL_HITCIRCLE_Y, BUL_HITCIRCLE_R * creator.physics.scale, this));
 }
 
 Bullet.prototype = new PhysicalEntity();
@@ -35,7 +34,6 @@ Bullet.prototype.createAnimation = function (spritesheet) {
     var frameWidth = 32;
     var frameHeight = 32;
     var sheetWidth = 5;
-    var scale = 2;//Set to two for testing purposes. Fine tune later.
 
     var animation = new Animation(this, spritesheet, sheetWidth, numberOfAngles, FLYING_ACTION);
 
@@ -47,34 +45,44 @@ Bullet.prototype.createAnimation = function (spritesheet) {
     return animation;
 }
 
+Bullet.prototype.wallBehavior = function (x, y) {
+    this.removeFromWorld = true;
+}
+
 Bullet.prototype.update = function () {
     var delta = this.game.clockTick;
     this.debug_timeExist += delta;
-
-    // length of hypotenuse
-    //var hypotenusePixels = delta * speed;
-
-    // cos(theta) = adjacent / hypotenuse
-    //var cosTheta = Math.cos(degreesToRadians(this.trueAngle));
-    //var horizontalPixels = hypotenusePixels * cosTheta;
-
-    // sin(theta) = opposite / hypotenuse
-    //var sinTheta = Math.sin(degreesToRadians(this.trueAngle));
-    //var verticalPixels = hypotenusePixels * sinTheta;
-
-    //this.x += horizontalPixels;
-    //this.y -= verticalPixels;
-
-    this.physics.updateLocation(delta);
     
+    var bullet = this;
+
+    bullet.hitshapes.forEach(function (myShape) {
+        if (bullet.isPlayerBullet) {
+            bullet.game.enemies.forEach(function (enemy) {
+                enemy.hitshapes.forEach(function (theirShape) {
+                    if (myShape.doesCollide(theirShape)) {
+                        enemy.stats.hp--;
+                        bullet.removeFromWorld = true;
+                    }
+                });
+            });
+        } else {
+            player = bullet.game.player;
+            player.hitshapes.forEach(function (theirShape) {
+                if (myShape.doesCollide(theirShape)) {
+                    player.stats.hp--;
+                    bullet.removeFromWorld = true;
+                }
+            });
+        }
+    });
 
     // The following is temporary code so as not to lag the game with off-screen bullets.
     // Eventually this should be replaced with keeping track of distance the bullet has
     // travelled and deleting it after a certain distance.
     // If the bullet is offscreen, delete it.
-    if (this.debug_timeExist > 2) { 
-
-        this.isAlive = false;
+    if (this.debug_timeExist > 4) { 
         this.removeFromWorld = true;
     }
+
+    PhysicalEntity.prototype.update.call(this); 
 }

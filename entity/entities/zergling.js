@@ -1,21 +1,16 @@
-
-function Zergling(game, spritesheet) {
-	
-	//get random x and y coordinates that are > 0 and < the canvas x and y
-	var x = Math.floor(Math.random() * game.surfaceWidth);
-	var y = Math.floor(Math.random() * game.surfaceHeight);
+function Zergling(x, y, game, spritesheet, deathSpriteSheet) {
 	
     //Super init
     var physics = new Physics(this, x, y, ZER_FRAME_DIM, ZER_FRAME_DIM, SCALE, true);
+    var ai = new BasicEnemyAI(this, ZER_VIEW_DISTANCE, ZER_ATTACK_DISTANCE, ZER_ATTACKS_PER_SECOND, ZER_MOVE_SPEED);
 
-    PhysicalEntity.call(this, game, game.ctx, spritesheet, physics);
+    BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai, ZER_MAX_HP);
 
-    //Sub init                  entity, viewDistance, attackDistance, attacksPerSecond, movementSpeed
-    this.ai = new BasicEnemyAI(this, ZER_VIEW_DISTANCE, ZER_ATTACK_DISTANCE, ZER_ATTACKS_PER_SECOND, ZER_MOVE_SPEED);
-    
+    this.hitshapes.push(new Box(ZER_HITBOX_X, ZER_HITBOX_Y, 
+                                ZER_HITBOX_W * SCALE, ZER_HITBOX_H * SCALE, this));
 }
 
-Zergling.prototype = new BotEntity();
+Zergling.prototype = Object.create(BotEntity.prototype);
 Zergling.prototype.constructor = Zergling;
 
 Zergling.prototype.createAnimation = function (spritesheet) {
@@ -28,4 +23,17 @@ Zergling.prototype.createAnimation = function (spritesheet) {
     animation.createVerticalAnimationStates(ATTACK_ACTION, ZER_FIRST_FRAME_ANGLE, ZER_FRAME_INCREMENT, 1, 7, .1);//Should calculate the duration to sync up with attacks!!!
 
     return animation;
+}
+
+Zergling.prototype.createDeathAnimation = function (deathSpriteSheet) {
+    var numberOfAngles = 1;
+    var sheetWidth = 17;
+    var firstFrameAngle = 0;
+    var frameIncrement = 1;
+
+    var deathAnimation = new Animation(this, deathSpriteSheet, sheetWidth, numberOfAngles, DYING_ACTION);
+    
+    deathAnimation.createSingleAnimState(DYING_ACTION + 0, AnimationDirection.HORIZONTAL, 1, 17, 7, 0, .1, false, false);//title, animationDirection, xIndex, yIndex, frameCount, angle, frameDuration, loop, reflect
+    
+    return deathAnimation;
 }

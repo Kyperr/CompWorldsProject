@@ -1,21 +1,17 @@
 
-function Hydralisk(game, spritesheet) {
-	
-	//get random x and y coordinates that are > 0 and < the canvas x and y
-	var x = Math.floor(Math.random() * game.surfaceWidth);
-	var y = Math.floor(Math.random() * game.surfaceHeight);
+function Hydralisk(x, y, game, spritesheet, deathSpriteSheet) {
 	
     //Super init
     var physics = new Physics(this, x, y, HYD_FRAME_DIM, HYD_FRAME_DIM, SCALE, true);
+    var ai = new BasicEnemyAI(this, HYD_VIEW_DISTANCE, HYD_ATTACK_DISTANCE, HYD_ATTACKS_PER_SECOND, HYD_MOVE_SPEED);
+    BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai, HYD_MAX_HP);
 
-    PhysicalEntity.call(this, game, game.ctx, spritesheet, physics);
+    this.hitshapes.push(new Box(HYD_HITBOX_X, HYD_HITBOX_Y, 
+                                HYD_HITBOX_W * SCALE, HYD_HITBOX_H * SCALE, this));
 
-    //Sub init                  entity, viewDistance, attackDistance, attacksPerSecond, movementSpeed
-    this.ai = new BasicEnemyAI(this, HYD_VIEW_DISTANCE, HYD_ATTACK_DISTANCE, HYD_ATTACKS_PER_SECOND, HYD_MOVE_SPEED);
-    
 }
 
-Hydralisk.prototype = new BotEntity();
+Hydralisk.prototype = Object.create(BotEntity.prototype);//new BotEntity();
 Hydralisk.prototype.constructor = Hydralisk;
 
 Hydralisk.prototype.createAnimation = function (spritesheet) {
@@ -28,4 +24,13 @@ Hydralisk.prototype.createAnimation = function (spritesheet) {
     animation.createVerticalAnimationStates(ATTACK_ACTION, HYD_FIRST_FRAME_ANGLE, HYD_FRAME_INCREMENT, 1, 7, .1);//Should calculate the duration to sync up with attacks!!!
 
     return animation;
+}
+
+Hydralisk.prototype.createDeathAnimation = function (deathSpriteSheet) {
+
+    var deathAnimation = new Animation(this, deathSpriteSheet, HYD_SHEET_WIDTH, 1, DYING_ACTION);
+
+    deathAnimation.createSingleAnimState(DYING_ACTION + 0, AnimationDirection.HORIZONTAL, 1, 12, 8, 0, .1, false, false);//title, animationDirection, xIndex, yIndex, frameCount, angle, frameDuration, loop, reflect
+
+    return deathAnimation;
 }

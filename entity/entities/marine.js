@@ -1,31 +1,28 @@
 
-function Marine(game, spritesheet) {
-    // Factor out eventually
-    this.maxHealth = 10;
-    this.health = 10;
-
+function Marine(x, y, game, spritesheet, deathSpriteSheet) {
     /*Super init*/
-    var physics = new Physics(this, 0, 0, MAR_FRAME_DIM, MAR_FRAME_DIM, SCALE, true);
+    var physics = new Physics(this, x, y, MAR_FRAME_DIM, MAR_FRAME_DIM, SCALE, true);
 
-    PhysicalEntity.call(this, game, game.ctx, spritesheet, physics);
+    CharacterEntity.call(this, game, spritesheet, deathSpriteSheet, physics, MAR_MAX_HP);
 
     /*Sub init*/
-    this.stats = new CharacterStats(game, MAR_SHOTS_PER_SECOND);
-
     this.isShooting = false;// Whether he's shooting
     this.timeSinceLastShot = 0;
     this.shotsPerSecond = MAR_SHOTS_PER_SECOND;
+
+    this.hitshapes.push(new Box(MAR_HITBOX_X, MAR_HITBOX_Y, 
+                                MAR_HITBOX_W * SCALE, MAR_HITBOX_H * SCALE, this));
 }
 
-Marine.prototype = new PhysicalEntity();
+Marine.prototype = new CharacterEntity();
 Marine.prototype.constructor = Marine;
 
 //Called by super class.
 Marine.prototype.createAnimation = function (spritesheet) {
     var numberOfAngles = 16;
     var sheetWidth = 17;
-	var firstFrameAngle = 90;
-	var frameIncrement = 2;
+    var firstFrameAngle = 90;
+    var frameIncrement = 2;
 
     var animation = new Animation(this, spritesheet, sheetWidth, numberOfAngles, STANDING_ACTION);
 
@@ -38,13 +35,25 @@ Marine.prototype.createAnimation = function (spritesheet) {
     return animation;
 }
 
+Marine.prototype.createDeathAnimation = function (deathSpriteSheet) {
+    var numberOfAngles = 1;
+    var sheetWidth = 17;
+    var firstFrameAngle = 90;
+    var frameIncrement = 1;
+
+    var deathAnimation = new Animation(this, deathSpriteSheet, sheetWidth, numberOfAngles, DYING_ACTION);
+
+    //Really should do away with these magic numbers.
+    deathAnimation.createSingleAnimState(DYING_ACTION + 0, AnimationDirection.HORIZONTAL, 1, 13, 8, 0, .1, false, false);//title, animationDirection, xIndex, yIndex, frameCount, angle, frameDuration, loop, reflect
+
+    return deathAnimation;
+}
+
 Marine.prototype.update = function () {
     var delta = this.game.clockTick;
     var physics = this.physics;
 
     this.timeSinceLastShot += delta;
-
-    //console.log("X: " + physics.x + " Y:" + physics.y);
 
     if (this.isShooting) {
         this.animation.currentAction = "shooting"; 
@@ -54,7 +63,9 @@ Marine.prototype.update = function () {
             var bullet = new Bullet(this.game,
                 this.game.assetManager.getAsset("./img/player_bullet.png"),
                 this, true, physics.directionX, physics.directionY);
-            
+
+            bullet.init(this.game);            
+
             this.game.addBullet(bullet);
 
             this.timeSinceLastShot = 0;
@@ -67,7 +78,12 @@ Marine.prototype.update = function () {
         this.animation.currentAction = "standing";
         this.physics.velocity = 0;
     }
-    this.physics.updateLocation(delta);
-    PhysicalEntity.prototype.update.call(this);
+    CharacterEntity.prototype.update.call(this);
     this.lastUpdated = this.game.gameTime;
+}
+
+Marine.prototype.draw = function () {
+    if (!this.removeFromWorld) {
+        CharacterEntity.prototype.draw.call(this);
+    }
 }

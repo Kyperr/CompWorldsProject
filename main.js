@@ -2,77 +2,74 @@ var AM = new AssetManager();
 
 //Initialize the game engine
 
-function Background(game, spritesheet) {
-    this.x = 0;
-    this.y = 0;
-    this.spritesheet = spritesheet;
-    this.game = game;
-    this.ctx = game.ctx;
-};
-
-Background.prototype.draw = function () {
-    this.ctx.drawImage(this.spritesheet,
-        this.x, this.y);
-};
-
-Background.prototype.update = function () {
-};
-
 AM.queueDownload("./img/blue_marine.png");
-AM.queueDownload("./img/red_hydralisk.png");
 AM.queueDownload("./img/red_zergling.png");
+AM.queueDownload("./img/red_hydralisk.png");
 AM.queueDownload("./img/red_devourer.png");
+AM.queueDownload("./img/red_ultralisk.png");
+AM.queueDownload("./img/red_lurker.png");
+
+AM.queueDownload("./img/red_mutalisk.png");
+AM.queueDownload("./img/red_guardian.png");
 AM.queueDownload("./img/player_bullet.png");
 AM.queueDownload("./img/enemy_bullet.png");
+AM.queueDownload("./img/dev_zairdthl.png");
+AM.queueDownload("./img/mut_zairdthl.png");
+AM.queueDownload("./img/gua_zairdthl.png");
 AM.queueDownload("./img/bricks.png");
 AM.queueDownload("./img/mud_tiles.png");
 AM.queueDownload("./img/hud_gray_50.png");
 AM.queueDownload("./img/wireframe.png");
+AM.queueDownload("./img/dirt_tileset.png");
+AM.queueDownload("./img/map.png");
+
+AM.queueDownload("./img/start_screen.png");
+AM.queueDownload("./img/paused_screen.png");
+AM.queueDownload("./img/dead_screen.png");
+AM.queueDownload("./img/won_screen.png");
 
 AM.downloadAll(function () {
     var canvas = document.getElementById("gameWorld");
-	canvas.style.display = "none";
-    var startMenu = document.getElementById("startMenu");
     var ctx = canvas.getContext("2d");
     var gameEngine = new GameEngine();
 
     gameEngine.init(ctx);
     gameEngine.assetManager = AM;
-    var map = new Map(gameEngine, canvas.width / 32, canvas.height / 32, 32);
+    var map = new Map(gameEngine, 1600, 1600);
+    var startScreen = new Menu(gameEngine, ctx, START_SCREEN, AM);
+    var deadScreen = new Menu(gameEngine, ctx, DEAD_SCREEN, AM);
+    var winScreen = new Menu(gameEngine, ctx, WIN_SCREEN, AM);
     var hud = new HudElement(gameEngine, ctx,
-                             AM.getAsset("./img/hud_gray_50.png"), 240, 333, 109, 191,
-                             AM.getAsset("./img/wireframe.png"), 64, 64);
-    var marine = new Marine(gameEngine, AM.getAsset("./img/blue_marine.png"));
-    var hydralisk = new Hydralisk(gameEngine, AM.getAsset("./img/red_hydralisk.png"));
-    var zergling = new Zergling(gameEngine, AM.getAsset("./img/red_zergling.png"));
-    var devourer = new Devourer(gameEngine, AM.getAsset("./img/red_devourer.png"));
+        AM.getAsset("./img/hud_gray_50.png"),
+        HUD_HEALTH_BACKDROP_WIDTH, HUD_HEALTH_BACKDROP_HEIGHT,
+        HUD_HEALTH_BACKDROP_CENTER_X, HUD_HEALTH_BACKDROP_CENTER_Y,
+        AM.getAsset("./img/wireframe.png"),
+        HUD_HEALTH_DISPLAY_WIDTH, HUD_HEALTH_DISPLAY_HEIGHT);
+
+    var marX = (gameEngine.surfaceWidth / 2) - MAR_FRAME_DIM * SCALE;
+    var marY = (gameEngine.surfaceHeight / 2) - MAR_FRAME_DIM * SCALE;
+    var marine = new Marine(marX, marY, gameEngine, AM.getAsset("./img/blue_marine.png"), AM.getAsset("./img/blue_marine.png"));
+    marine.init(gameEngine);
 
     //init player
     initializePlayerListeners(marine, gameEngine, canvas);
-
     gameEngine.addMap(map);
     gameEngine.addPlayer(marine);
     gameEngine.addHUD(hud);
-    gameEngine.addEnemy(hydralisk);
-    gameEngine.addEnemy(zergling);
-    gameEngine.addEnemy(devourer);
-	
-	//start game when canvas is clicked
-	startMenu.addEventListener("mousedown", function (e) {
-		if (!gameEngine.hasStarted) {
-			startMenu.style.display = "none";
-			canvas.style.display = "block";
-			canvas.focus();
-			
-			var evt = document.createEvent("MouseEvents");
-			evt.initMouseEvent("mousedown", true, true);
-			
-			canvas.dispatchEvent(new MouseEvent("mousedown"));
-			canvas.focus();
-			gameEngine.hasStarted = true;	
-			gameEngine.start();
-		}
-	},  false);
+
+
+    gameEngine.camera = new Camera(gameEngine);
+
+    gameEngine.addStartScreen(startScreen);
+    gameEngine.addDeadScreen(deadScreen);
+    gameEngine.addWinScreen(winScreen);
+    canvas.addEventListener("mousedown", function (e) {
+        if (!gameEngine.running && !gameEngine.hasStarted) {
+            gameEngine.hasStarted = true;
+            gameEngine.running = true;
+            gameEngine.start();
+        }
+    });
     console.log("All Done!");
 });
 
@@ -101,19 +98,19 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
         }
 
         if (e.code === "Equal") {
-            marine.health++;
-            if (marine.health > marine.maxHealth) {
-                marine.health = marine.maxHealth;
+            if (ENABLE_CHEATS) {
+                if (marine.stats.hp < marine.stats.maxHP) {
+                    marine.stats.hp++;
+                }
             }
-            console.log("HP UP");
         }
 
         if (e.code === "Minus") {
-            marine.health--;
-            if (marine.health < 1) {
-                marine.health = 1;
+            if (ENABLE_CHEATS) {
+                if (marine.stats.hp > 0) {
+                    marine.stats.hp--;
+                }
             }
-            console.log("HP DOWN");
         }
 
         if (!marine.isShooting) {
@@ -167,6 +164,7 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
     }, false);
 
     var aimAndShootFunc = function (e) {
+        var game = marine.game;
         var physics = marine.physics;
 
         physics.velocity = 0;
@@ -174,7 +172,10 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
         var srcX = physics.x + (physics.width / 2);
         var srcY = physics.y + (physics.height / 2);
 
-        var angle = calculateAngleRadians(e.offsetX - (16), e.offsetY - (16), srcX, srcY);//The +16 magic number comes from the size of the bullets. It is 1/2 the height/width of a bullet. Can fix later. *2 is for scale.
+        var trgX = (e.offsetX - 16) + game.camera.x;
+        var trgY = (e.offsetY - 16) + game.camera.y;
+
+        var angle = calculateAngleRadians(trgX, trgY, srcX, srcY);//The 16 magic number comes from the size of the bullets. It is 1/2 the height/width of a bullet. Can fix later. *2 is for scale.
 
         physics.directionX = Math.cos(angle);
 
@@ -199,6 +200,11 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
         marine.physics.directionX = horizontal;
         var vertical = w - s;
         marine.physics.directionY = vertical;
+		
+		if(horizontal != 0 || vertical != 0){
+			marine.physics.velocity = MAR_MOVE_SPEED;
+		}
+		
     });
 
 }

@@ -4,6 +4,8 @@ function Physics(physicalEntity, x, y, width, height, scale, isRigid) {
     //console.log("my entity is: " + physicalEntity.constructor.name);
     this.x = x;
     this.y = y;
+    this.lastX = x;
+    this.lastY = y;
 
     this.width = width;
     this.height = height;
@@ -44,20 +46,32 @@ Physics.prototype.updateLocation = function (delta) {
         //Round to the nearest angle to align with animation.
         var increment = this.physicalEntity.animation.angleIncrement / 180 * Math.PI;//Converted to radians.
 
-        var angle = Math.tan(this.directionY, this.directionX);
+        var angle = Math.atan2(this.directionY, this.directionX);
+		
+        var tempLastX = this.x;
+        var tempLastY = this.y;
+		
+		var deltaX = this.velocity * Math.cos(angle);
+		var deltaY = this.velocity * Math.sin(angle);
+		
+        this.x += deltaX * delta;
+        this.y -= deltaY * delta;
 
-        //angle = nearestAngleRadians(angle, increment);
+        var entity = this.physicalEntity;
 
-        var roundedDirX = Math.cos(angle);
-        var roundedDirY = Math.sin(angle);
-
-        this.x += this.directionX * this.velocity * delta;
-
-        this.y -= this.directionY * this.velocity * delta;
+        var collides = false;
+        entity.hitshapes.forEach(function (entityShape) {
+            entityShape.update();
+            var map = entity.game.map;
+            map.hitshapes.forEach(function (wallShape) {
+                if (entityShape.doesCollide(wallShape)) {
+                    entity.wallBehavior(tempLastX, tempLastY);
+                }
+            });
+        });
     }
 
-}
-
-Physics.prototype.reflect = function () {
-    return (this.calculateAngle() + 180) % 360;
+    Physics.prototype.reflect = function () {
+        return (this.calculateAngle() + 180) % 360;
+    }
 }

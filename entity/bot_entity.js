@@ -1,15 +1,19 @@
-function BotEntity(game, ctx, x, y, spritesheet, movementFactor, ai) {
+function BotEntity(game, spritesheet, deathSpriteSheet, physics, ai, maxHealth) {
 
     /*Super init*/
-    PhysicalEntity.call(this, game, ctx, x, y, spritesheet, movementFactor);
+    CharacterEntity.call(this, game, spritesheet, deathSpriteSheet, physics, maxHealth);
 
     /*Sub init*/
     this.ai = ai;
 }
 
-BotEntity.prototype = new PhysicalEntity();
-BotEntity.prototype.constructor = BotEntity
+BotEntity.prototype = Object.create(CharacterEntity.prototype);
+BotEntity.prototype.constructor = BotEntity;
 
 BotEntity.prototype.update = function () {
-    this.ai.update();
+    CharacterEntity.prototype.update.call(this);
+
+    if (this.stats.hp > 0) {
+        this.ai.update();
+    }
 }

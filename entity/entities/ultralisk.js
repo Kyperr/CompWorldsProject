@@ -3,7 +3,7 @@ function Ultralisk(x, y, game, spritesheet, deathSpriteSheet) {
 	
     //Super init
     var physics = new Physics(this, x, y, ULT_FRAME_DIM, ULT_FRAME_DIM, SCALE, true);
-    var ai = new BasicEnemyAI(this, ULT_VIEW_DISTANCE, ULT_ATTACK_DISTANCE, ULT_ATTACKS_PER_SECOND, ULT_MOVE_SPEED);
+    var ai = new UltralistkAI(this, ULT_VIEW_DISTANCE, ULT_ATTACK_DISTANCE, ULT_ATTACKS_PER_SECOND, ULT_MOVE_SPEED);
     BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai, ULT_MAX_HP);
 
     this.hitshapes.push(new Circle(ULT_HITCIRCLE_X, ULT_HITCIRCLE_Y, ULT_HITCIRCLE_R * SCALE, this));

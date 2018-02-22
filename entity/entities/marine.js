@@ -59,10 +59,17 @@ Marine.prototype.update = function () {
         this.animation.currentAction = "shooting"; 
         if (this.timeSinceLastShot >= (1 / this.shotsPerSecond)) {
 
+            var dirX = physics.directionX;
+            var dirY = physics.directionY;
+
+            var bulletBehavior = function (bullet) {
+                Bullet.moveInDirection(bullet, dirX, dirY);
+            }
+
             //game, spritesheet, creator, fromPlayer, startingAngle
             var bullet = new Bullet(this.game,
                 this.game.assetManager.getAsset("./img/player_bullet.png"),
-                this, true, physics.directionX, physics.directionY);
+                this, true, bulletBehavior);
 
             bullet.init(this.game);            
 

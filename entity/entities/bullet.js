@@ -1,8 +1,17 @@
-function Bullet(game, spritesheet, creator, fromPlayer, directionX, directionY) {
+/**
+ *
+ *
+ * This is the constructor for the bullet class.
+ *
+ * @param {any} game
+ * @param {any} spritesheet
+ * @param {any} creator
+ * @param {any} fromPlayer
+ * @param {any} bulletBehavior - A function that takes (bullet) as an arg that should influence the directionX and directionY of the bullet as you see fit.
+ */
+function Bullet(game, spritesheet, creator, fromPlayer, bulletBehavior) {
     /*Super init*/
     var physics = new Physics(this, 0, 0, 32, 32, 1, true);
-    physics.directionX = directionX;
-    physics.directionY = directionY;
     physics.velocity = BUL_MOVE_SPEED;
     
     PhysicalEntity.call(this, game, spritesheet, physics);
@@ -10,7 +19,12 @@ function Bullet(game, spritesheet, creator, fromPlayer, directionX, directionY) 
     /*Sub init*/
     this.isPlayerBullet = fromPlayer;
 
-    this.debug_timeExist = 0;
+    this.timeExist = 0;
+    this.duration = 4;
+
+    this.callBehaviorEachUpdate = true; //Can set this to false to improve runtime.
+    this.bulletBehavior = bulletBehavior;
+    this.bulletBehavior(this);
 
     //Position
     var creatorCenterX = creator.physics.x + (creator.physics.width * creator.physics.scale / 2);
@@ -50,8 +64,13 @@ Bullet.prototype.wallBehavior = function (x, y) {
 }
 
 Bullet.prototype.update = function () {
+
+    if (this.callBehaviorEachUpdate) {
+        this.bulletBehavior(this);
+    }
+
     var delta = this.game.clockTick;
-    this.debug_timeExist += delta;
+    this.timeExist += delta;
     
     var bullet = this;
 
@@ -80,9 +99,49 @@ Bullet.prototype.update = function () {
     // Eventually this should be replaced with keeping track of distance the bullet has
     // travelled and deleting it after a certain distance.
     // If the bullet is offscreen, delete it.
-    if (this.debug_timeExist > 4) { 
+    if (this.timeExist > this.duration) { 
         this.removeFromWorld = true;
     }
 
     PhysicalEntity.prototype.update.call(this); 
+}
+
+Bullet.moveInDirection = function (bullet, dirX, dirY) {
+    bullet.physics.directionX = dirX;
+    bullet.physics.directionY = dirY;
+}
+
+Bullet.oscillate = function (bullet, angle, distanceToTarget) {
+
+    angle += Math.sin(5 * (bullet.timeExist)) / 2;
+
+    bullet.physics.directionX = Math.cos(angle);
+    bullet.physics.directionY = Math.sin(angle);
+    bullet.physics.velocity = BUL_MOVE_SPEED * (2 / 3);
+}
+
+Bullet.mineField = function (bullet, angle, distanceToTarget) {
+
+    //angle += Math.sin(5 * (bullet.timeExist)) / 2;
+
+    var newVel = bullet.physics.velocity - (bullet.timeExist * Math.floor(Math.random() * 4) + 1);
+
+    bullet.physics.velocity = Math.max(newVel, 0);
+
+    console.log("vel: " + bullet.physics.velocity);
+
+    bullet.physics.directionX = Math.cos(angle);
+    bullet.physics.directionY = Math.sin(angle);
+    
+    bullet.duration = 5;
+    //bullet.physics.velocity = BUL_MOVE_SPEED * (2 / 3);
+}
+
+Bullet.spiral = function (bullet, startAngle) {
+
+    startAngle += bullet.timeExist * 3;
+
+    bullet.physics.directionX = Math.cos(startAngle);
+    bullet.physics.directionY = Math.sin(startAngle);
+    bullet.duration = 2;
 }

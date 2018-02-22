@@ -1,4 +1,4 @@
-function BasicEnemyAI(entity, viewDistance, attackDistance, attacksPerSecond, movementSpeed) {
+function DevourerAI(entity, viewDistance, attackDistance, attacksPerSecond, movementSpeed) {
     AI.call(this, entity);
 
     //Constructor fields
@@ -15,10 +15,10 @@ function BasicEnemyAI(entity, viewDistance, attackDistance, attacksPerSecond, mo
     this.timeSinceLastMoved = 0;
 }
 
-BasicEnemyAI.prototype = new AI();
-BasicEnemyAI.prototype.constructor = BasicEnemyAI;
+DevourerAI.prototype = new AI();
+DevourerAI.prototype.constructor = DevourerAI;
 
-BasicEnemyAI.prototype.update = function () {
+DevourerAI.prototype.update = function () {
     var delta = this.entity.game.clockTick;
 
 
@@ -56,7 +56,7 @@ BasicEnemyAI.prototype.update = function () {
 }
 
 
-BasicEnemyAI.prototype.moveTowards = function (tX, tY) {
+DevourerAI.prototype.moveTowards = function (tX, tY) {
 
     //This is super rudimentary. If we add obstacles, we will need to make a more complex algorithm.
 
@@ -82,7 +82,7 @@ BasicEnemyAI.prototype.moveTowards = function (tX, tY) {
     this.entity.animation.currentAction = "walking";
 }
 
-BasicEnemyAI.prototype.attack = function (delta) {
+DevourerAI.prototype.attack = function (delta) {
     //This will be done outside the loop so the enemy appears to
     //"track" the player even when the enemy isn't shooting.
 
@@ -99,12 +99,13 @@ BasicEnemyAI.prototype.attack = function (delta) {
 
     var srcX = physics.x + ((physics.width * physics.scale) / 2);
     var srcY = physics.y + ((physics.height * physics.scale) / 2);
-    var dstX = target.physics.x + ((target.physics.width / 2) * SCALE);
-    var dstY = target.physics.y + ((target.physics.height / 2) * SCALE);
+    var dstX = target.physics.x + (target.physics.width / 2) * SCALE;
+    var dstY = target.physics.y + (target.physics.height / 2) * SCALE;
 
     var distance = Math.abs((srcX - dstX) + (srcY - dstY));
 
     var angle = calculateAngleRadians(dstX, dstY, srcX, srcY);
+    var angleVariance = 45 / 180 * Math.PI;
 
     var interpSpeed = 10 * Math.PI / 180;
     var tolerance = 10 * Math.PI / 180;
@@ -114,27 +115,42 @@ BasicEnemyAI.prototype.attack = function (delta) {
 		this.entity.animation.elapsedTime = 0;
         this.entity.animation.currentAction = "attacking";
 
-        var dirX = Math.cos(angle);
-        var dirY = Math.sin(angle);
 
-        var bulletBehavior = function (bullet) {
-            Bullet.moveInDirection(bullet, dirX, dirY);
+        // Create a bullet(s)
+
+        //Bullet 1
+        var bulletBehavior1 = function (bullet) {
+            Bullet.mineField(bullet, angle + angleVariance, distance);
         }
 
-        // Create a bullet
-        var bullet = new Bullet(this.entity.game,
+        var bullet1 = new Bullet(this.entity.game,
             this.entity.game.assetManager.getAsset("./img/enemy_bullet.png"),
-            this.entity, false, bulletBehavior);
-        bullet.init(this.entity.game);
+            this.entity, false, bulletBehavior1);
+        bullet1.init(this.entity.game);
+        this.entity.game.addBullet(bullet1);
 
-        /*
+        //Bullet 2
+        var bulletBehavior2 = function (bullet) {
+            Bullet.mineField(bullet, angle, distance);
+        }
 
-        var bullet = new Bullet(this.game,
-                this.game.assetManager.getAsset("./img/player_bullet.png"),
-                this, true, physics.directionX, physics.directionY);
+        var bullet2 = new Bullet(this.entity.game,
+            this.entity.game.assetManager.getAsset("./img/enemy_bullet.png"),
+            this.entity, false, bulletBehavior2);
+        bullet2.init(this.entity.game);
+        this.entity.game.addBullet(bullet2);
 
-        */
-        this.entity.game.addBullet(bullet);
+        //Bullet 3
+        var bulletBehavior3 = function (bullet) {
+            Bullet.mineField(bullet, angle - angleVariance, distance);
+        }
+
+        var bullet3 = new Bullet(this.entity.game,
+            this.entity.game.assetManager.getAsset("./img/enemy_bullet.png"),
+            this.entity, false, bulletBehavior3);
+        bullet3.init(this.entity.game);
+        this.entity.game.addBullet(bullet3); 
+        
         // Reset timeSinceLastShot
         this.timeSinceLastAttack = 0;
     }

@@ -120,11 +120,26 @@ Bullet.oscillate = function (bullet, angle, distanceToTarget) {
     bullet.physics.velocity = BUL_MOVE_SPEED * (2 / 3);
 }
 
+Bullet.mineField = function (bullet, angle, distanceToTarget) {
+
+    //angle += Math.sin(5 * (bullet.timeExist)) / 2;
+
+    var newVel = bullet.physics.velocity - (bullet.timeExist * Math.floor(Math.random() * 4) + 1);
+
+    bullet.physics.velocity = Math.max(newVel, 0);
+
+    console.log("vel: " + bullet.physics.velocity);
+
+    bullet.physics.directionX = Math.cos(angle);
+    bullet.physics.directionY = Math.sin(angle);
+    
+    bullet.duration = 5;
+    //bullet.physics.velocity = BUL_MOVE_SPEED * (2 / 3);
+}
+
 Bullet.spiral = function (bullet, startAngle) {
 
     startAngle += bullet.timeExist * 3;
-
-    console.log("bullet angle in spiral: " + startAngle);
 
     bullet.physics.directionX = Math.cos(startAngle);
     bullet.physics.directionY = Math.sin(startAngle);

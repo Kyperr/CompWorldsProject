@@ -73,7 +73,7 @@ const HUD_HEALTH_DISPLAY_HEIGHT = 64;
   * Constants for Zergling class.
  */
 const ZER_VIEW_DISTANCE = 500;
-const ZER_ATTACK_DISTANCE = 100;
+const ZER_ATTACK_DISTANCE = 150;
 const ZER_MOVE_SPEED = 300;
 const ZER_ATTACKS_PER_SECOND = 3;
 const ZER_PAUSE_AFTER_ATTACK = 300; //milliseconds
@@ -113,7 +113,7 @@ const HYD_HITBOX_H = 40;
   * Constants for Ultralisk class.
  */
 const ULT_VIEW_DISTANCE = 1000;
-const ULT_ATTACK_DISTANCE = 350;
+const ULT_ATTACK_DISTANCE = 200;
 const ULT_MOVE_SPEED = 125;
 const ULT_ATTACKS_PER_SECOND = 1;
 const ULT_PAUSE_AFTER_ATTACK = 300; //milliseconds
@@ -296,7 +296,7 @@ const BRO_HITBOX_H = 40;
 const DEV_VIEW_DISTANCE = 1000;
 const DEV_ATTACK_DISTANCE = 350;
 const DEV_MOVE_SPEED = 200;
-const DEV_ATTACKS_PER_SECOND = 5;
+const DEV_ATTACKS_PER_SECOND = 2;
 const DEV_PAUSE_AFTER_ATTACK = 400; //milliseconds
 const DEV_FRAME_DIM = 96;
 const DEV_SCALE = 1;
@@ -330,7 +330,7 @@ const BUFFER = MAR_FRAME_DIM * 2;
 const ZERGLINGS = 0;
 const HYDRALISKS = 0;
 //tier 2
-const ULTRALISKS = 1;
+const ULTRALISKS = 0;
 const MUTALISKS = 0;
 //tier 2.5 (special)
 const TERRANS = 0;

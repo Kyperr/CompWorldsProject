@@ -27,12 +27,14 @@ DevourerAI.prototype.update = function () {
 
     //Getting target location
     var target = this.entity.game.player;
-    var tX = target.physics.x;
-    var tY = target.physics.y;
+    var tX = target.physics.x + ((target.physics.width * SCALE) / 2);
+    var tY = target.physics.y + ((target.physics.height * SCALE) / 2);
 
     //Distance between target and self.
-    var sX = this.entity.physics.x;
-    var sY = this.entity.physics.y;
+
+    var sX = this.entity.physics.x + ((this.entity.physics.width * SCALE) / 2);
+    var sY = this.entity.physics.y + ((this.entity.physics.height * SCALE) / 2);
+
     var distance = Math.sqrt(Math.pow((tX - sX), 2) + Math.pow((tY - sY), 2));
 
     if (distance < this.viewDistance) {
@@ -118,7 +120,7 @@ DevourerAI.prototype.attack = function (delta) {
 
         //Bullet 1
         var bulletBehavior1 = function (bullet) {
-            Bullet.oscillate(bullet, angle + angleVariance, distance);
+            Bullet.mineField(bullet, angle + angleVariance, distance);
         }
 
         var bullet1 = new Bullet(this.entity.game,
@@ -129,7 +131,7 @@ DevourerAI.prototype.attack = function (delta) {
 
         //Bullet 2
         var bulletBehavior2 = function (bullet) {
-            Bullet.oscillate(bullet, angle, distance);
+            Bullet.mineField(bullet, angle, distance);
         }
 
         var bullet2 = new Bullet(this.entity.game,
@@ -140,7 +142,7 @@ DevourerAI.prototype.attack = function (delta) {
 
         //Bullet 3
         var bulletBehavior3 = function (bullet) {
-            Bullet.oscillate(bullet, angle - angleVariance, distance);
+            Bullet.mineField(bullet, angle - angleVariance, distance);
         }
 
         var bullet3 = new Bullet(this.entity.game,

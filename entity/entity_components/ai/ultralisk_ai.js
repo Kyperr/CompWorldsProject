@@ -27,12 +27,14 @@ UltralistkAI.prototype.update = function () {
 
     //Getting target location
     var target = this.entity.game.player;
-    var tX = target.physics.x;
-    var tY = target.physics.y;
+    var tX = target.physics.x + ((target.physics.width * SCALE) / 2);
+    var tY = target.physics.y + ((target.physics.height * SCALE) / 2);
 
     //Distance between target and self.
-    var sX = this.entity.physics.x;
-    var sY = this.entity.physics.y;
+
+    var sX = this.entity.physics.x + ((this.entity.physics.width * SCALE) / 2);
+    var sY = this.entity.physics.y + ((this.entity.physics.height * SCALE) / 2);
+
     var distance = Math.sqrt(Math.pow((tX - sX), 2) + Math.pow((tY - sY), 2));
 
     if (distance < this.viewDistance) {

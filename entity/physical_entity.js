@@ -59,3 +59,15 @@ PhysicalEntity.prototype.draw = function () {
         });
     }
 }
+
+PhysicalEntity.getMiddleXOf = function(physicalEntity){
+	var xMiddle = physicalEntity.physics.x;
+	xMiddle += physicalEntity.physics + ((physicalEntity.physics.width * SCALE) / 2);
+	return xMiddle;
+}
+
+PhysicalEntity.getMiddleYOf = function(physicalEntity){
+	var yMiddle = physicalEntity.physics.y;
+	yMiddle += physicalEntity.physics + ((physicalEntity.physics.height * SCALE) / 2);
+	return yMiddle;
+}

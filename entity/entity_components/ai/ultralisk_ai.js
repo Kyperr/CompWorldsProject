@@ -1,4 +1,4 @@
-function BasicEnemyAI(entity, viewDistance, attackDistance, attacksPerSecond, movementSpeed) {
+function UltralistkAI(entity, viewDistance, attackDistance, attacksPerSecond, movementSpeed) {
     AI.call(this, entity);
 
     //Constructor fields
@@ -15,10 +15,10 @@ function BasicEnemyAI(entity, viewDistance, attackDistance, attacksPerSecond, mo
     this.timeSinceLastMoved = 0;
 }
 
-BasicEnemyAI.prototype = new AI();
-BasicEnemyAI.prototype.constructor = BasicEnemyAI;
+UltralistkAI.prototype = new AI();
+UltralistkAI.prototype.constructor = UltralistkAI;
 
-BasicEnemyAI.prototype.update = function () {
+UltralistkAI.prototype.update = function () {
     var delta = this.entity.game.clockTick;
 
 
@@ -54,7 +54,7 @@ BasicEnemyAI.prototype.update = function () {
 }
 
 
-BasicEnemyAI.prototype.moveTowards = function (tX, tY) {
+UltralistkAI.prototype.moveTowards = function (tX, tY) {
 
     //This is super rudimentary. If we add obstacles, we will need to make a more complex algorithm.
 
@@ -80,7 +80,7 @@ BasicEnemyAI.prototype.moveTowards = function (tX, tY) {
     this.entity.animation.currentAction = "walking";
 }
 
-BasicEnemyAI.prototype.attack = function (delta) {
+UltralistkAI.prototype.attack = function (delta) {
     //This will be done outside the loop so the enemy appears to
     //"track" the player even when the enemy isn't shooting.
 
@@ -112,27 +112,31 @@ BasicEnemyAI.prototype.attack = function (delta) {
 		this.entity.animation.elapsedTime = 0;
         this.entity.animation.currentAction = "attacking";
 
-        var dirX = Math.cos(angle);
-        var dirY = Math.sin(angle);
+        //var dirX = Math.cos(angle);
+        //var dirY = Math.sin(angle);
 
-        var bulletBehavior = function (bullet) {
-            Bullet.moveInDirection(bullet, dirX, dirY);
+        for (var i = 0; i < 8; i++) {
+            //Oh my god. Javascript is an absolute abomination.
+            var that = this;
+            (function () {
+
+                var startAngle = i * (Math.PI / 4);
+
+                var bulletBehavior = function (bullet) {
+                    Bullet.spiral(bullet, startAngle);
+                }
+
+                // Create a bullet
+                var bullet = new Bullet(that.entity.game,
+                    that.entity.game.assetManager.getAsset("./img/enemy_bullet.png"),
+                    that.entity, false, bulletBehavior);
+                bullet.init(that.entity.game);
+
+                that.entity.game.addBullet(bullet);
+            })();
+
         }
 
-        // Create a bullet
-        var bullet = new Bullet(this.entity.game,
-            this.entity.game.assetManager.getAsset("./img/enemy_bullet.png"),
-            this.entity, false, bulletBehavior);
-        bullet.init(this.entity.game);
-
-        /*
-
-        var bullet = new Bullet(this.game,
-                this.game.assetManager.getAsset("./img/player_bullet.png"),
-                this, true, physics.directionX, physics.directionY);
-
-        */
-        this.entity.game.addBullet(bullet);
         // Reset timeSinceLastShot
         this.timeSinceLastAttack = 0;
     }

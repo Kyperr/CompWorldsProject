@@ -113,9 +113,9 @@ const HYD_HITBOX_H = 40;
   * Constants for Ultralisk class.
  */
 const ULT_VIEW_DISTANCE = 1000;
-const ULT_ATTACK_DISTANCE = 100;
+const ULT_ATTACK_DISTANCE = 350;
 const ULT_MOVE_SPEED = 125;
-const ULT_ATTACKS_PER_SECOND = 2;
+const ULT_ATTACKS_PER_SECOND = 1;
 const ULT_PAUSE_AFTER_ATTACK = 300; //milliseconds
 const ULT_FRAME_DIM = 128;
 const ULT_SCALE = 2;
@@ -327,16 +327,16 @@ const SCALE = 1.5;
 const BUFFER = MAR_FRAME_DIM * 2;
 
 //tier 1
-const ZERGLINGS = 3;
-const HYDRALISKS = 2;
+const ZERGLINGS = 0;
+const HYDRALISKS = 0;
 //tier 2
 const ULTRALISKS = 1;
-const MUTALISKS = 1;
+const MUTALISKS = 0;
 //tier 2.5 (special)
 const TERRANS = 0;
 const SCOURGES = 0;
 //tier 3
-const GUARDIANS = 1;
+const GUARDIANS = 0;
 const LURKERS = 0;
 //total tiered enemies
 const TOTAL_ENEMIES = ZERGLINGS + HYDRALISKS + ULTRALISKS + MUTALISKS + TERRANS + SCOURGES + GUARDIANS + LURKERS;	//number of enemies to kill before boss spawns

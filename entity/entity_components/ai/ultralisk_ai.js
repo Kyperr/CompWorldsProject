@@ -27,8 +27,8 @@ UltralistkAI.prototype.update = function () {
 
     //Getting target location
     var target = this.entity.game.player;
-    var tX = target.physics.x + ((target.physics.width * SCALE) / 2);
-    var tY = target.physics.y + ((target.physics.height * SCALE) / 2);
+    var tX = PhysicalEntity.getMiddleXOf(target);
+    var tY = PhysicalEntity.getMiddleYOf(target);
 
     //Distance between target and self.
 
@@ -67,8 +67,8 @@ UltralistkAI.prototype.moveTowards = function (tX, tY) {
 
     //Getting target location
     var target = this.entity.game.player;
-    var tX = target.physics.x;
-    var tY = target.physics.y;
+    var tX = PhysicalEntity.getMiddleXOf(target);
+    var tY = PhysicalEntity.getMiddleYOf(target);
 
     //10 degrees in radians. Fairly fast. This is a magic number and should be standardized.
     var interpSpeed = 10 * Math.PI / 180;
@@ -97,14 +97,12 @@ UltralistkAI.prototype.attack = function (delta) {
 
     var target = this.entity.game.player;
 
-    var srcX = physics.x + ((physics.width * physics.scale) / 2);
-    var srcY = physics.y + ((physics.height * physics.scale) / 2);
-    var dstX = target.physics.x + (target.physics.width / 2) * SCALE;
-    var dstY = target.physics.y + (target.physics.height / 2) * SCALE;
-
-    var distance = Math.abs((srcX - dstX) + (srcY - dstY));
-
-    var angle = calculateAngleRadians(dstX, dstY, srcX, srcY);
+    var srcX = PhysicalEntity.getMiddleXOf(this.entity);
+    var srcY = PhysicalEntity.getMiddleYOf(this.entity);
+    var dstX = PhysicalEntity.getMiddleXOf(target);
+    var dstY = PhysicalEntity.getMiddleYOf(target);
+	
+	var angle = calculateAngleRadians(dstX, dstY, srcX, srcY);
 
     var interpSpeed = 10 * Math.PI / 180;
     var tolerance = 10 * Math.PI / 180;
@@ -117,6 +115,37 @@ UltralistkAI.prototype.attack = function (delta) {
         //var dirX = Math.cos(angle);
         //var dirY = Math.sin(angle);
 
+		var sweepWidth = Math.PI;
+        var that = this;
+		for(var i = 1; i <= 3; i++){
+			(function(){
+				
+				var distance = i * 25;
+				
+				var startX = PhysicalEntity.getMiddleXOf(that.entity) + (distance * Math.cos(angle - (sweepWidth / 2)));
+				var startY = PhysicalEntity.getMiddleYOf(that.entity) + (distance * Math.sin(angle - (sweepWidth / 2)));
+				
+				var startAngle = calculateAngleRadians(dstX, dstY, startX, startY);
+				
+				var bulletBehavior = function (bullet) {
+                    Bullet.sweep(bullet, startAngle, distance, sweepWidth);
+                }
+
+                // Create a bullet
+                var bullet = new Bullet(that.entity.game,
+                    that.entity.game.assetManager.getAsset("./img/enemy_bullet.png"),
+                    that.entity, false, bulletBehavior);
+					
+					bullet.physics.x = startX;
+					bullet.physics.t = startY;
+					
+                bullet.init(that.entity.game);
+
+                that.entity.game.addBullet(bullet);
+				
+			})();
+		}
+		/*
         for (var i = 0; i < 8; i++) {
             //Oh my god. Javascript is an absolute abomination.
             var that = this;
@@ -137,7 +166,7 @@ UltralistkAI.prototype.attack = function (delta) {
                 that.entity.game.addBullet(bullet);
             })();
 
-        }
+        }*/
 
         // Reset timeSinceLastShot
         this.timeSinceLastAttack = 0;

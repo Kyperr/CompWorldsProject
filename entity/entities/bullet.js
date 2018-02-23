@@ -145,3 +145,18 @@ Bullet.spiral = function (bullet, startAngle) {
     bullet.physics.directionY = Math.sin(startAngle);
     bullet.duration = 2;
 }
+
+Bullet.sweep = function (bullet, angle, distanceFromSource, sweepWidth) {
+
+    bullet.duration = 10;
+	
+	bullet.physics.velocity = (2 * Math.PI * distanceFromSource) / bullet.duration;
+
+	//angle += (sweepWidth / bullet.duration) * bullet.timeExist; //start
+	angle += (sweepWidth / bullet.duration) * (bullet.timeExist);
+	
+	//console.log("angle = " + angle);
+
+    bullet.physics.directionX = Math.cos(angle);
+    bullet.physics.directionY = Math.sin(angle);
+}

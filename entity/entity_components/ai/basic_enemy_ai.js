@@ -67,8 +67,8 @@ BasicEnemyAI.prototype.moveTowards = function (tX, tY) {
 
     //Getting target location
     var target = this.entity.game.player;
-    var tX = target.physics.x;
-    var tY = target.physics.y;
+    var tX = PhysicalEntity.getMiddleXOf(target);
+    var tY = PhysicalEntity.getMiddleYOf(target);
 
     //10 degrees in radians. Fairly fast. This is a magic number and should be standardized.
     var interpSpeed = 10 * Math.PI / 180;
@@ -101,8 +101,6 @@ BasicEnemyAI.prototype.attack = function (delta) {
     var srcY = physics.y + ((physics.height * physics.scale) / 2);
     var dstX = target.physics.x + ((target.physics.width / 2) * SCALE);
     var dstY = target.physics.y + ((target.physics.height / 2) * SCALE);
-
-    var distance = Math.abs((srcX - dstX) + (srcY - dstY));
 
     var angle = calculateAngleRadians(dstX, dstY, srcX, srcY);
 

@@ -15,72 +15,8 @@ function UltralistkAI(entity, viewDistance, attackDistance, attacksPerSecond, mo
     this.timeSinceLastMoved = 0;
 }
 
-UltralistkAI.prototype = new AI();
+UltralistkAI.prototype = new BasicEnemyAI();
 UltralistkAI.prototype.constructor = UltralistkAI;
-
-UltralistkAI.prototype.update = function () {
-    var delta = this.entity.game.clockTick;
-
-
-    this.timeSinceLastAttack += delta;
-    this.timeSinceLastMoved += delta;
-
-    //Getting target location
-    var target = this.entity.game.player;
-    var tX = PhysicalEntity.getMiddleXOf(target);
-    var tY = PhysicalEntity.getMiddleYOf(target);
-
-    //Distance between target and self.
-
-    var sX = this.entity.physics.x + ((this.entity.physics.width * SCALE) / 2);
-    var sY = this.entity.physics.y + ((this.entity.physics.height * SCALE) / 2);
-
-    var distance = Math.sqrt(Math.pow((tX - sX), 2) + Math.pow((tY - sY), 2));
-
-    if (distance < this.viewDistance) {
-        if (distance > this.attackDistance - 5) {
-            this.timeSinceLastMoved = 0;
-            this.moveTowards(tX, tY);
-        } else {
-            if (this.timeSinceLastMoved > .5) {
-                this.attack(delta);
-            }
-        }
-    } else {
-		this.entity.physics.velocity = 0;
-		this.entity.animation.currentAction = "standing";
-	}
-
-    Entity.prototype.update.call(this);
-    this.entity.lastUpdated = this.entity.game.gameTime;
-}
-
-
-UltralistkAI.prototype.moveTowards = function (tX, tY) {
-
-    //This is super rudimentary. If we add obstacles, we will need to make a more complex algorithm.
-
-    var physics = this.entity.physics;
-
-    var angle = calculateAngleRadians(tX, tY, physics.x, physics.y);
-
-
-    //Getting target location
-    var target = this.entity.game.player;
-    var tX = PhysicalEntity.getMiddleXOf(target);
-    var tY = PhysicalEntity.getMiddleYOf(target);
-
-    //10 degrees in radians. Fairly fast. This is a magic number and should be standardized.
-    var interpSpeed = 10 * Math.PI / 180;
-
-    var tolerance = 10 * Math.PI / 180;
-
-    if (interpolate(this.entity, angle, interpSpeed, tolerance)) {
-        physics.velocity = this.movementSpeed;
-    }
-    //Idk, maybe this should be inside the interp check.
-    this.entity.animation.currentAction = "walking";
-}
 
 UltralistkAI.prototype.attack = function (delta) {
     //This will be done outside the loop so the enemy appears to
@@ -103,6 +39,7 @@ UltralistkAI.prototype.attack = function (delta) {
     var dstY = PhysicalEntity.getMiddleYOf(target);
 	
 	var angle = calculateAngleRadians(dstX, dstY, srcX, srcY);
+	console.log("angle to player: " + angle);
 
     var interpSpeed = 10 * Math.PI / 180;
     var tolerance = 10 * Math.PI / 180;
@@ -115,20 +52,25 @@ UltralistkAI.prototype.attack = function (delta) {
         //var dirX = Math.cos(angle);
         //var dirY = Math.sin(angle);
 
-		var sweepWidth = Math.PI;
+		var sweepWidth = Math.PI / 2;
         var that = this;
 		for(var i = 1; i <= 3; i++){
+			//Right swipe
 			(function(){
 				
-				var distance = i * 25;
+				var distance = i * 40;
 				
-				var startX = PhysicalEntity.getMiddleXOf(that.entity) + (distance * Math.cos(angle - (sweepWidth / 2)));
-				var startY = PhysicalEntity.getMiddleYOf(that.entity) + (distance * Math.sin(angle - (sweepWidth / 2)));
+				//console.log("sin: " + Math.cos(angle - (sweepWidth / 2)));
+				var startX = PhysicalEntity.getMiddleXOf(that.entity) + (distance * Math.cos(angle - sweepWidth));
+				//console.log("cos: " + Math.sin(angle - (sweepWidth / 2)));
+				var startY = PhysicalEntity.getMiddleYOf(that.entity) - (distance * Math.sin(angle - sweepWidth));
+				//console.log("bullet" + i + " startX" + startX);
 				
 				var startAngle = calculateAngleRadians(dstX, dstY, startX, startY);
+				//console.log("start angle: " + startAngle);
 				
 				var bulletBehavior = function (bullet) {
-                    Bullet.sweep(bullet, startAngle, distance, sweepWidth);
+                    Bullet.sweepCCW(bullet, angle, distance, sweepWidth);
                 }
 
                 // Create a bullet
@@ -136,8 +78,40 @@ UltralistkAI.prototype.attack = function (delta) {
                     that.entity.game.assetManager.getAsset("./img/enemy_bullet.png"),
                     that.entity, false, bulletBehavior);
 					
-					bullet.physics.x = startX;
-					bullet.physics.t = startY;
+					bullet.physics.x = startX - (bullet.physics.width / 2);
+					bullet.physics.y = startY - (bullet.physics.height / 2);
+					
+                bullet.init(that.entity.game);
+
+                that.entity.game.addBullet(bullet);
+				
+			})();
+			
+			//Left Swipe
+			(function(){
+				
+				var distance = i * 40;
+				
+				//console.log("sin: " + Math.cos(angle - (sweepWidth / 2)));
+				var startX = PhysicalEntity.getMiddleXOf(that.entity) - (distance * Math.cos(angle - sweepWidth));
+				//console.log("cos: " + Math.sin(angle - (sweepWidth / 2)));
+				var startY = PhysicalEntity.getMiddleYOf(that.entity) + (distance * Math.sin(angle - sweepWidth));
+				//console.log("bullet" + i + " startX" + startX);
+				
+				var startAngle = calculateAngleRadians(dstX, dstY, startX, startY);
+				//console.log("start angle: " + startAngle);
+				
+				var bulletBehavior = function (bullet) {
+                    Bullet.sweepCW(bullet, angle, distance, sweepWidth);
+                }
+
+                // Create a bullet
+                var bullet = new Bullet(that.entity.game,
+                    that.entity.game.assetManager.getAsset("./img/enemy_bullet.png"),
+                    that.entity, false, bulletBehavior);
+					
+					bullet.physics.x = startX - (bullet.physics.width / 2);
+					bullet.physics.y = startY - (bullet.physics.height / 2);
 					
                 bullet.init(that.entity.game);
 
@@ -145,28 +119,6 @@ UltralistkAI.prototype.attack = function (delta) {
 				
 			})();
 		}
-		/*
-        for (var i = 0; i < 8; i++) {
-            //Oh my god. Javascript is an absolute abomination.
-            var that = this;
-            (function () {
-
-                var startAngle = i * (Math.PI / 4);
-
-                var bulletBehavior = function (bullet) {
-                    Bullet.spiral(bullet, startAngle);
-                }
-
-                // Create a bullet
-                var bullet = new Bullet(that.entity.game,
-                    that.entity.game.assetManager.getAsset("./img/enemy_bullet.png"),
-                    that.entity, false, bulletBehavior);
-                bullet.init(that.entity.game);
-
-                that.entity.game.addBullet(bullet);
-            })();
-
-        }*/
 
         // Reset timeSinceLastShot
         this.timeSinceLastAttack = 0;

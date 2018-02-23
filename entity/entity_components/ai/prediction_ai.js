@@ -1,4 +1,4 @@
-function DevourerAI(entity, viewDistance, attackDistance, attacksPerSecond, movementSpeed) {
+function PredictionAI(entity, viewDistance, attackDistance, attacksPerSecond, movementSpeed) {
     AI.call(this, entity);
 
     //Constructor fields
@@ -15,10 +15,10 @@ function DevourerAI(entity, viewDistance, attackDistance, attacksPerSecond, move
     this.timeSinceLastMoved = 0;
 }
 
-DevourerAI.prototype = new BasicEnemyAI();
-DevourerAI.prototype.constructor = DevourerAI;
+PredictionAI.prototype = new BasicEnemyAI();
+PredictionAI.prototype.constructor = DevourerAI;
 
-DevourerAI.prototype.attack = function (delta) {
+PredictionAI.prototype.attack = function (delta) {
     //This will be done outside the loop so the enemy appears to
     //"track" the player even when the enemy isn't shooting.
 
@@ -33,12 +33,10 @@ DevourerAI.prototype.attack = function (delta) {
 
     var target = this.entity.game.player;
 
-    var srcX = physics.x + ((physics.width * physics.scale) / 2);
-    var srcY = physics.y + ((physics.height * physics.scale) / 2);
-    var dstX = target.physics.x + (target.physics.width / 2) * SCALE;
-    var dstY = target.physics.y + (target.physics.height / 2) * SCALE;
-
-    var distance = Math.sqrt(Math.pow((tX - sX), 2) + Math.pow((tY - sY), 2));
+    var srcX = PhysicalEntity.getMiddleXOf(this.entity);// physics.x + ((physics.width * physics.scale) / 2);
+    var srcY = PhysicalEntity.getMiddleYOf(this.entity);//physics.y + ((physics.height * physics.scale) / 2);
+    var dstX = PhysicalEntity.getMiddleXOf(target);//target.physics.x + (target.physics.width / 2) * SCALE;
+    var dstY = PhysicalEntity.getMiddleYOf(target);//target.physics.y + (target.physics.height / 2) * SCALE;
 
     var angle = calculateAngleRadians(dstX, dstY, srcX, srcY);
     var angleVariance = 45 / 180 * Math.PI;
@@ -50,13 +48,20 @@ DevourerAI.prototype.attack = function (delta) {
     if (this.timeSinceLastAttack >= (1 / this.attacksPerSecond)) {
 		this.entity.animation.elapsedTime = 0;
         this.entity.animation.currentAction = "attacking";
-
-
+		
+		//Predicted X and Y
+		var targetAngle = Math.atan2(target.physics.directionY, target.physics.directionX);
+		var pTargetX = target.physics.velocity * Math.cos(targetAngle);
+		var pTargetY = target.physics.velocity * Math.sin(targetAngle);
+		
         // Create a bullet(s)
-
+		
         //Bullet 1
-        var bulletBehavior1 = function (bullet) {
-            Bullet.oscillate(bullet, angle + angleVariance, distance);
+        var dirX = Math.cos(angle);
+        var dirY = Math.sin(angle);
+
+        var bulletBehavior = function (bullet) {
+            Bullet.moveInDirection(bullet, dirX, dirY);
         }
 
         var bullet1 = new Bullet(this.entity.game,
@@ -64,28 +69,6 @@ DevourerAI.prototype.attack = function (delta) {
             this.entity, false, bulletBehavior1);
         bullet1.init(this.entity.game);
         this.entity.game.addBullet(bullet1);
-
-        //Bullet 2
-        var bulletBehavior2 = function (bullet) {
-            Bullet.oscillate(bullet, angle, distance);
-        }
-
-        var bullet2 = new Bullet(this.entity.game,
-            this.entity.game.assetManager.getAsset("./img/enemy_bullet.png"),
-            this.entity, false, bulletBehavior2);
-        bullet2.init(this.entity.game);
-        this.entity.game.addBullet(bullet2);
-
-        //Bullet 3
-        var bulletBehavior3 = function (bullet) {
-            Bullet.oscillate(bullet, angle - angleVariance, distance);
-        }
-
-        var bullet3 = new Bullet(this.entity.game,
-            this.entity.game.assetManager.getAsset("./img/enemy_bullet.png"),
-            this.entity, false, bulletBehavior3);
-        bullet3.init(this.entity.game);
-        this.entity.game.addBullet(bullet3); 
         
         // Reset timeSinceLastShot
         this.timeSinceLastAttack = 0;

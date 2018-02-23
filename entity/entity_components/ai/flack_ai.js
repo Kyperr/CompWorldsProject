@@ -53,7 +53,7 @@ FlackAI.prototype.attack = function (delta) {
         var dirY = Math.sin(angle);
 
         //Sub-bullet variables:
-        var spiralRadius = 25;
+        var spiralRadius = 35;
         var that = this;
 
         var bulletBehavior = function (bullet) {

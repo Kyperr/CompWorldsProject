@@ -64,14 +64,14 @@ Bullet.prototype.wallBehavior = function (x, y) {
 }
 
 Bullet.prototype.update = function () {
-
+    
+    var delta = this.game.clockTick;
+    this.timeExist += delta;
+    
     if (this.callBehaviorEachUpdate) {
         this.bulletBehavior(this);
     }
 
-    var delta = this.game.clockTick;
-    this.timeExist += delta;
-    
     var bullet = this;
 
     bullet.hitshapes.forEach(function (myShape) {
@@ -99,7 +99,7 @@ Bullet.prototype.update = function () {
     // Eventually this should be replaced with keeping track of distance the bullet has
     // travelled and deleting it after a certain distance.
     // If the bullet is offscreen, delete it.
-    if (this.timeExist > this.duration) { 
+    if (this.timeExist > this.duration) {
         this.removeFromWorld = true;
     }
 
@@ -120,16 +120,25 @@ Bullet.oscillate = function (bullet, angle, distanceToTarget) {
     bullet.physics.velocity = BUL_MOVE_SPEED * (2 / 3);
 }
 
+Bullet.fallBack = function (bullet, angle, spiralRadius) {
+
+    angle += bullet.timeExist * 2;
+
+    bullet.duration = Math.PI;
+
+    bullet.physics.directionX = Math.cos(angle);
+    bullet.physics.directionY = Math.sin(angle);
+    bullet.physics.velocity = (2*Math.PI * spiralRadius) / bullet.duration;
+}
+
 //Concept(Abandoned?)
-Bullet.mineField = function (bullet, angle, distanceToTarget) {
+Bullet.mineField = function (bullet, angle) {
 
     //angle += Math.sin(5 * (bullet.timeExist)) / 2;
 
     var newVel = bullet.physics.velocity - (bullet.timeExist * Math.floor(Math.random() * 4) + 1);
 
     bullet.physics.velocity = Math.max(newVel, 0);
-
-    console.log("vel: " + bullet.physics.velocity);
 
     bullet.physics.directionX = Math.cos(angle);
     bullet.physics.directionY = Math.sin(angle);

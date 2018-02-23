@@ -72,7 +72,7 @@ const HUD_HEALTH_DISPLAY_HEIGHT = 64;
 /**
   * Constants for Zergling class.
  */
-const ZER_VIEW_DISTANCE = 500;
+const ZER_VIEW_DISTANCE = 400;
 const ZER_ATTACK_DISTANCE = 150;
 const ZER_MOVE_SPEED = 300;
 const ZER_ATTACKS_PER_SECOND = 2;
@@ -134,7 +134,7 @@ const ULT_HITCIRCLE_R = 33;
 const MUT_VIEW_DISTANCE = 1000;
 const MUT_ATTACK_DISTANCE = 700;
 const MUT_MOVE_SPEED = 300;
-const MUT_ATTACKS_PER_SECOND = 2;
+const MUT_ATTACKS_PER_SECOND = .5;
 const MUT_PAUSE_AFTER_ATTACK = 300; //milliseconds
 const MUT_FRAME_DIM = 128;
 const MUT_SCALE = 2;
@@ -195,7 +195,7 @@ const INF_HITBOX_H = 40;
 const GUA_VIEW_DISTANCE = 1000;
 const GUA_ATTACK_DISTANCE = 800;
 const GUA_MOVE_SPEED = 125;
-const GUA_ATTACKS_PER_SECOND = 8;
+const GUA_ATTACKS_PER_SECOND = 4;
 const GUA_PAUSE_AFTER_ATTACK = 300; //milliseconds
 const GUA_FRAME_DIM = 96;
 const GUA_SCALE = 2;
@@ -326,22 +326,22 @@ const NO_ACTION = "";
 const SCALE = 1.5;
 const BUFFER = MAR_FRAME_DIM * 2;
 
-
+/*
 //tier 1
 const ZERGLINGS = 0;
 const HYDRALISKS = 0;
 //tier 2
 const ULTRALISKS = 0;
-const MUTALISKS = 0;
+const MUTALISKS = 1;
 //tier 2.5 (special)
 const TERRANS = 0;
 const SCOURGES = 0;
 //tier 3
 const GUARDIANS = 0;
 const LURKERS = 0;
+*/
 
 
-/*
 const ZERGLINGS = 3;
 const HYDRALISKS = 2;
 //tier 2
@@ -353,7 +353,7 @@ const SCOURGES = 0;
 //tier 3
 const GUARDIANS = 1;
 const LURKERS = 0;
-*/
+
 
 //total tiered enemies
 const TOTAL_ENEMIES = ZERGLINGS + HYDRALISKS + ULTRALISKS + MUTALISKS + TERRANS + SCOURGES + GUARDIANS + LURKERS;	//number of enemies to kill before boss spawns

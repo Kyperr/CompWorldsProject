@@ -26,6 +26,8 @@ AM.queueDownload("./img/enemy_bullet.png");
 AM.queueDownload("./img/prediction_bullet.png");
 AM.queueDownload("./img/swipe_bullet.png");
 AM.queueDownload("./img/oscillate_bullet.png");
+AM.queueDownload("./img/payload_bullets.png");
+AM.queueDownload("./img/fallout_bullets.png");
 
 AM.queueDownload("./img/start_screen.png");
 AM.queueDownload("./img/paused_screen.png");

@@ -38,10 +38,9 @@ DevourerAI.prototype.attack = function (delta) {
     var dstX = target.physics.x + (target.physics.width / 2) * SCALE;
     var dstY = target.physics.y + (target.physics.height / 2) * SCALE;
 
-    var distance = Math.sqrt(Math.pow((tX - sX), 2) + Math.pow((tY - sY), 2));
+    var distance = Math.sqrt(Math.pow((srcX - dstX), 2) + Math.pow((srcY - dstY), 2));
 
     var angle = calculateAngleRadians(dstX, dstY, srcX, srcY);
-    var angleVariance = 45 / 180 * Math.PI;
 
     var interpSpeed = 10 * Math.PI / 180;
     var tolerance = 10 * Math.PI / 180;
@@ -54,39 +53,25 @@ DevourerAI.prototype.attack = function (delta) {
 
         // Create a bullet(s)
 
-        //Bullet 1
-        var bulletBehavior1 = function (bullet) {
-            Bullet.oscillate(bullet, angle + angleVariance, distance);
+        var angleCount = 8;
+        for (var i = 0; i < 8; i++){
+            var that = this;
+            (function () {
+
+                var aimAngle = angle + (i * 2 * Math.PI / angleCount);
+
+                var bulletBehavior = function (bullet) {
+                    Bullet.oscillate(bullet, aimAngle, distance);
+                    Bullet.oscillate(bullet, aimAngle, distance);
+                }
+
+                var bullet = new Bullet(that.entity.game,
+                    that.entity.game.assetManager.getAsset("./img/oscillate_bullet.png"),
+                    that.entity, false, bulletBehavior);
+                bullet.init(that.entity.game);
+                that.entity.game.addBullet(bullet);
+            })();
         }
-
-        var bullet1 = new Bullet(this.entity.game,
-            this.entity.game.assetManager.getAsset("./img/enemy_bullet.png"),
-            this.entity, false, bulletBehavior1);
-        bullet1.init(this.entity.game);
-        this.entity.game.addBullet(bullet1);
-
-        //Bullet 2
-        var bulletBehavior2 = function (bullet) {
-            Bullet.oscillate(bullet, angle, distance);
-        }
-
-        var bullet2 = new Bullet(this.entity.game,
-            this.entity.game.assetManager.getAsset("./img/enemy_bullet.png"),
-            this.entity, false, bulletBehavior2);
-        bullet2.init(this.entity.game);
-        this.entity.game.addBullet(bullet2);
-
-        //Bullet 3
-        var bulletBehavior3 = function (bullet) {
-            Bullet.oscillate(bullet, angle - angleVariance, distance);
-        }
-
-        var bullet3 = new Bullet(this.entity.game,
-            this.entity.game.assetManager.getAsset("./img/enemy_bullet.png"),
-            this.entity, false, bulletBehavior3);
-        bullet3.init(this.entity.game);
-        this.entity.game.addBullet(bullet3); 
-        
         // Reset timeSinceLastShot
         this.timeSinceLastAttack = 0;
     }

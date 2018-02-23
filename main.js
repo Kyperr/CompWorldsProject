@@ -11,8 +11,6 @@ AM.queueDownload("./img/red_lurker.png");
 
 AM.queueDownload("./img/red_mutalisk.png");
 AM.queueDownload("./img/red_guardian.png");
-AM.queueDownload("./img/player_bullet.png");
-AM.queueDownload("./img/enemy_bullet.png");
 AM.queueDownload("./img/dev_zairdthl.png");
 AM.queueDownload("./img/mut_zairdthl.png");
 AM.queueDownload("./img/gua_zairdthl.png");
@@ -22,6 +20,12 @@ AM.queueDownload("./img/hud_gray_50.png");
 AM.queueDownload("./img/wireframe.png");
 AM.queueDownload("./img/dirt_tileset.png");
 AM.queueDownload("./img/map.png");
+
+AM.queueDownload("./img/player_bullet.png");
+AM.queueDownload("./img/enemy_bullet.png");
+AM.queueDownload("./img/prediction_bullet.png");
+AM.queueDownload("./img/swipe_bullet.png");
+AM.queueDownload("./img/oscillate_bullet.png");
 
 AM.queueDownload("./img/start_screen.png");
 AM.queueDownload("./img/paused_screen.png");

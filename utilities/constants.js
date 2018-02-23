@@ -41,7 +41,7 @@ const WALL_S_HITBOX_H = 190;
 /**
   * Constants for Marine class
  */
-const MAR_MOVE_SPEED = 175;
+const MAR_MOVE_SPEED = 200;
 const MAR_SHOTS_PER_SECOND = 3;
 const MAR_STARTING_ANGLE = 0;
 const MAR_FRAME_DIM = 64;
@@ -75,7 +75,7 @@ const HUD_HEALTH_DISPLAY_HEIGHT = 64;
 const ZER_VIEW_DISTANCE = 500;
 const ZER_ATTACK_DISTANCE = 150;
 const ZER_MOVE_SPEED = 300;
-const ZER_ATTACKS_PER_SECOND = 3;
+const ZER_ATTACKS_PER_SECOND = 2;
 const ZER_PAUSE_AFTER_ATTACK = 300; //milliseconds
 const ZER_FRAME_DIM = 128;
 const ZER_SCALE = 2;
@@ -115,7 +115,7 @@ const HYD_HITBOX_H = 40;
 const ULT_VIEW_DISTANCE = 1000;
 const ULT_ATTACK_DISTANCE = 150;
 const ULT_MOVE_SPEED = 125;
-const ULT_ATTACKS_PER_SECOND = 1;
+const ULT_ATTACKS_PER_SECOND = 2;
 const ULT_PAUSE_AFTER_ATTACK = 300; //milliseconds
 const ULT_FRAME_DIM = 128;
 const ULT_SCALE = 2;
@@ -195,7 +195,7 @@ const INF_HITBOX_H = 40;
 const GUA_VIEW_DISTANCE = 1000;
 const GUA_ATTACK_DISTANCE = 800;
 const GUA_MOVE_SPEED = 125;
-const GUA_ATTACKS_PER_SECOND = 2;
+const GUA_ATTACKS_PER_SECOND = 8;
 const GUA_PAUSE_AFTER_ATTACK = 300; //milliseconds
 const GUA_FRAME_DIM = 96;
 const GUA_SCALE = 2;
@@ -326,11 +326,12 @@ const NO_ACTION = "";
 const SCALE = 1.5;
 const BUFFER = MAR_FRAME_DIM * 2;
 
+
 //tier 1
 const ZERGLINGS = 0;
 const HYDRALISKS = 0;
 //tier 2
-const ULTRALISKS = 1;
+const ULTRALISKS = 0;
 const MUTALISKS = 0;
 //tier 2.5 (special)
 const TERRANS = 0;
@@ -339,8 +340,8 @@ const SCOURGES = 0;
 const GUARDIANS = 0;
 const LURKERS = 0;
 
-/*
 
+/*
 const ZERGLINGS = 3;
 const HYDRALISKS = 2;
 //tier 2

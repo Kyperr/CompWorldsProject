@@ -58,7 +58,7 @@ UltralistkAI.prototype.attack = function (delta) {
 			//Right swipe
 			(function(){
 				
-				var distance = i * 40;
+				var distance = i * 50;
 				
 				//console.log("sin: " + Math.cos(angle - (sweepWidth / 2)));
 				var startX = PhysicalEntity.getMiddleXOf(that.entity) + (distance * Math.cos(angle - sweepWidth));
@@ -75,7 +75,7 @@ UltralistkAI.prototype.attack = function (delta) {
 
                 // Create a bullet
                 var bullet = new Bullet(that.entity.game,
-                    that.entity.game.assetManager.getAsset("./img/enemy_bullet.png"),
+                    that.entity.game.assetManager.getAsset("./img/swipe_bullet.png"),
                     that.entity, false, bulletBehavior);
 					
 					bullet.physics.x = startX - (bullet.physics.width / 2);
@@ -90,7 +90,7 @@ UltralistkAI.prototype.attack = function (delta) {
 			//Left Swipe
 			(function(){
 				
-				var distance = i * 40;
+				var distance = i * 50;
 				
 				//console.log("sin: " + Math.cos(angle - (sweepWidth / 2)));
 				var startX = PhysicalEntity.getMiddleXOf(that.entity) - (distance * Math.cos(angle - sweepWidth));
@@ -107,7 +107,7 @@ UltralistkAI.prototype.attack = function (delta) {
 
                 // Create a bullet
                 var bullet = new Bullet(that.entity.game,
-                    that.entity.game.assetManager.getAsset("./img/enemy_bullet.png"),
+                    that.entity.game.assetManager.getAsset("./img/swipe_bullet.png"),
                     that.entity, false, bulletBehavior);
 					
 					bullet.physics.x = startX - (bullet.physics.width / 2);

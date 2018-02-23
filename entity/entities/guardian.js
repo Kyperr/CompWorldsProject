@@ -3,7 +3,7 @@ function Guardian(x, y, game, spritesheet, deathSpriteSheet) {
 	
     //Super init
     var physics = new Physics(this, x, y, GUA_FRAME_DIM, GUA_FRAME_DIM, SCALE, true);
-    var ai = new BasicEnemyAI(this, GUA_VIEW_DISTANCE, GUA_ATTACK_DISTANCE, GUA_ATTACKS_PER_SECOND, GUA_MOVE_SPEED);
+    var ai = new PredictionAI(this, GUA_VIEW_DISTANCE, GUA_ATTACK_DISTANCE, GUA_ATTACKS_PER_SECOND, GUA_MOVE_SPEED);
     BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai, GUA_MAX_HP);
 
     this.hitshapes.push(new Circle(GUA_HITCIRCLE_X, GUA_HITCIRCLE_Y, GUA_HITCIRCLE_R * SCALE, this));

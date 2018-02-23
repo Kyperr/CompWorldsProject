@@ -16,7 +16,7 @@ function PredictionAI(entity, viewDistance, attackDistance, attacksPerSecond, mo
 }
 
 PredictionAI.prototype = new BasicEnemyAI();
-PredictionAI.prototype.constructor = DevourerAI;
+PredictionAI.prototype.constructor = PredictionAI;
 
 PredictionAI.prototype.attack = function (delta) {
     //This will be done outside the loop so the enemy appears to
@@ -49,28 +49,52 @@ PredictionAI.prototype.attack = function (delta) {
 		this.entity.animation.elapsedTime = 0;
         this.entity.animation.currentAction = "attacking";
 		
-		//Predicted X and Y
-		var targetAngle = Math.atan2(target.physics.directionY, target.physics.directionX);
-		var pTargetX = target.physics.velocity * Math.cos(targetAngle);
-		var pTargetY = target.physics.velocity * Math.sin(targetAngle);
-		
+        //Prediction vars
+        var targetAngle = Math.atan2(target.physics.directionY, target.physics.directionX);
+        var tVel = target.physics.velocity;
+        var pTargetX = PhysicalEntity.getMiddleXOf(target) + (tVel * Math.cos(targetAngle));
+        var pTargetY = PhysicalEntity.getMiddleYOf(target) - (tVel * Math.sin(targetAngle));
+        
+        var sideB = Math.sqrt(Math.pow((pTargetX - dstX), 2) + Math.pow((pTargetY - dstY), 2));//Not to be confused with angleB.
+        var sideC = Math.sqrt(Math.pow((dstX - srcX), 2) + Math.pow((dstY - srcY), 2));//Not to be confused with angleC.
+        var angleA = targetAngle - angle;//Measure of the angle between sides b and c.
+
+        var sideA = BUL_MOVE_SPEED;//cosineRule(sideB, sideC, angleA);//This represents the distance between the enemy and where the player is predicted to be.
+
+        var sinOfAngleB = sideB * Math.sin(angleA) / sideA;
+
+        var angleB = Math.asin(sinOfAngleB);
+
+        var angleToShoot = (angle + angleB);
+
         // Create a bullet(s)
 		
         //Bullet 1
-        var dirX = Math.cos(angle);
-        var dirY = Math.sin(angle);
+        var dirX = Math.cos(angleToShoot);
+        var dirY = Math.sin(angleToShoot);
 
         var bulletBehavior = function (bullet) {
             Bullet.moveInDirection(bullet, dirX, dirY);
         }
 
         var bullet1 = new Bullet(this.entity.game,
-            this.entity.game.assetManager.getAsset("./img/enemy_bullet.png"),
-            this.entity, false, bulletBehavior1);
+            this.entity.game.assetManager.getAsset("./img/prediction_bullet.png"),
+            this.entity, false, bulletBehavior);
         bullet1.init(this.entity.game);
         this.entity.game.addBullet(bullet1);
         
         // Reset timeSinceLastShot
         this.timeSinceLastAttack = 0;
     }
+}
+
+/**
+ * Will produce a value for "a" according to the cosine rule.
+ */
+function cosineRule(sideB, sideC, angleA) {
+    var bSqr = Math.pow(sideB, 2);
+    var cSqr = Math.pow(sideC, 2);
+    var aSqr = (bSqr + cSqr) - (2 * sideB * sideC * Math.cos(angleA));
+
+    return Math.sqrt(aSqr);
 }

@@ -120,6 +120,7 @@ Bullet.oscillate = function (bullet, angle, distanceToTarget) {
     bullet.physics.velocity = BUL_MOVE_SPEED * (2 / 3);
 }
 
+//Concept(Abandoned?)
 Bullet.mineField = function (bullet, angle, distanceToTarget) {
 
     //angle += Math.sin(5 * (bullet.timeExist)) / 2;

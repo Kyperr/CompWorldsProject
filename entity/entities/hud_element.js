@@ -9,26 +9,29 @@
  * displaySpritesheet: the spritesheet for the display.
  * (dWidth, dHeight): the dimensions of each frame of the display.
  */
-function HudElement(game, ctx, 
+function HudElement(game, ctx, backdropX, backdropY, backdropScale,
                     backdropImage, bWidth, bHeight, bCenterX, bCenterY, 
-                    displaySpritesheet, dWidth, dHeight) {
+                    displaySpritesheet, dWidth, dHeight, displayScale) {
     /*Super init*/
     Entity.call(this, game);
 
-    this.backdropScale = 0.35;
-
     /*Sub init*/
+    this.backdropScale = backdropScale;
+    this.displayScale = displayScale;
+
     this.ctx = ctx;
     this.backdrop = backdropImage;
     this.display = displaySpritesheet;
-    this.displayWidth = dWidth;
-    this.displayHeight = dHeight;
+
     this.backdropWidth = bWidth * this.backdropScale;
     this.backdropHeight = bHeight * this.backdropScale;
-    this.backdropX = game.surfaceWidth - this.backdropWidth;
-    this.backdropY = game.surfaceHeight - this.backdropHeight;
-    this.displayX = this.backdropX + (bCenterX * this.backdropScale) - Math.floor(dWidth / 2);
-    this.displayY = this.backdropY + (bCenterY * this.backdropScale) - Math.floor(dHeight / 2);
+    this.backdropX = backdropX;
+    this.backdropY = backdropY;
+
+    this.displayWidth = dWidth * this.displayScale;
+    this.displayHeight = dHeight * this.displayScale;
+    this.displayX = backdropX + bCenterX * backdropScale - (this.displayWidth / 2);
+    this.displayY = backdropY + bCenterY * backdropScale - (this.displayHeight / 2);
     this.sourceX = 0;
     this.sourceY = null;
 }
@@ -43,8 +46,10 @@ HudElement.prototype.update = function () {
 
 
 HudElement.prototype.draw = function () {    
+    console.log("Drawing backdrop at (" + this.backdropX + ", " + this.backdropY + ")");
     this.ctx.drawImage(this.backdrop, this.backdropX, this.backdropY, this.backdropWidth, this.backdropHeight);
 
+    console.log("Drawing display at (" + this.displayX + ", " + this.displayY + ")");
     this.ctx.drawImage(this.display, 
                        this.sourceX, this.sourceY, this.displayWidth, this.displayHeight,
                        this.displayX, this.displayY, this.displayWidth, this.displayHeight);

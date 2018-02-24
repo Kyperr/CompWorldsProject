@@ -13,10 +13,27 @@ const SPAWN_ENEMIES = true;
 const CAN_W = 800;
 const CAN_H = 600;
 const START_SCREEN = "start";
+const BUTTON_WIDTH = 85;
+const BUTTON_HEIGHT = 53;
+const BUTTON_SCALE = 2.5;
+const EASY_BUTTON_X = 50;
+const EASY_BUTTON_Y = 400;
+const EASY_WIDTH = 288;
+const EASY_HEIGHT = 67;
+const EASY_SCALE = 0.35;
+const MEDIUM_BUTTON_X = 300;
+const MEDIUM_BUTTON_Y = 400;
+const MEDIUM_WIDTH = 433;
+const MEDIUM_HEIGHT = 68;
+const MEDIUM_SCALE = 0.35;
+const HARD_BUTTON_X = 550;
+const HARD_BUTTON_Y = 400;
+const HARD_WIDTH = 289;
+const HARD_HEIGHT = 58;
+const HARD_SCALE = 0.35;
 const PAUSED_SCREEN = "paused";
 const DEAD_SCREEN = "dead";
 const WIN_SCREEN = "won";
-
 
 /*
  * Constants for wall collision.
@@ -58,6 +75,7 @@ const BUL_MOVE_SPEED = 250;
 const BUL_HITCIRCLE_X = 16;
 const BUL_HITCIRCLE_Y = 15;
 const BUL_HITCIRCLE_R = 7;
+const BUL_FRAME_DIM = 32;
 
 /*
  * Constants for the HudElement class.
@@ -68,6 +86,8 @@ const HUD_HEALTH_BACKDROP_CENTER_X = 109;
 const HUD_HEALTH_BACKDROP_CENTER_Y = 191;
 const HUD_HEALTH_DISPLAY_WIDTH = 64;
 const HUD_HEALTH_DISPLAY_HEIGHT = 64;
+const HUD_HEALTH_BACKDROP_SCALE = 0.35;
+const HUD_HEALTH_DISPLAY_SCALE = 1;
 
 /**
   * Constants for Zergling class.

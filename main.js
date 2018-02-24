@@ -30,6 +30,10 @@ AM.queueDownload("./img/payload_bullets.png");
 AM.queueDownload("./img/fallout_bullets.png");
 
 AM.queueDownload("./img/start_screen.png");
+AM.queueDownload("./img/button.png");
+AM.queueDownload("./img/easy.png");
+AM.queueDownload("./img/medium.png");
+AM.queueDownload("./img/hard.png");
 AM.queueDownload("./img/paused_screen.png");
 AM.queueDownload("./img/dead_screen.png");
 AM.queueDownload("./img/won_screen.png");
@@ -41,16 +45,48 @@ AM.downloadAll(function () {
 
     gameEngine.init(ctx);
     gameEngine.assetManager = AM;
+
     var map = new Map(gameEngine, 1600, 1600);
+
     var startScreen = new Menu(gameEngine, ctx, START_SCREEN, AM);
+    var easyButton = new Button(gameEngine, ctx,
+                                EASY_BUTTON_X, EASY_BUTTON_Y, BUTTON_SCALE,
+                                AM.getAsset("./img/button.png"),
+                                BUTTON_WIDTH, BUTTON_HEIGHT,
+                                BUTTON_WIDTH * BUTTON_SCALE / 2, 
+                                BUTTON_HEIGHT * BUTTON_SCALE / 2,
+                                AM.getAsset("./img/easy.png"),
+                                EASY_WIDTH, EASY_HEIGHT, EASY_SCALE);
+    var mediumButton = new Button(gameEngine, ctx,
+                                  MEDIUM_BUTTON_X, MEDIUM_BUTTON_Y, BUTTON_SCALE,
+                                  AM.getAsset("./img/button.png"),
+                                  BUTTON_WIDTH, BUTTON_HEIGHT,
+                                  BUTTON_WIDTH * BUTTON_SCALE / 2, 
+                                  BUTTON_HEIGHT * BUTTON_SCALE / 2,
+                                  AM.getAsset("./img/medium.png"),
+                                  MEDIUM_WIDTH, MEDIUM_HEIGHT, MEDIUM_SCALE);
+    var hardButton = new Button(gameEngine, ctx,
+                                HARD_BUTTON_X, HARD_BUTTON_Y, BUTTON_SCALE,
+                                AM.getAsset("./img/button.png"),
+                                BUTTON_WIDTH, BUTTON_HEIGHT,
+                                BUTTON_WIDTH * BUTTON_SCALE / 2, 
+                                BUTTON_HEIGHT * BUTTON_SCALE / 2,
+                                AM.getAsset("./img/hard.png"),
+                                HARD_WIDTH, HARD_HEIGHT, HARD_SCALE);
+
     var deadScreen = new Menu(gameEngine, ctx, DEAD_SCREEN, AM);
     var winScreen = new Menu(gameEngine, ctx, WIN_SCREEN, AM);
-    var hud = new HudElement(gameEngine, ctx,
-        AM.getAsset("./img/hud_gray_50.png"),
-        HUD_HEALTH_BACKDROP_WIDTH, HUD_HEALTH_BACKDROP_HEIGHT,
-        HUD_HEALTH_BACKDROP_CENTER_X, HUD_HEALTH_BACKDROP_CENTER_Y,
-        AM.getAsset("./img/wireframe.png"),
-        HUD_HEALTH_DISPLAY_WIDTH, HUD_HEALTH_DISPLAY_HEIGHT);
+
+    var hud = new HudElement(gameEngine, ctx, 
+                             gameEngine.surfaceWidth - HUD_HEALTH_BACKDROP_WIDTH * HUD_HEALTH_BACKDROP_SCALE,
+                             gameEngine.surfaceHeight - HUD_HEALTH_BACKDROP_HEIGHT * HUD_HEALTH_BACKDROP_SCALE,
+                             HUD_HEALTH_BACKDROP_SCALE,
+                             AM.getAsset("./img/hud_gray_50.png"),
+                             HUD_HEALTH_BACKDROP_WIDTH, HUD_HEALTH_BACKDROP_HEIGHT,
+                             HUD_HEALTH_BACKDROP_CENTER_X, HUD_HEALTH_BACKDROP_CENTER_Y,
+                             AM.getAsset("./img/wireframe.png"),
+                             HUD_HEALTH_DISPLAY_WIDTH, HUD_HEALTH_DISPLAY_HEIGHT,
+                             HUD_HEALTH_DISPLAY_SCALE);
 
     var marX = (gameEngine.surfaceWidth / 2) - MAR_FRAME_DIM * SCALE;
     var marY = (gameEngine.surfaceHeight / 2) - MAR_FRAME_DIM * SCALE;
@@ -63,17 +99,34 @@ AM.downloadAll(function () {
     gameEngine.addPlayer(marine);
     gameEngine.addHUD(hud);
 
-
     gameEngine.camera = new Camera(gameEngine);
 
-    gameEngine.addStartScreen(startScreen);
+    gameEngine.addStartScreen(startScreen, easyButton, mediumButton, hardButton);
     gameEngine.addDeadScreen(deadScreen);
     gameEngine.addWinScreen(winScreen);
     canvas.addEventListener("mousedown", function (e) {
         if (!gameEngine.running && !gameEngine.hasStarted) {
-            gameEngine.hasStarted = true;
-            gameEngine.running = true;
-            gameEngine.start();
+            gameEngine.startScreen.physics = {x: e.offsetX, y: e.offsetY, scale: 1};
+            var clickPoint = new Circle(0, 0, 0, gameEngine.startScreen);
+            clickPoint.update();
+
+            var easy = clickPoint.doesCollide(easyButton.hitbox);
+            var medium = clickPoint.doesCollide(mediumButton.hitbox);
+            var hard = clickPoint.doesCollide(hardButton.hitbox);
+
+            if (easy || medium || hard) {
+                if (easy) {
+                    this.difficulty = 1;
+                } else if (medium) {
+                    this.difficulty = 2;
+                } else {
+                    this.difficulty = 3;
+                }
+
+                gameEngine.start(this.difficulty);
+                gameEngine.hasStarted = true;
+                gameEngine.running = true;
+            }
         }
     });
     console.log("All Done!");
@@ -178,8 +231,8 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
         var srcX = physics.x + (physics.width / 2);
         var srcY = physics.y + (physics.height / 2);
 
-        var trgX = (e.offsetX - 16) + game.camera.x;
-        var trgY = (e.offsetY - 16) + game.camera.y;
+        var trgX = (e.offsetX - BUL_FRAME_DIM / 2) + game.camera.x;
+        var trgY = (e.offsetY - BUL_FRAME_DIM / 2) + game.camera.y;
 
         var angle = calculateAngleRadians(trgX, trgY, srcX, srcY);//The 16 magic number comes from the size of the bullets. It is 1/2 the height/width of a bullet. Can fix later. *2 is for scale.
 

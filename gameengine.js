@@ -38,9 +38,9 @@ GameEngine.prototype.init = function (ctx) {
     console.log('game initialized');
 }
 
-GameEngine.prototype.start = function () {
+GameEngine.prototype.start = function (difficulty) {
     console.log("starting game");
-	this.createEnemies();
+	this.createEnemies(difficulty);
     var that = this;
     (function gameLoop() {
         that.loop();
@@ -48,7 +48,7 @@ GameEngine.prototype.start = function () {
     })();
 }
 
-GameEngine.prototype.createEnemies = function() {
+GameEngine.prototype.createEnemies = function(difficulty) {
 	//generate enemies
 	
 	var x;
@@ -64,7 +64,7 @@ GameEngine.prototype.createEnemies = function() {
 	
     if (SPAWN_ENEMIES) {
         var i = 0;
-        while (i < ZERGLINGS) {
+        while (i < ZERGLINGS * difficulty) {
             x = this.calcX(ZER_FRAME_DIM);
             y = this.calcY(ZER_FRAME_DIM);
             zergling = new Zergling(x, y, this, AM.getAsset("./img/red_zergling.png"), AM.getAsset("./img/red_zergling.png"));
@@ -74,7 +74,7 @@ GameEngine.prototype.createEnemies = function() {
         } 
         
         i = 0;
-        while (i < HYDRALISKS) {
+        while (i < HYDRALISKS * difficulty) {
             x = this.calcX(HYD_FRAME_DIM);
             y = this.calcY(HYD_FRAME_DIM);
             hydralisk = new Hydralisk(x, y, this, AM.getAsset("./img/red_hydralisk.png"), AM.getAsset("./img/red_hydralisk.png"));
@@ -84,7 +84,7 @@ GameEngine.prototype.createEnemies = function() {
         }
         
         i = 0;
-        while (i < ULTRALISKS) {
+        while (i < ULTRALISKS * difficulty) {
             x = this.calcX(ULT_FRAME_DIM);
             y = this.calcY(ULT_FRAME_DIM);
             ultralisk = new Ultralisk(x, y, this, AM.getAsset("./img/red_ultralisk.png"), AM.getAsset("./img/red_ultralisk.png"));
@@ -94,7 +94,7 @@ GameEngine.prototype.createEnemies = function() {
         }
         
         i = 0;
-        while (i < MUTALISKS) {
+        while (i < MUTALISKS * difficulty) {
             x = this.calcX(MUT_FRAME_DIM);
             y = this.calcY(MUT_FRAME_DIM);
             mutalisk = new Mutalisk(x, y, this, AM.getAsset("./img/red_mutalisk.png"), AM.getAsset("./img/mut_zairdthl.png"));
@@ -104,7 +104,7 @@ GameEngine.prototype.createEnemies = function() {
         }
         
         i = 0;
-        while (i < SCOURGES) {
+        while (i < SCOURGES * difficulty) {
             x = this.calcX(SCO_FRAME_DIM);
             y = this.calcY(SCO_FRAME_DIM);
             scourge = new Scourge(x, y, this, AM.getAsset("./img/red_scourge.png"));
@@ -114,7 +114,7 @@ GameEngine.prototype.createEnemies = function() {
         }
         
         i = 0;
-        while (i < TERRANS) {
+        while (i < TERRANS * difficulty) {
             x = this.calcX(INF_FRAME_DIM);
             y = this.calcY(INF_FRAME_DIM);
             terran = new InfestedTerran(x, y, this, AM.getAsset("./img/red_infested_terran.png"));
@@ -124,7 +124,7 @@ GameEngine.prototype.createEnemies = function() {
         }
         
         i = 0;
-        while (i < GUARDIANS) {
+        while (i < GUARDIANS * difficulty) {
             x = this.calcX(GUA_FRAME_DIM);
             y = this.calcY(GUA_FRAME_DIM);
             guardian = new Guardian(x, y, this, AM.getAsset("./img/red_guardian.png"), AM.getAsset("./img/gua_zairdthl.png"));
@@ -134,7 +134,7 @@ GameEngine.prototype.createEnemies = function() {
         }
         /*
         i = 0;
-        while (i < LURKERS) {
+        while (i < LURKERS * difficulty) {
             x = this.calcX(LUR_FRAME_DIM);
             y = this.calcY(LUR_FRAME_DIM);
             lurker = new Lurker(x, y, this, AM.getAsset("./img/red_lurker.png"), AM.getAsset("./img/red_lurker.png"));
@@ -177,9 +177,16 @@ GameEngine.prototype.addHUD = function (hud) {
     this.hud = hud;
 }
 
-GameEngine.prototype.addStartScreen = function (screen) {
+GameEngine.prototype.addStartScreen = function (screen, easyButton, mediumButton, hardButton) {
     this.startScreen = screen;
+    this.easy = easyButton;
+    this.medium = mediumButton;
+    this.hard = hardButton;
+
 	this.startScreen.draw();
+    this.easy.draw();
+    this.medium.draw();
+    this.hard.draw();
 }
 
 GameEngine.prototype.addDeadScreen = function (screen) {

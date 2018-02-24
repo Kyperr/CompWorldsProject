@@ -29,7 +29,7 @@ Lurker.prototype.createDeathAnimation = function (deathSpriteSheet) {
 
     var deathAnimation = new Animation(this, deathSpriteSheet, LUR_SHEET_WIDTH, LUR_ANGLES, DYING_ACTION);
 
-    deathAnimation.createVerticalAnimationStates(DYING_ACTION, LUR_FIRST_FRAME_ANGLE, LUR_FRAME_INCREMENT, 26, 10, .1);//title, animationDirection, xIndex, yIndex, frameCount, angle, frameDuration, loop, reflect
+    deathAnimation.createVerticalAnimationStates(DYING_ACTION, LUR_FIRST_FRAME_ANGLE, LUR_FRAME_INCREMENT, 26, 10, .1, false);//title, animationDirection, xIndex, yIndex, frameCount, angle, frameDuration, loop, reflect
 
     return deathAnimation;
 }

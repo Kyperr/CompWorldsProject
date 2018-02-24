@@ -54,7 +54,7 @@ const MAR_HITBOX_H = 25;
 /**
   * Constants for Bullet class.
  */
-const BUL_MOVE_SPEED = 250;
+const BUL_MOVE_SPEED = 200;
 const BUL_HITCIRCLE_X = 16;
 const BUL_HITCIRCLE_Y = 15;
 const BUL_HITCIRCLE_R = 7;
@@ -325,20 +325,20 @@ const NO_ACTION = "";
 
 const SCALE = 1.5;
 const BUFFER = MAR_FRAME_DIM * 2;
-
 /*
+
 //tier 1
 const ZERGLINGS = 0;
 const HYDRALISKS = 0;
 //tier 2
 const ULTRALISKS = 0;
-const MUTALISKS = 1;
+const MUTALISKS = 0;
 //tier 2.5 (special)
 const TERRANS = 0;
 const SCOURGES = 0;
 //tier 3
 const GUARDIANS = 0;
-const LURKERS = 0;
+const LURKERS = 1;
 */
 
 

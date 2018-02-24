@@ -46,10 +46,7 @@ HudElement.prototype.update = function () {
 
 
 HudElement.prototype.draw = function () {    
-    console.log("Drawing backdrop at (" + this.backdropX + ", " + this.backdropY + ")");
     this.ctx.drawImage(this.backdrop, this.backdropX, this.backdropY, this.backdropWidth, this.backdropHeight);
-
-    console.log("Drawing display at (" + this.displayX + ", " + this.displayY + ")");
     this.ctx.drawImage(this.display, 
                        this.sourceX, this.sourceY, this.displayWidth, this.displayHeight,
                        this.displayX, this.displayY, this.displayWidth, this.displayHeight);

@@ -1,0 +1,44 @@
+ZER too fast. closes distance without enough player react time. 
+move speed from 300 to 230
+
+
+
+HYD fine. 
+
+
+
+ULT slow down shots per second. despawn bullets before new bullets spawn
+attacks per second from 2 to 1
+
+
+MUT fine just don't have too many at once. maybe reduce view distance so they actually move? they never rotate to face player when shooting. 
+attack distance 700 to 400
+
+
+TER
+
+
+
+SCO
+
+
+
+GUA never have more than one! dead WAY too fast if more than one. 
+attacks per second 4 to 3
+attack distance 800 to 500
+
+
+LUR WAY too fast. slow it down a lot. 
+speed 200 to 125
+
+
+
+DEV
+
+
+
+DEF
+
+
+
+QUE/BRO

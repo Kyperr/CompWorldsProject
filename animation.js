@@ -45,7 +45,6 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y) {
     if (isDone) {
         if (state.loop) {
             this.elapsedTime = 0;
-        } else {
         }
     }
 
@@ -79,7 +78,6 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y) {
                 this.frameHeight * this.scale);
 
         } else {
-            //console.log(this.spriteSheet.constructor.name);
             ctx.drawImage(this.spriteSheet,
                 xindex * this.frameWidth,
                 yindex * this.frameHeight,  // source from sheet
@@ -99,7 +97,6 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y) {
 					(this.frameHeight * this.scale) / 2);	
 			}
         }
-
         ctx.restore();
     }
 }
@@ -115,7 +112,7 @@ Animation.prototype.isDone = function () {
     var physics = this.physicalEntity.physics;
     var animAngle = nearestAngle(physics.calculateFacingAngle(), this.angleIncrement);
     var state = this.animationStates[this.currentAction + animAngle];
-    //console.log("time elapsed: " + this.elapsedTime + " >= " + state.totalTime + " equals " + (this.elapsedTime >= state.totalTime));
+    //console.log(this.physicalEntity.constructor.name + ": time elapsed: " + this.elapsedTime + " >= " + state.totalTime + " equals " + (this.elapsedTime >= state.totalTime));
     return (this.elapsedTime >= state.totalTime);
 }
 
@@ -125,7 +122,8 @@ Animation.prototype.getCurrentAnimationState = function () {
     return state;
 }
 
-Animation.prototype.createVerticalAnimationStates = function (animationName, firstFrameAngle, frameIncrement, yIndex, frameCount, frameDuration) {
+Animation.prototype.createVerticalAnimationStates = function (animationName, firstFrameAngle, frameIncrement, yIndex, frameCount, frameDuration, loop) {
+    loop = (loop == null) ? true : false;//Ew, nullmasking.
     for (i = 0; i <= this.numberOfAngles / 2; i++) {
         var x = frameIncrement * i;
         var angle = firstFrameAngle - (i * this.angleIncrement);
@@ -133,18 +131,19 @@ Animation.prototype.createVerticalAnimationStates = function (animationName, fir
             angle += 360;
         }
         var title = animationName + angle;
-        this.createSingleAnimState(title, AnimationDirection.VERTICAL, x, yIndex, frameCount, angle, frameDuration, true, false);
+        this.createSingleAnimState(title, AnimationDirection.VERTICAL, x, yIndex, frameCount, angle, frameDuration, loop, false);
     }
 
     for (i = 1; i < this.numberOfAngles / 2; i++) {
         var x = frameIncrement * i;
         var angle = firstFrameAngle + (i * this.angleIncrement);
         var title = animationName + angle;
-        this.createSingleAnimState(title, AnimationDirection.VERTICAL, x, yIndex, frameCount, angle, frameDuration, true, true);
+        this.createSingleAnimState(title, AnimationDirection.VERTICAL, x, yIndex, frameCount, angle, frameDuration, loop, true);
     }
 }
 
-Animation.prototype.createHorizontalAnimationStates = function (animationName, firstFrameAngle, frameIncrement, xIndex, frameCount, frameDuration) {
+Animation.prototype.createHorizontalAnimationStates = function (animationName, firstFrameAngle, frameIncrement, xIndex, frameCount, frameDuration, loop) {
+    loop = (loop == null) ? true : false;
     for (i = 0; i <= this.numberOfAngles / 2; i++) {
         var y = frameIncrement * i;
         var angle = firstFrameAngle - (i * this.angleIncrement);
@@ -152,7 +151,7 @@ Animation.prototype.createHorizontalAnimationStates = function (animationName, f
             angle += 360;
         }
         var title = animationName + angle;
-        this.createSingleAnimState(title, AnimationDirection.HORIZONTAL, xIndex, y, frameCount, angle, frameDuration, true, false);
+        this.createSingleAnimState(title, AnimationDirection.HORIZONTAL, xIndex, y, frameCount, angle, frameDuration, loop, false);
     }
 
     for (i = 1; i < this.numberOfAngles / 2; i++) {
@@ -162,7 +161,7 @@ Animation.prototype.createHorizontalAnimationStates = function (animationName, f
             angle += 360;
         }
         var title = animationName + angle;
-        this.createSingleAnimState(title, AnimationDirection.HORIZONTAL, xIndex, y, frameCount, angle, frameDuration, true, true);
+        this.createSingleAnimState(title, AnimationDirection.HORIZONTAL, xIndex, y, frameCount, angle, frameDuration, loop, true);
     }
 }
 

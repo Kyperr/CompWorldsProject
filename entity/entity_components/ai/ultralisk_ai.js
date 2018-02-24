@@ -39,7 +39,7 @@ UltralistkAI.prototype.attack = function (delta) {
     var dstY = PhysicalEntity.getMiddleYOf(target);
 	
 	var angle = calculateAngleRadians(dstX, dstY, srcX, srcY);
-	console.log("angle to player: " + angle);
+	//console.log("angle to player: " + angle);
 
     var interpSpeed = 10 * Math.PI / 180;
     var tolerance = 10 * Math.PI / 180;

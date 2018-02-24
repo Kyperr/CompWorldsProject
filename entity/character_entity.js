@@ -8,7 +8,7 @@ function CharacterEntity(game, spritesheet, deathSpriteSheet, physics, maxHealth
     this.stats.hp = maxHealth;
 
     this.deathAnimation = this.createDeathAnimation(deathSpriteSheet);
-    console.log("death anim " + this.deathAnimation);
+    //console.log("death anim " + this.deathAnimation);
 
 }
 
@@ -29,32 +29,43 @@ CharacterEntity.prototype.update = function () {
         map = character.game.map;
         map.hitshapes.forEach(function (wall) {
             if (characterShape.doesCollide(wall)) {
-                //console.log("COLLISION DETECTED");
                 character.physics.velocity = 0;
                 character.physics.directionX = 0;
                 character.physics.directionY = 0;
             }
         });
     });
-
+	
     if (this.stats.hp > 0) {
+        var character = this;
+
+        character.hitshapes.forEach(function (characterShape) {
+            map = character.game.map;
+            map.hitshapes.forEach(function (wall) {
+                if (characterShape.doesCollide(wall)) {
+                    character.physics.velocity = 0;
+                    character.physics.directionX = 0;
+                    character.physics.directionY = 0;
+                }
+            });
+        });
+
         PhysicalEntity.prototype.update.call(this);
+    } else {
+        //console.log("a");
+        if (this.deathAnimation.isDone()) {
+            //console.log("deathAnim is done!");
+            this.removeFromWorld = true;
+        }
     }
 }
-/*
-CharacterEntity.prototype.draw = function () {
-    PhysicalEntity.prototype.draw.call(this);
-}*/
-
 
 CharacterEntity.prototype.draw = function () {
     if (this.stats.hp > 0) {
         this.animation.drawFrame(this.game.clockTick, this.ctx, this.physics.x, this.physics.y);
     } else {
-        if (this.deathAnimation.isDone()) {
-            console.log("deathAnim is done!");
-            this.removeFromWorld = true;
-        } else {
+        //console.log("b");
+        if (!this.deathAnimation.isDone()) {
             this.deathAnimation.drawFrame(this.game.clockTick, this.ctx, this.physics.x, this.physics.y);
         }
     }

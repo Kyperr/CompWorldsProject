@@ -63,7 +63,7 @@ FlackAI.prototype.attack = function (delta) {
             var xDiff = PhysicalEntity.getMiddleXOf(bullet) - dstX;
             var yDiff = PhysicalEntity.getMiddleYOf(bullet) - dstY;
             var distance = Math.sqrt(Math.pow((xDiff), 2) + Math.pow((yDiff), 2));
-            console.log("distance from x: " + dstX + " y: " + dstY + " is " + distance);
+            //console.log("distance from x: " + dstX + " y: " + dstY + " is " + distance);
 
             if (distance < 10 || bullet.timeExist > bullet.duration) {
                 this.removeFromWorld = true;

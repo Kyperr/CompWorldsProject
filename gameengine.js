@@ -132,7 +132,7 @@ GameEngine.prototype.createEnemies = function() {
             this.addEnemy(guardian);
             i++;
         }
-        /*
+        
         i = 0;
         while (i < LURKERS) {
             x = this.calcX(LUR_FRAME_DIM);
@@ -141,7 +141,7 @@ GameEngine.prototype.createEnemies = function() {
             lurker.init(this);
             this.addEnemy(lurker);
             i++;
-        }*/
+        }
     }
 }
 

@@ -326,22 +326,22 @@ const NO_ACTION = "";
 const SCALE = 1.5;
 const BUFFER = MAR_FRAME_DIM * 2;
 
-/*
+
 //tier 1
-const ZERGLINGS = 0;
+const ZERGLINGS = 0;	
 const HYDRALISKS = 0;
 //tier 2
 const ULTRALISKS = 0;
-const MUTALISKS = 1;
+const MUTALISKS = 0;
 //tier 2.5 (special)
 const TERRANS = 0;
 const SCOURGES = 0;
 //tier 3
-const GUARDIANS = 0;
+const GUARDIANS = 1;
 const LURKERS = 0;
-*/
 
 
+/*
 const ZERGLINGS = 3;
 const HYDRALISKS = 2;
 //tier 2
@@ -353,7 +353,7 @@ const SCOURGES = 0;
 //tier 3
 const GUARDIANS = 1;
 const LURKERS = 0;
-
+*/
 
 //total tiered enemies
 const TOTAL_ENEMIES = ZERGLINGS + HYDRALISKS + ULTRALISKS + MUTALISKS + TERRANS + SCOURGES + GUARDIANS + LURKERS;	//number of enemies to kill before boss spawns

@@ -156,6 +156,7 @@ Bullet.spiral = function (bullet, startAngle) {
     bullet.duration = 2;
 }
 
+//sweep counterclockwise
 Bullet.sweepCCW = function (bullet, startAngle, distanceFromSource, sweepWidth) {
 
     bullet.duration = 1;
@@ -171,6 +172,7 @@ Bullet.sweepCCW = function (bullet, startAngle, distanceFromSource, sweepWidth) 
     bullet.physics.directionY = Math.sin(angle);
 }
 
+//sweep clockwise
 Bullet.sweepCW = function (bullet, startAngle, distanceFromSource, sweepWidth) {
 
     bullet.duration = 1;

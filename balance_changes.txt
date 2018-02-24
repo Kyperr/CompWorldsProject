@@ -1,0 +1,42 @@
+ZER too fast. closes distance without enough player react time. 
+
+
+
+HYD fine. need to check in conjunction with other enemies.
+
+
+
+ULT slow down shots per second. despawn bullets before new bullets spawn
+
+
+
+MUT fine just don't have too many at once. maybe reduce view distance so they actually move? they never rotate to face player when shooting. 
+
+
+
+TER
+
+
+
+SCO
+
+
+
+GUA
+
+
+
+LUR
+
+
+
+
+DEV
+
+
+
+DEF
+
+
+
+QUE/BRO

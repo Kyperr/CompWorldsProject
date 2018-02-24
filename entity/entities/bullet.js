@@ -10,6 +10,8 @@
  * @param {any} bulletBehavior - A function that takes (bullet) as an arg that should influence the directionX and directionY of the bullet as you see fit.
  */
 function Bullet(game, spritesheet, creator, fromPlayer, bulletBehavior) {
+
+
     /*Super init*/
     var physics = new Physics(this, 0, 0, 32, 32, 1, true);
     physics.velocity = BUL_MOVE_SPEED + DIFFICULTY_BUL_SPEED * game.difficulty;
@@ -21,6 +23,7 @@ function Bullet(game, spritesheet, creator, fromPlayer, bulletBehavior) {
 
     this.timeExist = 0;
     this.duration = 4;
+    this.game = game;
 
     this.callBehaviorEachUpdate = true; //Can set this to false to improve runtime.
     this.bulletBehavior = bulletBehavior;
@@ -119,7 +122,7 @@ Bullet.oscillate = function (bullet, angle, distanceToTarget) {
 
     bullet.physics.directionX = Math.cos(angle);
     bullet.physics.directionY = Math.sin(angle);
-    bullet.physics.velocity = BUL_MOVE_SPEED + DIFFICULTY_BUL_SPEED * game.difficulty * (2 / 3);
+    bullet.physics.velocity = (BUL_MOVE_SPEED + DIFFICULTY_BUL_SPEED * bullet.game.difficulty) * (2 / 3);
 }
 
 Bullet.fallBack = function (bullet, angle, spiralRadius) {
@@ -146,7 +149,6 @@ Bullet.mineField = function (bullet, angle) {
     bullet.physics.directionY = Math.sin(angle);
     
     bullet.duration = 5;
-    //bullet.physics.velocity = BUL_MOVE_SPEED * (2 / 3);
 }
 
 Bullet.spiral = function (bullet, startAngle) {

@@ -146,21 +146,17 @@ GameEngine.prototype.createEnemies = function() {
 }
 
 GameEngine.prototype.calcX = function (creatureDim) {
-	var marX = (this.surfaceWidth/2) + MAR_FRAME_DIM * SCALE;
-	var marDim = MAR_FRAME_DIM * SCALE;
-	var x = marX - BUFFER;
-	while (x >= (marX - BUFFER) && x <= (marX + marDim + BUFFER)) {
-		x = randomBetweenTwoNumbers(WALL_W_HITBOX_W, this.map.width - WALL_E_HITBOX_W - creatureDim);
+	var x = this.camera.x;
+	while (x >= this.camera.x && x <= (this.camera.x + this.surfaceWidth)) {
+		x = randomBetweenTwoNumbers(WALL_W_HITBOX_W, this.map.width - WALL_E_HITBOX_W - DEV_FRAME_DIM);
 	}
 	return x;
 }
 
 GameEngine.prototype.calcY = function (creatureDim) {
-	var marY = (this.surfaceHeight/2) + MAR_FRAME_DIM * SCALE;
-	var marDim = MAR_FRAME_DIM * SCALE;
-	var y = marY - BUFFER;
-	while (y >= (marY - BUFFER) && y <= (marY + marDim + BUFFER)) {
-		y = randomBetweenTwoNumbers(WALL_N_HITBOX_H, this.map.height - WALL_S_HITBOX_H - creatureDim);	
+	var y = this.camera.y;
+	while (y >= this.camera.y && y <= (this.camera.y + this.surfaceHeight)) {
+		y = randomBetweenTwoNumbers(WALL_N_HITBOX_H, this.map.height - WALL_S_HITBOX_H - DEV_FRAME_DIM);			
 	}
 	return y;
 }
@@ -222,15 +218,8 @@ GameEngine.prototype.draw = function () {
 }
 
 GameEngine.prototype.createBoss = function () {
-	var x = this.camera.x;
-	var y = this.camera.y;
-	while (x >= this.camera.x && x <= (this.camera.x + this.surfaceWidth)) {
-		x = randomBetweenTwoNumbers(WALL_W_HITBOX_W, this.map.width - WALL_E_HITBOX_W - DEV_FRAME_DIM);
-	}
-	while (y >= this.camera.y && y <= (this.camera.y + this.surfaceHeight)) {
-		y = randomBetweenTwoNumbers(WALL_N_HITBOX_H, this.map.height - WALL_S_HITBOX_H - DEV_FRAME_DIM);			
-	}
-	
+	var x = this.calcX(DEV_FRAME_DIM);
+	var y = this.calcY(DEV_FRAME_DIM);
 	
     var devourer = new Devourer(x, y, this, AM.getAsset("./img/red_devourer.png"), AM.getAsset("./img/dev_zairdthl.png"));
 	devourer.init(this);

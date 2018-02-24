@@ -88,13 +88,15 @@ AM.downloadAll(function () {
                              HUD_HEALTH_DISPLAY_WIDTH, HUD_HEALTH_DISPLAY_HEIGHT,
                              HUD_HEALTH_DISPLAY_SCALE);
 
+
+    //init player
     var marX = (gameEngine.surfaceWidth / 2) - MAR_FRAME_DIM * SCALE;
     var marY = (gameEngine.surfaceHeight / 2) - MAR_FRAME_DIM * SCALE;
     var marine = new Marine(marX, marY, gameEngine, AM.getAsset("./img/blue_marine.png"), AM.getAsset("./img/blue_marine.png"));
     marine.init(gameEngine);
+    marine.initializePlayerListeners(marine, gameEngine, canvas);
 
-    //init player
-    initializePlayerListeners(marine, gameEngine, canvas);
+    // init map
     gameEngine.addMap(map);
     gameEngine.addPlayer(marine);
     gameEngine.addHUD(hud);
@@ -132,6 +134,8 @@ AM.downloadAll(function () {
     console.log("All Done!");
 });
 
+// initializedPlayerListeners moved to marine. -G
+/*
 //These should be moved into the appropriate class(marine).
 function initializePlayerListeners(marine, gameEngine, canvas) {
     var w = 0;
@@ -267,4 +271,4 @@ function initializePlayerListeners(marine, gameEngine, canvas) {
     });
 
 }
-
+*/

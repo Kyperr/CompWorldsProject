@@ -88,7 +88,9 @@ Bullet.prototype.update = function () {
             player = bullet.game.player;
             player.hitshapes.forEach(function (theirShape) {
                 if (myShape.doesCollide(theirShape)) {
-                    player.stats.hp--;
+                    if (!GOD_MODE) {
+                        player.stats.hp--;
+                    }
                     bullet.removeFromWorld = true;
                 }
             });

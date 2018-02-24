@@ -5,7 +5,12 @@
  */
 const DRAW_HITBOXES = false;
 const ENABLE_CHEATS = false;
+const GOD_MODE = false;
 const SPAWN_ENEMIES = true;
+
+// The following 2 constants determine the behavior of marine.scrambled
+const SCRAMBLE_MOVEMENT = true;
+const SCRAMBLE_AIM = true;
 
 /*
  * Difficulty differential constants

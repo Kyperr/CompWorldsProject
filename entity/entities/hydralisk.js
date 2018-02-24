@@ -3,8 +3,11 @@ function Hydralisk(x, y, game, spritesheet, deathSpriteSheet) {
 	
     //Super init
     var physics = new Physics(this, x, y, HYD_FRAME_DIM, HYD_FRAME_DIM, SCALE, true);
-    var ai = new BasicEnemyAI(this, HYD_VIEW_DISTANCE, HYD_ATTACK_DISTANCE, HYD_ATTACKS_PER_SECOND, HYD_MOVE_SPEED);
-    BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai, HYD_MAX_HP);
+    var ai = new BasicEnemyAI(this, HYD_VIEW_DISTANCE, HYD_ATTACK_DISTANCE, 
+                              HYD_ATTACKS_PER_SECOND + DIFFICULTY_ATTACKS_PER_SECOND * game.difficulty, 
+                              HYD_MOVE_SPEED + DIFFICULTY_MOVE_SPEED * game.difficulty);
+    BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai,
+                   HYD_MAX_HP + DIFFICULTY_HYD_HP * game.difficulty);
 
     this.hitshapes.push(new Box(HYD_HITBOX_X, HYD_HITBOX_Y, 
                                 HYD_HITBOX_W * SCALE, HYD_HITBOX_H * SCALE, this));

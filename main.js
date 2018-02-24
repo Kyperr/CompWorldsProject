@@ -116,14 +116,14 @@ AM.downloadAll(function () {
 
             if (easy || medium || hard) {
                 if (easy) {
-                    this.difficulty = 1;
+                    gameEngine.difficulty = 0;
                 } else if (medium) {
-                    this.difficulty = 2;
+                    gameEngine.difficulty = 1;
                 } else {
-                    this.difficulty = 3;
+                    gameEngine.difficulty = 2;
                 }
 
-                gameEngine.start(this.difficulty);
+                gameEngine.start();
                 gameEngine.hasStarted = true;
                 gameEngine.running = true;
             }

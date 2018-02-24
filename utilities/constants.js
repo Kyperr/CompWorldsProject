@@ -7,6 +7,26 @@ const DRAW_HITBOXES = false;
 const ENABLE_CHEATS = false;
 const SPAWN_ENEMIES = true;
 
+/*
+ * Difficulty differential constants
+ */
+const DIFFICULTY_MOVE_SPEED = 50;
+const DIFFICULTY_ATTACKS_PER_SECOND = 1;
+const DIFFICULTY_BUL_SPEED = 50;
+const DIFFICULTY_ZER_HP = 1;
+const DIFFICULTY_HYD_HP = 2;
+const DIFFICULTY_ULT_HP = 5;
+const DIFFICULTY_MUT_HP = 3;
+const DIFFICULTY_SCO_HP = 1;
+const DIFFICULTY_INF_HP = 1;
+const DIFFICULTY_GUA_HP = 5;
+const DIFFICULTY_LUR_HP = 4;
+const DIFFICULTY_DEF_HP = 10;
+const DIFFICULTY_QUE_HP = 10;
+const DIFFICULTY_BRO_HP = 2;
+const DIFFICULTY_DEV_HP = 10;
+
+
 /**
   * Constants for Menu 
  */
@@ -182,7 +202,7 @@ const SCO_ANGLES = 16;
 const SCO_SHEET_WIDTH = 17;
 const SCO_FIRST_FRAME_ANGLE = 90;
 const SCO_FRAME_INCREMENT = 2;
-const SCO_MAX_HP = 4;
+const SCO_MAX_HP = 1;
 const SCO_HITBOX_X = 48;
 const SCO_HITBOX_Y = 45;
 const SCO_HITBOX_W = 31;
@@ -203,7 +223,7 @@ const INF_ANGLES = 16;
 const INF_SHEET_WIDTH = 17;
 const INF_FIRST_FRAME_ANGLE = 90;
 const INF_FRAME_INCREMENT = 2;
-const INF_MAX_HP = 4;
+const INF_MAX_HP = 1;
 const INF_HITBOX_X = 48;
 const INF_HITBOX_Y = 45;
 const INF_HITBOX_W = 31;

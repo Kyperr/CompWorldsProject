@@ -12,7 +12,7 @@
 function Bullet(game, spritesheet, creator, fromPlayer, bulletBehavior) {
     /*Super init*/
     var physics = new Physics(this, 0, 0, 32, 32, 1, true);
-    physics.velocity = BUL_MOVE_SPEED;
+    physics.velocity = BUL_MOVE_SPEED + DIFFICULTY_BUL_SPEED * game.difficulty;
     
     PhysicalEntity.call(this, game, spritesheet, physics);
     
@@ -117,7 +117,7 @@ Bullet.oscillate = function (bullet, angle, distanceToTarget) {
 
     bullet.physics.directionX = Math.cos(angle);
     bullet.physics.directionY = Math.sin(angle);
-    bullet.physics.velocity = BUL_MOVE_SPEED * (2 / 3);
+    bullet.physics.velocity = BUL_MOVE_SPEED + DIFFICULTY_BUL_SPEED * game.difficulty * (2 / 3);
 }
 
 Bullet.fallBack = function (bullet, angle, spiralRadius) {

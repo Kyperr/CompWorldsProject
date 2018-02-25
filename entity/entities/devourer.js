@@ -3,8 +3,11 @@ function Devourer(x, y, game, spritesheet, deathSpriteSheet) {
 	
     //Super init
     var physics = new Physics(this, x, y, DEV_FRAME_DIM, DEV_FRAME_DIM, SCALE, true);
-    var ai = new DevourerAI(this, DEV_VIEW_DISTANCE, DEV_ATTACK_DISTANCE, DEV_ATTACKS_PER_SECOND, DEV_MOVE_SPEED);
-    BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai, DEV_MAX_HP);
+    var ai = new DevourerAI(this, DEV_VIEW_DISTANCE, DEV_ATTACK_DISTANCE,
+                            DEV_ATTACKS_PER_SECOND + DIFFICULTY_ATTACKS_PER_SECOND * game.difficulty, 
+                            DEV_MOVE_SPEED + DIFFICULTY_MOVE_SPEED * game.difficulty);
+    BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai, 
+                   DEV_MAX_HP + DIFFICULTY_DEV_HP * game.difficulty);
     this.hitshapes.push(new Circle(DEV_HITCIRCLE_X, DEV_HITCIRCLE_Y, DEV_HITCIRCLE_R * SCALE, this));
 }
 

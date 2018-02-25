@@ -1,4 +1,4 @@
-function FlackAI(entity, viewDistance, attackDistance, attacksPerSecond, movementSpeed) {
+function FlakAI(entity, viewDistance, attackDistance, attacksPerSecond, movementSpeed) {
     AI.call(this, entity);
 
     //Constructor fields
@@ -15,10 +15,10 @@ function FlackAI(entity, viewDistance, attackDistance, attacksPerSecond, movemen
     this.timeSinceLastMoved = 0;
 }
 
-FlackAI.prototype = new BasicEnemyAI();
-FlackAI.prototype.constructor = FlackAI;
+FlakAI.prototype = new BasicEnemyAI();
+FlakAI.prototype.constructor = FlakAI;
 
-FlackAI.prototype.attack = function (delta) {
+FlakAI.prototype.attack = function (delta) {
     //This will be done outside the loop so the enemy appears to
     //"track" the player even when the enemy isn't shooting.
 
@@ -63,7 +63,6 @@ FlackAI.prototype.attack = function (delta) {
             var xDiff = PhysicalEntity.getMiddleXOf(bullet) - dstX;
             var yDiff = PhysicalEntity.getMiddleYOf(bullet) - dstY;
             var distance = Math.sqrt(Math.pow((xDiff), 2) + Math.pow((yDiff), 2));
-            //console.log("distance from x: " + dstX + " y: " + dstY + " is " + distance);
 
             if (distance < 10 || bullet.timeExist > bullet.duration) {
                 this.removeFromWorld = true;

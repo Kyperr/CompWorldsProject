@@ -5,7 +5,32 @@
  */
 const DRAW_HITBOXES = false;
 const ENABLE_CHEATS = false;
+const GOD_MODE = false;
 const SPAWN_ENEMIES = true;
+
+// The following 2 constants determine the behavior of marine.scrambled
+const SCRAMBLE_MOVEMENT = true;
+const SCRAMBLE_AIM = true;
+
+/*
+ * Difficulty differential constants
+ */
+const DIFFICULTY_MOVE_SPEED = 50;
+const DIFFICULTY_ATTACKS_PER_SECOND = .5;
+const DIFFICULTY_BUL_SPEED = 50;
+const DIFFICULTY_ZER_HP = 1;
+const DIFFICULTY_HYD_HP = 2;
+const DIFFICULTY_ULT_HP = 3;
+const DIFFICULTY_MUT_HP = 2;
+const DIFFICULTY_SCO_HP = 1;
+const DIFFICULTY_INF_HP = 1;
+const DIFFICULTY_GUA_HP = 3;
+const DIFFICULTY_LUR_HP = 2;
+const DIFFICULTY_DEF_HP = 10;
+const DIFFICULTY_QUE_HP = 10;
+const DIFFICULTY_BRO_HP = 2;
+const DIFFICULTY_DEV_HP = 10;
+
 
 /**
   * Constants for Menu 
@@ -13,10 +38,27 @@ const SPAWN_ENEMIES = true;
 const CAN_W = 800;
 const CAN_H = 600;
 const START_SCREEN = "start";
+const BUTTON_WIDTH = 85;
+const BUTTON_HEIGHT = 53;
+const BUTTON_SCALE = 2.5;
+const EASY_BUTTON_X = 50;
+const EASY_BUTTON_Y = 400;
+const EASY_WIDTH = 288;
+const EASY_HEIGHT = 67;
+const EASY_SCALE = 0.35;
+const MEDIUM_BUTTON_X = 300;
+const MEDIUM_BUTTON_Y = 400;
+const MEDIUM_WIDTH = 433;
+const MEDIUM_HEIGHT = 68;
+const MEDIUM_SCALE = 0.35;
+const HARD_BUTTON_X = 550;
+const HARD_BUTTON_Y = 400;
+const HARD_WIDTH = 289;
+const HARD_HEIGHT = 58;
+const HARD_SCALE = 0.35;
 const PAUSED_SCREEN = "paused";
 const DEAD_SCREEN = "dead";
 const WIN_SCREEN = "won";
-
 
 /*
  * Constants for wall collision.
@@ -58,6 +100,7 @@ const BUL_MOVE_SPEED = 200;
 const BUL_HITCIRCLE_X = 16;
 const BUL_HITCIRCLE_Y = 15;
 const BUL_HITCIRCLE_R = 7;
+const BUL_FRAME_DIM = 32;
 
 /*
  * Constants for the HudElement class.
@@ -68,6 +111,8 @@ const HUD_HEALTH_BACKDROP_CENTER_X = 109;
 const HUD_HEALTH_BACKDROP_CENTER_Y = 191;
 const HUD_HEALTH_DISPLAY_WIDTH = 64;
 const HUD_HEALTH_DISPLAY_HEIGHT = 64;
+const HUD_HEALTH_BACKDROP_SCALE = 0.35;
+const HUD_HEALTH_DISPLAY_SCALE = 1;
 
 /**
   * Constants for Zergling class.
@@ -162,7 +207,7 @@ const SCO_ANGLES = 16;
 const SCO_SHEET_WIDTH = 17;
 const SCO_FIRST_FRAME_ANGLE = 90;
 const SCO_FRAME_INCREMENT = 2;
-const SCO_MAX_HP = 4;
+const SCO_MAX_HP = 1;
 const SCO_HITBOX_X = 48;
 const SCO_HITBOX_Y = 45;
 const SCO_HITBOX_W = 31;
@@ -183,7 +228,7 @@ const INF_ANGLES = 16;
 const INF_SHEET_WIDTH = 17;
 const INF_FIRST_FRAME_ANGLE = 90;
 const INF_FRAME_INCREMENT = 2;
-const INF_MAX_HP = 4;
+const INF_MAX_HP = 1;
 const INF_HITBOX_X = 48;
 const INF_HITBOX_Y = 45;
 const INF_HITBOX_W = 31;
@@ -323,10 +368,11 @@ const FLYING_ACTION = "flying";
 const DYING_ACTION = "dying";
 const NO_ACTION = "";
 
-const SCALE = 1;
+const SCALE = 1.25;
 const BUFFER = MAR_FRAME_DIM * 2;
 
-/*
+
+// DEBUG ENEMY SET
 //tier 1
 const ZERGLINGS = 0;	
 const HYDRALISKS = 0;
@@ -339,9 +385,10 @@ const SCOURGES = 0;
 //tier 3
 const GUARDIANS = 0;
 const LURKERS = 1;
-*/
 
-
+/*
+// DEFAULT ENEMY SET
+//tier 1
 const ZERGLINGS = 3;
 const HYDRALISKS = 2;
 //tier 2
@@ -352,8 +399,7 @@ const TERRANS = 0;
 const SCOURGES = 0;
 //tier 3
 const GUARDIANS = 1;
-const LURKERS = 0;
-
-
+const LURKERS = 1;
+*/
 //total tiered enemies
 const TOTAL_ENEMIES = ZERGLINGS + HYDRALISKS + ULTRALISKS + MUTALISKS + TERRANS + SCOURGES + GUARDIANS + LURKERS;	//number of enemies to kill before boss spawns

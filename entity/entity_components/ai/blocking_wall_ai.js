@@ -68,7 +68,7 @@ BlockingWallAI.prototype.attack = function (delta) {
         var angleToShoot = (angle + angleB);
 
         //Wall size processing
-        var bulletNum = cosineRule(sideB, sideC, angleA) / 32;
+        var bulletNum = this.attackDistance / 32;//cosineRule(sideB, sideC, angleA) / 32;
 
         // Create a bullet(s)
         var that = this;
@@ -88,11 +88,15 @@ BlockingWallAI.prototype.attack = function (delta) {
 
                     var midX = PhysicalEntity.getMiddleXOf(bullet);
                     var midY = PhysicalEntity.getMiddleYOf(bullet);
+                    
 
-                    var distance = Math.sqrt(Math.pow((destX - midX), 2) + Math.pow((destY - midY), 2));
-
-                    bullet.physics.velocity = BUL_MOVE_SPEED * distanceToTravel / distance;
-                    console.log("velocity: " + bullet.physics.velocity);
+                    var distanceTravelled = Math.sqrt(Math.pow((midX - srcX), 2) + Math.pow((midY - srcY), 2));
+                    
+                    if (distanceTravelled >= distanceToTravel) {
+                        bullet.physics.velocity = 0;
+                    } else {
+                        bullet.physics.velocity = distanceToTravel * 2;
+                    }
                     
                     Bullet.moveInDirection(bullet, dirX, dirY);
                 }
@@ -104,6 +108,8 @@ BlockingWallAI.prototype.attack = function (delta) {
                 that.entity.game.addBullet(bullet);
             })();
         }
+
+
         
         
         // Reset timeSinceLastShot

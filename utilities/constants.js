@@ -5,7 +5,7 @@
  */
 const DRAW_HITBOXES = false;
 const ENABLE_CHEATS = false;
-const GOD_MODE = true;
+const GOD_MODE = false;
 const SPAWN_ENEMIES = true;
 
 // The following 2 constants determine the behavior of marine.scrambled
@@ -371,7 +371,7 @@ const NO_ACTION = "";
 const SCALE = 1.5;
 const BUFFER = MAR_FRAME_DIM * 2;
 
-
+/*
 // DEBUG ENEMY SET
 //tier 1
 const ZERGLINGS = 1;	
@@ -385,8 +385,8 @@ const SCOURGES = 0;
 //tier 3
 const GUARDIANS = 0;
 const LURKERS = 0;
+*/
 
-/*
 // DEFAULT ENEMY SET
 //tier 1
 const ZERGLINGS = 3;
@@ -400,6 +400,6 @@ const SCOURGES = 0;
 //tier 3
 const GUARDIANS = 1;
 const LURKERS = 1;
-*/
+
 //total tiered enemies
 const TOTAL_ENEMIES = ZERGLINGS + HYDRALISKS + ULTRALISKS + MUTALISKS + TERRANS + SCOURGES + GUARDIANS + LURKERS;	//number of enemies to kill before boss spawns

@@ -374,11 +374,11 @@ const BUFFER = MAR_FRAME_DIM * 2;
 /*
 // DEBUG ENEMY SET
 //tier 1
-const ZERGLINGS = 0;	
+const ZERGLINGS = 1;	
 const HYDRALISKS = 0;
 //tier 2
 const ULTRALISKS = 0;
-const MUTALISKS = 0;
+const MUTALISKS = 1;
 //tier 2.5 (special)
 const TERRANS = 0;
 const SCOURGES = 0;

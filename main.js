@@ -88,13 +88,15 @@ AM.downloadAll(function () {
                              HUD_HEALTH_DISPLAY_WIDTH, HUD_HEALTH_DISPLAY_HEIGHT,
                              HUD_HEALTH_DISPLAY_SCALE);
 
+
+    //init player
     var marX = (gameEngine.surfaceWidth / 2) - MAR_FRAME_DIM * SCALE;
     var marY = (gameEngine.surfaceHeight / 2) - MAR_FRAME_DIM * SCALE;
     var marine = new Marine(marX, marY, gameEngine, AM.getAsset("./img/blue_marine.png"), AM.getAsset("./img/blue_marine.png"));
     marine.init(gameEngine);
+    marine.initializePlayerListeners(marine, gameEngine, canvas);
 
-    //init player
-    initializePlayerListeners(marine, gameEngine, canvas);
+    // init map
     gameEngine.addMap(map);
     gameEngine.addPlayer(marine);
     gameEngine.addHUD(hud);
@@ -116,14 +118,14 @@ AM.downloadAll(function () {
 
             if (easy || medium || hard) {
                 if (easy) {
-                    this.difficulty = 1;
+                    gameEngine.difficulty = 0;
                 } else if (medium) {
-                    this.difficulty = 2;
+                    gameEngine.difficulty = 1;
                 } else {
-                    this.difficulty = 3;
+                    gameEngine.difficulty = 2;
                 }
 
-                gameEngine.start(this.difficulty);
+                gameEngine.start();
                 gameEngine.hasStarted = true;
                 gameEngine.running = true;
             }
@@ -132,139 +134,4 @@ AM.downloadAll(function () {
     console.log("All Done!");
 });
 
-//These should be moved into the appropriate class(marine).
-function initializePlayerListeners(marine, gameEngine, canvas) {
-    var w = 0;
-    var a = 0;
-    var s = 0;
-    var d = 0;
-
-    canvas.addEventListener("keydown", function (e) {
-
-        if (e.code === "KeyA") {
-            a = 1;
-        }
-
-        if (e.code === "KeyD") {
-            d = 1;
-        }
-        if (e.code === "KeyW") {
-            w = 1;
-        }
-
-        if (e.code === "KeyS") {
-            s = 1;
-        }
-
-        if (e.code === "Equal") {
-            if (ENABLE_CHEATS) {
-                if (marine.stats.hp < marine.stats.maxHP) {
-                    marine.stats.hp++;
-                }
-            }
-        }
-
-        if (e.code === "Minus") {
-            if (ENABLE_CHEATS) {
-                if (marine.stats.hp > 0) {
-                    marine.stats.hp--;
-                }
-            }
-        }
-
-        if (!marine.isShooting) {
-
-            var horizontal = d - a;
-            marine.physics.directionX = horizontal;
-
-            var vertical = w - s;
-            marine.physics.directionY = vertical;
-
-            if (horizontal != 0 || vertical != 0) {
-                marine.physics.velocity = MAR_MOVE_SPEED;
-            }
-        }
-
-
-    }, false);
-
-    canvas.addEventListener("keyup", function (e) {
-
-        if (e.code === "KeyA") {
-            a = 0;
-        }
-
-        if (e.code === "KeyD") {
-            d = 0;
-        }
-
-        if (e.code === "KeyW") {
-            w = 0;
-        }
-
-        if (e.code === "KeyS") {
-            s = 0;
-        }
-
-
-        if (!marine.isShooting) {
-            var vertical = w - s;
-            marine.physics.directionY = vertical;
-
-            var horizontal = d - a;
-            marine.physics.directionX = horizontal;
-
-            if (horizontal == 0 && vertical == 0) {
-                marine.physics.velocity = 0;
-            }
-        }
-
-
-    }, false);
-
-    var aimAndShootFunc = function (e) {
-        var game = marine.game;
-        var physics = marine.physics;
-
-        physics.velocity = 0;
-
-        var srcX = physics.x + (physics.width / 2);
-        var srcY = physics.y + (physics.height / 2);
-
-        var trgX = (e.offsetX - BUL_FRAME_DIM / 2) + game.camera.x;
-        var trgY = (e.offsetY - BUL_FRAME_DIM / 2) + game.camera.y;
-
-        var angle = calculateAngleRadians(trgX, trgY, srcX, srcY);//The 16 magic number comes from the size of the bullets. It is 1/2 the height/width of a bullet. Can fix later. *2 is for scale.
-
-        physics.directionX = Math.cos(angle);
-
-        physics.directionY = Math.sin(angle);
-
-        marine.isShooting = true;
-
-        marine.animation.currentAction = "shooting"
-    };
-
-    canvas.addEventListener("mousemove", function (e) {
-        if (marine.isShooting) {
-            aimAndShootFunc(e);
-        }
-    });
-
-    canvas.addEventListener("mousedown", aimAndShootFunc);
-
-    canvas.addEventListener("mouseup", function (e) {
-        marine.isShooting = false;
-        var horizontal = d - a;
-        marine.physics.directionX = horizontal;
-        var vertical = w - s;
-        marine.physics.directionY = vertical;
-		
-		if(horizontal != 0 || vertical != 0){
-			marine.physics.velocity = MAR_MOVE_SPEED;
-		}
-		
-    });
-
-}
-
+// initializedPlayerListeners moved to marine. -G

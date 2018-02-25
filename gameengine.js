@@ -16,6 +16,7 @@ function GameEngine() {
     this.camera = null;
 	this.hasStarted = false;
 	this.running =  false;
+    this.difficulty = 0;
     this.hud = null;
 	this.startScreen = null;
 	this.deadScreen = null;
@@ -38,9 +39,9 @@ GameEngine.prototype.init = function (ctx) {
     console.log('game initialized');
 }
 
-GameEngine.prototype.start = function (difficulty) {
+GameEngine.prototype.start = function () {
     console.log("starting game");
-	this.createEnemies(difficulty);
+	this.createEnemies();
     var that = this;
     (function gameLoop() {
         that.loop();
@@ -48,7 +49,7 @@ GameEngine.prototype.start = function (difficulty) {
     })();
 }
 
-GameEngine.prototype.createEnemies = function(difficulty) {
+GameEngine.prototype.createEnemies = function() {
 	//generate enemies
 	
 	var x;
@@ -64,7 +65,7 @@ GameEngine.prototype.createEnemies = function(difficulty) {
 	
     if (SPAWN_ENEMIES) {
         var i = 0;
-        while (i < ZERGLINGS * difficulty) {
+        while (i < ZERGLINGS * (this.difficulty + 1)) {
             x = this.calcX(ZER_FRAME_DIM);
             y = this.calcY(ZER_FRAME_DIM);
             zergling = new Zergling(x, y, this, AM.getAsset("./img/red_zergling.png"), AM.getAsset("./img/red_zergling.png"));
@@ -74,7 +75,7 @@ GameEngine.prototype.createEnemies = function(difficulty) {
         } 
         
         i = 0;
-        while (i < HYDRALISKS * difficulty) {
+        while (i < HYDRALISKS * (this.difficulty + 1)) {
             x = this.calcX(HYD_FRAME_DIM);
             y = this.calcY(HYD_FRAME_DIM);
             hydralisk = new Hydralisk(x, y, this, AM.getAsset("./img/red_hydralisk.png"), AM.getAsset("./img/red_hydralisk.png"));
@@ -84,7 +85,7 @@ GameEngine.prototype.createEnemies = function(difficulty) {
         }
         
         i = 0;
-        while (i < ULTRALISKS * difficulty) {
+        while (i < ULTRALISKS * (this.difficulty + 1)) {
             x = this.calcX(ULT_FRAME_DIM);
             y = this.calcY(ULT_FRAME_DIM);
             ultralisk = new Ultralisk(x, y, this, AM.getAsset("./img/red_ultralisk.png"), AM.getAsset("./img/red_ultralisk.png"));
@@ -94,7 +95,7 @@ GameEngine.prototype.createEnemies = function(difficulty) {
         }
         
         i = 0;
-        while (i < MUTALISKS * difficulty) {
+        while (i < MUTALISKS * (this.difficulty + 1)) {
             x = this.calcX(MUT_FRAME_DIM);
             y = this.calcY(MUT_FRAME_DIM);
             mutalisk = new Mutalisk(x, y, this, AM.getAsset("./img/red_mutalisk.png"), AM.getAsset("./img/mut_zairdthl.png"));
@@ -102,9 +103,9 @@ GameEngine.prototype.createEnemies = function(difficulty) {
             this.addEnemy(mutalisk);
             i++;
         }
-        
+/*        
         i = 0;
-        while (i < SCOURGES * difficulty) {
+        while (i < SCOURGES * (this.difficulty + 1)) {
             x = this.calcX(SCO_FRAME_DIM);
             y = this.calcY(SCO_FRAME_DIM);
             scourge = new Scourge(x, y, this, AM.getAsset("./img/red_scourge.png"));
@@ -114,7 +115,7 @@ GameEngine.prototype.createEnemies = function(difficulty) {
         }
         
         i = 0;
-        while (i < TERRANS * difficulty) {
+        while (i < TERRANS * (this.difficulty + 1)) {
             x = this.calcX(INF_FRAME_DIM);
             y = this.calcY(INF_FRAME_DIM);
             terran = new InfestedTerran(x, y, this, AM.getAsset("./img/red_infested_terran.png"));
@@ -122,9 +123,9 @@ GameEngine.prototype.createEnemies = function(difficulty) {
             this.addEnemy(terran);
             i++;
         }
-        
+*/
         i = 0;
-        while (i < GUARDIANS * difficulty) {
+        while (i < GUARDIANS * (this.difficulty + 1)) {
             x = this.calcX(GUA_FRAME_DIM);
             y = this.calcY(GUA_FRAME_DIM);
             guardian = new Guardian(x, y, this, AM.getAsset("./img/red_guardian.png"), AM.getAsset("./img/gua_zairdthl.png"));
@@ -134,7 +135,7 @@ GameEngine.prototype.createEnemies = function(difficulty) {
         }
         
         i = 0;
-        while (i < LURKERS * difficulty) {
+        while (i < LURKERS * (this.difficulty + 1)) {
             x = this.calcX(LUR_FRAME_DIM);
             y = this.calcY(LUR_FRAME_DIM);
             lurker = new Lurker(x, y, this, AM.getAsset("./img/red_lurker.png"), AM.getAsset("./img/red_lurker.png"));
@@ -244,7 +245,7 @@ GameEngine.prototype.update = function () {
 
     this.hud.update();
 
-	if (this.enemiesKilled === TOTAL_ENEMIES && !this.bossSpawned) { 
+	if (!this.bossSpawned && this.enemiesKilled == TOTAL_ENEMIES * (this.difficulty + 1)) { 
 		this.createBoss(); 
 	}
 	
@@ -257,10 +258,7 @@ GameEngine.prototype.update = function () {
             if (enemy.removeFromWorld) {
                 this.enemies.splice(i, 1);
 				this.enemiesKilled++;
-				if (this.enemiesKilled === TOTAL_ENEMIES) {
-					//spawn devourer
-					spawnBoss = true;
-				} else if (this.enemiesKilled === (TOTAL_ENEMIES + 1)) {
+				if (this.enemiesKilled === (TOTAL_ENEMIES * (this.difficulty + 1) + 1)) {
 					this.won = true;
 				}
             } else {

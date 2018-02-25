@@ -9,7 +9,7 @@ function Marine(x, y, game, spritesheet, deathSpriteSheet) {
     this.isShooting = false;// Whether he's shooting
     this.timeSinceLastShot = 0;
     this.shotsPerSecond = MAR_SHOTS_PER_SECOND;
-
+    this.scrambled = false;
     this.hitshapes.push(new Box(MAR_HITBOX_X, MAR_HITBOX_Y, 
                                 MAR_HITBOX_W * SCALE, MAR_HITBOX_H * SCALE, this));
 }
@@ -93,4 +93,181 @@ Marine.prototype.draw = function () {
     if (!this.removeFromWorld) {
         CharacterEntity.prototype.draw.call(this);
     }
+}
+
+Marine.prototype.initializePlayerListeners = function () {
+    var w = 0;
+    var a = 0;
+    var s = 0;
+    var d = 0;
+    
+    var canvas = this.game.ctx.canvas;
+    var marine = this;
+
+    canvas.addEventListener("keydown", function (e) {
+
+        if (e.code === "KeyA") {
+            if (!marine.scrambled || !SCRAMBLE_MOVEMENT) {
+                a = 1;
+            } else {
+                d = 1;
+            }
+        }
+
+        if (e.code === "KeyD") {
+            if (!marine.scrambled || !SCRAMBLE_MOVEMENT) {
+                d = 1;
+            } else {
+                a = 1;
+            }
+        }
+        if (e.code === "KeyW") {
+            if (!marine.scrambled || !SCRAMBLE_MOVEMENT) {
+                w = 1;
+            } else {
+                s = 1;
+            }
+        }
+
+        if (e.code === "KeyS") {
+            if (!marine.scrambled || !SCRAMBLE_MOVEMENT) {
+                s = 1;
+            } else {
+                w = 1;
+            }
+        }
+
+        if (e.code === "Equal") {
+            if (ENABLE_CHEATS) {
+                if (marine.stats.hp < marine.stats.maxHP) {
+                    marine.stats.hp++;
+                }
+            }
+        }
+
+        if (e.code === "Minus") {
+            if (ENABLE_CHEATS) {
+                if (marine.stats.hp > 0) {
+                    marine.stats.hp--;
+                }
+            }
+        }
+
+        if (!marine.isShooting) {
+
+            var horizontal = d - a;
+            marine.physics.directionX = horizontal;
+
+            var vertical = w - s;
+            marine.physics.directionY = vertical;
+
+            if (horizontal != 0 || vertical != 0) {
+                marine.physics.velocity = MAR_MOVE_SPEED;
+            }
+        }
+
+
+    }, false);
+
+    canvas.addEventListener("keyup", function (e) {
+
+        if (e.code === "KeyA") {
+            if (!marine.scrambled || !SCRAMBLE_MOVEMENT) {
+                a = 0;
+            } else {
+                d = 0;
+            }
+        }
+
+        if (e.code === "KeyD") {
+            if (!marine.scrambled || !SCRAMBLE_MOVEMENT) {
+                d = 0;
+            } else {
+                a = 0;
+            }
+        }
+
+        if (e.code === "KeyW") {
+            if (!marine.scrambled || !SCRAMBLE_MOVEMENT) {
+                w = 0;
+            } else {
+                s = 0;
+            }
+        }
+
+        if (e.code === "KeyS") {
+            if (!marine.scrambled || !SCRAMBLE_MOVEMENT) {
+                s = 0;
+            } else {
+                w = 0;
+            }
+        }
+
+
+        if (!marine.isShooting) {
+            var vertical = w - s;
+            marine.physics.directionY = vertical;
+
+            var horizontal = d - a;
+            marine.physics.directionX = horizontal;
+
+            if (horizontal == 0 && vertical == 0) {
+                marine.physics.velocity = 0;
+            }
+        }
+
+
+    }, false);
+
+    var aimAndShootFunc = function (e) {
+        var game = marine.game;
+        var physics = marine.physics;
+
+        physics.velocity = 0;
+
+        var srcX = physics.x + (physics.width / 2);
+        var srcY = physics.y + (physics.height / 2);
+
+        var trgX = (e.offsetX - BUL_FRAME_DIM / 2) + game.camera.x;
+        var trgY = (e.offsetY - BUL_FRAME_DIM / 2) + game.camera.y;
+
+        var angle = calculateAngleRadians(trgX, trgY, srcX, srcY);
+
+        if (marine.scrambled && SCRAMBLE_AIM) {
+            angle += Math.PI;
+            if (angle > 2 * Math.PI) {
+                angle -= 2 * Math.PI;
+            }
+        }
+
+        physics.directionX = Math.cos(angle);
+
+        physics.directionY = Math.sin(angle);
+
+        marine.isShooting = true;
+
+        marine.animation.currentAction = "shooting"
+    };
+
+    canvas.addEventListener("mousemove", function (e) {
+        if (marine.isShooting) {
+            aimAndShootFunc(e);
+        }
+    });
+
+    canvas.addEventListener("mousedown", aimAndShootFunc);
+
+    canvas.addEventListener("mouseup", function (e) {
+        marine.isShooting = false;
+        var horizontal = d - a;
+        marine.physics.directionX = horizontal;
+        var vertical = w - s;
+        marine.physics.directionY = vertical;
+		
+		if(horizontal != 0 || vertical != 0){
+			marine.physics.velocity = MAR_MOVE_SPEED;
+		}
+		
+    });
+
 }

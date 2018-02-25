@@ -10,9 +10,11 @@
  * @param {any} bulletBehavior - A function that takes (bullet) as an arg that should influence the directionX and directionY of the bullet as you see fit.
  */
 function Bullet(game, spritesheet, creator, fromPlayer, bulletBehavior) {
+
+
     /*Super init*/
     var physics = new Physics(this, 0, 0, 32, 32, 1, true);
-    physics.velocity = BUL_MOVE_SPEED;
+    physics.velocity = BUL_MOVE_SPEED + DIFFICULTY_BUL_SPEED * game.difficulty;
     
     PhysicalEntity.call(this, game, spritesheet, physics);
     
@@ -21,10 +23,8 @@ function Bullet(game, spritesheet, creator, fromPlayer, bulletBehavior) {
 
     this.timeExist = 0;
     this.duration = 4;
+    this.game = game;
 
-    this.callBehaviorEachUpdate = true; //Can set this to false to improve runtime.
-    this.bulletBehavior = bulletBehavior;
-    this.bulletBehavior(this);
 
     //Position
     var creatorCenterX = creator.physics.x + (creator.physics.width * creator.physics.scale / 2);
@@ -37,6 +37,10 @@ function Bullet(game, spritesheet, creator, fromPlayer, bulletBehavior) {
     this.physics.y = spawnY;
 
     this.hitshapes.push(new Circle(BUL_HITCIRCLE_X, BUL_HITCIRCLE_Y, BUL_HITCIRCLE_R * creator.physics.scale, this));
+
+    this.callBehaviorEachUpdate = true; //Can set this to false to improve runtime.
+    this.bulletBehavior = bulletBehavior;
+    this.bulletBehavior(this);
 }
 
 Bullet.prototype = new PhysicalEntity();
@@ -88,7 +92,9 @@ Bullet.prototype.update = function () {
             player = bullet.game.player;
             player.hitshapes.forEach(function (theirShape) {
                 if (myShape.doesCollide(theirShape)) {
-                    player.stats.hp--;
+                    if (!GOD_MODE) {
+                        player.stats.hp--;
+                    }
                     bullet.removeFromWorld = true;
                 }
             });
@@ -117,7 +123,7 @@ Bullet.oscillate = function (bullet, angle, distanceToTarget) {
 
     bullet.physics.directionX = Math.cos(angle);
     bullet.physics.directionY = Math.sin(angle);
-    bullet.physics.velocity = BUL_MOVE_SPEED * (2 / 3);
+    bullet.physics.velocity = (BUL_MOVE_SPEED + DIFFICULTY_BUL_SPEED * bullet.game.difficulty) * (2 / 3);
 }
 
 Bullet.fallBack = function (bullet, angle, spiralRadius) {
@@ -128,8 +134,9 @@ Bullet.fallBack = function (bullet, angle, spiralRadius) {
 
     bullet.physics.directionX = Math.cos(angle);
     bullet.physics.directionY = Math.sin(angle);
-    bullet.physics.velocity = (2*Math.PI * spiralRadius) / bullet.duration;
+    bullet.physics.velocity = (2 * Math.PI * spiralRadius) / bullet.duration;
 }
+
 
 //Concept(Abandoned?)
 Bullet.mineField = function (bullet, angle) {
@@ -144,7 +151,6 @@ Bullet.mineField = function (bullet, angle) {
     bullet.physics.directionY = Math.sin(angle);
     
     bullet.duration = 5;
-    //bullet.physics.velocity = BUL_MOVE_SPEED * (2 / 3);
 }
 
 Bullet.spiral = function (bullet, startAngle) {

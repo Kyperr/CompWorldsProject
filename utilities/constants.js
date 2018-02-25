@@ -5,7 +5,32 @@
  */
 const DRAW_HITBOXES = false;
 const ENABLE_CHEATS = false;
+const GOD_MODE = false;
 const SPAWN_ENEMIES = true;
+
+// The following 2 constants determine the behavior of marine.scrambled
+const SCRAMBLE_MOVEMENT = true;
+const SCRAMBLE_AIM = true;
+
+/*
+ * Difficulty differential constants
+ */
+const DIFFICULTY_MOVE_SPEED = 50;
+const DIFFICULTY_ATTACKS_PER_SECOND = .5;
+const DIFFICULTY_BUL_SPEED = 50;
+const DIFFICULTY_ZER_HP = 1;
+const DIFFICULTY_HYD_HP = 2;
+const DIFFICULTY_ULT_HP = 3;
+const DIFFICULTY_MUT_HP = 2;
+const DIFFICULTY_SCO_HP = 1;
+const DIFFICULTY_INF_HP = 1;
+const DIFFICULTY_GUA_HP = 3;
+const DIFFICULTY_LUR_HP = 2;
+const DIFFICULTY_DEF_HP = 10;
+const DIFFICULTY_QUE_HP = 10;
+const DIFFICULTY_BRO_HP = 2;
+const DIFFICULTY_DEV_HP = 10;
+
 
 /**
   * Constants for Menu 
@@ -182,7 +207,7 @@ const SCO_ANGLES = 16;
 const SCO_SHEET_WIDTH = 17;
 const SCO_FIRST_FRAME_ANGLE = 90;
 const SCO_FRAME_INCREMENT = 2;
-const SCO_MAX_HP = 4;
+const SCO_MAX_HP = 1;
 const SCO_HITBOX_X = 48;
 const SCO_HITBOX_Y = 45;
 const SCO_HITBOX_W = 31;
@@ -203,7 +228,7 @@ const INF_ANGLES = 16;
 const INF_SHEET_WIDTH = 17;
 const INF_FIRST_FRAME_ANGLE = 90;
 const INF_FRAME_INCREMENT = 2;
-const INF_MAX_HP = 4;
+const INF_MAX_HP = 1;
 const INF_HITBOX_X = 48;
 const INF_HITBOX_Y = 45;
 const INF_HITBOX_W = 31;
@@ -232,9 +257,9 @@ const GUA_HITCIRCLE_R = 35;
   * Constants for Lurker class.
  */
 const LUR_VIEW_DISTANCE = 1000;
-const LUR_ATTACK_DISTANCE = 100;
+const LUR_ATTACK_DISTANCE = 300;
 const LUR_MOVE_SPEED = 125;
-const LUR_ATTACKS_PER_SECOND = 2;
+const LUR_ATTACKS_PER_SECOND = 1;
 const LUR_PAUSE_AFTER_ATTACK = 300; //milliseconds
 const LUR_FRAME_DIM = 128;
 const LUR_SCALE = 2;
@@ -343,25 +368,27 @@ const FLYING_ACTION = "flying";
 const DYING_ACTION = "dying";
 const NO_ACTION = "";
 
-const SCALE = 1.5;
+const SCALE = 1.25;
 const BUFFER = MAR_FRAME_DIM * 2;
 
 /*
+// DEBUG ENEMY SET
 //tier 1
-const ZERGLINGS = 0;	
+const ZERGLINGS = 1;	
 const HYDRALISKS = 0;
 //tier 2
 const ULTRALISKS = 0;
-const MUTALISKS = 0;
+const MUTALISKS = 1;
 //tier 2.5 (special)
 const TERRANS = 0;
 const SCOURGES = 0;
 //tier 3
-const GUARDIANS = 1;
-const LURKERS = 0;
+const GUARDIANS = 0;
+const LURKERS = 1;
 */
 
-
+// DEFAULT ENEMY SET
+//tier 1
 const ZERGLINGS = 3;
 const HYDRALISKS = 2;
 //tier 2
@@ -372,8 +399,7 @@ const TERRANS = 0;
 const SCOURGES = 0;
 //tier 3
 const GUARDIANS = 1;
-const LURKERS = 0;
-
+const LURKERS = 1;
 
 //total tiered enemies
 const TOTAL_ENEMIES = ZERGLINGS + HYDRALISKS + ULTRALISKS + MUTALISKS + TERRANS + SCOURGES + GUARDIANS + LURKERS;	//number of enemies to kill before boss spawns

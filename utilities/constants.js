@@ -212,9 +212,9 @@ const GUA_HITCIRCLE_R = 35;
   * Constants for Lurker class.
  */
 const LUR_VIEW_DISTANCE = 1000;
-const LUR_ATTACK_DISTANCE = 100;
+const LUR_ATTACK_DISTANCE = 300;
 const LUR_MOVE_SPEED = 125;
-const LUR_ATTACKS_PER_SECOND = 2;
+const LUR_ATTACKS_PER_SECOND = 1;
 const LUR_PAUSE_AFTER_ATTACK = 300; //milliseconds
 const LUR_FRAME_DIM = 128;
 const LUR_SCALE = 2;
@@ -323,7 +323,7 @@ const FLYING_ACTION = "flying";
 const DYING_ACTION = "dying";
 const NO_ACTION = "";
 
-const SCALE = 1.5;
+const SCALE = 1;
 const BUFFER = MAR_FRAME_DIM * 2;
 
 /*
@@ -337,8 +337,8 @@ const MUTALISKS = 0;
 const TERRANS = 0;
 const SCOURGES = 0;
 //tier 3
-const GUARDIANS = 1;
-const LURKERS = 0;
+const GUARDIANS = 0;
+const LURKERS = 1;
 */
 
 

@@ -1,4 +1,4 @@
-function PredictionAI(entity, viewDistance, attackDistance, attacksPerSecond, movementSpeed) {
+function BlockingWallAI(entity, viewDistance, attackDistance, attacksPerSecond, movementSpeed) {
     AI.call(this, entity);
 
     //Constructor fields
@@ -15,10 +15,10 @@ function PredictionAI(entity, viewDistance, attackDistance, attacksPerSecond, mo
     this.timeSinceLastMoved = 0;
 }
 
-PredictionAI.prototype = new BasicEnemyAI();
-PredictionAI.prototype.constructor = PredictionAI;
+BlockingWallAI.prototype = new BasicEnemyAI();
+BlockingWallAI.prototype.constructor = BlockingWallAI;
 
-PredictionAI.prototype.attack = function (delta) {
+BlockingWallAI.prototype.attack = function (delta) {
     //This will be done outside the loop so the enemy appears to
     //"track" the player even when the enemy isn't shooting.
 
@@ -49,7 +49,7 @@ PredictionAI.prototype.attack = function (delta) {
 		this.entity.animation.elapsedTime = 0;
         this.entity.animation.currentAction = "attacking";
 		
-        //Prediction vars
+        //Prediction processing
         var targetAngle = Math.atan2(target.physics.directionY, target.physics.directionX);
         var tVel = target.physics.velocity;
         var pTargetX = PhysicalEntity.getMiddleXOf(target) + (tVel * Math.cos(targetAngle));
@@ -67,23 +67,57 @@ PredictionAI.prototype.attack = function (delta) {
 
         var angleToShoot = (angle + angleB);
 
+        //Wall size processing
+        var bulletNum = cosineRule(sideB, sideC, angleA) / 32;
+
         // Create a bullet(s)
-		
-        //Bullet 1
-        var dirX = Math.cos(angleToShoot);
-        var dirY = Math.sin(angleToShoot);
+        var that = this;
 
-        var bulletBehavior = function (bullet) {
-            Bullet.moveInDirection(bullet, dirX, dirY);
+        for (var i = 0; i < bulletNum; i++) {
+            (function () {
+
+                var distanceToTravel = i * 32;
+
+                var dirX = Math.cos(angleToShoot);
+                var dirY = Math.sin(angleToShoot);
+
+                var destX = srcX + (dirX * distanceToTravel);
+                var destY = srcY + (dirY * distanceToTravel);
+                
+                var bulletBehavior = function (bullet) {
+
+                    var midX = PhysicalEntity.getMiddleXOf(bullet);
+                    var midY = PhysicalEntity.getMiddleYOf(bullet);
+
+                    var distance = Math.sqrt(Math.pow((destX - midX), 2) + Math.pow((destY - midY), 2));
+
+                    bullet.physics.velocity = BUL_MOVE_SPEED * distanceToTravel / distance;
+                    console.log("velocity: " + bullet.physics.velocity);
+                    
+                    Bullet.moveInDirection(bullet, dirX, dirY);
+                }
+
+                var bullet = new Bullet(that.entity.game,
+                    that.entity.game.assetManager.getAsset("./img/prediction_bullet.png"),
+                    that.entity, false, bulletBehavior);
+                bullet.init(that.entity.game);
+                that.entity.game.addBullet(bullet);
+            })();
         }
-
-        var bullet1 = new Bullet(this.entity.game,
-            this.entity.game.assetManager.getAsset("./img/prediction_bullet.png"),
-            this.entity, false, bulletBehavior);
-        bullet1.init(this.entity.game);
-        this.entity.game.addBullet(bullet1);
+        
         
         // Reset timeSinceLastShot
         this.timeSinceLastAttack = 0;
     }
+}
+
+/**
+ * Will produce a value for "a" according to the cosine rule.
+ */
+function cosineRule(sideB, sideC, angleA) {
+    var bSqr = Math.pow(sideB, 2);
+    var cSqr = Math.pow(sideC, 2);
+    var aSqr = (bSqr + cSqr) - (2 * sideB * sideC * Math.cos(angleA));
+
+    return Math.sqrt(aSqr);
 }

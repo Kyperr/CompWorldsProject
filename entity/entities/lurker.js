@@ -3,7 +3,7 @@ function Lurker(x, y, game, spritesheet, deathSpriteSheet) {
 	
     //Super init
     var physics = new Physics(this, x, y, LUR_FRAME_DIM, LUR_FRAME_DIM, SCALE, true);
-    var ai = new BasicEnemyAI(this, LUR_VIEW_DISTANCE, LUR_ATTACK_DISTANCE, LUR_ATTACKS_PER_SECOND, LUR_MOVE_SPEED);
+    var ai = new BlockingWallAI(this, LUR_VIEW_DISTANCE, LUR_ATTACK_DISTANCE, LUR_ATTACKS_PER_SECOND, LUR_MOVE_SPEED);
     BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai, LUR_MAX_HP);
 
     this.hitshapes.push(new Circle(LUR_HITCIRCLE_X, LUR_HITCIRCLE_Y, LUR_HITCIRCLE_R * SCALE, this));

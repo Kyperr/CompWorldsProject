@@ -128,8 +128,9 @@ Bullet.fallBack = function (bullet, angle, spiralRadius) {
 
     bullet.physics.directionX = Math.cos(angle);
     bullet.physics.directionY = Math.sin(angle);
-    bullet.physics.velocity = (2*Math.PI * spiralRadius) / bullet.duration;
+    bullet.physics.velocity = (2 * Math.PI * spiralRadius) / bullet.duration;
 }
+
 
 //Concept(Abandoned?)
 Bullet.mineField = function (bullet, angle) {

@@ -245,7 +245,7 @@ GameEngine.prototype.update = function () {
 
     this.hud.update();
 
-	if (!this.bossSpawned & this.enemiesKilled === TOTAL_ENEMIES * (this.difficulty + 1)) { 
+	if (!this.bossSpawned && this.enemiesKilled == TOTAL_ENEMIES * (this.difficulty + 1)) { 
 		this.createBoss(); 
 	}
 	
@@ -258,10 +258,7 @@ GameEngine.prototype.update = function () {
             if (enemy.removeFromWorld) {
                 this.enemies.splice(i, 1);
 				this.enemiesKilled++;
-				if (this.enemiesKilled === TOTAL_ENEMIES) {
-					//spawn devourer
-					spawnBoss = true;
-				} else if (this.enemiesKilled === (TOTAL_ENEMIES + 1)) {
+				if (this.enemiesKilled === (TOTAL_ENEMIES * (this.difficulty + 1) + 1)) {
 					this.won = true;
 				}
             } else {

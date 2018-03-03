@@ -59,7 +59,8 @@ PredictionAI.prototype.attack = function (delta) {
         var sideC = Math.sqrt(Math.pow((dstX - srcX), 2) + Math.pow((dstY - srcY), 2));//Not to be confused with angleC.
         var angleA = targetAngle - angle;//Measure of the angle between sides b and c.
 
-        var sideA = BUL_MOVE_SPEED;//cosineRule(sideB, sideC, angleA);//This represents the distance between the enemy and where the player is predicted to be.
+        //var sideA = BUL_MOVE_SPEED;//cosineRule(sideB, sideC, angleA);//This represents the distance between the enemy and where the player is predicted to be.
+        var sideA = BUL_MOVE_SPEED + DIFFICULTY_BUL_SPEED * this.entity.game.difficulty; 
 
         var sinOfAngleB = sideB * Math.sin(angleA) / sideA;
 

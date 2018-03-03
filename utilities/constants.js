@@ -92,6 +92,7 @@ const MAR_HITBOX_X = 23;
 const MAR_HITBOX_Y = 20;
 const MAR_HITBOX_W = 16;
 const MAR_HITBOX_H = 25;
+const INVINCIBLE = 2; //second
 
 /**
   * Constants for Bullet class.

@@ -92,11 +92,12 @@ Bullet.prototype.update = function () {
             player = bullet.game.player;
             player.hitshapes.forEach(function (theirShape) {
                 if (myShape.doesCollide(theirShape)) {
-                    if (player.timeSinceLastHit >= 1) {
+                    if (player.timeSinceLastHit >= INVINCIBLE) {
                         if (!GOD_MODE) {
                             player.stats.hp--;
                         }
                         player.timeSinceLastHit = 0;
+                        player.animation.spriteSheet = player.invincibleSpriteSheet;
                         player.hit = false;
                     } 
                     bullet.removeFromWorld = true;

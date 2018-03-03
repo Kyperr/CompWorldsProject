@@ -3,6 +3,7 @@ var AM = new AssetManager();
 //Initialize the game engine
 
 AM.queueDownload("./img/blue_marine.png");
+AM.queueDownload("./img/teal_marine.png");
 AM.queueDownload("./img/red_zergling.png");
 AM.queueDownload("./img/red_hydralisk.png");
 AM.queueDownload("./img/red_devourer.png");
@@ -92,7 +93,7 @@ AM.downloadAll(function () {
     //init player
     var marX = (gameEngine.surfaceWidth / 2) - MAR_FRAME_DIM * SCALE;
     var marY = (gameEngine.surfaceHeight / 2) - MAR_FRAME_DIM * SCALE;
-    var marine = new Marine(marX, marY, gameEngine, AM.getAsset("./img/blue_marine.png"), AM.getAsset("./img/blue_marine.png"));
+    var marine = new Marine(marX, marY, gameEngine, AM.getAsset("./img/blue_marine.png"), AM.getAsset("./img/teal_marine.png"), AM.getAsset("./img/blue_marine.png"));
     marine.init(gameEngine);
     marine.initializePlayerListeners(marine, gameEngine, canvas);
 

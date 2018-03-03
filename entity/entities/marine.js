@@ -1,13 +1,16 @@
 
-function Marine(x, y, game, spritesheet, deathSpriteSheet) {
+function Marine(x, y, game, spritesheet, invincibleSpriteSheet, deathSpriteSheet) {
     /*Super init*/
     var physics = new Physics(this, x, y, MAR_FRAME_DIM, MAR_FRAME_DIM, SCALE, true);
 
     CharacterEntity.call(this, game, spritesheet, deathSpriteSheet, physics, MAR_MAX_HP);
 
     /*Sub init*/
+    this.invincibleSpriteSheet = invincibleSpriteSheet;
     this.isShooting = false;// Whether he's shooting
     this.timeSinceLastShot = 0;
+    this.timeSinceLastHit = 1;
+    this.hit = false;
     this.shotsPerSecond = MAR_SHOTS_PER_SECOND;
     this.scrambled = false;
     this.hitshapes.push(new Box(MAR_HITBOX_X, MAR_HITBOX_Y, 
@@ -35,6 +38,10 @@ Marine.prototype.createAnimation = function (spritesheet) {
     return animation;
 }
 
+Marine.prototype.createInvincibleAnimation = function () {
+    return this.createAnimation(this.invincibleSpriteSheet);
+}
+
 Marine.prototype.createDeathAnimation = function (deathSpriteSheet) {
     var numberOfAngles = 1;
     var sheetWidth = 17;
@@ -54,6 +61,12 @@ Marine.prototype.update = function () {
     var physics = this.physics;
 
     this.timeSinceLastShot += delta;
+    //console.log("Time since hit: " + this.timeSinceLastHit);
+    if (this.timeSinceLastHit < 1) {
+        this.hit = true;
+        this.timeSinceLastHit += delta;
+    }
+
 
     if (this.isShooting) {
         this.animation.currentAction = "shooting"; 

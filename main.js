@@ -46,8 +46,6 @@ AM.downloadAll(function () {
     gameEngine.init(ctx);
     gameEngine.assetManager = AM;
 
-    var map = new Map(gameEngine, 1600, 1600);
-
     var startScreen = new Menu(gameEngine, ctx, START_SCREEN, AM);
     var easyButton = new Button(gameEngine, ctx,
                                 EASY_BUTTON_X, EASY_BUTTON_Y, BUTTON_SCALE,
@@ -96,8 +94,6 @@ AM.downloadAll(function () {
     marine.init(gameEngine);
     marine.initializePlayerListeners(marine, gameEngine, canvas);
 
-    // init map
-    gameEngine.addMap(map);
     gameEngine.addPlayer(marine);
     gameEngine.addHUD(hud);
 

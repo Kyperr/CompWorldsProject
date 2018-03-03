@@ -37,3 +37,9 @@ Hydralisk.prototype.createDeathAnimation = function (deathSpriteSheet) {
 
     return deathAnimation;
 }
+
+Hydralisk.quickCreate = function(game, x, y){
+    var hydralisk = new Hydralisk(x, y, game, AM.getAsset("./img/red_hydralisk.png"), AM.getAsset("./img/red_hydralisk.png"));
+    hydralisk.init(game);
+    return hydralisk;
+}

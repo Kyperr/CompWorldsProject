@@ -5,9 +5,9 @@
  * @param {any} height
  */
 
-function Map(game, width, height/*Square*/) {
+function Map(game, mapAsset, width, height/*Square*/) {
 
-    this.cachedImage = AM.getAsset("./img/map.png");
+    this.cachedImage = mapAsset;//AM.getAsset("./img/map.png");
     
     this.width = width;
     this.height = height;

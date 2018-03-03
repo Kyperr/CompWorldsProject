@@ -108,3 +108,19 @@ function degreesToRadians(degrees) {
 function randomBetweenTwoNumbers(min, max) {
 	return Math.floor(Math.random()*(max+1-min+1)+min);
 }
+
+calcSpawnX = function(game, dim) {
+	var x = game.camera.x;
+	while (x >= game.camera.x && x <= (game.camera.x + game.surfaceWidth)) {
+		x = randomBetweenTwoNumbers(WALL_W_HITBOX_W + 1, game.map.width - WALL_E_HITBOX_W - DEV_FRAME_DIM - dim);
+	}
+	return x;
+}
+
+calcSpawnY = function(game, dim) {
+	var y = game.camera.y;
+	while (y >= game.camera.y && y <= (game.camera.y + game.surfaceHeight)) {
+		y = randomBetweenTwoNumbers(WALL_N_HITBOX_H + 1, game.map.height - WALL_S_HITBOX_H - DEV_FRAME_DIM - dim);			
+	}
+	return y;
+}

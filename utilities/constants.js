@@ -257,7 +257,7 @@ const GUA_HITCIRCLE_R = 35;
   * Constants for Lurker class.
  */
 const LUR_VIEW_DISTANCE = 1000;
-const LUR_ATTACK_DISTANCE = 300;
+const LUR_ATTACK_DISTANCE = 250;
 const LUR_MOVE_SPEED = 125;
 const LUR_ATTACKS_PER_SECOND = 1;
 const LUR_PAUSE_AFTER_ATTACK = 300; //milliseconds

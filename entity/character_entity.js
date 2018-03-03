@@ -26,6 +26,7 @@ CharacterEntity.prototype.createDeathAnimation = function (deathSpriteSheet) {
 CharacterEntity.prototype.update = function () {
     var character = this;
     character.hitshapes.forEach(function (characterShape) {
+        //console.log("character.game " + character.game);
         map = character.game.map;
         map.hitshapes.forEach(function (wall) {
             if (characterShape.doesCollide(wall)) {

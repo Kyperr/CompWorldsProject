@@ -40,3 +40,9 @@ Zergling.prototype.createDeathAnimation = function (deathSpriteSheet) {
     
     return deathAnimation;
 }
+
+Zergling.quickCreate = function(game, x, y){
+    zergling = new Zergling(x, y, game, AM.getAsset("./img/red_zergling.png"), AM.getAsset("./img/red_zergling.png"));
+    zergling.init(game);
+    return zergling;
+}

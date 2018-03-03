@@ -10,25 +10,30 @@ window.requestAnimFrame = (function () {
 })();
 
 function GameEngine() {
-    // Decomposed this.entities for easy access
-    this.map = null;
-    this.player = null;
-    this.camera = null;
-	this.hasStarted = false;
+
+    //Misc vars:
+    this.ctx = null;
+    this.surfaceWidth = null;
+    this.surfaceHeight = null;
+    this.hasStarted = false;
 	this.running =  false;
-    this.difficulty = 0;
     this.hud = null;
 	this.startScreen = null;
 	this.deadScreen = null;
 	this.winScreen = null;
+
+    //Game state variables:
     this.enemies = [];
     this.bullets = [];
 	this.enemiesKilled = 0;
 	this.bossSpawned = false;
+    this.difficulty = 0;
+    this.map = null;
+    this.player = null;
+    this.camera = null;
+    this.levels = [];
+    this.currentLevel = 1;
 
-    this.ctx = null;
-    this.surfaceWidth = null;
-    this.surfaceHeight = null;
 }
 
 GameEngine.prototype.init = function (ctx) {
@@ -36,12 +41,16 @@ GameEngine.prototype.init = function (ctx) {
     this.surfaceWidth = this.ctx.canvas.width;
     this.surfaceHeight = this.ctx.canvas.height;
     this.timer = new Timer();
+
+    this.createLevels();
+
     console.log('game initialized');
 }
 
 GameEngine.prototype.start = function () {
     console.log("starting game");
-	this.createEnemies();
+    //this.createEnemies();
+    this.levels[this.currentLevel].init();
     var that = this;
     (function gameLoop() {
         that.loop();
@@ -49,117 +58,30 @@ GameEngine.prototype.start = function () {
     })();
 }
 
-GameEngine.prototype.createEnemies = function() {
-	//generate enemies
-	
-	var x;
-    var y;
-	var zergling;
-	var hydralisk; 
-	var ultralisk;
-	var mutalisk;
-	var scourge;
-	var terran;
-	var guardian;
-	var lurker;
-	
-    if (SPAWN_ENEMIES) {
-        var i = 0;
-        while (i < ZERGLINGS) {
-            x = this.calcX(ZER_FRAME_DIM);
-            y = this.calcY(ZER_FRAME_DIM);
-            zergling = new Zergling(x, y, this, AM.getAsset("./img/red_zergling.png"), AM.getAsset("./img/red_zergling.png"));
-            zergling.init(this);
-            this.addEnemy(zergling);
-            i++;
-        } 
-        
-        i = 0;
-        while (i < HYDRALISKS) {
-            x = this.calcX(HYD_FRAME_DIM);
-            y = this.calcY(HYD_FRAME_DIM);
-            hydralisk = new Hydralisk(x, y, this, AM.getAsset("./img/red_hydralisk.png"), AM.getAsset("./img/red_hydralisk.png"));
-            hydralisk.init(this);
-            this.addEnemy(hydralisk);
-            i++;
-        }
-        
-        i = 0;
-        while (i < ULTRALISKS) {
-            x = this.calcX(ULT_FRAME_DIM);
-            y = this.calcY(ULT_FRAME_DIM);
-            ultralisk = new Ultralisk(x, y, this, AM.getAsset("./img/red_ultralisk.png"), AM.getAsset("./img/red_ultralisk.png"));
-            ultralisk.init(this);
-            this.addEnemy(ultralisk);
-            i++;
-        }
-        
-        i = 0;
-        while (i < MUTALISKS) {
-            x = this.calcX(MUT_FRAME_DIM);
-            y = this.calcY(MUT_FRAME_DIM);
-            mutalisk = new Mutalisk(x, y, this, AM.getAsset("./img/red_mutalisk.png"), AM.getAsset("./img/mut_zairdthl.png"));
-            mutalisk.init(this);
-            this.addEnemy(mutalisk);
-            i++;
-        }
-/*        
-        i = 0;
-        while (i < SCOURGES) {
-            x = this.calcX(SCO_FRAME_DIM);
-            y = this.calcY(SCO_FRAME_DIM);
-            scourge = new Scourge(x, y, this, AM.getAsset("./img/red_scourge.png"));
-            scourge.init(this);
-            this.addEnemy(scourge);
-            i++;
-        }
-        
-        i = 0;
-        while (i < TERRANS) {
-            x = this.calcX(INF_FRAME_DIM);
-            y = this.calcY(INF_FRAME_DIM);
-            terran = new InfestedTerran(x, y, this, AM.getAsset("./img/red_infested_terran.png"));
-            terran.init(this);
-            this.addEnemy(terran);
-            i++;
-        }
-*/
-        i = 0;
-        while (i < GUARDIANS) {
-            x = this.calcX(GUA_FRAME_DIM);
-            y = this.calcY(GUA_FRAME_DIM);
-            guardian = new Guardian(x, y, this, AM.getAsset("./img/red_guardian.png"), AM.getAsset("./img/gua_zairdthl.png"));
-            guardian.init(this);
-            this.addEnemy(guardian);
-            i++;
-        }
-        
-        i = 0;
-        while (i < LURKERS) {
-            x = this.calcX(LUR_FRAME_DIM);
-            y = this.calcY(LUR_FRAME_DIM);
-            lurker = new Lurker(x, y, this, AM.getAsset("./img/red_lurker.png"), AM.getAsset("./img/red_lurker.png"));
-            lurker.init(this);
-            this.addEnemy(lurker);
-            i++;
-        }
-    }
-}
+GameEngine.prototype.createLevels = function(){
+    //Adding levels to this.levels    
+    var levelOne = new GameLevel(this,
+        GameLevel.levelOneInit,
+        GameLevel.stdLevelSequence,
+        GameLevel.stdCompleteCondition,
+        GameLevel.stdOnCompletion);
+this.levels[1] = levelOne;
 
-GameEngine.prototype.calcX = function (dim) {
-	var x = this.camera.x;
-	while (x >= this.camera.x && x <= (this.camera.x + this.surfaceWidth)) {
-		x = randomBetweenTwoNumbers(WALL_W_HITBOX_W + 1, this.map.width - WALL_E_HITBOX_W - DEV_FRAME_DIM - dim);
-	}
-	return x;
-}
+var levelTwo = new GameLevel(this,
+         GameLevel.levelTwoInit,
+         GameLevel.stdLevelSequence,
+         GameLevel.stdCompleteCondition,
+         GameLevel.stdOnCompletion);
 
-GameEngine.prototype.calcY = function (dim) {
-	var y = this.camera.y;
-	while (y >= this.camera.y && y <= (this.camera.y + this.surfaceHeight)) {
-		y = randomBetweenTwoNumbers(WALL_N_HITBOX_H + 1, this.map.height - WALL_S_HITBOX_H - DEV_FRAME_DIM - dim);			
-	}
-	return y;
+this.levels[2] = levelTwo;
+
+var levelThree = new GameLevel(this,
+         GameLevel.levelThreeInit,
+         GameLevel.stdLevelSequence,
+         GameLevel.stdCompleteCondition,
+         GameLevel.stdOnCompletion);
+
+this.levels[3] = levelThree;
 }
 
 GameEngine.prototype.addMap = function (map) {
@@ -225,17 +147,11 @@ GameEngine.prototype.draw = function () {
     this.ctx.restore();
 }
 
-GameEngine.prototype.createBoss = function () {
-	var x = this.calcX(DEV_FRAME_DIM);
-	var y = this.calcY(DEV_FRAME_DIM);
-	
-    var devourer = new Devourer(x, y, this, AM.getAsset("./img/red_devourer.png"), AM.getAsset("./img/dev_zairdthl.png"));
-	devourer.init(this);
-	this.addEnemy(devourer);	
-	this.bossSpawned = true;
-}
-
 GameEngine.prototype.update = function () {
+
+    //Update level:
+    this.levels[this.currentLevel].update();
+
     // Update player
     if (this.player.removeFromWorld) {
 		this.dead = true;

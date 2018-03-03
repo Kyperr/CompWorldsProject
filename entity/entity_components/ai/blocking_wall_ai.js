@@ -13,6 +13,8 @@ function BlockingWallAI(entity, viewDistance, attackDistance, attacksPerSecond, 
     //Other instance fields.
     this.timeSinceLastAttack = 0;
     this.timeSinceLastMoved = 0;
+    //If the player's velocity is 0, shoot +90 if this is 0, -90 if this 1
+    this.zeroVelShotDirection = 0;
 }
 
 BlockingWallAI.prototype = new BasicEnemyAI();
@@ -25,11 +27,11 @@ BlockingWallAI.prototype.attack = function (delta) {
     var physics = this.entity.physics;
 
     physics.velocity = 0;
-	
-	var attackAnimationTime = .35;//Magic numbers, YAY!
+
+    var attackAnimationTime = .35;//Magic numbers, YAY!
     if (this.timeSinceLastAttack > attackAnimationTime) {
-		this.entity.animation.currentAction = "standing";
-	}
+        this.entity.animation.currentAction = "standing";
+    }
 
     var target = this.entity.game.player;
 
@@ -46,29 +48,51 @@ BlockingWallAI.prototype.attack = function (delta) {
     interpolate(this.entity, angle, interpSpeed, tolerance);
 
     if (this.timeSinceLastAttack >= (1 / this.attacksPerSecond)) {
-		this.entity.animation.elapsedTime = 0;
+        this.entity.animation.elapsedTime = 0;
         this.entity.animation.currentAction = "attacking";
-		
+
         //Prediction processing
         var targetAngle = Math.atan2(target.physics.directionY, target.physics.directionX);
         var tVel = target.physics.velocity;
-        var pTargetX = PhysicalEntity.getMiddleXOf(target) + (tVel * Math.cos(targetAngle));
-        var pTargetY = PhysicalEntity.getMiddleYOf(target) - (tVel * Math.sin(targetAngle));
-        
-        var sideB = Math.sqrt(Math.pow((pTargetX - dstX), 2) + Math.pow((pTargetY - dstY), 2));//Not to be confused with angleB.
-        var sideC = Math.sqrt(Math.pow((dstX - srcX), 2) + Math.pow((dstY - srcY), 2));//Not to be confused with angleC.
-        var angleA = targetAngle - angle;//Measure of the angle between sides b and c.
 
-        var sideA = BUL_MOVE_SPEED;//cosineRule(sideB, sideC, angleA);//This represents the distance between the enemy and where the player is predicted to be.
+        var angleB;
 
-        var sinOfAngleB = sideB * Math.sin(angleA) / sideA;
+        if (tVel == 0) {
+            if(this.zeroVelShotDirection == 0){
+                angleB = targetAngle - Math.PI/4;
+            } else {
+                angleB = targetAngle + Math.PI/4;
+            }
+        } else {
+            var pTargetX = PhysicalEntity.getMiddleXOf(target) + (tVel * Math.cos(targetAngle));
+            var pTargetY = PhysicalEntity.getMiddleYOf(target) - (tVel * Math.sin(targetAngle));
 
-        var angleB = Math.asin(sinOfAngleB);
+            var sideB = Math.sqrt(Math.pow((pTargetX - dstX), 2) + Math.pow((pTargetY - dstY), 2));//Not to be confused with angleB.
+            var sideC = Math.sqrt(Math.pow((dstX - srcX), 2) + Math.pow((dstY - srcY), 2));//Not to be confused with angleC.
+            var angleA = targetAngle - angle;//Measure of the angle between sides b and c.
+
+            var sideA = BUL_MOVE_SPEED;//cosineRule(sideB, sideC, angleA);//This represents the distance between the enemy and where the player is predicted to be.
+
+            var sinOfAngleB = sideB * Math.sin(angleA) / sideA;
+
+            var angleB = Math.asin(sinOfAngleB);
+        }
+
+        //Never aim directly at player
+        if(Math.abs(targetAngle - angleB) < Math.PI/8){
+            if(this.zeroVelShotDirection == 0){
+                angleB += Math.PI/4;
+            } else {
+                angleB -= Math.PI/4;
+            }
+        }
+
+        this.zeroVelShotDirection = (this.zeroVelShotDirection + 1) % 2;
 
         var angleToShoot = (angle + angleB);
 
         //Wall size processing
-        var bulletNum = this.attackDistance / 32;//cosineRule(sideB, sideC, angleA) / 32;
+        var bulletNum = this.attackDistance / 32;
 
         // Create a bullet(s)
         var that = this;
@@ -83,21 +107,21 @@ BlockingWallAI.prototype.attack = function (delta) {
 
                 var destX = srcX + (dirX * distanceToTravel);
                 var destY = srcY + (dirY * distanceToTravel);
-                
+
                 var bulletBehavior = function (bullet) {
 
                     var midX = PhysicalEntity.getMiddleXOf(bullet);
                     var midY = PhysicalEntity.getMiddleYOf(bullet);
-                    
+
 
                     var distanceTravelled = Math.sqrt(Math.pow((midX - srcX), 2) + Math.pow((midY - srcY), 2));
-                    
+
                     if (distanceTravelled >= distanceToTravel) {
                         bullet.physics.velocity = 0;
                     } else {
-                        bullet.physics.velocity = distanceToTravel * 2;
+                        bullet.physics.velocity = distanceToTravel;
                     }
-                    
+
                     Bullet.moveInDirection(bullet, dirX, dirY);
                 }
 
@@ -105,13 +129,14 @@ BlockingWallAI.prototype.attack = function (delta) {
                     that.entity.game.assetManager.getAsset("./img/prediction_bullet.png"),
                     that.entity, false, bulletBehavior);
                 bullet.init(that.entity.game);
+                bullet.duration = 2
                 that.entity.game.addBullet(bullet);
             })();
         }
 
 
-        
-        
+
+
         // Reset timeSinceLastShot
         this.timeSinceLastAttack = 0;
     }

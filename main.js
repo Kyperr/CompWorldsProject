@@ -29,7 +29,10 @@ AM.queueDownload("./img/mud_tiles.png");
 AM.queueDownload("./img/hud_gray_50.png");
 AM.queueDownload("./img/wireframe.png");
 AM.queueDownload("./img/dirt_tileset.png");
-AM.queueDownload("./img/map.png");
+
+AM.queueDownload("./img/map_ash.png");
+AM.queueDownload("./img/map_jungle.png");
+AM.queueDownload("./img/map_dessert.png");
 
 AM.queueDownload("./img/player_bullet.png");
 AM.queueDownload("./img/enemy_bullet.png");

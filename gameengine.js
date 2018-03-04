@@ -1,12 +1,12 @@
 window.requestAnimFrame = (function () {
     return window.requestAnimationFrame ||
-            window.webkitRequestAnimationFrame ||
-            window.mozRequestAnimationFrame ||
-            window.oRequestAnimationFrame ||
-            window.msRequestAnimationFrame ||
-            function (/* function */ callback, /* DOMElement */ element) {
-                window.setTimeout(callback, 1000 / 60);
-            };
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function (/* function */ callback, /* DOMElement */ element) {
+            window.setTimeout(callback, 1000 / 60);
+        };
 })();
 
 function GameEngine() {
@@ -58,30 +58,30 @@ GameEngine.prototype.start = function () {
     })();
 }
 
-GameEngine.prototype.createLevels = function(){
+GameEngine.prototype.createLevels = function () {
     //Adding levels to this.levels    
     var levelOne = new GameLevel(this,
         GameLevel.levelOneInit,
         GameLevel.stdLevelSequence,
         GameLevel.stdCompleteCondition,
         GameLevel.stdOnCompletion);
-this.levels[1] = levelOne;
+    this.levels[1] = levelOne;
 
-var levelTwo = new GameLevel(this,
-         GameLevel.levelTwoInit,
-         GameLevel.stdLevelSequence,
-         GameLevel.stdCompleteCondition,
-         GameLevel.stdOnCompletion);
+    var levelTwo = new GameLevel(this,
+        GameLevel.levelTwoInit,
+        GameLevel.stdLevelSequence,
+        GameLevel.stdCompleteCondition,
+        GameLevel.stdOnCompletion);
 
-this.levels[2] = levelTwo;
+    this.levels[2] = levelTwo;
 
-var levelThree = new GameLevel(this,
-         GameLevel.levelThreeInit,
-         GameLevel.stdLevelSequence,
-         GameLevel.stdCompleteCondition,
-         GameLevel.stdOnCompletion);
+    var levelThree = new GameLevel(this,
+        GameLevel.levelThreeInit,
+        GameLevel.stdLevelSequence,
+        GameLevel.stdCompleteCondition,
+        GameLevel.stdOnCompletion);
 
-this.levels[3] = levelThree;
+    this.levels[3] = levelThree;
 }
 
 GameEngine.prototype.addMap = function (map) {
@@ -102,7 +102,7 @@ GameEngine.prototype.addStartScreen = function (screen, easyButton, mediumButton
     this.medium = mediumButton;
     this.hard = hardButton;
 
-	this.startScreen.draw();
+    this.startScreen.draw();
     this.easy.draw();
     this.medium.draw();
     this.hard.draw();
@@ -130,7 +130,7 @@ GameEngine.prototype.addBullet = function (bullet) {
 GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.surfaceWidth, this.surfaceHeight);
     this.camera.drawView();
-	
+
     // Draw HUD on top
     this.hudElements.forEach(function (hudElement) {
         hudElement.draw();
@@ -141,12 +141,49 @@ GameEngine.prototype.draw = function () {
 		this.startScreen.draw();
 	}
 	if (this.won) {
-		this.winScreen.draw();
+		this.winScreen.draw();		
+		//start the victory audio
+		var audio = document.getElementById("terran_victory");
+		audio.play();
 	} else if (this.dead) {
+		var level = this.levels[this.currentLevel];
+		level.onCompletion(level, this);
 		this.deadScreen.draw();
+		//start the defeat audio
+		var audio = document.getElementById("terran_defeat");
+		audio.play();
 	}
 
     this.ctx.restore();
+
+    var level = this.levels[this.currentLevel];
+    if (level.completeCondition(level, this)) {
+
+        var maskCanvas = document.createElement('canvas');
+        maskCanvas.width = this.surfaceWidth;
+        maskCanvas.height = this.surfaceHeight;
+        var maskCtx = maskCanvas.getContext('2d');
+        maskCtx.fillStyle = "black";
+        maskCtx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
+        maskCtx.globalCompositeOperation = 'xor';
+
+        var radius = 1/level.timeSinceCompleted;
+
+        var x = PhysicalEntity.getMiddleXOf(this.player);
+        var y = PhysicalEntity.getMiddleYOf(this.player);
+
+        maskCtx.arc(this.surfaceWidth/2, this.surfaceHeight/2, radius, 0, 2 * Math.PI);
+        maskCtx.fill();
+
+        this.ctx.drawImage(maskCanvas, 0, 0);
+    }
+
+    if (this.won) {
+        this.winScreen.draw();
+    } else if (this.dead) {
+        this.deadScreen.draw();
+    }
+
 }
 
 GameEngine.prototype.update = function () {
@@ -156,9 +193,9 @@ GameEngine.prototype.update = function () {
 
     // Update player
     if (this.player.removeFromWorld) {
-		this.dead = true;
+        this.dead = true;
     } else {
-        this.player.update(); 
+        this.player.update();
     }
 
     // Update HUD elements
@@ -170,11 +207,11 @@ GameEngine.prototype.update = function () {
     var enemyCount = this.enemies.length;
     for (var i = 0; i < enemyCount; i++) {
         var enemy = this.enemies[i];
-        
+
         if (typeof enemy !== 'undefined') {
             if (enemy.removeFromWorld) {
                 this.enemies.splice(i, 1);
-				this.enemiesKilled++;
+                this.enemiesKilled++;
             } else {
                 enemy.update();
             }

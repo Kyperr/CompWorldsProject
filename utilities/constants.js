@@ -195,7 +195,6 @@ const MUT_HITCIRCLE_R = 29;
 
 /**
   * Constants for Scourge class.
-  * NOTE: HITBOXES ARE INACCURATE
  */
 const SCO_VIEW_DISTANCE = 1000;
 const SCO_ATTACK_DISTANCE = 350;
@@ -209,14 +208,12 @@ const SCO_SHEET_WIDTH = 17;
 const SCO_FIRST_FRAME_ANGLE = 90;
 const SCO_FRAME_INCREMENT = 2;
 const SCO_MAX_HP = 1;
-const SCO_HITBOX_X = 48;
-const SCO_HITBOX_Y = 45;
-const SCO_HITBOX_W = 31;
-const SCO_HITBOX_H = 40;
+const SCO_HITCIRCLE_X = 24;
+const SCO_HITCIRCLE_Y = 24;
+const SCO_HITCIRCLE_R = 15;
 
 /**
   * Constants for Infested Marine class.
-  * NOTE: HITBOXES ARE INACCURATE
  */
 const INF_VIEW_DISTANCE = 1000;
 const INF_ATTACK_DISTANCE = 350;
@@ -230,10 +227,10 @@ const INF_SHEET_WIDTH = 17;
 const INF_FIRST_FRAME_ANGLE = 90;
 const INF_FRAME_INCREMENT = 2;
 const INF_MAX_HP = 1;
-const INF_HITBOX_X = 48;
-const INF_HITBOX_Y = 45;
-const INF_HITBOX_W = 31;
-const INF_HITBOX_H = 40;
+const INF_HITBOX_X = 23;
+const INF_HITBOX_Y = 20;
+const INF_HITBOX_W = 16;
+const INF_HITBOX_H = 25;
 
 /**
   * Constants for Guardian class.
@@ -310,10 +307,9 @@ const QUE_SHEET_WIDTH = 17;
 const QUE_FIRST_FRAME_ANGLE = 90;
 const QUE_FRAME_INCREMENT = 2;
 const QUE_MAX_HP = 4;
-const QUE_HITBOX_X = 48;
-const QUE_HITBOX_Y = 45;
-const QUE_HITBOX_W = 31;
-const QUE_HITBOX_H = 40;
+const QUE_HITCIRCLE_X = 48;
+const QUE_HITCIRCLE_Y = 45;
+const QUE_HITCIRCLE_R = 31;
 
 /**
   * Constants for Broodling class.

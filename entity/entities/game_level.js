@@ -45,14 +45,21 @@ GameLevel.stdCompleteCondition = function (gameLevel, gameEngine) {
 
 //Standard onCompletion
 GameLevel.stdOnCompletion = function (gameLevel, gameEngine) {
+	//stop the level's audio
+	var id = "terran" + gameEngine.currentLevel;
+	var audio = document.getElementById(id);
+	audio.pause();
+	
     //Here is where the outro animation should happen.
     if (gameEngine.currentLevel < gameEngine.levels.length - 1) {//-1 magic number because javascript
         gameEngine.currentLevel++;
         gameEngine.levels[gameEngine.currentLevel].init();
-    } else {
-        console.log("you won");
+    } else if (gameEngine.player.stats.hp > 0) {
+        //console.log("you won");
         gameEngine.won = true;
-    }
+    } else {
+		//gameEngine.dead = true;
+	}
 }
 //Standard level sequence
 GameLevel.stdLevelSequence = function (gameLevel, gameEngine) {
@@ -65,6 +72,9 @@ GameLevel.stdLevelSequence = function (gameLevel, gameEngine) {
 GameLevel.levelOneInit = function (gameLevel, gameEngine) {
     var map = new Map(gameEngine, AM.getAsset("./img/map_jungle.png"), 1600, 1600);
     gameEngine.map = map;
+	//start the level's audio
+	var audio = document.getElementById("terran1");
+	audio.play();
 
     var zerglingCount = 0;
     var zerglings = new SpawnSequence(1, 
@@ -113,6 +123,9 @@ GameLevel.levelOneInit = function (gameLevel, gameEngine) {
 GameLevel.levelTwoInit = function (gameLevel, gameEngine) {
     var map = new Map(gameEngine, AM.getAsset("./img/map_dessert.png"), 1600, 1600);
     gameEngine.map = map;
+	//start the level's audio
+	var audio = document.getElementById("terran2");
+	audio.play();
 
     var ultraliskCount = 0;
     var ultralisks = new SpawnSequence(1, 
@@ -164,6 +177,9 @@ GameLevel.levelTwoInit = function (gameLevel, gameEngine) {
 GameLevel.levelThreeInit = function (gameLevel, gameEngine) {
     var map = new Map(gameEngine, AM.getAsset("./img/map_ash.png"), 1600, 1600);
     gameEngine.map = map;
+	//start the level's audio
+	var audio = document.getElementById("terran3");
+	audio.play();
 
 	var guardianCount = 0;
     var guardians = new SpawnSequence(1, 

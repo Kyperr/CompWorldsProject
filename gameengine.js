@@ -161,10 +161,6 @@ GameEngine.prototype.update = function () {
 
     this.hud.update();
 
-	if (!this.bossSpawned && this.enemiesKilled == TOTAL_ENEMIES) { 
-		this.createBoss(); 
-	}
-	
     // Update enemies
     var enemyCount = this.enemies.length;
     for (var i = 0; i < enemyCount; i++) {

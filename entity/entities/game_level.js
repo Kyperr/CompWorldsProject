@@ -16,6 +16,8 @@ function GameLevel(game, initFunc, sequenceFunc, completeCondition, onCompletion
     this.initialized = false;
     this.phasesDone = [];
     this.spawnSequences = [];
+
+    this.timeSinceCompleted = 0;
 }
 
 GameLevel.prototype = Object.create(Entity.prototype);
@@ -52,10 +54,15 @@ GameLevel.stdOnCompletion = function (gameLevel, gameEngine) {
 	
     //Here is where the outro animation should happen.
     if (gameEngine.currentLevel < gameEngine.levels.length - 1) {//-1 magic number because javascript
-        gameEngine.currentLevel++;
-        gameEngine.levels[gameEngine.currentLevel].init();
+
+        if(this.timeSinceCompleted > 1){
+            gameEngine.currentLevel++;
+            gameEngine.levels[gameEngine.currentLevel].init();
+        }
+        
+        var delta = gameEngine.clockTick;
+        this.timeSinceCompleted += delta;
     } else if (gameEngine.player.stats.hp > 0) {
-        //console.log("you won");
         gameEngine.won = true;
     } else {
 		//gameEngine.dead = true;

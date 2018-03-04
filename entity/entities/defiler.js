@@ -3,7 +3,7 @@ function Defiler(x, y, game, spritesheet, deathSpriteSheet) {
 	
     //Super init
     var physics = new Physics(this, x, y, DEF_FRAME_DIM, DEF_FRAME_DIM, SCALE, true);
-    var ai = new DefilerAI(this, DEF_VIEW_DISTANCE, DEF_ATTACK_DISTANCE,
+    var ai = new DevourerAI(this, DEF_VIEW_DISTANCE, DEF_ATTACK_DISTANCE,
                             DEF_ATTACKS_PER_SECOND + DIFFICULTY_ATTACKS_PER_SECOND * game.difficulty, 
                             DEF_MOVE_SPEED + DIFFICULTY_MOVE_SPEED * game.difficulty);
     BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai, 

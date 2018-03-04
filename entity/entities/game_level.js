@@ -97,18 +97,19 @@ GameLevel.levelOneInit = function (gameLevel, gameEngine) {
             gameLevel.spawnSequences.splice(this, 1);
         });
     gameLevel.spawnSequences.push(hydralisks);
-
+/*
     var boss = new SpawnSequence(
         () => { return hydraliskCount == 0 && zerglingCount == 0 },
         () => {
             var x = calcSpawnX(gameEngine, ZER_FRAME_DIM);
             var y = calcSpawnY(gameEngine, ZER_FRAME_DIM);
-            var devourer = new Devourer(x, y, gameEngine, AM.getAsset("./img/red_devourer.png"), AM.getAsset("./img/gua_zairdthl.png"));
-            devourer.init(gameEngine);
-            gameEngine.addEnemy(devourer);
+            var defiler = new Defiler(x, y, gameEngine, AM.getAsset("./img/red_defiler.png"), AM.getAsset("./img/red_defiler.png"));
+            defiler.init(gameEngine);
+            gameEngine.addEnemy(defiler);
             gameLevel.spawnSequences.splice(this, 1);
         });
     gameLevel.spawnSequences.push(boss);
+    */
 }
 
 //Level two init

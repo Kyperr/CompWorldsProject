@@ -66,25 +66,30 @@ GameLevel.levelOneInit = function (gameLevel, gameEngine) {
     var map = new Map(gameEngine, AM.getAsset("./img/map.png"), 1600, 1600);
     gameEngine.map = map;
 
+    //var zerglingCount = 0;
     var zerglings = new SpawnSequence(
         () => { return true },
         () => {
             for (var i = 0; i < ZERGLINGS; i++) {
                 var x = calcSpawnX(gameEngine, ZER_FRAME_DIM);
                 var y = calcSpawnY(gameEngine, ZER_FRAME_DIM);
-                gameEngine.addEnemy(Zergling.quickCreate(gameEngine, x, y));
+                var zergling = Zergling.quickCreate(gameEngine, x, y);
+                //zergling.onDeathCallbacks.push(()=>{zerglingCount--});
+                gameEngine.addEnemy(zergling);
+                zerglingCount++;
             }
             gameLevel.spawnSequences.splice(this, 1);
         });
     gameLevel.spawnSequences.push(zerglings);
 
     var hydralisks = new SpawnSequence(
-        () => { return gameEngine.enemies.length == 0 },
+        () => { return true },
         () => {
             for (var i = 0; i < HYDRALISKS; i++) {
                 var x = calcSpawnX(gameEngine, ZER_FRAME_DIM);
                 var y = calcSpawnY(gameEngine, ZER_FRAME_DIM);
-                gameEngine.addEnemy(Hydralisk.quickCreate(gameEngine, x, y));
+                var hydralisk = Hydralisk.quickCreate(gameEngine, x, y);
+                gameEngine.addEnemy(hydralisk);
             }
             gameLevel.spawnSequences.splice(this, 1);
         });
@@ -144,20 +149,6 @@ GameLevel.levelThreeInit = function (gameLevel, gameEngine) {
         });
     gameLevel.spawnSequences.push(guardians);
     
-    var ultralisks = new SpawnSequence(
-        () => { return true },
-        () => {
-            for (var i = 0; i < ULTRALISKS; i++) {
-                var x = calcSpawnX(gameEngine, ZER_FRAME_DIM);
-                var y = calcSpawnY(gameEngine, ZER_FRAME_DIM);
-                var ultralisk = new Ultralisk(x, y, gameEngine, AM.getAsset("./img/red_ultralisk.png"), AM.getAsset("./img/red_ultralisk.png"));
-                ultralisk.init(gameEngine);
-                gameEngine.addEnemy(ultralisk);
-            }
-            gameLevel.spawnSequences.splice(this, 1);
-        });
-    gameLevel.spawnSequences.push(ultralisks);
-    
     var lurkers = new SpawnSequence(
         () => { return true },
         () => {
@@ -177,8 +168,6 @@ GameLevel.levelThreeInit = function (gameLevel, gameEngine) {
 /**
  * Spawn sequence class
  */
-
-
 function SpawnSequence(spawnCondition, spawnFunc) {
     this.spawnCondition = spawnCondition;
     this.spawnFunc = spawnFunc;

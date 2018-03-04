@@ -394,12 +394,12 @@ const ZERGLINGS = 3;
 const HYDRALISKS = 2;
 //tier 2
 const ULTRALISKS = 1;
-const MUTALISKS = 1;
+const MUTALISKS = 3;
 //tier 2.5 (special)
 const TERRANS = 0;
 const SCOURGES = 0;
 //tier 3
-const GUARDIANS = 1;
+const GUARDIANS = 3;
 const LURKERS = 1;
 
 //total tiered enemies

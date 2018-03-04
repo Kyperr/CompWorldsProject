@@ -93,7 +93,7 @@ FlakAI.prototype.attack = function (delta) {
             this.entity, false, bulletBehavior);
         bullet.init(this.entity.game);
 
-        bullet.physics.velocity = BUL_MOVE_SPEED;
+        bullet.physics.velocity *= 1.2;
 
         this.entity.game.addBullet(bullet);
         

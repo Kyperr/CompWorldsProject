@@ -130,10 +130,12 @@ const ZER_SHEET_WIDTH = 17;
 const ZER_FIRST_FRAME_ANGLE = 90;
 const ZER_FRAME_INCREMENT = 2;
 const ZER_MAX_HP = 2;
-const ZER_HITBOX_X = 49;
-const ZER_HITBOX_Y = 59;
+//const ZER_HITBOX_X = 49;
+const ZER_HITBOX_X = 64;
+//const ZER_HITBOX_Y = 59;
+const ZER_HITBOX_Y = 64;
 const ZER_HITBOX_W = 25;
-const ZER_HITBOX_H = 24;
+const ZER_HITBOX_H = 25;
 
 /**
   * Constants for Hydralisk class.
@@ -272,7 +274,6 @@ const LUR_HITCIRCLE_R = 29;
 
 /**
   * Constants for Defiler class.
-  * NOTE: HITBOXES ARE INACCURATE
  */
 const DEF_VIEW_DISTANCE = 1000;
 const DEF_ATTACK_DISTANCE = 350;
@@ -286,14 +287,13 @@ const DEF_SHEET_WIDTH = 17;
 const DEF_FIRST_FRAME_ANGLE = 90;
 const DEF_FRAME_INCREMENT = 2;
 const DEF_MAX_HP = 4;
-const DEF_HITBOX_X = 48;
-const DEF_HITBOX_Y = 45;
-const DEF_HITBOX_W = 31;
-const DEF_HITBOX_H = 40;
+const DEF_HITBOX_X = 16;
+const DEF_HITBOX_Y = 16;
+const DEF_HITBOX_W = 48;
+const DEF_HITBOX_H = 48;
 
 /**
   * Constants for Queen class.
-  * NOTE: HITBOXES ARE INACCURATE
  */
 const QUE_VIEW_DISTANCE = 1000;
 const QUE_ATTACK_DISTANCE = 350;
@@ -307,13 +307,12 @@ const QUE_SHEET_WIDTH = 17;
 const QUE_FIRST_FRAME_ANGLE = 90;
 const QUE_FRAME_INCREMENT = 2;
 const QUE_MAX_HP = 4;
-const QUE_HITCIRCLE_X = 48;
-const QUE_HITCIRCLE_Y = 45;
-const QUE_HITCIRCLE_R = 31;
+const QUE_HITCIRCLE_X = 64;
+const QUE_HITCIRCLE_Y = 64;
+const QUE_HITCIRCLE_R = 30;
 
 /**
   * Constants for Broodling class.
-  * NOTE: HITBOXES ARE INACCURATE
  */
 const BRO_VIEW_DISTANCE = 1000;
 const BRO_ATTACK_DISTANCE = 350;
@@ -327,10 +326,10 @@ const BRO_SHEET_WIDTH = 17;
 const BRO_FIRST_FRAME_ANGLE = 90;
 const BRO_FRAME_INCREMENT = 2;
 const BRO_MAX_HP = 4;
-const BRO_HITBOX_X = 48;
-const BRO_HITBOX_Y = 45;
-const BRO_HITBOX_W = 31;
-const BRO_HITBOX_H = 40;
+const BRO_HITBOX_X = 11;
+const BRO_HITBOX_Y = 11;
+const BRO_HITBOX_W = 26;
+const BRO_HITBOX_H = 26;
 
 /**
   * Constants for Devourer class.

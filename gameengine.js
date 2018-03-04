@@ -133,11 +133,24 @@ GameEngine.prototype.draw = function () {
 
     // Draw HUD on top
     this.hud.draw();
-
-    //draw start menu if the game hasn't started
-    if (!this.running) {
-        this.startScreen.draw();
-    }
+	
+	//draw start menu if the game hasn't started
+	if (!this.running) {
+		this.startScreen.draw();
+	}
+	if (this.won) {
+		this.winScreen.draw();		
+		//start the victory audio
+		var audio = document.getElementById("terran_victory");
+		audio.play();
+	} else if (this.dead) {
+		var level = this.levels[this.currentLevel];
+		level.onCompletion(level, this);
+		this.deadScreen.draw();
+		//start the defeat audio
+		var audio = document.getElementById("terran_defeat");
+		audio.play();
+	}
 
     this.ctx.restore();
 

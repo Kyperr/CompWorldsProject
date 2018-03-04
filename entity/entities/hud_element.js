@@ -11,11 +11,15 @@
  */
 function HudElement(game, ctx, backdropX, backdropY, backdropScale,
                     backdropImage, bWidth, bHeight, bCenterX, bCenterY, 
-                    displaySpritesheet, dWidth, dHeight, displayScale) {
+                    displaySpritesheet, dWidth, dHeight, displayScale,
+                    getMaxStatFunction, getStatFunction) {
     /*Super init*/
     Entity.call(this, game);
 
     /*Sub init*/
+    this.getMaxStat = getMaxStatFunction;
+    this.getStat = getStatFunction;
+
     this.backdropScale = backdropScale;
     this.displayScale = displayScale;
 
@@ -40,7 +44,7 @@ HudElement.prototype = new Entity();
 HudElement.prototype.constructor = HudElement;
 
 HudElement.prototype.update = function () {
-    yIndex = this.game.player.stats.maxHP - this.game.player.stats.hp;
+    yIndex = this.getMaxStat() - this.getStat();
     this.sourceY = yIndex * this.displayHeight;
 }
 
@@ -50,5 +54,6 @@ HudElement.prototype.draw = function () {
     this.ctx.drawImage(this.display, 
                        this.sourceX, this.sourceY, this.displayWidth, this.displayHeight,
                        this.displayX, this.displayY, this.displayWidth, this.displayHeight);
+    console.log("drawing to (" + this.displayX + ", " + this.displayY + ")");
 }
 

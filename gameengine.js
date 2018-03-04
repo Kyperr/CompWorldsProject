@@ -16,17 +16,17 @@ function GameEngine() {
     this.surfaceWidth = null;
     this.surfaceHeight = null;
     this.hasStarted = false;
-    this.running = false;
-    this.hud = null;
-    this.startScreen = null;
-    this.deadScreen = null;
-    this.winScreen = null;
+	this.running =  false;
+	this.startScreen = null;
+	this.deadScreen = null;
+	this.winScreen = null;
 
     //Game state variables:
     this.enemies = [];
     this.bullets = [];
-    this.enemiesKilled = 0;
-    this.bossSpawned = false;
+    this.hudElements = [];
+	this.enemiesKilled = 0;
+	this.bossSpawned = false;
     this.difficulty = 0;
     this.map = null;
     this.player = null;
@@ -93,7 +93,7 @@ GameEngine.prototype.addCamera = function (camera) {
 }
 
 GameEngine.prototype.addHUD = function (hud) {
-    this.hud = hud;
+    this.hudElements.push(hud);
 }
 
 GameEngine.prototype.addStartScreen = function (screen, easyButton, mediumButton, hardButton) {
@@ -132,7 +132,9 @@ GameEngine.prototype.draw = function () {
     this.camera.drawView();
 
     // Draw HUD on top
-    this.hud.draw();
+    this.hudElements.forEach(function (hudElement) {
+        hudElement.draw();
+    });
 	
 	//draw start menu if the game hasn't started
 	if (!this.running) {
@@ -200,7 +202,10 @@ GameEngine.prototype.update = function () {
         this.player.update();
     }
 
-    this.hud.update();
+    // Update HUD elements
+    this.hudElements.forEach(function (hudElement) {
+        hudElement.update();   
+    });
 
     // Update enemies
     var enemyCount = this.enemies.length;

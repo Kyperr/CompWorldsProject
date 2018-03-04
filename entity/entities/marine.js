@@ -4,6 +4,8 @@ function Marine(x, y, game, spritesheet, invincibleSpriteSheet, deathSpriteSheet
     var physics = new Physics(this, x, y, MAR_FRAME_DIM, MAR_FRAME_DIM, SCALE, true);
 
     CharacterEntity.call(this, game, spritesheet, deathSpriteSheet, physics, MAR_MAX_HP);
+    this.stats.maxHealthPacks = MAX_HEALTH_PACKS; 
+    this.stats.healthPacks = STARTING_HEALTH_PACKS - game.difficulty * DIFFICULTY_PACKS_SUBTRACT;
 
     /*Sub init*/
     this.spriteSheet = spritesheet;
@@ -118,7 +120,6 @@ Marine.prototype.initializePlayerListeners = function () {
     var marine = this;
 
     canvas.addEventListener("keydown", function (e) {
-
         if (e.code === "KeyA") {
             if (!marine.scrambled || !SCRAMBLE_MOVEMENT) {
                 a = 1;
@@ -163,6 +164,13 @@ Marine.prototype.initializePlayerListeners = function () {
                 if (marine.stats.hp > 0) {
                     marine.stats.hp--;
                 }
+            }
+        }
+
+        if (e.code === "Space") {
+            if (marine.stats.healthPacks > 0 && marine.stats.hp < marine.stats.maxHP) {
+                marine.stats.healthPacks--;
+                marine.stats.hp = marine.stats.maxHP;
             }
         }
 

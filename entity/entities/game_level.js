@@ -63,7 +63,7 @@ GameLevel.stdLevelSequence = function (gameLevel, gameEngine) {
 
 //Level one init
 GameLevel.levelOneInit = function (gameLevel, gameEngine) {
-    var map = new Map(gameEngine, AM.getAsset("./img/map.png"), 1600, 1600);
+    var map = new Map(gameEngine, AM.getAsset("./img/map_jungle.png"), 1600, 1600);
     gameEngine.map = map;
 
     var zerglingCount = 0;
@@ -114,7 +114,7 @@ GameLevel.levelOneInit = function (gameLevel, gameEngine) {
 
 //Level two init
 GameLevel.levelTwoInit = function (gameLevel, gameEngine) {
-    var map = new Map(gameEngine, AM.getAsset("./img/map.png"), 1600, 1600);
+    var map = new Map(gameEngine, AM.getAsset("./img/map_dessert.png"), 1600, 1600);
     gameEngine.map = map;
 
     var ultraliskCount = 0;
@@ -166,7 +166,7 @@ GameLevel.levelTwoInit = function (gameLevel, gameEngine) {
 
 //Level three init
 GameLevel.levelThreeInit = function (gameLevel, gameEngine) {
-    var map = new Map(gameEngine, AM.getAsset("./img/map.png"), 1600, 1600);
+    var map = new Map(gameEngine, AM.getAsset("./img/map_ash.png"), 1600, 1600);
     gameEngine.map = map;
 
     var guardians = new SpawnSequence(

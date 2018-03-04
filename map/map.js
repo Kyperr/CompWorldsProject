@@ -7,7 +7,7 @@
 
 function Map(game, mapAsset, width, height/*Square*/) {
 
-    this.cachedImage = mapAsset;//AM.getAsset("./img/map.png");
+    this.cachedImage = mapAsset;//AM.getAsset("./img/map_jungle.png");
     
     this.width = width;
     this.height = height;

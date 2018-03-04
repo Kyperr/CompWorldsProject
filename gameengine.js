@@ -140,16 +140,8 @@ GameEngine.prototype.draw = function () {
 	}
 	if (this.won) {
 		this.winScreen.draw();		
-		//start the victory audio
-		var audio = document.getElementById("terran_victory");
-		audio.play();
 	} else if (this.dead) {
-		var level = this.levels[this.currentLevel];
-		level.onCompletion(level, this);
 		this.deadScreen.draw();
-		//start the defeat audio
-		var audio = document.getElementById("terran_defeat");
-		audio.play();
 	}
 
     this.ctx.restore();
@@ -159,6 +151,18 @@ GameEngine.prototype.update = function () {
 
     //Update level:
     this.levels[this.currentLevel].update();
+	
+	if (this.won) {
+		//start the victory audio
+		var audio = document.getElementById("terran_victory");
+		audio.play();
+	} else if (this.dead) {
+		var level = this.levels[this.currentLevel];
+		level.onCompletion(level, this);
+		//start the defeat audio
+		var audio = document.getElementById("terran_defeat");
+		audio.play();
+	}
 
     // Update player
     if (this.player.removeFromWorld) {

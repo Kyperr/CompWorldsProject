@@ -8,6 +8,8 @@ function CharacterEntity(game, spritesheet, deathSpriteSheet, physics, maxHealth
     this.stats.hp = maxHealth;
 
     this.deathAnimation = this.createDeathAnimation(deathSpriteSheet);
+
+    this.onDeathCallbacks = [];
     //console.log("death anim " + this.deathAnimation);
 
 }
@@ -57,6 +59,10 @@ CharacterEntity.prototype.update = function () {
         if (this.deathAnimation.isDone()) {
             //console.log("deathAnim is done!");
             this.removeFromWorld = true;
+            
+            this.onDeathCallbacks.forEach(function(func){
+                func();
+            });
         }
     }
 }

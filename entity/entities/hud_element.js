@@ -54,6 +54,5 @@ HudElement.prototype.draw = function () {
     this.ctx.drawImage(this.display, 
                        this.sourceX, this.sourceY, this.displayWidth, this.displayHeight,
                        this.displayX, this.displayY, this.displayWidth, this.displayHeight);
-    //console.log("drawing to (" + this.displayX + ", " + this.displayY + ")");
 }
 

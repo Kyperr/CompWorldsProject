@@ -32,7 +32,7 @@ Defiler.prototype.createDeathAnimation = function (deathSpriteSheet) {
     var deathAnimation = new Animation(this, deathSpriteSheet, DEF_SHEET_WIDTH, DEF_ANGLES, DYING_ACTION);
 
 	//animationName, firstFrameAngle, frameIncrement, xIndex, frameCount, frameDuration, loop
-    deathAnimation.createVerticalAnimationStates(DYING_ACTION, DEF_FIRST_FRAME_ANGLE, DEF_FRAME_INCREMENT, 9, 4, .1, false);
+    deathAnimation.createVerticalAnimationStates(DYING_ACTION, DEF_FIRST_FRAME_ANGLE, DEF_FRAME_INCREMENT, 9, 4, .175, false);
 
     return deathAnimation;
 }

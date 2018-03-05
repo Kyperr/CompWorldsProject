@@ -38,6 +38,7 @@ Camera.prototype.drawView = function () {
     
     // Draw map
     game.map.draw(this.ctx);
+    game.levels[game.currentLevel].draw();
 
     // Draw player
     game.player.draw(this.ctx);

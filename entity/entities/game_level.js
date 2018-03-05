@@ -16,8 +16,7 @@ function GameLevel(game, initFunc, sequenceFunc, completeCondition, onCompletion
     this.initialized = false;
     this.phasesDone = [];
     this.spawnSequences = [];
-    //this.physics = new Physics(this, 0, 0, width, height, 1.0, true);
-    this.physics = {x: 0, y: 0};
+    this.physics = new Physics(this, 0, 0, 1600, 1600, 1.0, true);
 
     this.timeSinceCompleted = 0;
 
@@ -28,12 +27,9 @@ GameLevel.prototype = Object.create(Entity.prototype);
 GameLevel.prototype.constructor = GameLevel;
 
 GameLevel.prototype.update = function () {
-    var level = this;
-
-    level.hitshapes.forEach(function (shape) {
+    this.hitshapes.forEach(function (shape) {
         shape.update();
     });
-
     this.sequenceFunc(this, this.game);
 
     if (this.completeCondition(this, this.game)) {
@@ -254,6 +250,23 @@ GameLevel.levelThreeInit = function (gameLevel, gameEngine) {
     gameLevel.spawnSequences.push(boss);
 }
 
+GameLevel.prototype.draw = function () {
+    if (DRAW_HITBOXES) {
+        var level = this;
+        level.hitshapes.forEach(function (shape) {
+            level.game.ctx.beginPath();
+            level.game.ctx.lineWidth=2;
+            level.game.ctx.strokeStyle="green";
+            if (shape instanceof Circle) {
+                level.game.ctx.arc(shape.x, shape.y, shape.r, 0, 2*Math.PI);
+            } else if (shape instanceof Box) {
+                level.game.ctx.rect(shape.x, shape.y, shape.w, shape.h); 
+            }
+            level.game.ctx.stroke();
+            level.game.ctx.closePath();
+        });
+    }
+}
 
 /**
  * Spawn sequence class

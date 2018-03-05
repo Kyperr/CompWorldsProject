@@ -29,7 +29,6 @@ DefilerAI.prototype.attack = function (delta) {
     this.attackSeqTime += delta;
     if (this.attackSeqTime >= DEF_ATTACK_TIME_CHANGE) {
         this.attackingSequence = randomBetweenTwoNumbers(0, 1);
-        console.log("attack seqb: " + this.attackingSequence);
         this.attackSeqTime = 0;
     }
 
@@ -61,12 +60,9 @@ DefilerAI.prototype.attack = function (delta) {
     interpolate(this.entity, angle, interpSpeed, tolerance);
 
     if (this.timeSinceLastAttack >= (1 / this.attacksPerSecond)) {
-        console.log("attack Seq: " + this.attackingSequence);
         if (this.attackingSequence == 0) {
-            console.log("homing");
             this.fireHomingShots(delta, angle);
         } else if (this.attackingSequence == 1) {
-            console.log("spin");
              this.fireSpinShots(delta, angle);
         }
 
@@ -115,7 +111,6 @@ DefilerAI.prototype.fireHomingShots = function (delta, angle) {
             bullet.physics.directionY = startDirY;
             bullet.physics.velocity = MAR_MOVE_SPEED * (.5);//lol "that.entity.game.player.physics.velocity"
 
-            //console.log(bullet);
             that.entity.game.addBullet(bullet);
 
         })();

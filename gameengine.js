@@ -159,7 +159,7 @@ GameEngine.prototype.draw = function () {
         maskCtx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
         maskCtx.globalCompositeOperation = 'xor';
 
-        var radius = 1/level.timeSinceCompleted;
+        var radius = (50/level.timeSinceCompleted) - 49;
 
         var x = PhysicalEntity.getMiddleXOf(this.player);
         var y = PhysicalEntity.getMiddleYOf(this.player);

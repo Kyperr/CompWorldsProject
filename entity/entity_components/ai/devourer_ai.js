@@ -62,12 +62,13 @@ DevourerAI.prototype.attack = function (delta) {
 
                 var bulletBehavior = function (bullet) {
                     Bullet.oscillate(bullet, aimAngle, distance);
-                    Bullet.oscillate(bullet, aimAngle, distance);
+                    //Bullet.oscillate(bullet, aimAngle, distance);
                 }
 
                 var bullet = new Bullet(that.entity.game,
                     that.entity.game.assetManager.getAsset("./img/oscillate_bullet.png"),
                     that.entity, false, bulletBehavior);
+                bullet.physics.velocity = (BUL_MOVE_SPEED + DIFFICULTY_BUL_SPEED * bullet.game.difficulty) * (2 / 3);
                 bullet.init(that.entity.game);
                 that.entity.game.addBullet(bullet);
             })();

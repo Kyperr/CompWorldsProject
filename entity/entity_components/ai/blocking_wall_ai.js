@@ -13,8 +13,6 @@ function BlockingWallAI(entity, viewDistance, attackDistance, attacksPerSecond, 
     //Other instance fields.
     this.timeSinceLastAttack = 0;
     this.timeSinceLastMoved = 0;
-    //If the player's velocity is 0, shoot +90 if this is 0, -90 if this 1
-    this.zeroVelShotDirection = 0;
 }
 
 BlockingWallAI.prototype = new BasicEnemyAI();
@@ -76,15 +74,6 @@ BlockingWallAI.prototype.attack = function (delta) {
             var sinOfAngleB = sideB * Math.sin(angleA) / sideA;
 
             var angleB = Math.asin(sinOfAngleB);
-        }
-
-        //Never aim directly at player
-        if(Math.abs(targetAngle - angleB) < Math.PI/8){
-            if(this.zeroVelShotDirection == 0){
-                angleB += Math.PI/4;
-            } else {
-                angleB -= Math.PI/4;
-            }
         }
 
         this.zeroVelShotDirection = (this.zeroVelShotDirection + 1) % 2;

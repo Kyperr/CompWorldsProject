@@ -28,10 +28,10 @@ CharacterEntity.prototype.createDeathAnimation = function (deathSpriteSheet) {
 
 CharacterEntity.prototype.update = function () {
     var character = this;
+    /*
     character.hitshapes.forEach(function (characterShape) {
-        //console.log("character.game " + character.game);
-        map = character.game.map;
-        map.hitshapes.forEach(function (wall) {
+        level = character.game.levels[character.game.currentLevel];
+        level.hitshapes.forEach(function (wall) {
             if (characterShape.doesCollide(wall)) {
                 character.physics.velocity = 0;
                 character.physics.directionX = 0;
@@ -39,13 +39,13 @@ CharacterEntity.prototype.update = function () {
             }
         });
     });
-	
+	*/
     if (this.stats.hp > 0) {
         var character = this;
 
         character.hitshapes.forEach(function (characterShape) {
-            map = character.game.map;
-            map.hitshapes.forEach(function (wall) {
+            level = character.game.levels[character.game.currentLevel];
+            level.hitshapes.forEach(function (wall) {
                 if (characterShape.doesCollide(wall)) {
                     character.physics.velocity = 0;
                     character.physics.directionX = 0;
@@ -96,5 +96,6 @@ CharacterEntity.prototype.draw = function () {
 }
 
 CharacterEntity.prototype.playDeathSound = function () {
-	
+	var death = document.getElementById(this.deathSound);
+	death.play();
 }

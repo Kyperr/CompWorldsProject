@@ -50,7 +50,6 @@ DevourerAI.prototype.attack = function (delta) {
 		this.entity.animation.elapsedTime = 0;
         this.entity.animation.currentAction = "attacking";
 
-
         // Create a bullet(s)
 
         var angleCount = 8;

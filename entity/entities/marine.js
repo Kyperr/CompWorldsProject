@@ -1,9 +1,13 @@
 
 function Marine(x, y, game, spritesheet, invincibleSpriteSheet, deathSpriteSheet) {
+	
+	var death = randomBetweenTwoNumbers(1, 2);
+	var deathSound = MAR_DEATH + death;
+	console.log(deathSound);
     /*Super init*/
     var physics = new Physics(this, x, y, MAR_FRAME_DIM, MAR_FRAME_DIM, SCALE, true);
 
-    CharacterEntity.call(this, game, spritesheet, deathSpriteSheet, physics, MAR_MAX_HP);
+    CharacterEntity.call(this, game, spritesheet, deathSpriteSheet, physics, MAR_MAX_HP, deathSound);
     this.stats.maxHealthPacks = MAX_HEALTH_PACKS; 
     this.stats.healthPacks = STARTING_HEALTH_PACKS - game.difficulty * DIFFICULTY_PACKS_SUBTRACT;
 

@@ -3,11 +3,11 @@ function InfestedTerran(x, y, game, spritesheet, deathSpriteSheet) {
 	
     //Super init
     var physics = new Physics(this, x, y, INF_FRAME_DIM, INF_FRAME_DIM, SCALE, true);
-    var ai = new BasicEnemyAI(this, INF_VIEW_DISTANCE, INF_ATTACK_DISTANCE, 
+    var ai = new KamikazeAI(this, INF_VIEW_DISTANCE, INF_ATTACK_DISTANCE, 
                               INF_ATTACKS_PER_SECOND + DIFFICULTY_ATTACKS_PER_SECOND * game.difficulty, 
                               INF_MOVE_SPEED + DIFFICULTY_MOVE_SPEED * game.difficulty);
     BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai,
-                   INF_MAX_HP + DIFFICULTY_INF_HP * game.difficulty);
+                   INF_MAX_HP + DIFFICULTY_INF_HP * game.difficulty, INF_DEATH);
 
     this.hitshapes.push(new Box(INF_HITBOX_X, INF_HITBOX_Y, 
                                 INF_HITBOX_W * SCALE, INF_HITBOX_H * SCALE, this));
@@ -40,7 +40,7 @@ InfestedTerran.prototype.createDeathAnimation = function (deathSpriteSheet) {
 
     //Really should do away with these magic numbers.
 	//title, animationDirection, xIndex, yIndex, frameCount, angle, frameDuration, loop, reflect
-    deathAnimation.createSingleAnimState(DYING_ACTION + 0, AnimationDirection.HORIZONTAL, 1, 15, 8, 0, .1, false, false);
+    deathAnimation.createSingleAnimState(DYING_ACTION + 0, AnimationDirection.HORIZONTAL, 1, 14, 8, 0, .1, false, false);
 
     return deathAnimation;
 }

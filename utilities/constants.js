@@ -12,6 +12,12 @@ const SPAWN_ENEMIES = true;
 const SCRAMBLE_MOVEMENT = true;
 const SCRAMBLE_AIM = true;
 
+/**
+ * Misc:
+ */
+KAMIKAZE_ATTACK_COUNT = 16;
+KAMIKAZE_ATTACK_DISTANCE = 50;
+
 /*
  * Difficulty differential constants
  */
@@ -66,22 +72,54 @@ const WIN_SCREEN = "won";
 /*
  * Constants for wall collision.
  */
-const WALL_W_HITBOX_X = 0;
-const WALL_W_HITBOX_Y = 0;
-const WALL_W_HITBOX_W = 227;
-const WALL_W_HITBOX_H = 1600;
-const WALL_N_HITBOX_X = 0;
-const WALL_N_HITBOX_Y = 0;
-const WALL_N_HITBOX_W = 1600;
-const WALL_N_HITBOX_H = 195;
-const WALL_E_HITBOX_X = 1370;
-const WALL_E_HITBOX_Y = 0;
-const WALL_E_HITBOX_W = 230;
-const WALL_E_HITBOX_H = 1600;
-const WALL_S_HITBOX_X = 0;
-const WALL_S_HITBOX_Y = 1410;
-const WALL_S_HITBOX_W = 1600;
-const WALL_S_HITBOX_H = 190;
+const ASH_WALL_W_HITBOX_X = 0;
+const ASH_WALL_W_HITBOX_Y = 0;
+const ASH_WALL_W_HITBOX_W = 227;
+const ASH_WALL_W_HITBOX_H = 1600;
+const ASH_WALL_N_HITBOX_X = 0;
+const ASH_WALL_N_HITBOX_Y = 0;
+const ASH_WALL_N_HITBOX_W = 1600;
+const ASH_WALL_N_HITBOX_H = 195;
+const ASH_WALL_E_HITBOX_X = 1370;
+const ASH_WALL_E_HITBOX_Y = 0;
+const ASH_WALL_E_HITBOX_W = 230;
+const ASH_WALL_E_HITBOX_H = 1600;
+const ASH_WALL_S_HITBOX_X = 0;
+const ASH_WALL_S_HITBOX_Y = 1410;
+const ASH_WALL_S_HITBOX_W = 1600;
+const ASH_WALL_S_HITBOX_H = 190;
+const JUNGLE_WALL_W_HITBOX_X = 0;
+const JUNGLE_WALL_W_HITBOX_Y = 0;
+const JUNGLE_WALL_W_HITBOX_W = 248;
+const JUNGLE_WALL_W_HITBOX_H = 1600;
+const JUNGLE_WALL_N_HITBOX_X = 0;
+const JUNGLE_WALL_N_HITBOX_Y = 0;
+const JUNGLE_WALL_N_HITBOX_W = 1600;
+const JUNGLE_WALL_N_HITBOX_H = 178;
+const JUNGLE_WALL_E_HITBOX_X = 1346;
+const JUNGLE_WALL_E_HITBOX_Y = 0;
+const JUNGLE_WALL_E_HITBOX_W = 254;
+const JUNGLE_WALL_E_HITBOX_H = 1600;
+const JUNGLE_WALL_S_HITBOX_X = 0;
+const JUNGLE_WALL_S_HITBOX_Y = 1440;
+const JUNGLE_WALL_S_HITBOX_W = 1600;
+const JUNGLE_WALL_S_HITBOX_H = 160;
+const DESERT_WALL_W_HITBOX_X = 0;
+const DESERT_WALL_W_HITBOX_Y = 0;
+const DESERT_WALL_W_HITBOX_W = 250;
+const DESERT_WALL_W_HITBOX_H = 1600;
+const DESERT_WALL_N_HITBOX_X = 0;
+const DESERT_WALL_N_HITBOX_Y = 0;
+const DESERT_WALL_N_HITBOX_W = 1600;
+const DESERT_WALL_N_HITBOX_H = 186;
+const DESERT_WALL_E_HITBOX_X = 1348;
+const DESERT_WALL_E_HITBOX_Y = 0;
+const DESERT_WALL_E_HITBOX_W = 252;
+const DESERT_WALL_E_HITBOX_H = 1600;
+const DESERT_WALL_S_HITBOX_X = 0;
+const DESERT_WALL_S_HITBOX_Y = 1474;
+const DESERT_WALL_S_HITBOX_W = 1600;
+const DESERT_WALL_S_HITBOX_H = 126;
 
 /**
   * Constants for Marine class
@@ -99,8 +137,7 @@ const INVINCIBLE = 2; //second
 const STARTING_HEALTH_PACKS = 3;
 const HP_PER_PACK = 3;
 const MAX_HEALTH_PACKS = 6;
-const MAR_DEATH_1 = "terran_marine_death1";
-const MAR_DEATH_2 = "terran_marine_death2";
+const MAR_DEATH = "terran_marine_death";
 const MAR_HEAL = "terran_heal";
 
 /**
@@ -157,9 +194,7 @@ const ZER_SHEET_WIDTH = 17;
 const ZER_FIRST_FRAME_ANGLE = 90;
 const ZER_FRAME_INCREMENT = 2;
 const ZER_MAX_HP = 2;
-//const ZER_HITBOX_X = 49;
 const ZER_HITBOX_X = 51.5;
-//const ZER_HITBOX_Y = 59;
 const ZER_HITBOX_Y = 51.5;
 const ZER_HITBOX_W = 25;
 const ZER_HITBOX_H = 25;
@@ -250,9 +285,9 @@ const SCO_DEATH = "sco_death";
   * Constants for Infested Marine class.
  */
 const INF_VIEW_DISTANCE = 1000;
-const INF_ATTACK_DISTANCE = 350;
-const INF_MOVE_SPEED = 100;
-const INF_ATTACKS_PER_SECOND = 1.5;
+const INF_ATTACK_DISTANCE = KAMIKAZE_ATTACK_DISTANCE;
+const INF_MOVE_SPEED = 75;
+const INF_ATTACKS_PER_SECOND = KAMIKAZE_ATTACK_COUNT;
 const INF_PAUSE_AFTER_ATTACK = 300; //milliseconds
 const INF_FRAME_DIM = 64;
 const INF_SCALE = 2;
@@ -260,11 +295,12 @@ const INF_ANGLES = 16;
 const INF_SHEET_WIDTH = 17;
 const INF_FIRST_FRAME_ANGLE = 90;
 const INF_FRAME_INCREMENT = 2;
-const INF_MAX_HP = 1;
+const INF_MAX_HP = 2;
 const INF_HITBOX_X = 23;
 const INF_HITBOX_Y = 20;
 const INF_HITBOX_W = 16;
 const INF_HITBOX_H = 25;
+const INF_ATTACK_COUNT = 10;
 const INF_DEATH = "inf_death";
 
 /**
@@ -343,14 +379,12 @@ const QUE_ANGLES = 16;
 const QUE_SHEET_WIDTH = 17;
 const QUE_FIRST_FRAME_ANGLE = 90;
 const QUE_FRAME_INCREMENT = 2;
-const QUE_MAX_HP = 20;
+const QUE_MAX_HP = 1;
 const QUE_HITCIRCLE_X = 64;
 const QUE_HITCIRCLE_Y = 64;
 const QUE_HITCIRCLE_R = 30;
 const MAX_BROODLINGS = 6
-const QUE_DEATH_1 = "que_death1";
-const QUE_DEATH_2 = "que_death2";
-const QUE_DEATH_3 = "que_death3";
+const QUE_DEATH = "que_death";
 
 /**
   * Constants for Broodling class.
@@ -366,7 +400,7 @@ const BRO_ANGLES = 16;
 const BRO_SHEET_WIDTH = 17;
 const BRO_FIRST_FRAME_ANGLE = 90;
 const BRO_FRAME_INCREMENT = 2;
-const BRO_MAX_HP = 2;
+const BRO_MAX_HP = 0;
 const BRO_HITBOX_X = 11;
 const BRO_HITBOX_Y = 11;
 const BRO_HITBOX_W = 26;
@@ -412,7 +446,9 @@ const NO_ACTION = "";
 const SCALE = 1.25;
 const BUFFER = MAR_FRAME_DIM * 2;
 
-/*
+
+
+
 // DEBUG ENEMY SET
 //tier 1
 const ZERGLINGS = 0;	
@@ -426,14 +462,13 @@ const SCOURGES = 0;
 //tier 3
 const GUARDIANS = 0;
 const LURKERS = 0;
-*/
-
+/*
 // DEFAULT ENEMY SET
 //tier 1
 const ZERGLINGS = 3;
 const HYDRALISKS = 2;
 //tier 2
-const ULTRALISKS = 1;
+const ULTRALISKS = 2;
 const MUTALISKS = 2;
 //tier 2.5 (special)
 const TERRANS = 1;
@@ -441,6 +476,7 @@ const SCOURGES = 1;
 //tier 3
 const GUARDIANS = 2;
 const LURKERS = 1;
+*/
 
 //total tiered enemies
 const TOTAL_ENEMIES = ZERGLINGS + HYDRALISKS + ULTRALISKS + MUTALISKS + TERRANS + SCOURGES + GUARDIANS + LURKERS;	//number of enemies to kill before boss spawns

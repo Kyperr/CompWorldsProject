@@ -164,5 +164,3 @@ AM.downloadAll(function () {
     });
     console.log("All Done!");
 });
-
-// initializedPlayerListeners moved to marine. -G

@@ -7,7 +7,7 @@ function Guardian(x, y, game, spritesheet, deathSpriteSheet) {
                               GUA_ATTACKS_PER_SECOND + DIFFICULTY_ATTACKS_PER_SECOND * game.difficulty, 
                               GUA_MOVE_SPEED + DIFFICULTY_MOVE_SPEED * game.difficulty);
     BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai,
-                   GUA_MAX_HP + DIFFICULTY_GUA_HP * game.difficulty);
+                   GUA_MAX_HP + DIFFICULTY_GUA_HP * game.difficulty, GUA_DEATH);
 
     this.hitshapes.push(new Circle(GUA_HITCIRCLE_X, GUA_HITCIRCLE_Y, GUA_HITCIRCLE_R * SCALE, this));
 

@@ -3,7 +3,7 @@
 /*
  * Flags for debugging
  */
-const DRAW_HITBOXES = false;
+const DRAW_HITBOXES = true;
 const ENABLE_CHEATS = false;
 const GOD_MODE = false;
 const SPAWN_ENEMIES = true;

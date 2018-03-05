@@ -117,9 +117,6 @@ AM.downloadAll(function () {
                                   function () { return this.game.player.stats.maxHealthPacks; },
                                   function () { return this.game.player.stats.healthPacks; });
                  
-	var nydus = new NydusCanal((gameEngine.surfaceWidth / 2) - NYD_FRAME_DIM * SCALE;, 
-								(gameEngine.surfaceWidth / 2) - NYD_FRAME_DIM * SCALE;, 
-								gameEngine, AM.getAsset("./img/nydus_canal.png"));
 	
     //init player
     var marX = (gameEngine.surfaceWidth / 2) - MAR_FRAME_DIM * SCALE;
@@ -129,7 +126,7 @@ AM.downloadAll(function () {
                             AM.getAsset("./img/blue_marine.png"));
     marine.init(gameEngine);
     marine.initializePlayerListeners(marine, gameEngine, canvas);
-
+	
     gameEngine.addPlayer(marine);
 
     gameEngine.addHUD(hpHud);

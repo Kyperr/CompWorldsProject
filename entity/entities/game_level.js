@@ -58,8 +58,9 @@ GameLevel.stdOnCompletion = function (gameLevel, gameEngine) {
         if(this.timeSinceCompleted > 1){
             gameEngine.currentLevel++;
 			//enable Nydus canal
+			gameEngine.nydusCanal.isActive = true;
 			//if Nydus canal walked into then do v
-            gameEngine.levels[gameEngine.currentLevel].init();
+            //gameEngine.levels[gameEngine.currentLevel].init();
         }
         
         var delta = gameEngine.clockTick;
@@ -77,10 +78,21 @@ GameLevel.stdLevelSequence = function (gameLevel, gameEngine) {
     });
 }
 
+GameLevel.prototype.addNydusCanal = function (gameEngine) {
+	var nydus = new NydusCanal(((gameEngine.surfaceWidth / 2) - (NYD_FRAME_DIM * SCALE)),
+								((gameEngine.surfaceHeight / 2) - (NYD_FRAME_DIM * SCALE)),
+								gameEngine, AM.getAsset("./img/nydus_canal.png"));
+	nydus.init(gameEngine);	
+	gameEngine.addNydusCanal(nydus);
+}
+
 //Level one init
 GameLevel.levelOneInit = function (gameLevel, gameEngine) {
     var map = new Map(gameEngine, AM.getAsset("./img/map_jungle.png"), 1600, 1600);
     gameEngine.map = map;
+	
+	this.addNydusCanal(gameEngine);
+	
 	//start the level's audio
 	var audio = document.getElementById("terran1");
 	audio.play();

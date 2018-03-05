@@ -2,9 +2,10 @@
 function NydusCanal(x, y, game, spritesheet) {
     /*Super init*/
     var physics = new Physics(this, x, y, NYD_FRAME_DIM, NYD_FRAME_DIM, SCALE, true);
-    PhysicalEntity.call(this, game, spritesheet, physics, (x, y)=>{});
+    PhysicalEntity.call(this, game, spritesheet, physics);
 	
 	this.isActive = false;
+	this.isActivated = false;
 
     /*Sub init*/
     this.hitshapes.push(new Box(NYD_HITBOX_X, NYD_HITBOX_Y, 
@@ -18,28 +19,40 @@ NydusCanal.prototype.constructor = NydusCanal;
 NydusCanal.prototype.createAnimation = function (spritesheet) {
     var numberOfAngles = 1;
     var sheetWidth = 5;
-    var firstFrameAngle = 90;
+    var firstFrameAngle = 0;
     var frameIncrement = 1;
 
     var animation = new Animation(this, spritesheet, sheetWidth, numberOfAngles, INACTIVE_ACTION);
 
     //Really should do away with these magic numbers.
-    animation.createHorizontalAnimationStates(INACTIVE_ACTION, firstFrameAngle, frameIncrement, 3, 1, .1, true);
-    animation.createHorizontalAnimationStates(ACTIVE_ACTION, firstFrameAngle, frameIncrement, 1, 5, .1, true);
+    animation.createHorizontalAnimationStates(INACTIVE_ACTION, firstFrameAngle, frameIncrement, 3, 1, .1);
+    animation.createHorizontalAnimationStates(ACTIVE_ACTION, firstFrameAngle, frameIncrement, 1, 5, .1);
 
     return animation;
 }
 
 NydusCanal.prototype.update = function () {
-    var delta = this.game.clockTick;
-    var physics = this.physics;
-
-
     if (this.isActive) {
         this.animation.currentAction = ACTIVE_ACTION; 
-		
+		//console.log("ACTIVE");	
+		var canal = this;
+		canal.hitshapes.forEach(function (myShape) {
+			var player = canal.game.player;
+			player.hitshapes.forEach(function (theirShape) {
+                if (myShape.doesCollide(theirShape)) {
+					canal.isActivated = true;
+					//transport to next level
+					if(canal.game.levels[canal.game.currentLevel - 1].timeSinceCompleted > 1){
+						canal.game.levels[canal.game.currentLevel].init();
+						canal.isActivated = false;
+						canal.isActive = false;
+					}
+                }
+            });
+		});
     } else {
         this.animation.currentAction = INACTIVE_ACTION;
+		//console.log("INACTIVE");
     }
     PhysicalEntity.prototype.update.call(this);
     this.lastUpdated = this.game.gameTime;

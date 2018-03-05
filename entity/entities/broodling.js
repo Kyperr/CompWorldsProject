@@ -45,7 +45,7 @@ Broodling.prototype.createDeathAnimation = function (deathSpriteSheet) {
 }
 
 Broodling.quickCreate = function(game, x, y){
-    var broodling = new Broodling(x, y, game, AM.getAsset("./img/red_broodling.png"), AM.getAsset("./img/red_broodling.png"));
+    var broodling = new Broodling(x, y, game, AM.getAsset("./img/red_broodling.png"), AM.getAsset("./img/bro_zairdths.png"));
     broodling.init(game);
     return broodling;
 }

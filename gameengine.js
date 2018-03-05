@@ -31,6 +31,7 @@ function GameEngine() {
     this.map = null;
     this.player = null;
     this.camera = null;
+	this.nydusCanal = null;
     this.levels = [];
     this.currentLevel = 1;
 
@@ -89,6 +90,10 @@ GameEngine.prototype.addCamera = function (camera) {
     this.camera = camera;
 }
 
+GameEngine.prototype.addNydusCanal = function (canal) {
+	this.nydusCanal = canal;
+}
+
 GameEngine.prototype.addHUD = function (hud) {
     this.hudElements.push(hud);
 }
@@ -127,7 +132,7 @@ GameEngine.prototype.addBullet = function (bullet) {
 GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.surfaceWidth, this.surfaceHeight);
     this.camera.drawView();
-
+	
     // Draw HUD on top
     this.hudElements.forEach(function (hudElement) {
         hudElement.draw();
@@ -146,7 +151,7 @@ GameEngine.prototype.draw = function () {
     this.ctx.restore();
 
     var level = this.levels[this.currentLevel];
-    if (level.completeCondition(level, this)) {
+    if (level.completeCondition(level, this) && this.nydusCanal.isActive && this.nydusCanal.isActivated) {
 
         var maskCanvas = document.createElement('canvas');
         maskCanvas.width = this.surfaceWidth;
@@ -179,6 +184,8 @@ GameEngine.prototype.update = function () {
 
     //Update level:
     this.levels[this.currentLevel].update();
+	
+	this.nydusCanal.update();
 	
 	if (this.won) {
 		//start the victory audio

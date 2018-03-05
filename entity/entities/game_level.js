@@ -139,7 +139,7 @@ GameLevel.levelOneInit = function (gameLevel, gameEngine) {
         });
     gameLevel.spawnSequences.push(infestedTerrans);
 
-        
+
     var scourgeCount = 0;
     var scourges = new SpawnSequence(1,
         () => { return true },
@@ -177,6 +177,9 @@ GameLevel.levelTwoInit = function (gameLevel, gameEngine) {
     this.hitshapes.push(new Box(DESERT_WALL_N_HITBOX_X, DESERT_WALL_N_HITBOX_Y, DESERT_WALL_N_HITBOX_W, DESERT_WALL_N_HITBOX_H, this));
     this.hitshapes.push(new Box(DESERT_WALL_E_HITBOX_X, DESERT_WALL_E_HITBOX_Y, DESERT_WALL_E_HITBOX_W, DESERT_WALL_E_HITBOX_H, this));
     this.hitshapes.push(new Box(DESERT_WALL_S_HITBOX_X, DESERT_WALL_S_HITBOX_Y, DESERT_WALL_S_HITBOX_W, DESERT_WALL_S_HITBOX_H, this));
+
+    this.addNydusCanal(gameEngine);
+
     //start the level's audio
     var audio = document.getElementById("terran2");
     audio.play();
@@ -229,7 +232,7 @@ GameLevel.levelTwoInit = function (gameLevel, gameEngine) {
     gameLevel.spawnSequences.push(scourges);
 
     var boss = new SpawnSequence(1,
-        () => { return ultraliskCount == 0 && mutaliskCount == 0 && scourgeCount == 0},
+        () => { return ultraliskCount == 0 && mutaliskCount == 0 && scourgeCount == 0 },
         () => {
             var x = calcSpawnX(gameEngine, DEV_FRAME_DIM);
             var y = calcSpawnY(gameEngine, DEV_FRAME_DIM);
@@ -249,10 +252,14 @@ GameLevel.levelThreeInit = function (gameLevel, gameEngine) {
     this.hitshapes.push(new Box(ASH_WALL_N_HITBOX_X, ASH_WALL_N_HITBOX_Y, ASH_WALL_N_HITBOX_W, ASH_WALL_N_HITBOX_H, this));
     this.hitshapes.push(new Box(ASH_WALL_E_HITBOX_X, ASH_WALL_E_HITBOX_Y, ASH_WALL_E_HITBOX_W, ASH_WALL_E_HITBOX_H, this));
     this.hitshapes.push(new Box(ASH_WALL_S_HITBOX_X, ASH_WALL_S_HITBOX_Y, ASH_WALL_S_HITBOX_W, ASH_WALL_S_HITBOX_H, this));
-    
+
+    this.addNydusCanal(gameEngine);
+
     //start the level's audio
     var audio = document.getElementById("terran3");
     audio.play();
+
+    var bossSpawned = false;
 
     var guardianCount = 0;
     var guardians = new SpawnSequence(1,
@@ -287,24 +294,32 @@ GameLevel.levelThreeInit = function (gameLevel, gameEngine) {
     gameLevel.spawnSequences.push(lurkers);
 
     var terranCount = 0;
-    
+    var timeSinceLastTerranTry = 0;
+
     var terrans = new SpawnSequence(-1,
-        () => { return randomBetweenTwoNumbers(0, 100) == 100 },
         () => {
-            for (var i = 0; i < TERRANS; i++) {
-                var x = calcSpawnX(gameEngine, INF_FRAME_DIM);
-                var y = calcSpawnY(gameEngine, INF_FRAME_DIM);
-                var terran = InfestedTerran.quickCreate(gameEngine, x, y);
-                terran.onDeathCallbacks.push(() => { terranCount-- });
-                gameEngine.addEnemy(terran);
-                terranCount++;
+            if(timeSinceLastTerranTry >= 1){
+                timeSinceLastTerranTry = 0;
+                var rand = randomBetweenTwoNumbers(1, 10);
+                console.log("rand: " + rand);
+                return (rand == 2) && !bossSpawned;
             }
+            timeSinceLastTerranTry += gameEngine.clockTick;
+        },
+        () => {
+            var x = calcSpawnX(gameEngine, INF_FRAME_DIM);
+            var y = calcSpawnY(gameEngine, INF_FRAME_DIM);
+            var terran = InfestedTerran.quickCreate(gameEngine, x, y);
+            terran.onDeathCallbacks.push(() => { terranCount-- });
+            gameEngine.addEnemy(terran);
+            terranCount++;
         });
     gameLevel.spawnSequences.push(terrans);
 
     var boss = new SpawnSequence(1,
         () => { return guardianCount == 0 && lurkerCount == 0 },
         () => {
+            var bossSpawned = true;
             var x = calcSpawnX(gameEngine, QUE_FRAME_DIM);
             var y = calcSpawnY(gameEngine, QUE_FRAME_DIM);
             var queen = new Queen(x, y, gameEngine, AM.getAsset("./img/red_queen.png"), AM.getAsset("./img/que_zairdthl.png"));
@@ -319,12 +334,12 @@ GameLevel.prototype.draw = function () {
         var level = this;
         level.hitshapes.forEach(function (shape) {
             level.game.ctx.beginPath();
-            level.game.ctx.lineWidth=2;
-            level.game.ctx.strokeStyle="green";
+            level.game.ctx.lineWidth = 2;
+            level.game.ctx.strokeStyle = "green";
             if (shape instanceof Circle) {
-                level.game.ctx.arc(shape.x, shape.y, shape.r, 0, 2*Math.PI);
+                level.game.ctx.arc(shape.x, shape.y, shape.r, 0, 2 * Math.PI);
             } else if (shape instanceof Box) {
-                level.game.ctx.rect(shape.x, shape.y, shape.w, shape.h); 
+                level.game.ctx.rect(shape.x, shape.y, shape.w, shape.h);
             }
             level.game.ctx.stroke();
             level.game.ctx.closePath();
@@ -343,7 +358,7 @@ function SpawnSequence(numberOfRuns, spawnCondition, spawnFunc) {
 }
 
 SpawnSequence.prototype.resolve = function () {
-    if (this.spawnCondition() && this.timesRun < this.numberOfRuns) {
+    if (this.spawnCondition() && (this.timesRun < this.numberOfRuns || this.numberOfRuns == -1)) {
         this.spawnFunc();
         this.timesRun++;
     }

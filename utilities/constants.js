@@ -16,6 +16,8 @@ const SCRAMBLE_AIM = true;
  * Difficulty differential constants
  */
 const DIFFICULTY_PACKS_SUBTRACT = 1;
+const DIFFICULTY_HP_PER_PACK_SUBTRACT = 1;
+const DIFFICULTY_INVINCIBILITY_SUBTRACT = 0.67
 const DIFFICULTY_MOVE_SPEED = 50;
 const DIFFICULTY_ATTACKS_PER_SECOND = .5;
 const DIFFICULTY_BUL_SPEED = 50;
@@ -95,6 +97,7 @@ const MAR_HITBOX_W = 16;
 const MAR_HITBOX_H = 25;
 const INVINCIBLE = 2; //second
 const STARTING_HEALTH_PACKS = 3;
+const HP_PER_PACK = 3;
 const MAX_HEALTH_PACKS = 6;
 
 /**
@@ -152,9 +155,9 @@ const ZER_FIRST_FRAME_ANGLE = 90;
 const ZER_FRAME_INCREMENT = 2;
 const ZER_MAX_HP = 2;
 //const ZER_HITBOX_X = 49;
-const ZER_HITBOX_X = 64;
+const ZER_HITBOX_X = 51.5;
 //const ZER_HITBOX_Y = 59;
-const ZER_HITBOX_Y = 64;
+const ZER_HITBOX_Y = 51.5;
 const ZER_HITBOX_W = 25;
 const ZER_HITBOX_H = 25;
 
@@ -320,7 +323,7 @@ const DEF_ATTACK_TIME_CHANGE = 5;//In seconds
 const QUE_VIEW_DISTANCE = 1000;
 const QUE_ATTACK_DISTANCE = 350;
 const QUE_MOVE_SPEED = 100;
-const QUE_ATTACKS_PER_SECOND = 1.5;
+const QUE_ATTACKS_PER_SECOND = 1;
 const QUE_PAUSE_AFTER_ATTACK = 300; //milliseconds
 const QUE_FRAME_DIM = 128;
 const QUE_SCALE = 2;
@@ -328,17 +331,18 @@ const QUE_ANGLES = 16;
 const QUE_SHEET_WIDTH = 17;
 const QUE_FIRST_FRAME_ANGLE = 90;
 const QUE_FRAME_INCREMENT = 2;
-const QUE_MAX_HP = 4;
+const QUE_MAX_HP = 20;
 const QUE_HITCIRCLE_X = 64;
 const QUE_HITCIRCLE_Y = 64;
 const QUE_HITCIRCLE_R = 30;
+const MAX_BROODLINGS = 6
 
 /**
   * Constants for Broodling class.
  */
 const BRO_VIEW_DISTANCE = 1000;
-const BRO_ATTACK_DISTANCE = 350;
-const BRO_MOVE_SPEED = 100;
+const BRO_ATTACK_DISTANCE = 100;
+const BRO_MOVE_SPEED = 210;
 const BRO_ATTACKS_PER_SECOND = 1.5;
 const BRO_PAUSE_AFTER_ATTACK = 300; //milliseconds
 const BRO_FRAME_DIM = 48;
@@ -347,7 +351,7 @@ const BRO_ANGLES = 16;
 const BRO_SHEET_WIDTH = 17;
 const BRO_FIRST_FRAME_ANGLE = 90;
 const BRO_FRAME_INCREMENT = 2;
-const BRO_MAX_HP = 4;
+const BRO_MAX_HP = 2;
 const BRO_HITBOX_X = 11;
 const BRO_HITBOX_Y = 11;
 const BRO_HITBOX_W = 26;
@@ -403,7 +407,7 @@ const MUTALISKS = 0;
 const TERRANS = 0;
 const SCOURGES = 0;
 //tier 3
-const GUARDIANS = 5;
+const GUARDIANS = 0;
 const LURKERS = 0;
 */
 

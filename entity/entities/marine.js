@@ -61,11 +61,12 @@ Marine.prototype.update = function () {
 
     this.timeSinceLastShot += delta;
     //console.log("Time since hit: " + this.timeSinceLastHit);
-    if (this.timeSinceLastHit < INVINCIBLE) {
+    var invincibilityTime = INVINCIBLE - this.game.difficulty * DIFFICULTY_INVINCIBILITY_SUBTRACT
+    if (this.timeSinceLastHit < invincibilityTime) {
         this.hit = true;
         this.timeSinceLastHit += delta;
         this.animation.spritesheet = this.invincibleSpriteSheet;
-    } else if (this.timeSinceLastHit >= INVINCIBLE) {
+    } else if (this.timeSinceLastHit >= invincibilityTime) {
         this.animation.spriteSheet = this.spriteSheet;
     }
 
@@ -171,7 +172,11 @@ Marine.prototype.initializePlayerListeners = function () {
         if (e.code === "Space") {
             if (marine.stats.healthPacks > 0 && marine.stats.hp < marine.stats.maxHP) {
                 marine.stats.healthPacks--;
-                marine.stats.hp = marine.stats.maxHP;
+
+                marine.stats.hp += HP_PER_PACK - marine.game.difficulty * DIFFICULTY_HP_PER_PACK_SUBTRACT;
+                if (marine.stats.hp > marine.stats.maxHP) {
+                    marine.stats.hp = marine.stats.maxHP;
+                }
             }
         }
 

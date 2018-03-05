@@ -53,32 +53,31 @@ GameLevel.stdCompleteCondition = function (gameLevel, gameEngine) {
 
 //Standard onCompletion
 GameLevel.stdOnCompletion = function (gameLevel, gameEngine) {
-	//stop the level's audio
-	var id = "terran" + gameEngine.currentLevel;
-	var audio = document.getElementById(id);
-	audio.pause();
-	
+    //stop the level's audio
+    var id = "terran" + gameEngine.currentLevel;
+    var audio = document.getElementById(id);
+    audio.pause();
+
     //Here is where the outro animation should happen.
     if (gameEngine.currentLevel < gameEngine.levels.length - 1) {//-1 magic number because javascript
-        gameEngine.bullets = [];
-        if(this.timeSinceCompleted > 1){
-            gameEngine.currentLevel++;
-            gameEngine.levels[gameEngine.currentLevel].init();
-        }
-        
-        var delta = gameEngine.clockTick;
-        this.timeSinceCompleted += delta;
+        gameEngine.nydusCanal.isActive = true;
     } else if (gameEngine.player.stats.hp > 0) {
         gameEngine.won = true;
-    } else {
-		//gameEngine.dead = true;
-	}
+    }
 }
 //Standard level sequence
 GameLevel.stdLevelSequence = function (gameLevel, gameEngine) {
     gameLevel.spawnSequences.forEach(spawnSequence => {
         spawnSequence.resolve();
     });
+}
+
+GameLevel.prototype.addNydusCanal = function (gameEngine) {
+    var nydus = new NydusCanal(((gameEngine.surfaceWidth / 2) - (NYD_FRAME_DIM * SCALE)),
+        ((gameEngine.surfaceHeight / 2) - (NYD_FRAME_DIM * SCALE)),
+        gameEngine, AM.getAsset("./img/nydus_canal.png"));
+    nydus.init(gameEngine);
+    gameEngine.addNydusCanal(nydus);
 }
 
 //Level one init
@@ -89,12 +88,15 @@ GameLevel.levelOneInit = function (gameLevel, gameEngine) {
     this.hitshapes.push(new Box(JUNGLE_WALL_N_HITBOX_X, JUNGLE_WALL_N_HITBOX_Y, JUNGLE_WALL_N_HITBOX_W, JUNGLE_WALL_N_HITBOX_H, this));
     this.hitshapes.push(new Box(JUNGLE_WALL_E_HITBOX_X, JUNGLE_WALL_E_HITBOX_Y, JUNGLE_WALL_E_HITBOX_W, JUNGLE_WALL_E_HITBOX_H, this));
     this.hitshapes.push(new Box(JUNGLE_WALL_S_HITBOX_X, JUNGLE_WALL_S_HITBOX_Y, JUNGLE_WALL_S_HITBOX_W, JUNGLE_WALL_S_HITBOX_H, this));
-	//start the level's audio
-	var audio = document.getElementById("terran1");
-	audio.play();
+
+    this.addNydusCanal(gameEngine);
+
+    //start the level's audio
+    var audio = document.getElementById("terran1");
+    audio.play();
 
     var zerglingCount = 0;
-    var zerglings = new SpawnSequence(1, 
+    var zerglings = new SpawnSequence(1,
         () => { return true },
         () => {
             for (var i = 0; i < ZERGLINGS; i++) {
@@ -109,21 +111,22 @@ GameLevel.levelOneInit = function (gameLevel, gameEngine) {
     gameLevel.spawnSequences.push(zerglings);
 
     var hydraliskCount = 0;
-    var hydralisks = new SpawnSequence(1, 
+    var hydralisks = new SpawnSequence(1,
         () => { return true },
         () => {
             for (var i = 0; i < HYDRALISKS; i++) {
                 var x = calcSpawnX(gameEngine, HYD_FRAME_DIM);
                 var y = calcSpawnY(gameEngine, HYD_FRAME_DIM);
                 var hydralisk = Hydralisk.quickCreate(gameEngine, x, y);
-                hydralisk.onDeathCallbacks.push(() => {hydraliskCount-- });
+                hydralisk.onDeathCallbacks.push(() => { hydraliskCount-- });
                 gameEngine.addEnemy(hydralisk);
                 hydraliskCount++;
             }
         });
     gameLevel.spawnSequences.push(hydralisks);
 
-    var infestedTerrans = new SpawnSequence(1, 
+
+    var infestedTerrans = new SpawnSequence(1,
         () => { return true },
         () => {
             for (var i = 0; i < TERRANS; i++) {
@@ -136,8 +139,25 @@ GameLevel.levelOneInit = function (gameLevel, gameEngine) {
         });
     gameLevel.spawnSequences.push(infestedTerrans);
 
-    var boss = new SpawnSequence(1, 
-        () => { return hydraliskCount == 0 && zerglingCount == 0 },
+        
+    var scourgeCount = 0;
+    var scourges = new SpawnSequence(1,
+        () => { return true },
+        () => {
+            for (var i = 0; i < SCOURGES; i++) {
+                var x = calcSpawnX(gameEngine, SCO_FRAME_DIM);
+                var y = calcSpawnY(gameEngine, SCO_FRAME_DIM);
+                var scourge = Scourge.quickCreate(gameEngine, x, y);
+                scourge.onDeathCallbacks.push(() => { scourgeCount-- });
+                gameEngine.addEnemy(scourge);
+                scourgeCount++;
+            }
+        });
+    gameLevel.spawnSequences.push(scourges);
+
+    var boss = new SpawnSequence(1,
+        () => { return hydraliskCount === 0 && zerglingCount === 0 && scourgeCount === 0 },
+
         () => {
             var x = calcSpawnX(gameEngine, DEF_FRAME_DIM);
             var y = calcSpawnY(gameEngine, DEF_FRAME_DIM);
@@ -146,7 +166,7 @@ GameLevel.levelOneInit = function (gameLevel, gameEngine) {
             gameEngine.addEnemy(defiler);
         });
     gameLevel.spawnSequences.push(boss);
-    
+
 }
 
 //Level two init
@@ -157,19 +177,19 @@ GameLevel.levelTwoInit = function (gameLevel, gameEngine) {
     this.hitshapes.push(new Box(DESERT_WALL_N_HITBOX_X, DESERT_WALL_N_HITBOX_Y, DESERT_WALL_N_HITBOX_W, DESERT_WALL_N_HITBOX_H, this));
     this.hitshapes.push(new Box(DESERT_WALL_E_HITBOX_X, DESERT_WALL_E_HITBOX_Y, DESERT_WALL_E_HITBOX_W, DESERT_WALL_E_HITBOX_H, this));
     this.hitshapes.push(new Box(DESERT_WALL_S_HITBOX_X, DESERT_WALL_S_HITBOX_Y, DESERT_WALL_S_HITBOX_W, DESERT_WALL_S_HITBOX_H, this));
-	//start the level's audio
-	var audio = document.getElementById("terran2");
-	audio.play();
+    //start the level's audio
+    var audio = document.getElementById("terran2");
+    audio.play();
 
     var ultraliskCount = 0;
-    var ultralisks = new SpawnSequence(1, 
+    var ultralisks = new SpawnSequence(1,
         () => { return true },
         () => {
             for (var i = 0; i < ULTRALISKS; i++) {
                 var x = calcSpawnX(gameEngine, ULT_FRAME_DIM);
                 var y = calcSpawnY(gameEngine, ULT_FRAME_DIM);
                 var ultralisk = new Ultralisk(x, y, gameEngine, AM.getAsset("./img/red_ultralisk.png"), AM.getAsset("./img/red_ultralisk.png"));
-                ultralisk.onDeathCallbacks.push(()=>{ultraliskCount--});
+                ultralisk.onDeathCallbacks.push(() => { ultraliskCount-- });
                 ultralisk.init(gameEngine);
                 gameEngine.addEnemy(ultralisk);
                 ultraliskCount++;
@@ -178,24 +198,38 @@ GameLevel.levelTwoInit = function (gameLevel, gameEngine) {
     gameLevel.spawnSequences.push(ultralisks);
 
     var mutaliskCount = 0;
-    var mutalisks = new SpawnSequence(1, 
+    var mutalisks = new SpawnSequence(1,
         () => { return true },
         () => {
             for (var i = 0; i < MUTALISKS; i++) {
                 var x = calcSpawnX(gameEngine, MUT_FRAME_DIM);
                 var y = calcSpawnY(gameEngine, MUT_FRAME_DIM);
                 var mutalisk = new Mutalisk(x, y, gameEngine, AM.getAsset("./img/red_mutalisk.png"), AM.getAsset("./img/mut_zairdthl.png"));
-                mutalisk.onDeathCallbacks.push(()=>{mutaliskCount--});
+                mutalisk.onDeathCallbacks.push(() => { mutaliskCount-- });
                 mutalisk.init(gameEngine);
                 gameEngine.addEnemy(mutalisk);
                 mutaliskCount++;
             }
         });
-
     gameLevel.spawnSequences.push(mutalisks);
-	
-    var boss = new SpawnSequence(1, 
-        () => { return ultraliskCount == 0 && mutaliskCount == 0 },
+
+    var scourgeCount = 0;
+    var scourges = new SpawnSequence(1,
+        () => { return true },
+        () => {
+            for (var i = 0; i < SCOURGES; i++) {
+                var x = calcSpawnX(gameEngine, SCO_FRAME_DIM);
+                var y = calcSpawnY(gameEngine, SCO_FRAME_DIM);
+                var scourge = Scourge.quickCreate(gameEngine, x, y);
+                scourge.onDeathCallbacks.push(() => { scourgeCount-- });
+                gameEngine.addEnemy(scourge);
+                scourgeCount++;
+            }
+        });
+    gameLevel.spawnSequences.push(scourges);
+
+    var boss = new SpawnSequence(1,
+        () => { return ultraliskCount == 0 && mutaliskCount == 0 && scourgeCount == 0},
         () => {
             var x = calcSpawnX(gameEngine, DEV_FRAME_DIM);
             var y = calcSpawnY(gameEngine, DEV_FRAME_DIM);
@@ -215,43 +249,60 @@ GameLevel.levelThreeInit = function (gameLevel, gameEngine) {
     this.hitshapes.push(new Box(ASH_WALL_N_HITBOX_X, ASH_WALL_N_HITBOX_Y, ASH_WALL_N_HITBOX_W, ASH_WALL_N_HITBOX_H, this));
     this.hitshapes.push(new Box(ASH_WALL_E_HITBOX_X, ASH_WALL_E_HITBOX_Y, ASH_WALL_E_HITBOX_W, ASH_WALL_E_HITBOX_H, this));
     this.hitshapes.push(new Box(ASH_WALL_S_HITBOX_X, ASH_WALL_S_HITBOX_Y, ASH_WALL_S_HITBOX_W, ASH_WALL_S_HITBOX_H, this));
-	//start the level's audio
-	var audio = document.getElementById("terran3");
-	audio.play();
+    
+    //start the level's audio
+    var audio = document.getElementById("terran3");
+    audio.play();
 
-	var guardianCount = 0;
-    var guardians = new SpawnSequence(1, 
+    var guardianCount = 0;
+    var guardians = new SpawnSequence(1,
         () => { return true },
         () => {
             for (var i = 0; i < GUARDIANS; i++) {
                 var x = calcSpawnX(gameEngine, GUA_FRAME_DIM);
                 var y = calcSpawnY(gameEngine, GUA_FRAME_DIM);
                 guardian = new Guardian(x, y, gameEngine, AM.getAsset("./img/red_guardian.png"), AM.getAsset("./img/gua_zairdthl.png"));
-                guardian.onDeathCallbacks.push(()=>{guardianCount--});
+                guardian.onDeathCallbacks.push(() => { guardianCount-- });
                 guardian.init(gameEngine);
                 gameEngine.addEnemy(guardian);
-				guardianCount++;
+                guardianCount++;
             }
         });
     gameLevel.spawnSequences.push(guardians);
 
-	var lurkerCount = 0;
-    var lurkers = new SpawnSequence(1, 
+    var lurkerCount = 0;
+    var lurkers = new SpawnSequence(1,
         () => { return true },
         () => {
             for (var i = 0; i < LURKERS; i++) {
                 var x = calcSpawnX(gameEngine, LUR_FRAME_DIM);
                 var y = calcSpawnY(gameEngine, LUR_FRAME_DIM);
                 var lurker = new Lurker(x, y, gameEngine, AM.getAsset("./img/red_lurker.png"), AM.getAsset("./img/red_lurker.png"));
-                lurker.onDeathCallbacks.push(()=>{lurkerCount--});
+                lurker.onDeathCallbacks.push(() => { lurkerCount-- });
                 lurker.init(gameEngine);
                 gameEngine.addEnemy(lurker);
-				lurkerCount++;
+                lurkerCount++;
             }
         });
     gameLevel.spawnSequences.push(lurkers);
-	
-	var boss = new SpawnSequence(1, 
+
+    var terranCount = 0;
+    
+    var terrans = new SpawnSequence(-1,
+        () => { return randomBetweenTwoNumbers(0, 100) == 100 },
+        () => {
+            for (var i = 0; i < TERRANS; i++) {
+                var x = calcSpawnX(gameEngine, INF_FRAME_DIM);
+                var y = calcSpawnY(gameEngine, INF_FRAME_DIM);
+                var terran = InfestedTerran.quickCreate(gameEngine, x, y);
+                terran.onDeathCallbacks.push(() => { terranCount-- });
+                gameEngine.addEnemy(terran);
+                terranCount++;
+            }
+        });
+    gameLevel.spawnSequences.push(terrans);
+
+    var boss = new SpawnSequence(1,
         () => { return guardianCount == 0 && lurkerCount == 0 },
         () => {
             var x = calcSpawnX(gameEngine, QUE_FRAME_DIM);
@@ -285,8 +336,8 @@ GameLevel.prototype.draw = function () {
  * Spawn sequence class
  */
 function SpawnSequence(numberOfRuns, spawnCondition, spawnFunc) {
-	this.numberOfRuns = numberOfRuns;
-	this.timesRun = 0;
+    this.numberOfRuns = numberOfRuns;
+    this.timesRun = 0;
     this.spawnCondition = spawnCondition;
     this.spawnFunc = spawnFunc;
 }
@@ -294,6 +345,6 @@ function SpawnSequence(numberOfRuns, spawnCondition, spawnFunc) {
 SpawnSequence.prototype.resolve = function () {
     if (this.spawnCondition() && this.timesRun < this.numberOfRuns) {
         this.spawnFunc();
-		this.timesRun++;
+        this.timesRun++;
     }
 }

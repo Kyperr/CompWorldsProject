@@ -148,6 +148,16 @@ const BUL_HITCIRCLE_R = 7;
 const BUL_FRAME_DIM = 32;
 
 /*
+ * Constants for the Nydus canal.
+ */
+const NYD_FRAME_DIM = 128;
+const NYD_HITBOX_X = 50;
+const NYD_HITBOX_Y = 60;
+const NYD_HITBOX_W = 24;
+const NYD_HITBOX_H = 24;
+
+
+/*
  * Constants for the HudElements.
  */
 const HUD_HEALTH_BACKDROP_WIDTH = 240;
@@ -415,11 +425,12 @@ const SHOOTING_ACTION = "shooting";
 const AIMING_ACTION = "aiming";
 const FLYING_ACTION = "flying";
 const DYING_ACTION = "dying";
+const INACTIVE_ACTION = "inactive";
+const ACTIVE_ACTION = "active";
 const NO_ACTION = "";
 
 const SCALE = 1.25;
 const BUFFER = MAR_FRAME_DIM * 2;
-
 
 
 /*

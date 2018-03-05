@@ -40,9 +40,12 @@ Camera.prototype.drawView = function () {
     game.map.draw(this.ctx);
     game.levels[game.currentLevel].draw();
 
+	//console.log(game.nydusCanal);
+	game.nydusCanal.draw();
+	
     // Draw player
     game.player.draw(this.ctx);
-
+	
     // Draw enemies
     for (var i = 0; i < game.enemies.length; i++) {
         game.enemies[i].draw(this.ctx);

@@ -57,12 +57,14 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y) {
         //We have animations that go both vertical and horizontal.
         if (state.animDirection == AnimationDirection.VERTICAL) {
             yindex = (state.yIndex - 1) + Math.floor(frame % state.frames);
-        } else if (state.AnimationDirection == Animation.HORIZONTAL) {
+        } else if (state.animDirection == AnimationDirection.HORIZONTAL) {
             xindex = (state.xIndex - 1) + Math.floor(frame % state.frames);
         } else {
             assert(false);
         }
 
+		//console.log(this.physicalEntity);
+		//console.log(xindex);
         ctx.save();
 
         if (state.reflect) {
@@ -122,7 +124,7 @@ Animation.prototype.getCurrentAnimationState = function () {
 }
 
 Animation.prototype.createVerticalAnimationStates = function (animationName, firstFrameAngle, frameIncrement, yIndex, frameCount, frameDuration, loop) {
-    loop = (loop == null) ? true : false;//Ew, nullmasking.
+    loop = (loop == null) ? true : loop;//Ew, nullmasking.
     for (i = 0; i <= this.numberOfAngles / 2; i++) {
         var x = frameIncrement * i;
         var angle = firstFrameAngle - (i * this.angleIncrement);
@@ -142,7 +144,7 @@ Animation.prototype.createVerticalAnimationStates = function (animationName, fir
 }
 
 Animation.prototype.createHorizontalAnimationStates = function (animationName, firstFrameAngle, frameIncrement, xIndex, frameCount, frameDuration, loop) {
-    loop = (loop == null) ? true : false;
+    loop = (loop == null) ? true : loop;
     for (i = 0; i <= this.numberOfAngles / 2; i++) {
         var y = frameIncrement * i;
         var angle = firstFrameAngle - (i * this.angleIncrement);

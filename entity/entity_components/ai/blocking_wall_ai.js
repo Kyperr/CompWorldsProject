@@ -67,7 +67,7 @@ BlockingWallAI.prototype.attack = function (delta) {
 
         var angleB = Math.asin(sinOfAngleB);
 
-        console.log("angle: " + angleB);
+        //console.log("angle: " + angleB);
 
         var angleToShoot = (angle + angleB);
 

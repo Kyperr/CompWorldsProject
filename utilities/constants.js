@@ -12,6 +12,12 @@ const SPAWN_ENEMIES = true;
 const SCRAMBLE_MOVEMENT = true;
 const SCRAMBLE_AIM = true;
 
+/**
+ * Misc:
+ */
+KAMIKAZE_ATTACK_COUNT = 16;
+KAMIKAZE_ATTACK_DISTANCE = 50;
+
 /*
  * Difficulty differential constants
  */
@@ -262,9 +268,9 @@ const SCO_HITCIRCLE_R = 15;
   * Constants for Infested Marine class.
  */
 const INF_VIEW_DISTANCE = 1000;
-const INF_ATTACK_DISTANCE = 350;
-const INF_MOVE_SPEED = 100;
-const INF_ATTACKS_PER_SECOND = 1.5;
+const INF_ATTACK_DISTANCE = KAMIKAZE_ATTACK_DISTANCE;
+const INF_MOVE_SPEED = 75;
+const INF_ATTACKS_PER_SECOND = KAMIKAZE_ATTACK_COUNT;
 const INF_PAUSE_AFTER_ATTACK = 300; //milliseconds
 const INF_FRAME_DIM = 64;
 const INF_SCALE = 2;
@@ -272,11 +278,12 @@ const INF_ANGLES = 16;
 const INF_SHEET_WIDTH = 17;
 const INF_FIRST_FRAME_ANGLE = 90;
 const INF_FRAME_INCREMENT = 2;
-const INF_MAX_HP = 1;
+const INF_MAX_HP = 2;
 const INF_HITBOX_X = 23;
 const INF_HITBOX_Y = 20;
 const INF_HITBOX_W = 16;
 const INF_HITBOX_H = 25;
+const INF_ATTACK_COUNT = 10;
 
 /**
   * Constants for Guardian class.
@@ -413,6 +420,8 @@ const NO_ACTION = "";
 const SCALE = 1.25;
 const BUFFER = MAR_FRAME_DIM * 2;
 
+
+
 /*
 // DEBUG ENEMY SET
 //tier 1
@@ -434,7 +443,7 @@ const LURKERS = 0;
 const ZERGLINGS = 3;
 const HYDRALISKS = 2;
 //tier 2
-const ULTRALISKS = 1;
+const ULTRALISKS = 2;
 const MUTALISKS = 2;
 //tier 2.5 (special)
 const TERRANS = 1;

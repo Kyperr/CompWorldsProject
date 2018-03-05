@@ -13,6 +13,7 @@ function BasicEnemyAI(entity, viewDistance, attackDistance, attacksPerSecond, mo
     //Other instance fields.
     this.timeSinceLastAttack = 0;
     this.timeSinceLastMoved = 0;
+    this.timeExist = 0;
 }
 
 BasicEnemyAI.prototype = new AI();
@@ -55,6 +56,7 @@ BasicEnemyAI.prototype.update = function () {
 
 
 BasicEnemyAI.prototype.moveTowards = function (tX, tY) {
+    var delta = this.entity.game.clockTick;
 
     //This is super rudimentary. If we add obstacles, we will need to make a more complex algorithm.
 
@@ -62,7 +64,8 @@ BasicEnemyAI.prototype.moveTowards = function (tX, tY) {
 	var srcX = PhysicalEntity.getMiddleXOf(this.entity);
 	var srcY = PhysicalEntity.getMiddleYOf(this.entity);
 	
-    var angle = calculateAngleRadians(tX, tY, srcX, srcY);
+    this.timeExist += delta;
+    var angle = calculateAngleRadians(tX, tY, srcX, srcY) + Math.sin(this.timeExist)/2;
 
     //10 degrees in radians. Fairly fast. This is a magic number and should be standardized.
     var interpSpeed = 10 * Math.PI / 180;

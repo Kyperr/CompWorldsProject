@@ -187,7 +187,7 @@ GameLevel.levelTwoInit = function (gameLevel, gameEngine) {
     var scourges = new SpawnSequence(-1,
         () => {
             if (timeSinceLastScourgeTry >= 1 && !bossSpawned) {
-                timeSinceLastTerranTry = 0;
+                timeSinceLastScourgeTry = 0;
                 var rand = randomBetweenTwoNumbers(1, 10);
                 return (rand == 1);
             }

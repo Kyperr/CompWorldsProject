@@ -39,20 +39,4 @@ Map.prototype.draw = function () {
         this.y,
         this.width,
         this.height);
-
-    if (DRAW_HITBOXES) {
-        var entity = this;
-        entity.hitshapes.forEach(function (shape) {
-            entity.ctx.beginPath();
-            entity.ctx.lineWidth=2;
-            entity.ctx.strokeStyle="green";
-            if (shape instanceof Circle) {
-                entity.ctx.arc(shape.x, shape.y, shape.r, 0, 2*Math.PI);
-            } else if (shape instanceof Box) {
-                entity.ctx.rect(shape.x, shape.y, shape.w, shape.h); 
-            }
-            entity.ctx.stroke();
-            entity.ctx.closePath();
-        });
-    }
 }

@@ -151,7 +151,7 @@ GameEngine.prototype.draw = function () {
     this.ctx.restore();
 
     var level = this.levels[this.currentLevel];
-    if (level.completeCondition(level, this) && this.nydusCanal.isActive && this.nydusCanal.isActivated) {
+    if (this.nydusCanal.isActivated) {
 
         var maskCanvas = document.createElement('canvas');
         maskCanvas.width = this.surfaceWidth;

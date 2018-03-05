@@ -13,6 +13,8 @@ function QueenAI(entity, viewDistance, attackDistance, attacksPerSecond, movemen
     //Other instance fields.
     this.timeSinceLastAttack = 0;
     this.timeSinceLastMoved = 0;
+
+    this.broodlingCount = 0;
 }
 
 QueenAI.prototype = new BasicEnemyAI();
@@ -25,11 +27,11 @@ QueenAI.prototype.attack = function (delta) {
     var physics = this.entity.physics;
 
     physics.velocity = 0;
-	
-	var attackAnimationTime = .35;//Magic numbers, YAY!
+
+    var attackAnimationTime = .35;//Magic numbers, YAY!
     if (this.timeSinceLastAttack > attackAnimationTime) {
-		this.entity.animation.currentAction = "standing";
-	}
+        this.entity.animation.currentAction = "standing";
+    }
 
     var target = this.entity.game.player;
 
@@ -47,32 +49,27 @@ QueenAI.prototype.attack = function (delta) {
     interpolate(this.entity, angle, interpSpeed, tolerance);
 
     if (this.timeSinceLastAttack >= (1 / this.attacksPerSecond)) {
-		this.entity.animation.elapsedTime = 0;
+        this.entity.animation.elapsedTime = 0;
         this.entity.animation.currentAction = "attacking";
 
-
-        // Create a bullet(s)
-
-        var angleCount = 8;
-        for (var i = 0; i < 8; i++){
-            var that = this;
-            (function () {
-
-                var aimAngle = angle + (i * 2 * Math.PI / angleCount);
-
-                var bulletBehavior = function (bullet) {
-                    Bullet.oscillate(bullet, aimAngle, distance);
-                    Bullet.oscillate(bullet, aimAngle, distance);
-                }
-
-                var bullet = new Bullet(that.entity.game,
-                    that.entity.game.assetManager.getAsset("./img/oscillate_bullet.png"),
-                    that.entity, false, bulletBehavior);
-                bullet.init(that.entity.game);
-                that.entity.game.addBullet(bullet);
-            })();
+        if(this.broodlingCount < MAX_BROODLINGS){
+            this.fireBroodling(angle);
+            this.broodlingCount++;
         }
+
         // Reset timeSinceLastShot
         this.timeSinceLastAttack = 0;
     }
+}
+
+QueenAI.prototype.fireBroodling = function (angle) {
+    var game = this.entity.game;
+    var x = PhysicalEntity.getMiddleXOf(this.entity) - (BRO_FRAME_DIM / 2);
+    var y = PhysicalEntity.getMiddleYOf(this.entity) - (BRO_FRAME_DIM / 2);
+    var broodling = new Broodling(x, y, game, AM.getAsset("./img/red_broodling.png"), AM.getAsset("./img/bro_zairdths.png"));
+    broodling.onDeathCallbacks.push(() => {this.broodlingCount--});
+    broodling.init(game);
+    broodling.physics.directionX = Math.cos(Math.PI);
+    broodling.physics.directionY = Math.sin(Math.PI);
+    game.addEnemy(broodling);
 }

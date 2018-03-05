@@ -32,7 +32,7 @@ function GameEngine() {
     this.player = null;
     this.camera = null;
     this.levels = [];
-    this.currentLevel = 1;
+    this.currentLevel = 3;
 
 }
 

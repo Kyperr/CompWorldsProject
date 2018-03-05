@@ -3,7 +3,7 @@ function Broodling(x, y, game, spritesheet, deathSpriteSheet) {
 	
     //Super init
     var physics = new Physics(this, x, y, BRO_FRAME_DIM, BRO_FRAME_DIM, SCALE, true);
-    var ai = new BasicEnemyAI(this, BRO_VIEW_DISTANCE, BRO_ATTACK_DISTANCE, 
+    var ai = new BroodlingAI(this, BRO_VIEW_DISTANCE, BRO_ATTACK_DISTANCE, 
                               BRO_ATTACKS_PER_SECOND + DIFFICULTY_ATTACKS_PER_SECOND * game.difficulty, 
                               BRO_MOVE_SPEED + DIFFICULTY_MOVE_SPEED * game.difficulty);
     BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai,

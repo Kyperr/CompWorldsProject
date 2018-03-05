@@ -170,7 +170,7 @@ Marine.prototype.initializePlayerListeners = function () {
         }
 
         if (e.code === "Space") {
-            if (marine.stats.healthPacks > 0 && marine.stats.hp < marine.stats.maxHP) {
+            if (marine.stats.healthPacks > 0 && marine.stats.hp < marine.stats.maxHP && marine.stats.hp > 0) {
                 marine.stats.healthPacks--;
 
                 marine.stats.hp += HP_PER_PACK - marine.game.difficulty * DIFFICULTY_HP_PER_PACK_SUBTRACT;

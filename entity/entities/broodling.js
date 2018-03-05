@@ -7,7 +7,7 @@ function Broodling(x, y, game, spritesheet, deathSpriteSheet) {
                               BRO_ATTACKS_PER_SECOND + DIFFICULTY_ATTACKS_PER_SECOND * game.difficulty, 
                               BRO_MOVE_SPEED + DIFFICULTY_MOVE_SPEED * game.difficulty);
     BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai,
-                   BRO_MAX_HP + DIFFICULTY_BRO_HP * game.difficulty);
+                   BRO_MAX_HP + DIFFICULTY_BRO_HP * game.difficulty, BRO_DEATH);
 
     this.hitshapes.push(new Box(BRO_HITBOX_X, BRO_HITBOX_Y, 
                                 BRO_HITBOX_W * SCALE, BRO_HITBOX_H * SCALE, this));

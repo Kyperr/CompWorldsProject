@@ -53,11 +53,6 @@ GameLevel.stdCompleteCondition = function (gameLevel, gameEngine) {
 
 //Standard onCompletion
 GameLevel.stdOnCompletion = function (gameLevel, gameEngine) {
-    //stop the level's audio
-    var id = "terran" + gameEngine.currentLevel;
-    var audio = document.getElementById(id);
-    audio.pause();
-
     //Here is where the outro animation should happen.
     if (gameEngine.currentLevel < gameEngine.levels.length - 1) {//-1 magic number because javascript
         gameEngine.nydusCanal.isActive = true;
@@ -84,16 +79,14 @@ GameLevel.prototype.addNydusCanal = function (gameEngine) {
 GameLevel.levelOneInit = function (gameLevel, gameEngine) {
     var map = new Map(gameEngine, AM.getAsset("./img/map_jungle.png"), 1600, 1600);
     gameEngine.map = map;
+	this.addNydusCanal(gameEngine);
     this.hitshapes.push(new Box(JUNGLE_WALL_W_HITBOX_X, JUNGLE_WALL_W_HITBOX_Y, JUNGLE_WALL_W_HITBOX_W, JUNGLE_WALL_W_HITBOX_H, this));
     this.hitshapes.push(new Box(JUNGLE_WALL_N_HITBOX_X, JUNGLE_WALL_N_HITBOX_Y, JUNGLE_WALL_N_HITBOX_W, JUNGLE_WALL_N_HITBOX_H, this));
     this.hitshapes.push(new Box(JUNGLE_WALL_E_HITBOX_X, JUNGLE_WALL_E_HITBOX_Y, JUNGLE_WALL_E_HITBOX_W, JUNGLE_WALL_E_HITBOX_H, this));
     this.hitshapes.push(new Box(JUNGLE_WALL_S_HITBOX_X, JUNGLE_WALL_S_HITBOX_Y, JUNGLE_WALL_S_HITBOX_W, JUNGLE_WALL_S_HITBOX_H, this));
-
-    this.addNydusCanal(gameEngine);
-
-    //start the level's audio
-    var audio = document.getElementById("terran1");
-    audio.play();
+	//start the level's audio
+	var audio = document.getElementById("terran1");
+	audio.play();
 
     var zerglingCount = 0;
     var zerglings = new SpawnSequence(1,

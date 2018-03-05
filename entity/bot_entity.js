@@ -1,7 +1,7 @@
-function BotEntity(game, spritesheet, deathSpriteSheet, physics, ai, maxHealth) {
+function BotEntity(game, spritesheet, deathSpriteSheet, physics, ai, maxHealth, deathSound) {
 
     /*Super init*/
-    CharacterEntity.call(this, game, spritesheet, deathSpriteSheet, physics, maxHealth);
+    CharacterEntity.call(this, game, spritesheet, deathSpriteSheet, physics, maxHealth, deathSound);
 
     /*Sub init*/
     this.ai = ai;

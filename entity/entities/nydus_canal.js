@@ -58,6 +58,10 @@ NydusCanal.prototype.update = function () {
         //transport to next level
         if (level.timeSinceCompleted > 1) {
             canal.game.bullets = [];
+			//stop the level's audio
+			var id = "terran" + canal.game.currentLevel;
+			var audio = document.getElementById(id);
+			audio.pause();
             canal.game.currentLevel++;
             canal.game.levels[canal.game.currentLevel].init();
             canal.isActivated = false;

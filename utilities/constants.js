@@ -384,8 +384,8 @@ const QUE_MAX_HP = 20;
 const QUE_HITCIRCLE_X = 64;
 const QUE_HITCIRCLE_Y = 64;
 const QUE_HITCIRCLE_R = 30;
-const QUE_PHASE_LENGTH = 2; // seconds
-const MAX_BROODLINGS = 5;
+const QUE_PHASE_LENGTH = 5; // seconds
+const MAX_BROODLINGS = 2;
 const QUE_DEATH = "que_death";
 
 /**

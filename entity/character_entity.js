@@ -1,8 +1,9 @@
-function CharacterEntity(game, spritesheet, deathSpriteSheet, physics, maxHealth) {
+function CharacterEntity(game, spritesheet, deathSpriteSheet, physics, maxHealth, deathSound) {
     /*Super init*/
     PhysicalEntity.call(this, game, spritesheet, physics);
 
     /*Sub init*/
+	this.deathSound = deathSound;
     this.stats = {};
     this.stats.maxHP = maxHealth;
     this.stats.hp = maxHealth;
@@ -92,4 +93,8 @@ CharacterEntity.prototype.draw = function () {
             entity.ctx.closePath();
         });
     }
+}
+
+CharacterEntity.prototype.playDeathSound = function () {
+	
 }

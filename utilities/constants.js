@@ -3,7 +3,7 @@
 /*
  * Flags for debugging
  */
-const DRAW_HITBOXES = true;
+const DRAW_HITBOXES = false;
 const ENABLE_CHEATS = false;
 const GOD_MODE = false;
 const SPAWN_ENEMIES = true;
@@ -99,6 +99,9 @@ const INVINCIBLE = 2; //second
 const STARTING_HEALTH_PACKS = 3;
 const HP_PER_PACK = 3;
 const MAX_HEALTH_PACKS = 6;
+const MAR_DEATH_1 = "terran_marine_death1";
+const MAR_DEATH_2 = "terran_marine_death2";
+const MAR_HEAL = "terran_heal";
 
 /**
   * Constants for Bullet class.
@@ -160,6 +163,7 @@ const ZER_HITBOX_X = 51.5;
 const ZER_HITBOX_Y = 51.5;
 const ZER_HITBOX_W = 25;
 const ZER_HITBOX_H = 25;
+const ZER_DEATH = "zer_death";
 
 /**
   * Constants for Hydralisk class.
@@ -180,6 +184,7 @@ const HYD_HITBOX_X = 48;
 const HYD_HITBOX_Y = 45;
 const HYD_HITBOX_W = 31;
 const HYD_HITBOX_H = 40;
+const HYD_DEATH = "hyd_death";
 
 /**
   * Constants for Ultralisk class.
@@ -199,6 +204,7 @@ const ULT_MAX_HP = 10;
 const ULT_HITCIRCLE_X = 71;
 const ULT_HITCIRCLE_Y = 59;
 const ULT_HITCIRCLE_R = 33;
+const ULT_DEATH = "ult_death";
 
 /**
   * Constants for Mutalisk class.
@@ -218,6 +224,7 @@ const MUT_MAX_HP = 8;
 const MUT_HITCIRCLE_X = 69;
 const MUT_HITCIRCLE_Y = 54;
 const MUT_HITCIRCLE_R = 29;
+const MUT_DEATH = "mut_death";
 
 /**
   * Constants for Scourge class.
@@ -237,6 +244,7 @@ const SCO_MAX_HP = 1;
 const SCO_HITCIRCLE_X = 24;
 const SCO_HITCIRCLE_Y = 24;
 const SCO_HITCIRCLE_R = 15;
+const SCO_DEATH = "sco_death";
 
 /**
   * Constants for Infested Marine class.
@@ -257,6 +265,7 @@ const INF_HITBOX_X = 23;
 const INF_HITBOX_Y = 20;
 const INF_HITBOX_W = 16;
 const INF_HITBOX_H = 25;
+const INF_DEATH = "inf_death";
 
 /**
   * Constants for Guardian class.
@@ -276,6 +285,7 @@ const GUA_MAX_HP = 15;
 const GUA_HITCIRCLE_X = 53;
 const GUA_HITCIRCLE_Y = 48;
 const GUA_HITCIRCLE_R = 35;
+const GUA_DEATH = "gua_death";
 
 /**
   * Constants for Lurker class.
@@ -295,6 +305,7 @@ const LUR_MAX_HP = 10;
 const LUR_HITCIRCLE_X = 67;
 const LUR_HITCIRCLE_Y = 63;
 const LUR_HITCIRCLE_R = 29;
+const LUR_DEATH = "lur_death";
 
 /**
   * Constants for Defiler class.
@@ -316,6 +327,7 @@ const DEF_HITBOX_Y = 16;
 const DEF_HITBOX_W = 48;
 const DEF_HITBOX_H = 48;
 const DEF_ATTACK_TIME_CHANGE = 5;//In seconds
+const DEF_DEATH = "def_death";
 
 /**
   * Constants for Queen class.
@@ -336,6 +348,9 @@ const QUE_HITCIRCLE_X = 64;
 const QUE_HITCIRCLE_Y = 64;
 const QUE_HITCIRCLE_R = 30;
 const MAX_BROODLINGS = 6
+const QUE_DEATH_1 = "que_death1";
+const QUE_DEATH_2 = "que_death2";
+const QUE_DEATH_3 = "que_death3";
 
 /**
   * Constants for Broodling class.
@@ -356,6 +371,7 @@ const BRO_HITBOX_X = 11;
 const BRO_HITBOX_Y = 11;
 const BRO_HITBOX_W = 26;
 const BRO_HITBOX_H = 26;
+const BRO_DEATH = "bro_death";
 
 /**
   * Constants for Devourer class.
@@ -375,6 +391,7 @@ const DEV_MAX_HP = 30;
 const DEV_HITCIRCLE_X = 47;
 const DEV_HITCIRCLE_Y = 43;
 const DEV_HITCIRCLE_R = 29;
+const DEV_DEATH = "dev_death";
 
 
 

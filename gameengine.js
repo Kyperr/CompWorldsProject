@@ -218,6 +218,7 @@ GameEngine.prototype.update = function () {
 
         if (typeof enemy !== 'undefined') {
             if (enemy.removeFromWorld) {
+				enemy.playDeathSound();
                 this.enemies.splice(i, 1);
                 this.enemiesKilled++;
             } else {

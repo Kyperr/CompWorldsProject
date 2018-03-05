@@ -30,6 +30,7 @@ DefilerAI.prototype.attack = function (delta) {
     if (this.attackSeqTime >= DEF_ATTACK_TIME_CHANGE) {
         this.attackingSequence = randomBetweenTwoNumbers(0, 1);
         this.attackSeqTime = 0;
+    }
 
     //This will be done outside the loop so the enemy appears to
     //"track" the player even when the enemy isn't shooting.
@@ -58,7 +59,8 @@ DefilerAI.prototype.attack = function (delta) {
     var tolerance = 10 * Math.PI / 180;
     interpolate(this.entity, angle, interpSpeed, tolerance);
 
-    if (this.timeSinceLastAttack >= (1 / this.attacksPerSecond)) { {
+    if (this.timeSinceLastAttack >= (1 / this.attacksPerSecond)) {
+        if (this.attackingSequence == 0) {
             this.fireHomingShots(delta, angle);
         } else if (this.attackingSequence == 1) {
              this.fireSpinShots(delta, angle);

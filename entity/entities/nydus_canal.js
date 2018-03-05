@@ -62,6 +62,8 @@ NydusCanal.prototype.update = function () {
 			var id = "terran" + canal.game.currentLevel;
 			var audio = document.getElementById(id);
 			audio.pause();
+			var nydusAudio = document.getElementById("nydus_canal");
+			nydusAudio.play();
             canal.game.currentLevel++;
             canal.game.levels[canal.game.currentLevel].init();
             canal.isActivated = false;

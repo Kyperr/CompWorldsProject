@@ -33,7 +33,7 @@ function GameEngine() {
     this.camera = null;
 	this.nydusCanal = null;
     this.levels = [];
-    this.currentLevel = 2;
+    this.currentLevel = STARTING_LEVEL;
 
 }
 
@@ -220,13 +220,12 @@ GameEngine.prototype.update = function () {
     });
 
     // Update enemies
+	
     var enemyCount = this.enemies.length;
     for (var i = 0; i < enemyCount; i++) {
         var enemy = this.enemies[i];
-
         if (typeof enemy !== 'undefined') {
             if (enemy.removeFromWorld) {
-				enemy.playDeathSound();
                 this.enemies.splice(i, 1);
                 this.enemiesKilled++;
             } else {

@@ -114,21 +114,7 @@ AM.downloadAll(function () {
                                   function () { return this.game.player.stats.maxHealthPacks; },
                                   function () { return this.game.player.stats.healthPacks; });
                                   
-    //init player
-    var marX = (gameEngine.surfaceWidth / 2) - MAR_FRAME_DIM * SCALE;
-    var marY = (gameEngine.surfaceHeight / 2) - MAR_FRAME_DIM * SCALE;
-    var marine = new Marine(marX, marY, gameEngine, AM.getAsset("./img/blue_marine.png"), 
-                            AM.getAsset("./img/teal_marine.png"),
-                            AM.getAsset("./img/blue_marine.png"));
-    marine.init(gameEngine);
-    marine.initializePlayerListeners(marine, gameEngine, canvas);
 
-    gameEngine.addPlayer(marine);
-
-    gameEngine.addHUD(hpHud);
-    gameEngine.addHUD(packsHud);
-
-    gameEngine.camera = new Camera(gameEngine);
 
     gameEngine.addStartScreen(startScreen, easyButton, mediumButton, hardButton);
     gameEngine.addDeadScreen(deadScreen);
@@ -152,6 +138,22 @@ AM.downloadAll(function () {
                     gameEngine.difficulty = 2;
                 }
 
+                //init player
+                var marX = (gameEngine.surfaceWidth / 2) - MAR_FRAME_DIM * SCALE;
+                var marY = (gameEngine.surfaceHeight / 2) - MAR_FRAME_DIM * SCALE;
+                var marine = new Marine(marX, marY, gameEngine, AM.getAsset("./img/blue_marine.png"), 
+                                        AM.getAsset("./img/teal_marine.png"),
+                                        AM.getAsset("./img/blue_marine.png"));
+                marine.init(gameEngine);
+                marine.initializePlayerListeners(marine, gameEngine, canvas);
+
+                gameEngine.addPlayer(marine);
+
+                gameEngine.camera = new Camera(gameEngine);
+
+                gameEngine.addHUD(hpHud);
+                gameEngine.addHUD(packsHud);
+                
                 gameEngine.start();
                 gameEngine.hasStarted = true;
                 gameEngine.running = true;

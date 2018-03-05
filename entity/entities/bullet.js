@@ -90,9 +90,10 @@ Bullet.prototype.update = function () {
             });
         } else {
             player = bullet.game.player;
+            var invincibilityTime = INVINCIBLE - bullet.game.difficulty * DIFFICULTY_INVINCIBILITY_SUBTRACT;
             player.hitshapes.forEach(function (theirShape) {
                 if (myShape.doesCollide(theirShape)) {
-                    if (player.timeSinceLastHit >= INVINCIBLE) {
+                    if (player.timeSinceLastHit >= invincibilityTime) {
                         if (!GOD_MODE) {
                             player.stats.hp--;
                         }

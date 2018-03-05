@@ -33,7 +33,7 @@ function GameEngine() {
     this.camera = null;
 	this.nydusCanal = null;
     this.levels = [];
-    this.currentLevel = 3;
+    this.currentLevel = 1;
 
 }
 

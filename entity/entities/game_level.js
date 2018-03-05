@@ -294,7 +294,6 @@ GameLevel.levelThreeInit = function (gameLevel, gameEngine) {
             if(timeSinceLastTerranTry >= 1 && !bossSpawned){
                 timeSinceLastTerranTry = 0;
                 var rand = randomBetweenTwoNumbers(1, 10);
-                console.log("rand: " + rand);
                 return (rand == 1);
             }
             timeSinceLastTerranTry += gameEngine.clockTick;

@@ -177,7 +177,6 @@ Bullet.oscillate = function (bullet, angle, distanceToTarget) {
 
     bullet.physics.directionX = Math.cos(angle);
     bullet.physics.directionY = Math.sin(angle);
-    bullet.physics.velocity = (BUL_MOVE_SPEED + DIFFICULTY_BUL_SPEED * bullet.game.difficulty) * (2 / 3);
 }
 
 Bullet.fallBack = function (bullet, angle, spiralRadius) {

@@ -51,37 +51,28 @@ BlockingWallAI.prototype.attack = function (delta) {
 
         //Prediction processing
         var targetAngle = Math.atan2(target.physics.directionY, target.physics.directionX);
+
         var tVel = target.physics.velocity;
 
-        var angleB;
+        var pTargetX = PhysicalEntity.getMiddleXOf(target) + (tVel * Math.cos(targetAngle));
+        var pTargetY = PhysicalEntity.getMiddleYOf(target) - (tVel * Math.sin(targetAngle));
 
-        if (tVel == 0) {
-            if(this.zeroVelShotDirection == 0){
-                angleB = targetAngle - Math.PI/4;
-            } else {
-                angleB = targetAngle + Math.PI/4;
-            }
-        } else {
-            var pTargetX = PhysicalEntity.getMiddleXOf(target) + (tVel * Math.cos(targetAngle));
-            var pTargetY = PhysicalEntity.getMiddleYOf(target) - (tVel * Math.sin(targetAngle));
+        var sideB = Math.sqrt(Math.pow((pTargetX - dstX), 2) + Math.pow((pTargetY - dstY), 2));//Not to be confused with angleB.
+        var sideC = Math.sqrt(Math.pow((dstX - srcX), 2) + Math.pow((dstY - srcY), 2));//Not to be confused with angleC.
+        var angleA = targetAngle - angle;//Measure of the angle between sides b and c.
 
-            var sideB = Math.sqrt(Math.pow((pTargetX - dstX), 2) + Math.pow((pTargetY - dstY), 2));//Not to be confused with angleB.
-            var sideC = Math.sqrt(Math.pow((dstX - srcX), 2) + Math.pow((dstY - srcY), 2));//Not to be confused with angleC.
-            var angleA = targetAngle - angle;//Measure of the angle between sides b and c.
+        var sideA = BUL_MOVE_SPEED;//cosineRule(sideB, sideC, angleA);//This represents the distance between the enemy and where the player is predicted to be.
 
-            var sideA = BUL_MOVE_SPEED;//cosineRule(sideB, sideC, angleA);//This represents the distance between the enemy and where the player is predicted to be.
+        var sinOfAngleB = sideB * Math.sin(angleA) / sideA;
 
-            var sinOfAngleB = sideB * Math.sin(angleA) / sideA;
+        var angleB = Math.asin(sinOfAngleB);
 
-            var angleB = Math.asin(sinOfAngleB);
-        }
-
-        this.zeroVelShotDirection = (this.zeroVelShotDirection + 1) % 2;
+        console.log("angle: " + angleB);
 
         var angleToShoot = (angle + angleB);
 
         //Wall size processing
-        var bulletNum = this.attackDistance / 32;
+        var bulletNum = this.attackDistance / BUL_FRAME_DIM * SCALE;
 
         // Create a bullet(s)
         var that = this;

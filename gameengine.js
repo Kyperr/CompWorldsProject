@@ -43,12 +43,9 @@ GameEngine.prototype.init = function (ctx) {
     this.timer = new Timer();
 
     this.createLevels();
-
-    console.log('game initialized');
 }
 
 GameEngine.prototype.start = function () {
-    console.log("starting game");
     //this.createEnemies();
     this.levels[this.currentLevel].init();
     var that = this;

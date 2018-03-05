@@ -29,6 +29,7 @@ AM.queueDownload("./img/mud_tiles.png");
 AM.queueDownload("./img/hud_gray_50.png");
 AM.queueDownload("./img/wireframe.png");
 AM.queueDownload("./img/small_hud_gray_50.png");
+AM.queueDownload("./img/nydus_canal.png");
 AM.queueDownload("./img/packs.png");
 AM.queueDownload("./img/dirt_tileset.png");
 
@@ -115,7 +116,6 @@ AM.downloadAll(function () {
                                   HUD_PACKS_DISPLAY_SCALE,
                                   function () { return this.game.player.stats.maxHealthPacks; },
                                   function () { return this.game.player.stats.healthPacks; });
-                                  
 
 
     gameEngine.addStartScreen(startScreen, easyButton, mediumButton, hardButton);

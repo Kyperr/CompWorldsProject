@@ -3,7 +3,7 @@
 /*
  * Flags for debugging
  */
-const DRAW_HITBOXES = false;
+const DRAW_HITBOXES = true;
 const ENABLE_CHEATS = false;
 const GOD_MODE = false;
 const SPAWN_ENEMIES = true;
@@ -146,6 +146,16 @@ const BUL_HITCIRCLE_X = 16;
 const BUL_HITCIRCLE_Y = 15;
 const BUL_HITCIRCLE_R = 7;
 const BUL_FRAME_DIM = 32;
+
+/*
+ * Constants for the Nydus canal.
+ */
+const NYD_FRAME_DIM = 128;
+const NYD_HITBOX_X = 50;
+const NYD_HITBOX_Y = 60;
+const NYD_HITBOX_W = 24;
+const NYD_HITBOX_H = 24;
+
 
 /*
  * Constants for the HudElements.
@@ -337,7 +347,7 @@ const DEF_ANGLES = 16;
 const DEF_SHEET_WIDTH = 17;
 const DEF_FIRST_FRAME_ANGLE = 90;
 const DEF_FRAME_INCREMENT = 2;
-const DEF_MAX_HP = 30;
+const DEF_MAX_HP = 1;//30;
 const DEF_HITBOX_X = 16;
 const DEF_HITBOX_Y = 16;
 const DEF_HITBOX_W = 48;
@@ -415,11 +425,12 @@ const SHOOTING_ACTION = "shooting";
 const AIMING_ACTION = "aiming";
 const FLYING_ACTION = "flying";
 const DYING_ACTION = "dying";
+const INACTIVE_ACTION = "inactive";
+const ACTIVE_ACTION = "active";
 const NO_ACTION = "";
 
 const SCALE = 1.25;
 const BUFFER = MAR_FRAME_DIM * 2;
-
 
 
 /*

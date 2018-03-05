@@ -54,7 +54,7 @@ GameLevel.stdOnCompletion = function (gameLevel, gameEngine) {
 	
     //Here is where the outro animation should happen.
     if (gameEngine.currentLevel < gameEngine.levels.length - 1) {//-1 magic number because javascript
-
+        gameEngine.bullets = [];
         if(this.timeSinceCompleted > 1){
             gameEngine.currentLevel++;
             gameEngine.levels[gameEngine.currentLevel].init();

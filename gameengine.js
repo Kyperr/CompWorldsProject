@@ -43,12 +43,9 @@ GameEngine.prototype.init = function (ctx) {
     this.timer = new Timer();
 
     this.createLevels();
-
-    console.log('game initialized');
 }
 
 GameEngine.prototype.start = function () {
-    console.log("starting game");
     //this.createEnemies();
     this.levels[this.currentLevel].init();
     var that = this;
@@ -142,16 +139,8 @@ GameEngine.prototype.draw = function () {
 	}
 	if (this.won) {
 		this.winScreen.draw();		
-		//start the victory audio
-		var audio = document.getElementById("terran_victory");
-		audio.play();
 	} else if (this.dead) {
-		var level = this.levels[this.currentLevel];
-		level.onCompletion(level, this);
 		this.deadScreen.draw();
-		//start the defeat audio
-		var audio = document.getElementById("terran_defeat");
-		audio.play();
 	}
 
     this.ctx.restore();
@@ -167,7 +156,7 @@ GameEngine.prototype.draw = function () {
         maskCtx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
         maskCtx.globalCompositeOperation = 'xor';
 
-        var radius = 1/level.timeSinceCompleted;
+        var radius = (50/level.timeSinceCompleted) - 49;
 
         var x = PhysicalEntity.getMiddleXOf(this.player);
         var y = PhysicalEntity.getMiddleYOf(this.player);
@@ -190,6 +179,18 @@ GameEngine.prototype.update = function () {
 
     //Update level:
     this.levels[this.currentLevel].update();
+	
+	if (this.won) {
+		//start the victory audio
+		var audio = document.getElementById("terran_victory");
+		audio.play();
+	} else if (this.dead) {
+		var level = this.levels[this.currentLevel];
+		level.onCompletion(level, this);
+		//start the defeat audio
+		var audio = document.getElementById("terran_defeat");
+		audio.play();
+	}
 
     // Update player
     if (this.player.removeFromWorld) {

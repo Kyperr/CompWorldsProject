@@ -48,7 +48,7 @@ PredictionAI.prototype.attack = function (delta) {
     if (this.timeSinceLastAttack >= (1 / this.attacksPerSecond)) {
 		this.entity.animation.elapsedTime = 0;
         this.entity.animation.currentAction = "attacking";
-		
+        
         //Prediction vars
         var targetAngle = Math.atan2(target.physics.directionY, target.physics.directionX);
         var tVel = target.physics.velocity;
@@ -76,6 +76,7 @@ PredictionAI.prototype.attack = function (delta) {
 
         var bulletBehavior = function (bullet) {
             Bullet.moveInDirection(bullet, dirX, dirY);
+            //Bullet.oscillate(bullet, angleToShoot, null);
         }
 
         var bullet1 = new Bullet(this.entity.game,
@@ -83,6 +84,7 @@ PredictionAI.prototype.attack = function (delta) {
             this.entity, false, bulletBehavior);
         bullet1.init(this.entity.game);
         this.entity.game.addBullet(bullet1);
+        
         
         // Reset timeSinceLastShot
         this.timeSinceLastAttack = 0;

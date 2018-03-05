@@ -292,7 +292,7 @@ const LUR_HITCIRCLE_R = 29;
 const DEF_VIEW_DISTANCE = 1000;
 const DEF_ATTACK_DISTANCE = 350;
 const DEF_MOVE_SPEED = 100;
-const DEF_ATTACKS_PER_SECOND = 1.5;
+const DEF_ATTACKS_PER_SECOND = 1;
 const DEF_PAUSE_AFTER_ATTACK = 300; //milliseconds
 const DEF_FRAME_DIM = 80;
 const DEF_SCALE = 2;
@@ -300,11 +300,12 @@ const DEF_ANGLES = 16;
 const DEF_SHEET_WIDTH = 17;
 const DEF_FIRST_FRAME_ANGLE = 90;
 const DEF_FRAME_INCREMENT = 2;
-const DEF_MAX_HP = 4;
+const DEF_MAX_HP = 30;
 const DEF_HITBOX_X = 16;
 const DEF_HITBOX_Y = 16;
 const DEF_HITBOX_W = 48;
 const DEF_HITBOX_H = 48;
+const DEF_ATTACK_TIME_CHANGE = 5;//In seconds
 
 /**
   * Constants for Queen class.

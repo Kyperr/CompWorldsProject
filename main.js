@@ -41,6 +41,8 @@ AM.queueDownload("./img/swipe_bullet.png");
 AM.queueDownload("./img/oscillate_bullet.png");
 AM.queueDownload("./img/payload_bullets.png");
 AM.queueDownload("./img/fallout_bullets.png");
+AM.queueDownload("./img/homing_bullets.png");
+AM.queueDownload("./img/bullet_death.png");
 
 AM.queueDownload("./img/start_screen.png");
 AM.queueDownload("./img/button.png");

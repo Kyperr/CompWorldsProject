@@ -83,6 +83,7 @@ Marine.prototype.update = function () {
             var bullet = new Bullet(this.game,
                 this.game.assetManager.getAsset("./img/player_bullet.png"),
                 this, true, bulletBehavior);
+                bullet.duration = 1.5;  
 
             bullet.init(this.game);            
 

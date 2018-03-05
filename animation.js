@@ -103,7 +103,6 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y) {
 
 Animation.prototype.currentFrame = function () {
     var animAngle = nearestAngle(this.physicalEntity.physics.calculateFacingAngle(), this.angleIncrement);
-    //console.log("current state = " + this.currentAction + animAngle);
     var state = this.animationStates[this.currentAction + animAngle];
     return Math.floor(this.elapsedTime / state.frameDuration);
 }

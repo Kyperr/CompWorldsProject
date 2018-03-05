@@ -106,7 +106,7 @@ function degreesToRadians(degrees) {
  * 
 */
 function randomBetweenTwoNumbers(min, max) {
-	return Math.floor(Math.random()*(max+1-min+1)+min);
+	return Math.floor(Math.random()*(max-min+1)+min);
 }
 
 calcSpawnX = function(game, dim) {

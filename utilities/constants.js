@@ -351,7 +351,7 @@ const QUE_ANGLES = 16;
 const QUE_SHEET_WIDTH = 17;
 const QUE_FIRST_FRAME_ANGLE = 90;
 const QUE_FRAME_INCREMENT = 2;
-const QUE_MAX_HP = 4;
+const QUE_MAX_HP = 20;
 const QUE_HITCIRCLE_X = 64;
 const QUE_HITCIRCLE_Y = 64;
 const QUE_HITCIRCLE_R = 30;
@@ -413,7 +413,7 @@ const NO_ACTION = "";
 const SCALE = 1.25;
 const BUFFER = MAR_FRAME_DIM * 2;
 
-
+/*
 // DEBUG ENEMY SET
 //tier 1
 const ZERGLINGS = 0;	
@@ -427,8 +427,8 @@ const SCOURGES = 0;
 //tier 3
 const GUARDIANS = 0;
 const LURKERS = 0;
+*/
 
-/*
 // DEFAULT ENEMY SET
 //tier 1
 const ZERGLINGS = 3;
@@ -442,6 +442,6 @@ const SCOURGES = 1;
 //tier 3
 const GUARDIANS = 2;
 const LURKERS = 1;
-*/
+
 //total tiered enemies
 const TOTAL_ENEMIES = ZERGLINGS + HYDRALISKS + ULTRALISKS + MUTALISKS + TERRANS + SCOURGES + GUARDIANS + LURKERS;	//number of enemies to kill before boss spawns

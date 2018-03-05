@@ -56,6 +56,7 @@ CharacterEntity.prototype.update = function () {
 
         PhysicalEntity.prototype.update.call(this);
     } else {
+		this.playDeathSound();
         if (this.deathAnimation.isDone()) {
             this.removeFromWorld = true;
             this.onDeathCallbacks.forEach(function(func){

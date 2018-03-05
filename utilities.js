@@ -110,17 +110,44 @@ function randomBetweenTwoNumbers(min, max) {
 }
 
 calcSpawnX = function(game, dim) {
+    var leftmost, rightmost;
 	var x = game.camera.x;
+    
+    if (game.currentLevel == 1) {
+        leftmost = JUNGLE_WALL_W_HITBOX_W;
+        rightmost = game.map.width - JUNGLE_WALL_E_HITBOX_W;
+    } else if (game.currentLevel == 2) {
+        leftmost = DESERT_WALL_W_HITBOX_W;
+        rightmost = game.map.width - DESERT_WALL_E_HITBOX_W;
+    } else if (game.currentLevel == 3) {
+        leftmost = ASH_WALL_W_HITBOX_W;
+        rightmost = game.map.width - ASH_WALL_E_HITBOX_W;
+    }
+
 	while (x >= game.camera.x && x <= (game.camera.x + game.surfaceWidth)) {
-		x = randomBetweenTwoNumbers(WALL_W_HITBOX_W + 1, game.map.width - WALL_E_HITBOX_W - DEV_FRAME_DIM - dim);
+		x = randomBetweenTwoNumbers(leftmost + 1, rightmost - DEV_FRAME_DIM - dim);
 	}
+
 	return x;
 }
 
 calcSpawnY = function(game, dim) {
+    var topmost, bottommost;
 	var y = game.camera.y;
+    if (game.currentLevel == 1) {
+        topmost = JUNGLE_WALL_N_HITBOX_H;
+        bottommost = game.map.width - JUNGLE_WALL_S_HITBOX_H;
+    } else if (game.currentLevel == 2) {
+        topmost = DESERT_WALL_N_HITBOX_H;
+        bottommost = game.map.width - DESERT_WALL_S_HITBOX_H;
+    } else if (game.currentLevel == 3) {
+        topmost = ASH_WALL_N_HITBOX_H;
+        bottommost = game.map.width - ASH_WALL_S_HITBOX_H;
+    }
+
 	while (y >= game.camera.y && y <= (game.camera.y + game.surfaceHeight)) {
-		y = randomBetweenTwoNumbers(WALL_N_HITBOX_H + 1, game.map.height - WALL_S_HITBOX_H - DEV_FRAME_DIM - dim);			
+		y = randomBetweenTwoNumbers(topmost + 1, bottommost - DEV_FRAME_DIM - dim);			
 	}
+
 	return y;
 }

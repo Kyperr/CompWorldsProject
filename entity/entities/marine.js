@@ -175,7 +175,9 @@ Marine.prototype.initializePlayerListeners = function () {
         if (e.code === "Space") {
             if (marine.stats.healthPacks > 0 && marine.stats.hp < marine.stats.maxHP && marine.stats.hp > 0) {
                 marine.stats.healthPacks--;
-
+				
+				var audio = document.getElementById("terran_heal");
+				audio.play();
                 marine.stats.hp += HP_PER_PACK - marine.game.difficulty * DIFFICULTY_HP_PER_PACK_SUBTRACT;
                 if (marine.stats.hp > marine.stats.maxHP) {
                     marine.stats.hp = marine.stats.maxHP;

@@ -127,6 +127,7 @@ BroodlingAI.prototype.attack = function (delta) {
                     this.entity, false, bulletBehavior);
                 bullet.init(this.entity.game);
                 bullet.duration = 1;
+                bullet.physics.velocity *= .9
 
                 this.entity.game.addBullet(bullet);
             })();

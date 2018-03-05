@@ -125,38 +125,8 @@ GameLevel.levelOneInit = function (gameLevel, gameEngine) {
         });
     gameLevel.spawnSequences.push(hydralisks);
 
-
-    var infestedTerrans = new SpawnSequence(1,
-        () => { return true },
-        () => {
-            for (var i = 0; i < TERRANS; i++) {
-                var x = calcSpawnX(gameEngine, HYD_FRAME_DIM);
-                var y = calcSpawnY(gameEngine, HYD_FRAME_DIM);
-                var terran = new InfestedTerran(x, y, gameEngine, AM.getAsset("./img/red_infested_terran.png"), AM.getAsset("./img/red_infested_terran.png"));
-                terran.init(gameEngine);
-                gameEngine.addEnemy(terran);
-            }
-        });
-    gameLevel.spawnSequences.push(infestedTerrans);
-
-
-    var scourgeCount = 0;
-    var scourges = new SpawnSequence(1,
-        () => { return true },
-        () => {
-            for (var i = 0; i < SCOURGES; i++) {
-                var x = calcSpawnX(gameEngine, SCO_FRAME_DIM);
-                var y = calcSpawnY(gameEngine, SCO_FRAME_DIM);
-                var scourge = Scourge.quickCreate(gameEngine, x, y);
-                scourge.onDeathCallbacks.push(() => { scourgeCount-- });
-                gameEngine.addEnemy(scourge);
-                scourgeCount++;
-            }
-        });
-    gameLevel.spawnSequences.push(scourges);
-
     var boss = new SpawnSequence(1,
-        () => { return hydraliskCount === 0 && zerglingCount === 0 && scourgeCount === 0 },
+        () => { return hydraliskCount === 0 && zerglingCount === 0 },
 
         () => {
             var x = calcSpawnX(gameEngine, DEF_FRAME_DIM);
@@ -183,6 +153,8 @@ GameLevel.levelTwoInit = function (gameLevel, gameEngine) {
     //start the level's audio
     var audio = document.getElementById("terran2");
     audio.play();
+
+    var bossSpawned = false;
 
     var ultraliskCount = 0;
     var ultralisks = new SpawnSequence(1,
@@ -217,23 +189,31 @@ GameLevel.levelTwoInit = function (gameLevel, gameEngine) {
     gameLevel.spawnSequences.push(mutalisks);
 
     var scourgeCount = 0;
-    var scourges = new SpawnSequence(1,
-        () => { return true },
+    var timeSinceLastScourgeTry = 0;
+
+    var scourges = new SpawnSequence(-1,
         () => {
-            for (var i = 0; i < SCOURGES; i++) {
-                var x = calcSpawnX(gameEngine, SCO_FRAME_DIM);
-                var y = calcSpawnY(gameEngine, SCO_FRAME_DIM);
-                var scourge = Scourge.quickCreate(gameEngine, x, y);
-                scourge.onDeathCallbacks.push(() => { scourgeCount-- });
-                gameEngine.addEnemy(scourge);
-                scourgeCount++;
+            if (timeSinceLastScourgeTry >= 1 && !bossSpawned) {
+                timeSinceLastTerranTry = 0;
+                var rand = randomBetweenTwoNumbers(1, 10);
+                return (rand == 1);
             }
+            timeSinceLastScourgeTry += gameEngine.clockTick;
+        },
+        () => {
+            var x = calcSpawnX(gameEngine, SCO_FRAME_DIM);
+            var y = calcSpawnY(gameEngine, SCO_FRAME_DIM);
+            var scourge = Scourge.quickCreate(gameEngine, x, y);
+            scourge.onDeathCallbacks.push(() => { scourgeCount-- });
+            gameEngine.addEnemy(scourge);
+            scourgeCount++;
         });
     gameLevel.spawnSequences.push(scourges);
 
     var boss = new SpawnSequence(1,
         () => { return ultraliskCount == 0 && mutaliskCount == 0 && scourgeCount == 0 },
         () => {
+            bossSpawned = true;
             var x = calcSpawnX(gameEngine, DEV_FRAME_DIM);
             var y = calcSpawnY(gameEngine, DEV_FRAME_DIM);
             var devourer = new Devourer(x, y, gameEngine, AM.getAsset("./img/red_devourer.png"), AM.getAsset("./img/dev_zairdthl.png"));
@@ -298,7 +278,7 @@ GameLevel.levelThreeInit = function (gameLevel, gameEngine) {
 
     var terrans = new SpawnSequence(-1,
         () => {
-            if(timeSinceLastTerranTry >= 1 && !bossSpawned){
+            if (timeSinceLastTerranTry >= 1 && !bossSpawned) {
                 timeSinceLastTerranTry = 0;
                 var rand = randomBetweenTwoNumbers(1, 10);
                 return (rand == 1);

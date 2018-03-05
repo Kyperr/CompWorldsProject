@@ -16,14 +16,24 @@ function GameLevel(game, initFunc, sequenceFunc, completeCondition, onCompletion
     this.initialized = false;
     this.phasesDone = [];
     this.spawnSequences = [];
+    //this.physics = new Physics(this, 0, 0, width, height, 1.0, true);
+    this.physics = {x: 0, y: 0};
 
     this.timeSinceCompleted = 0;
+
+    this.hitshapes = [];
 }
 
 GameLevel.prototype = Object.create(Entity.prototype);
 GameLevel.prototype.constructor = GameLevel;
 
 GameLevel.prototype.update = function () {
+    var level = this;
+
+    level.hitshapes.forEach(function (shape) {
+        shape.update();
+    });
+
     this.sequenceFunc(this, this.game);
 
     if (this.completeCondition(this, this.game)) {
@@ -79,6 +89,10 @@ GameLevel.stdLevelSequence = function (gameLevel, gameEngine) {
 GameLevel.levelOneInit = function (gameLevel, gameEngine) {
     var map = new Map(gameEngine, AM.getAsset("./img/map_jungle.png"), 1600, 1600);
     gameEngine.map = map;
+    this.hitshapes.push(new Box(JUNGLE_WALL_W_HITBOX_X, JUNGLE_WALL_W_HITBOX_Y, JUNGLE_WALL_W_HITBOX_W, JUNGLE_WALL_W_HITBOX_H, this));
+    this.hitshapes.push(new Box(JUNGLE_WALL_N_HITBOX_X, JUNGLE_WALL_N_HITBOX_Y, JUNGLE_WALL_N_HITBOX_W, JUNGLE_WALL_N_HITBOX_H, this));
+    this.hitshapes.push(new Box(JUNGLE_WALL_E_HITBOX_X, JUNGLE_WALL_E_HITBOX_Y, JUNGLE_WALL_E_HITBOX_W, JUNGLE_WALL_E_HITBOX_H, this));
+    this.hitshapes.push(new Box(JUNGLE_WALL_S_HITBOX_X, JUNGLE_WALL_S_HITBOX_Y, JUNGLE_WALL_S_HITBOX_W, JUNGLE_WALL_S_HITBOX_H, this));
 	//start the level's audio
 	var audio = document.getElementById("terran1");
 	audio.play();
@@ -143,6 +157,10 @@ GameLevel.levelOneInit = function (gameLevel, gameEngine) {
 GameLevel.levelTwoInit = function (gameLevel, gameEngine) {
     var map = new Map(gameEngine, AM.getAsset("./img/map_dessert.png"), 1600, 1600);
     gameEngine.map = map;
+    this.hitshapes.push(new Box(DESERT_WALL_W_HITBOX_X, DESERT_WALL_W_HITBOX_Y, DESERT_WALL_W_HITBOX_W, DESERT_WALL_W_HITBOX_H, this));
+    this.hitshapes.push(new Box(DESERT_WALL_N_HITBOX_X, DESERT_WALL_N_HITBOX_Y, DESERT_WALL_N_HITBOX_W, DESERT_WALL_N_HITBOX_H, this));
+    this.hitshapes.push(new Box(DESERT_WALL_E_HITBOX_X, DESERT_WALL_E_HITBOX_Y, DESERT_WALL_E_HITBOX_W, DESERT_WALL_E_HITBOX_H, this));
+    this.hitshapes.push(new Box(DESERT_WALL_S_HITBOX_X, DESERT_WALL_S_HITBOX_Y, DESERT_WALL_S_HITBOX_W, DESERT_WALL_S_HITBOX_H, this));
 	//start the level's audio
 	var audio = document.getElementById("terran2");
 	audio.play();
@@ -197,6 +215,10 @@ GameLevel.levelTwoInit = function (gameLevel, gameEngine) {
 GameLevel.levelThreeInit = function (gameLevel, gameEngine) {
     var map = new Map(gameEngine, AM.getAsset("./img/map_ash.png"), 1600, 1600);
     gameEngine.map = map;
+    this.hitshapes.push(new Box(ASH_WALL_W_HITBOX_X, ASH_WALL_W_HITBOX_Y, ASH_WALL_W_HITBOX_W, ASH_WALL_W_HITBOX_H, this));
+    this.hitshapes.push(new Box(ASH_WALL_N_HITBOX_X, ASH_WALL_N_HITBOX_Y, ASH_WALL_N_HITBOX_W, ASH_WALL_N_HITBOX_H, this));
+    this.hitshapes.push(new Box(ASH_WALL_E_HITBOX_X, ASH_WALL_E_HITBOX_Y, ASH_WALL_E_HITBOX_W, ASH_WALL_E_HITBOX_H, this));
+    this.hitshapes.push(new Box(ASH_WALL_S_HITBOX_X, ASH_WALL_S_HITBOX_Y, ASH_WALL_S_HITBOX_W, ASH_WALL_S_HITBOX_H, this));
 	//start the level's audio
 	var audio = document.getElementById("terran3");
 	audio.play();

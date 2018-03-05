@@ -62,8 +62,8 @@ Physics.prototype.updateLocation = function (delta) {
         var collides = false;
         entity.hitshapes.forEach(function (entityShape) {
             entityShape.update();
-            var map = entity.game.map;
-            map.hitshapes.forEach(function (wallShape) {
+            level = entity.game.levels[entity.game.currentLevel];
+            level.hitshapes.forEach(function (wallShape) {
                 if (entityShape.doesCollide(wallShape)) {
                     entity.wallBehavior(tempLastX, tempLastY);
                 }

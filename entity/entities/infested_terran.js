@@ -7,7 +7,7 @@ function InfestedTerran(x, y, game, spritesheet, deathSpriteSheet) {
                               INF_ATTACKS_PER_SECOND + DIFFICULTY_ATTACKS_PER_SECOND * game.difficulty, 
                               INF_MOVE_SPEED + DIFFICULTY_MOVE_SPEED * game.difficulty);
     BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai,
-                   INF_MAX_HP + DIFFICULTY_INF_HP * game.difficulty);
+                   INF_MAX_HP + DIFFICULTY_INF_HP * game.difficulty, INF_DEATH);
 
     this.hitshapes.push(new Box(INF_HITBOX_X, INF_HITBOX_Y, 
                                 INF_HITBOX_W * SCALE, INF_HITBOX_H * SCALE, this));

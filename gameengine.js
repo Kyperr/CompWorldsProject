@@ -26,7 +26,7 @@ function GameEngine() {
     this.bullets = [];
     this.hudElements = [];
 	this.enemiesKilled = 0;
-	this.bossSpawned = false;
+	this.playerDeathSoundPlayed = false;
     this.difficulty = 0;
     this.map = null;
     this.player = null;
@@ -194,6 +194,14 @@ GameEngine.prototype.update = function () {
 	} else if (this.dead) {
 		var level = this.levels[this.currentLevel];
 		level.onCompletion(level, this);
+		//stop level audio		
+		var lvlAudio = document.getElementById("terran" + this.currentLevel);
+		lvlAudio.pause();
+		//play player death sound if it has not already played.
+		if (!this.playerDeathSoundPlayed) {
+			this.player.playDeathSound();
+			this.playerDeathSoundPlayed = true;
+		}
 		//start the defeat audio
 		var audio = document.getElementById("terran_defeat");
 		audio.play();
@@ -218,6 +226,7 @@ GameEngine.prototype.update = function () {
 
         if (typeof enemy !== 'undefined') {
             if (enemy.removeFromWorld) {
+				enemy.playDeathSound();
                 this.enemies.splice(i, 1);
                 this.enemiesKilled++;
             } else {

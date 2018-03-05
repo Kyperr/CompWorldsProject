@@ -6,7 +6,7 @@ function Scourge(x, y, game, spritesheet, deathSpriteSheet) {
                               SCO_ATTACKS_PER_SECOND + DIFFICULTY_ATTACKS_PER_SECOND * game.difficulty, 
                               SCO_MOVE_SPEED + DIFFICULTY_MOVE_SPEED * game.difficulty);
     BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai, 
-                   SCO_MAX_HP + DIFFICULTY_SCO_HP * game.difficulty);
+                   SCO_MAX_HP + DIFFICULTY_SCO_HP * game.difficulty, SCO_DEATH);
     this.hitshapes.push(new Circle(SCO_HITCIRCLE_X, SCO_HITCIRCLE_Y, SCO_HITCIRCLE_R * SCALE, this));
 }
 

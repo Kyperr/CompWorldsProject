@@ -7,7 +7,7 @@ function Mutalisk(x, y, game, spritesheet, deathSpriteSheet) {
                         MUT_ATTACKS_PER_SECOND + DIFFICULTY_ATTACKS_PER_SECOND * game.difficulty, 
                         MUT_MOVE_SPEED + DIFFICULTY_MOVE_SPEED * game.difficulty);
     BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai, 
-                   MUT_MAX_HP + DIFFICULTY_MUT_HP * game.difficulty);
+                   MUT_MAX_HP + DIFFICULTY_MUT_HP * game.difficulty, MUT_DEATH);
 
     this.hitshapes.push(new Circle(MUT_HITCIRCLE_X, MUT_HITCIRCLE_Y, MUT_HITCIRCLE_R * SCALE, this));
 

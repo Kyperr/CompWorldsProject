@@ -7,7 +7,7 @@ function Defiler(x, y, game, spritesheet, deathSpriteSheet) {
                             DEF_ATTACKS_PER_SECOND + DIFFICULTY_ATTACKS_PER_SECOND * game.difficulty, 
                             DEF_MOVE_SPEED + DIFFICULTY_MOVE_SPEED * game.difficulty);
     BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai, 
-                   DEF_MAX_HP + DIFFICULTY_DEF_HP * game.difficulty);
+                   DEF_MAX_HP + DIFFICULTY_DEF_HP * game.difficulty, DEF_DEATH);
      this.hitshapes.push(new Box(DEF_HITBOX_X, DEF_HITBOX_Y, 
                                 DEF_HITBOX_W * SCALE, DEF_HITBOX_H * SCALE, this));
 }

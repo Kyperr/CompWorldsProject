@@ -7,7 +7,7 @@ function Hydralisk(x, y, game, spritesheet, deathSpriteSheet) {
                               HYD_ATTACKS_PER_SECOND + DIFFICULTY_ATTACKS_PER_SECOND * game.difficulty, 
                               HYD_MOVE_SPEED + DIFFICULTY_MOVE_SPEED * game.difficulty);
     BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai,
-                   HYD_MAX_HP + DIFFICULTY_HYD_HP * game.difficulty);
+                   HYD_MAX_HP + DIFFICULTY_HYD_HP * game.difficulty, HYD_DEATH);
 
     this.hitshapes.push(new Box(HYD_HITBOX_X, HYD_HITBOX_Y, 
                                 HYD_HITBOX_W * SCALE, HYD_HITBOX_H * SCALE, this));

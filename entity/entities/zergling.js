@@ -7,7 +7,7 @@ function Zergling(x, y, game, spritesheet, deathSpriteSheet) {
                               ZER_MOVE_SPEED + DIFFICULTY_MOVE_SPEED * game.difficulty);
 
     BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai, 
-                   ZER_MAX_HP + DIFFICULTY_ZER_HP * game.difficulty);
+                   ZER_MAX_HP + DIFFICULTY_ZER_HP * game.difficulty, ZER_DEATH);
 
     this.hitshapes.push(new Box(ZER_HITBOX_X, ZER_HITBOX_Y, 
                                 ZER_HITBOX_W * SCALE, ZER_HITBOX_H * SCALE, this));

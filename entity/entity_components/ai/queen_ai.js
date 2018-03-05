@@ -77,7 +77,7 @@ QueenAI.prototype.spawnBroodlings = function (angle) {
         this.entity.animation.currentAction = "attacking";
 
         if (this.broodlingCount < MAX_BROODLINGS) {
-            //this.fireBroodling(angle);
+            this.fireBroodling(angle);
             this.broodlingCount++;
         }
 

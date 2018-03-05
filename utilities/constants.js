@@ -15,6 +15,7 @@ const SCRAMBLE_AIM = true;
 /*
  * Difficulty differential constants
  */
+const DIFFICULTY_PACKS_SUBTRACT = 1;
 const DIFFICULTY_MOVE_SPEED = 50;
 const DIFFICULTY_ATTACKS_PER_SECOND = .5;
 const DIFFICULTY_BUL_SPEED = 50;
@@ -93,6 +94,8 @@ const MAR_HITBOX_Y = 20;
 const MAR_HITBOX_W = 16;
 const MAR_HITBOX_H = 25;
 const INVINCIBLE = 2; //second
+const STARTING_HEALTH_PACKS = 3;
+const MAX_HEALTH_PACKS = 6;
 
 /**
   * Constants for Bullet class.
@@ -104,7 +107,7 @@ const BUL_HITCIRCLE_R = 7;
 const BUL_FRAME_DIM = 32;
 
 /*
- * Constants for the HudElement class.
+ * Constants for the HudElements.
  */
 const HUD_HEALTH_BACKDROP_WIDTH = 240;
 const HUD_HEALTH_BACKDROP_HEIGHT = 333;
@@ -114,6 +117,14 @@ const HUD_HEALTH_DISPLAY_WIDTH = 64;
 const HUD_HEALTH_DISPLAY_HEIGHT = 64;
 const HUD_HEALTH_BACKDROP_SCALE = 0.35;
 const HUD_HEALTH_DISPLAY_SCALE = 1;
+const HUD_PACKS_BACKDROP_WIDTH = 168;
+const HUD_PACKS_BACKDROP_HEIGHT = 91;
+const HUD_PACKS_BACKDROP_CENTER_X = 98;
+const HUD_PACKS_BACKDROP_CENTER_Y = 73;
+const HUD_PACKS_DISPLAY_WIDTH = 192;
+const HUD_PACKS_DISPLAY_HEIGHT = 32;
+const HUD_PACKS_BACKDROP_SCALE = 1.6;
+const HUD_PACKS_DISPLAY_SCALE = 1;
 
 /**
   * Constants for Zergling class.

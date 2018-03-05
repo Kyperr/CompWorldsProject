@@ -28,6 +28,8 @@ AM.queueDownload("./img/bricks.png");
 AM.queueDownload("./img/mud_tiles.png");
 AM.queueDownload("./img/hud_gray_50.png");
 AM.queueDownload("./img/wireframe.png");
+AM.queueDownload("./img/small_hud_gray_50.png");
+AM.queueDownload("./img/packs.png");
 AM.queueDownload("./img/dirt_tileset.png");
 
 AM.queueDownload("./img/map_ash.png");
@@ -90,27 +92,43 @@ AM.downloadAll(function () {
     var deadScreen = new Menu(gameEngine, ctx, DEAD_SCREEN, AM);
     var winScreen = new Menu(gameEngine, ctx, WIN_SCREEN, AM);
 
-    var hud = new HudElement(gameEngine, ctx, 
-                             gameEngine.surfaceWidth - HUD_HEALTH_BACKDROP_WIDTH * HUD_HEALTH_BACKDROP_SCALE,
-                             gameEngine.surfaceHeight - HUD_HEALTH_BACKDROP_HEIGHT * HUD_HEALTH_BACKDROP_SCALE,
-                             HUD_HEALTH_BACKDROP_SCALE,
-                             AM.getAsset("./img/hud_gray_50.png"),
-                             HUD_HEALTH_BACKDROP_WIDTH, HUD_HEALTH_BACKDROP_HEIGHT,
-                             HUD_HEALTH_BACKDROP_CENTER_X, HUD_HEALTH_BACKDROP_CENTER_Y,
-                             AM.getAsset("./img/wireframe.png"),
-                             HUD_HEALTH_DISPLAY_WIDTH, HUD_HEALTH_DISPLAY_HEIGHT,
-                             HUD_HEALTH_DISPLAY_SCALE);
-
-
+    var hpHud = new HudElement(gameEngine, ctx, 
+                               gameEngine.surfaceWidth - HUD_HEALTH_BACKDROP_WIDTH * HUD_HEALTH_BACKDROP_SCALE,
+                               gameEngine.surfaceHeight - HUD_HEALTH_BACKDROP_HEIGHT * HUD_HEALTH_BACKDROP_SCALE,
+                               HUD_HEALTH_BACKDROP_SCALE,
+                               AM.getAsset("./img/hud_gray_50.png"),
+                               HUD_HEALTH_BACKDROP_WIDTH, HUD_HEALTH_BACKDROP_HEIGHT,
+                               HUD_HEALTH_BACKDROP_CENTER_X, HUD_HEALTH_BACKDROP_CENTER_Y,
+                               AM.getAsset("./img/wireframe.png"),
+                               HUD_HEALTH_DISPLAY_WIDTH, HUD_HEALTH_DISPLAY_HEIGHT,
+                               HUD_HEALTH_DISPLAY_SCALE,
+                               function () { return this.game.player.stats.maxHP; },
+                               function () { return this.game.player.stats.hp; });
+    var packsHud = new HudElement(gameEngine, ctx,
+                                  0, gameEngine.surfaceHeight - HUD_PACKS_BACKDROP_HEIGHT * HUD_PACKS_BACKDROP_SCALE,
+                                  HUD_PACKS_BACKDROP_SCALE,
+                                  AM.getAsset("./img/small_hud_gray_50.png"),
+                                  HUD_PACKS_BACKDROP_WIDTH, HUD_PACKS_BACKDROP_HEIGHT,
+                                  HUD_PACKS_BACKDROP_CENTER_X, HUD_PACKS_BACKDROP_CENTER_Y,
+                                  AM.getAsset("./img/packs.png"),
+                                  HUD_PACKS_DISPLAY_WIDTH, HUD_PACKS_DISPLAY_HEIGHT,
+                                  HUD_PACKS_DISPLAY_SCALE,
+                                  function () { return this.game.player.stats.maxHealthPacks; },
+                                  function () { return this.game.player.stats.healthPacks; });
+                                  
     //init player
     var marX = (gameEngine.surfaceWidth / 2) - MAR_FRAME_DIM * SCALE;
     var marY = (gameEngine.surfaceHeight / 2) - MAR_FRAME_DIM * SCALE;
-    var marine = new Marine(marX, marY, gameEngine, AM.getAsset("./img/blue_marine.png"), AM.getAsset("./img/teal_marine.png"), AM.getAsset("./img/blue_marine.png"));
+    var marine = new Marine(marX, marY, gameEngine, AM.getAsset("./img/blue_marine.png"), 
+                            AM.getAsset("./img/teal_marine.png"),
+                            AM.getAsset("./img/blue_marine.png"));
     marine.init(gameEngine);
     marine.initializePlayerListeners(marine, gameEngine, canvas);
 
     gameEngine.addPlayer(marine);
-    gameEngine.addHUD(hud);
+
+    gameEngine.addHUD(hpHud);
+    gameEngine.addHUD(packsHud);
 
     gameEngine.camera = new Camera(gameEngine);
 

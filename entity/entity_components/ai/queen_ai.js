@@ -28,9 +28,12 @@ QueenAI.prototype.attack = function (delta) {
 
     if (this.attackSeqTime >= QUE_PHASE_LENGTH) {
         if (this.attackingSequence == 0) {
-            this.attackingSequence == 1;
+            console.log("SCRAMBLING PLAYER");
+            this.attackingSequence = 1;
         } else if (this.attackingSequence == 1) {
-            this.attackingSequence == 0;
+            console.log("SPAWNING BROODLINGS");
+            this.attackingSequence = 0;
+            this.entity.game.player.scrambled = false;
         }
 
         this.attackSeqTime = 0;
@@ -63,14 +66,10 @@ QueenAI.prototype.attack = function (delta) {
     var tolerance = 10 * Math.PI / 180;
     interpolate(this.entity, angle, interpSpeed, tolerance);
 
-    if (this.timeSinceLastAttack >= (1 / this.attacksPerSecond)) {
-        if (this.attackingSequence == 0) {
-            this.spawnBroodlings(angle);
-        } else if (this.attackingSequence == 1) {
-            this.scramblePlayer(angle);
-        }
-
-        this.timeSinceLastAttack = 0;
+    if (this.attackingSequence == 0) {
+        this.spawnBroodlings(angle);
+    } else if (this.attackingSequence == 1) {
+        this.scramblePlayer(angle);
     }
 }
 

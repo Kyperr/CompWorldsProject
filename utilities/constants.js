@@ -284,7 +284,7 @@ const SCO_DEATH = "sco_death";
 /**
   * Constants for Infested Marine class.
  */
-const INF_VIEW_DISTANCE = 1000;
+const INF_VIEW_DISTANCE = 10000;
 const INF_ATTACK_DISTANCE = KAMIKAZE_ATTACK_DISTANCE;
 const INF_MOVE_SPEED = 75;
 const INF_ATTACKS_PER_SECOND = KAMIKAZE_ATTACK_COUNT;

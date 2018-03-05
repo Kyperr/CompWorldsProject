@@ -291,11 +291,11 @@ GameLevel.levelThreeInit = function (gameLevel, gameEngine) {
 
     var terrans = new SpawnSequence(-1,
         () => {
-            if(timeSinceLastTerranTry >= 1){
+            if(timeSinceLastTerranTry >= 1 && !bossSpawned){
                 timeSinceLastTerranTry = 0;
                 var rand = randomBetweenTwoNumbers(1, 10);
                 console.log("rand: " + rand);
-                return (rand == 2) && !bossSpawned;
+                return (rand == 1);
             }
             timeSinceLastTerranTry += gameEngine.clockTick;
         },
@@ -312,7 +312,7 @@ GameLevel.levelThreeInit = function (gameLevel, gameEngine) {
     var boss = new SpawnSequence(1,
         () => { return guardianCount == 0 && lurkerCount == 0 },
         () => {
-            var bossSpawned = true;
+            bossSpawned = true;
             var x = calcSpawnX(gameEngine, QUE_FRAME_DIM);
             var y = calcSpawnY(gameEngine, QUE_FRAME_DIM);
             var queen = new Queen(x, y, gameEngine, AM.getAsset("./img/red_queen.png"), AM.getAsset("./img/que_zairdthl.png"));

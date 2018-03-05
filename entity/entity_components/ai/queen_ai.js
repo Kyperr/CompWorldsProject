@@ -10,6 +10,9 @@ function QueenAI(entity, viewDistance, attackDistance, attacksPerSecond, movemen
 
     this.movementSpeed = movementSpeed;
 
+    this.attackingSequence = 0;
+    this.attackSeqTime = 0;
+
     //Other instance fields.
     this.timeSinceLastAttack = 0;
     this.timeSinceLastMoved = 0;
@@ -21,6 +24,21 @@ QueenAI.prototype = new BasicEnemyAI();
 QueenAI.prototype.constructor = QueenAI;
 
 QueenAI.prototype.attack = function (delta) {
+    this.attackSeqTime += delta;
+
+    if (this.attackSeqTime >= QUE_PHASE_LENGTH) {
+        if (this.attackingSequence == 0) {
+            console.log("SCRAMBLING PLAYER");
+            this.attackingSequence = 1;
+        } else if (this.attackingSequence == 1) {
+            console.log("SPAWNING BROODLINGS");
+            this.attackingSequence = 0;
+            this.entity.game.player.scrambled = false;
+        }
+
+        this.attackSeqTime = 0;
+    }
+
     //This will be done outside the loop so the enemy appears to
     //"track" the player even when the enemy isn't shooting.
 
@@ -48,11 +66,19 @@ QueenAI.prototype.attack = function (delta) {
     var tolerance = 10 * Math.PI / 180;
     interpolate(this.entity, angle, interpSpeed, tolerance);
 
+    if (this.attackingSequence == 0) {
+        this.spawnBroodlings(angle);
+    } else if (this.attackingSequence == 1) {
+        this.scramblePlayer(angle);
+    }
+}
+
+QueenAI.prototype.spawnBroodlings = function (angle) {
     if (this.timeSinceLastAttack >= (1 / this.attacksPerSecond)) {
         this.entity.animation.elapsedTime = 0;
         this.entity.animation.currentAction = "attacking";
 
-        if(this.broodlingCount < MAX_BROODLINGS){
+        if (this.broodlingCount < MAX_BROODLINGS) {
             this.fireBroodling(angle);
             this.broodlingCount++;
         }
@@ -60,6 +86,12 @@ QueenAI.prototype.attack = function (delta) {
         // Reset timeSinceLastShot
         this.timeSinceLastAttack = 0;
     }
+}
+
+QueenAI.prototype.scramblePlayer = function (angle) {
+    if (!this.entity.game.player.scrambled) {
+        this.entity.game.player.scrambled = true;
+    } 
 }
 
 QueenAI.prototype.fireBroodling = function (angle) {

@@ -77,6 +77,10 @@ GameLevel.prototype.addNydusCanal = function (gameEngine) {
 
 //Level one init
 GameLevel.levelOneInit = function (gameLevel, gameEngine) {
+    var marX = (gameEngine.surfaceWidth / 2) - MAR_FRAME_DIM * SCALE;
+    var marY = (gameEngine.surfaceHeight / 2) - MAR_FRAME_DIM * SCALE;
+    gameEngine.player.physics.x = marX;
+    gameEngine.player.physics.y = marY;
     var map = new Map(gameEngine, AM.getAsset("./img/map_jungle.png"), 1600, 1600);
     gameEngine.map = map;
     this.addNydusCanal(gameEngine);
@@ -134,6 +138,10 @@ GameLevel.levelOneInit = function (gameLevel, gameEngine) {
 
 //Level two init
 GameLevel.levelTwoInit = function (gameLevel, gameEngine) {
+    var marX = (gameEngine.surfaceWidth / 2) - MAR_FRAME_DIM * SCALE;
+    var marY = (gameEngine.surfaceHeight / 2) - MAR_FRAME_DIM * SCALE;
+    gameEngine.player.physics.x = marX;
+    gameEngine.player.physics.y = marY;
     var map = new Map(gameEngine, AM.getAsset("./img/map_dessert.png"), 1600, 1600);
     gameEngine.map = map;
     this.hitshapes.push(new Box(DESERT_WALL_W_HITBOX_X, DESERT_WALL_W_HITBOX_Y, DESERT_WALL_W_HITBOX_W, DESERT_WALL_W_HITBOX_H, this));
@@ -188,7 +196,7 @@ GameLevel.levelTwoInit = function (gameLevel, gameEngine) {
         () => {
             if (timeSinceLastScourgeTry >= 1 && !bossSpawned) {
                 timeSinceLastScourgeTry = 0;
-                var rand = randomBetweenTwoNumbers(1, 15);
+                var rand = randomBetweenTwoNumbers(1, 18);
                 return (rand == 1);
             }
             timeSinceLastScourgeTry += gameEngine.clockTick;
@@ -223,6 +231,10 @@ GameLevel.levelTwoInit = function (gameLevel, gameEngine) {
 
 //Level three init
 GameLevel.levelThreeInit = function (gameLevel, gameEngine) {
+    var marX = (gameEngine.surfaceWidth / 2) - MAR_FRAME_DIM * SCALE;
+    var marY = (gameEngine.surfaceHeight / 2) - MAR_FRAME_DIM * SCALE;
+    gameEngine.player.physics.x = marX;
+    gameEngine.player.physics.y = marY;
     var map = new Map(gameEngine, AM.getAsset("./img/map_ash.png"), 1600, 1600);
     gameEngine.map = map;
     this.hitshapes.push(new Box(ASH_WALL_W_HITBOX_X, ASH_WALL_W_HITBOX_Y, ASH_WALL_W_HITBOX_W, ASH_WALL_W_HITBOX_H, this));

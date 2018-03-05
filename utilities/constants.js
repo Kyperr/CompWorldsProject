@@ -261,7 +261,7 @@ const MUT_DEATH = "mut_death";
  */
 const SCO_VIEW_DISTANCE = 10000;
 const SCO_ATTACK_DISTANCE = 50;
-const SCO_MOVE_SPEED = 175;
+const SCO_MOVE_SPEED = 150;
 const SCO_ATTACK_COUNT = 1;
 const SCO_ATTACKS_PER_SECOND = 5;
 const SCO_PAUSE_AFTER_ATTACK = 300; //milliseconds

@@ -7,7 +7,7 @@ const DRAW_HITBOXES = false;
 const ENABLE_CHEATS = false;
 const GOD_MODE = false;
 const SPAWN_ENEMIES = true;
-const STARTING_LEVEL = 3;
+const STARTING_LEVEL = 1;
 
 // The following 2 constants determine the behavior of marine.scrambled
 const SCRAMBLE_MOVEMENT = false;

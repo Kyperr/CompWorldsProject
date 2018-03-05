@@ -3,7 +3,7 @@ function InfestedTerran(x, y, game, spritesheet, deathSpriteSheet) {
 	
     //Super init
     var physics = new Physics(this, x, y, INF_FRAME_DIM, INF_FRAME_DIM, SCALE, true);
-    var ai = new KamikazeAI(this, INF_VIEW_DISTANCE, INF_ATTACK_DISTANCE, 
+    var ai = new InfestedMarineAI(this, INF_VIEW_DISTANCE, INF_ATTACK_DISTANCE, 
                               INF_ATTACKS_PER_SECOND + DIFFICULTY_ATTACKS_PER_SECOND * game.difficulty, 
                               INF_MOVE_SPEED + DIFFICULTY_MOVE_SPEED * game.difficulty);
     BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai,

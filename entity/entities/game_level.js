@@ -79,14 +79,14 @@ GameLevel.prototype.addNydusCanal = function (gameEngine) {
 GameLevel.levelOneInit = function (gameLevel, gameEngine) {
     var map = new Map(gameEngine, AM.getAsset("./img/map_jungle.png"), 1600, 1600);
     gameEngine.map = map;
-	this.addNydusCanal(gameEngine);
+    this.addNydusCanal(gameEngine);
     this.hitshapes.push(new Box(JUNGLE_WALL_W_HITBOX_X, JUNGLE_WALL_W_HITBOX_Y, JUNGLE_WALL_W_HITBOX_W, JUNGLE_WALL_W_HITBOX_H, this));
     this.hitshapes.push(new Box(JUNGLE_WALL_N_HITBOX_X, JUNGLE_WALL_N_HITBOX_Y, JUNGLE_WALL_N_HITBOX_W, JUNGLE_WALL_N_HITBOX_H, this));
     this.hitshapes.push(new Box(JUNGLE_WALL_E_HITBOX_X, JUNGLE_WALL_E_HITBOX_Y, JUNGLE_WALL_E_HITBOX_W, JUNGLE_WALL_E_HITBOX_H, this));
     this.hitshapes.push(new Box(JUNGLE_WALL_S_HITBOX_X, JUNGLE_WALL_S_HITBOX_Y, JUNGLE_WALL_S_HITBOX_W, JUNGLE_WALL_S_HITBOX_H, this));
-	//start the level's audio
-	var audio = document.getElementById("terran1");
-	audio.play();
+    //start the level's audio
+    var audio = document.getElementById("terran1");
+    audio.play();
 
     var zerglingCount = 0;
     var zerglings = new SpawnSequence(1,
@@ -188,18 +188,22 @@ GameLevel.levelTwoInit = function (gameLevel, gameEngine) {
         () => {
             if (timeSinceLastScourgeTry >= 1 && !bossSpawned) {
                 timeSinceLastScourgeTry = 0;
-                var rand = randomBetweenTwoNumbers(1, 10);
+                var rand = randomBetweenTwoNumbers(1, 15);
                 return (rand == 1);
             }
             timeSinceLastScourgeTry += gameEngine.clockTick;
         },
         () => {
-            var x = calcSpawnX(gameEngine, SCO_FRAME_DIM);
-            var y = calcSpawnY(gameEngine, SCO_FRAME_DIM);
-            var scourge = Scourge.quickCreate(gameEngine, x, y);
-            scourge.onDeathCallbacks.push(() => { scourgeCount-- });
-            gameEngine.addEnemy(scourge);
-            scourgeCount++;
+            for (var i = 0; i < SCOURGES; i++) {
+                var x = calcSpawnX(gameEngine, SCO_FRAME_DIM);
+                var y = calcSpawnY(gameEngine, SCO_FRAME_DIM);
+                (() => {
+                    var scourge = Scourge.quickCreate(gameEngine, x, y);
+                    scourge.onDeathCallbacks.push(() => { scourgeCount-- });
+                    gameEngine.addEnemy(scourge);
+                    scourgeCount++;
+                })();
+            }
         });
     gameLevel.spawnSequences.push(scourges);
 
@@ -273,7 +277,7 @@ GameLevel.levelThreeInit = function (gameLevel, gameEngine) {
         () => {
             if (timeSinceLastTerranTry >= 1 && !bossSpawned) {
                 timeSinceLastTerranTry = 0;
-                var rand = randomBetweenTwoNumbers(1, 10);
+                var rand = randomBetweenTwoNumbers(1, 14);
                 return (rand == 2) && !bossSpawned;
             }
             timeSinceLastTerranTry += gameEngine.clockTick;

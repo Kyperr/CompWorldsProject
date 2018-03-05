@@ -2,7 +2,7 @@
 function Scourge(x, y, game, spritesheet, deathSpriteSheet) {
     //Super init
     var physics = new Physics(this, x, y, SCO_FRAME_DIM, SCO_FRAME_DIM, SCALE, true);
-    var ai = new BasicEnemyAI(this, SCO_VIEW_DISTANCE, SCO_ATTACK_DISTANCE, 
+    var ai = new ScourgeAI(this, SCO_VIEW_DISTANCE, SCO_ATTACK_DISTANCE, 
                               SCO_ATTACKS_PER_SECOND + DIFFICULTY_ATTACKS_PER_SECOND * game.difficulty, 
                               SCO_MOVE_SPEED + DIFFICULTY_MOVE_SPEED * game.difficulty);
     BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai, 

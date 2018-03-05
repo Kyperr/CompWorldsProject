@@ -1,4 +1,4 @@
-function KamikazeAI(entity, viewDistance, attackDistance, attacksPerSecond, movementSpeed) {
+function ScourgeAI(entity, viewDistance, attackDistance, attacksPerSecond, movementSpeed) {
     AI.call(this, entity);
 
     //Constructor fields
@@ -15,12 +15,14 @@ function KamikazeAI(entity, viewDistance, attackDistance, attacksPerSecond, move
     this.timeSinceLastMoved = 0;
     this.timeExist = 0;
     this.attackCount = 0;
+
+    this.sinMult = randomBetweenTwoNumbers(1, 3);
 }
 
-KamikazeAI.prototype = new AI();
-KamikazeAI.prototype.constructor = BasicEnemyAI;
+ScourgeAI.prototype = new AI();
+ScourgeAI.prototype.constructor = BasicEnemyAI;
 
-KamikazeAI.prototype.update = function () {
+ScourgeAI.prototype.update = function () {
     var delta = this.entity.game.clockTick;
 
     this.timeSinceLastAttack += delta;
@@ -37,7 +39,7 @@ KamikazeAI.prototype.update = function () {
 
     var distance = Math.sqrt(Math.pow((tX - sX), 2) + Math.pow((tY - sY), 2));
 
-    if (distance < INF_ATTACK_DISTANCE) {
+    if (distance < SCO_ATTACK_DISTANCE) {
         this.isExplode = true;
     }
 
@@ -65,7 +67,7 @@ KamikazeAI.prototype.update = function () {
 }
 
 
-KamikazeAI.prototype.moveTowards = function (tX, tY) {
+ScourgeAI.prototype.moveTowards = function (tX, tY) {
     var delta = this.entity.game.clockTick;
 
     //This is super rudimentary. If we add obstacles, we will need to make a more complex algorithm.
@@ -74,8 +76,9 @@ KamikazeAI.prototype.moveTowards = function (tX, tY) {
     var srcX = PhysicalEntity.getMiddleXOf(this.entity);
     var srcY = PhysicalEntity.getMiddleYOf(this.entity);
 
+
     this.timeExist += delta;
-    var angle = calculateAngleRadians(tX, tY, srcX, srcY) + Math.sin(this.timeExist) / 2;
+    var angle = calculateAngleRadians(tX, tY, srcX, srcY) + Math.sin(this.sinMult * this.timeExist) / 2;
 
     //10 degrees in radians. Fairly fast. This is a magic number and should be standardized.
     var interpSpeed = 10 * Math.PI / 180;
@@ -89,7 +92,7 @@ KamikazeAI.prototype.moveTowards = function (tX, tY) {
     this.entity.animation.currentAction = "walking";
 }
 
-KamikazeAI.prototype.attack = function (delta) {
+ScourgeAI.prototype.attack = function (delta) {
     //This will be done outside the loop so the enemy appears to
     //"track" the player even when the enemy isn't shooting.
 
@@ -131,24 +134,13 @@ KamikazeAI.prototype.attack = function (delta) {
                 var aimAngle = 2 * Math.PI - ((2 * Math.PI / angleCount) * i);
 
                 var bulletBehavior = function (bullet) {
-                    Bullet.spiral(bullet, aimAngle);
+                    Bullet.oscillate(bullet, aimAngle, distance);
                 }
-
-                
-                var bulAsset;
-                var j = randomBetweenTwoNumbers(0, 1);
-                if(j == 0){
-                    bulAsset = that.entity.game.assetManager.getAsset("./img/enemy_bullet.png");
-                } else {
-                    bulAsset = that.entity.game.assetManager.getAsset("./img/prediction_bullet.png");
-                }
-
 
                 var bullet = new Bullet(that.entity.game,
-                    bulAsset,
+                    bulAsset = that.entity.game.assetManager.getAsset("./img/oscillate_bullet.png"),
                     that.entity, false, bulletBehavior);
                 bullet.init(that.entity.game);
-                bullet.physics.velocity = BUL_MOVE_SPEED * 1.1;
 
                 that.entity.game.addBullet(bullet);
 
@@ -157,7 +149,7 @@ KamikazeAI.prototype.attack = function (delta) {
         // Reset timeSinceLastShot
         this.timeSinceLastAttack = 0;
         this.attackCount++;
-        if (this.attackCount >= KAMIKAZE_ATTACK_COUNT) {
+        if (this.attackCount >= SCO_ATTACK_COUNT) {
             this.entity.stats.hp = 0;
         }
     }

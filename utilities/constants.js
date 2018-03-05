@@ -12,12 +12,6 @@ const SPAWN_ENEMIES = true;
 const SCRAMBLE_MOVEMENT = true;
 const SCRAMBLE_AIM = true;
 
-/**
- * Misc:
- */
-KAMIKAZE_ATTACK_COUNT = 16;
-KAMIKAZE_ATTACK_DISTANCE = 50;
-
 /*
  * Difficulty differential constants
  */
@@ -125,7 +119,7 @@ const DESERT_WALL_S_HITBOX_H = 126;
   * Constants for Marine class
  */
 const MAR_MOVE_SPEED = 200;
-const MAR_SHOTS_PER_SECOND = 3;
+const MAR_SHOTS_PER_SECOND = 33;
 const MAR_STARTING_ANGLE = 0;
 const MAR_FRAME_DIM = 64;
 const MAR_MAX_HP = 10;
@@ -264,10 +258,11 @@ const MUT_DEATH = "mut_death";
 /**
   * Constants for Scourge class.
  */
-const SCO_VIEW_DISTANCE = 1000;
-const SCO_ATTACK_DISTANCE = 350;
-const SCO_MOVE_SPEED = 100;
-const SCO_ATTACKS_PER_SECOND = 1.5;
+const SCO_VIEW_DISTANCE = 10000;
+const SCO_ATTACK_DISTANCE = 50;
+const SCO_MOVE_SPEED = 175;
+const SCO_ATTACK_COUNT = 1;
+const SCO_ATTACKS_PER_SECOND = 5;
 const SCO_PAUSE_AFTER_ATTACK = 300; //milliseconds
 const SCO_FRAME_DIM = 48;
 const SCO_SCALE = 2;
@@ -285,9 +280,10 @@ const SCO_DEATH = "sco_death";
   * Constants for Infested Marine class.
  */
 const INF_VIEW_DISTANCE = 10000;
-const INF_ATTACK_DISTANCE = KAMIKAZE_ATTACK_DISTANCE;
+const INF_ATTACK_DISTANCE = 50;
 const INF_MOVE_SPEED = 75;
-const INF_ATTACKS_PER_SECOND = KAMIKAZE_ATTACK_COUNT;
+const INFESTED_ATTACK_COUNT = 16;
+const INF_ATTACKS_PER_SECOND = INFESTED_ATTACK_COUNT;
 const INF_PAUSE_AFTER_ATTACK = 300; //milliseconds
 const INF_FRAME_DIM = 64;
 const INF_SCALE = 2;
@@ -472,7 +468,7 @@ const ULTRALISKS = 2;
 const MUTALISKS = 2;
 //tier 2.5 (special)
 const TERRANS = 1;
-const SCOURGES = 1;
+const SCOURGES = 2;
 //tier 3
 const GUARDIANS = 2;
 const LURKERS = 1;

@@ -203,11 +203,11 @@ Bullet.mineField = function (bullet, angle) {
 
 Bullet.spiral = function (bullet, startAngle) {
 
-    startAngle += bullet.timeExist * 3;
+    startAngle += bullet.timeExist * 2;
 
     bullet.physics.directionX = Math.cos(startAngle);
     bullet.physics.directionY = Math.sin(startAngle);
-    bullet.duration = 2;
+    bullet.duration = 3;
 }
 
 Bullet.spiralOut = function (bullet, startAngle) {

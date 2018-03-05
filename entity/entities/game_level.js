@@ -113,6 +113,19 @@ GameLevel.levelOneInit = function (gameLevel, gameEngine) {
         });
     gameLevel.spawnSequences.push(hydralisks);
 
+    var infestedTerrans = new SpawnSequence(1, 
+        () => { return true },
+        () => {
+            for (var i = 0; i < TERRANS; i++) {
+                var x = calcSpawnX(gameEngine, HYD_FRAME_DIM);
+                var y = calcSpawnY(gameEngine, HYD_FRAME_DIM);
+                var terran = new InfestedTerran(x, y, gameEngine, AM.getAsset("./img/red_infested_terran.png"), AM.getAsset("./img/red_infested_terran.png"));
+                terran.init(gameEngine);
+                gameEngine.addEnemy(terran);
+            }
+        });
+    gameLevel.spawnSequences.push(infestedTerrans);
+
     var boss = new SpawnSequence(1, 
         () => { return hydraliskCount == 0 && zerglingCount == 0 },
         () => {

@@ -56,11 +56,8 @@ CharacterEntity.prototype.update = function () {
 
         PhysicalEntity.prototype.update.call(this);
     } else {
-        //console.log("a");
         if (this.deathAnimation.isDone()) {
-            //console.log("deathAnim is done!");
             this.removeFromWorld = true;
-            
             this.onDeathCallbacks.forEach(function(func){
                 func();
             });
@@ -72,7 +69,6 @@ CharacterEntity.prototype.draw = function () {
     if (this.stats.hp > 0) {
         this.animation.drawFrame(this.game.clockTick, this.ctx, this.physics.x, this.physics.y);
     } else {
-        //console.log("b");
         if (!this.deathAnimation.isDone()) {
             this.deathAnimation.drawFrame(this.game.clockTick, this.ctx, this.physics.x, this.physics.y);
         }

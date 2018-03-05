@@ -60,10 +60,10 @@ NydusCanal.prototype.update = function () {
             canal.game.bullets = [];
 			//stop the level's audio
 			var id = "terran" + canal.game.currentLevel;
-			var audio = document.getElementById(id);
-			audio.pause();
 			var nydusAudio = document.getElementById("nydus_canal");
 			nydusAudio.play();
+			var audio = document.getElementById(id);
+			audio.pause();
             canal.game.currentLevel++;
             canal.game.levels[canal.game.currentLevel].init();
             canal.isActivated = false;

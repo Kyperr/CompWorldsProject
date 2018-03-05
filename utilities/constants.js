@@ -16,6 +16,8 @@ const SCRAMBLE_AIM = true;
  * Difficulty differential constants
  */
 const DIFFICULTY_PACKS_SUBTRACT = 1;
+const DIFFICULTY_HP_PER_PACK_SUBTRACT = 1;
+const DIFFICULTY_INVINCIBILITY_SUBTRACT = 0.67
 const DIFFICULTY_MOVE_SPEED = 50;
 const DIFFICULTY_ATTACKS_PER_SECOND = .5;
 const DIFFICULTY_BUL_SPEED = 50;
@@ -95,6 +97,7 @@ const MAR_HITBOX_W = 16;
 const MAR_HITBOX_H = 25;
 const INVINCIBLE = 2; //second
 const STARTING_HEALTH_PACKS = 3;
+const HP_PER_PACK = 3;
 const MAX_HEALTH_PACKS = 6;
 
 /**
@@ -142,9 +145,9 @@ const ZER_FIRST_FRAME_ANGLE = 90;
 const ZER_FRAME_INCREMENT = 2;
 const ZER_MAX_HP = 2;
 //const ZER_HITBOX_X = 49;
-const ZER_HITBOX_X = 64;
+const ZER_HITBOX_X = 51.5;
 //const ZER_HITBOX_Y = 59;
-const ZER_HITBOX_Y = 64;
+const ZER_HITBOX_Y = 51.5;
 const ZER_HITBOX_W = 25;
 const ZER_HITBOX_H = 25;
 

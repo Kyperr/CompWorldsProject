@@ -7,9 +7,10 @@ const DRAW_HITBOXES = false;
 const ENABLE_CHEATS = false;
 const GOD_MODE = false;
 const SPAWN_ENEMIES = true;
+const STARTING_LEVEL = 1;
 
 // The following 2 constants determine the behavior of marine.scrambled
-const SCRAMBLE_MOVEMENT = true;
+const SCRAMBLE_MOVEMENT = false;
 const SCRAMBLE_AIM = true;
 
 /**
@@ -371,7 +372,7 @@ const DEF_DEATH = "def_death";
 const QUE_VIEW_DISTANCE = 1000;
 const QUE_ATTACK_DISTANCE = 350;
 const QUE_MOVE_SPEED = 100;
-const QUE_ATTACKS_PER_SECOND = 2;
+const QUE_ATTACKS_PER_SECOND = 1;
 const QUE_PAUSE_AFTER_ATTACK = 300; //milliseconds
 const QUE_FRAME_DIM = 128;
 const QUE_SCALE = 2;
@@ -383,8 +384,8 @@ const QUE_MAX_HP = 20;
 const QUE_HITCIRCLE_X = 64;
 const QUE_HITCIRCLE_Y = 64;
 const QUE_HITCIRCLE_R = 30;
-const QUE_PHASE_LENGTH = 5; // seconds
-const MAX_BROODLINGS = 10;
+const QUE_PHASE_LENGTH = 2; // seconds
+const MAX_BROODLINGS = 5;
 const QUE_DEATH = "que_death";
 
 /**

@@ -124,36 +124,58 @@ Marine.prototype.initializePlayerListeners = function () {
     var canvas = this.game.ctx.canvas;
     var marine = this;
 
-    canvas.addEventListener("keydown", function (e) {
+    canvas.addEventListener("keyup", function (e) {
+
         if (e.code === "KeyA") {
-            if (!marine.scrambled || !SCRAMBLE_MOVEMENT) {
-                a = 1;
-            } else {
-                d = 1;
-            }
+            a = 0;
+            d = 0;
         }
 
         if (e.code === "KeyD") {
-            if (!marine.scrambled || !SCRAMBLE_MOVEMENT) {
-                d = 1;
-            } else {
-                a = 1;
-            }
+            d = 0;
+            a = 0;
         }
+
         if (e.code === "KeyW") {
-            if (!marine.scrambled || !SCRAMBLE_MOVEMENT) {
-                w = 1;
-            } else {
-                s = 1;
-            }
+            w = 0;
+            s = 0;
         }
 
         if (e.code === "KeyS") {
-            if (!marine.scrambled || !SCRAMBLE_MOVEMENT) {
-                s = 1;
-            } else {
-                w = 1;
+            s = 0;
+            w = 0;
+        }
+
+
+        if (!marine.isShooting) {
+            var vertical = w - s;
+            marine.physics.directionY = vertical;
+
+            var horizontal = d - a;
+            marine.physics.directionX = horizontal;
+
+            if (horizontal == 0 && vertical == 0) {
+                marine.physics.velocity = 0;
             }
+        }
+
+
+    }, false);
+
+    canvas.addEventListener("keydown", function (e) {
+        if (e.code === "KeyA") {
+                a = 1;
+        }
+
+        if (e.code === "KeyD") {
+                d = 1;
+        }
+        if (e.code === "KeyW") {
+                w = 1;
+        }
+
+        if (e.code === "KeyS") {
+                s = 1;
         }
 
         if (e.code === "Equal") {
@@ -193,56 +215,6 @@ Marine.prototype.initializePlayerListeners = function () {
 
             if (horizontal != 0 || vertical != 0) {
                 marine.physics.velocity = MAR_MOVE_SPEED;
-            }
-        }
-
-
-    }, false);
-
-    canvas.addEventListener("keyup", function (e) {
-
-        if (e.code === "KeyA") {
-            if (!marine.scrambled || !SCRAMBLE_MOVEMENT) {
-                a = 0;
-            } else {
-                d = 0;
-            }
-        }
-
-        if (e.code === "KeyD") {
-            if (!marine.scrambled || !SCRAMBLE_MOVEMENT) {
-                d = 0;
-            } else {
-                a = 0;
-            }
-        }
-
-        if (e.code === "KeyW") {
-            if (!marine.scrambled || !SCRAMBLE_MOVEMENT) {
-                w = 0;
-            } else {
-                s = 0;
-            }
-        }
-
-        if (e.code === "KeyS") {
-            if (!marine.scrambled || !SCRAMBLE_MOVEMENT) {
-                s = 0;
-            } else {
-                w = 0;
-            }
-        }
-
-
-        if (!marine.isShooting) {
-            var vertical = w - s;
-            marine.physics.directionY = vertical;
-
-            var horizontal = d - a;
-            marine.physics.directionX = horizontal;
-
-            if (horizontal == 0 && vertical == 0) {
-                marine.physics.velocity = 0;
             }
         }
 

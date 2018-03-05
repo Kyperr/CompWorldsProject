@@ -28,10 +28,8 @@ QueenAI.prototype.attack = function (delta) {
 
     if (this.attackSeqTime >= QUE_PHASE_LENGTH) {
         if (this.attackingSequence == 0) {
-            console.log("SCRAMBLING PLAYER");
             this.attackingSequence = 1;
         } else if (this.attackingSequence == 1) {
-            console.log("SPAWNING BROODLINGS");
             this.attackingSequence = 0;
             this.entity.game.player.scrambled = false;
         }
@@ -79,7 +77,7 @@ QueenAI.prototype.spawnBroodlings = function (angle) {
         this.entity.animation.currentAction = "attacking";
 
         if (this.broodlingCount < MAX_BROODLINGS) {
-            this.fireBroodling(angle);
+            //this.fireBroodling(angle);
             this.broodlingCount++;
         }
 

@@ -383,13 +383,9 @@ const QUE_MAX_HP = 20;
 const QUE_HITCIRCLE_X = 64;
 const QUE_HITCIRCLE_Y = 64;
 const QUE_HITCIRCLE_R = 30;
-<<<<<<< HEAD
 const QUE_PHASE_LENGTH = 5; // seconds
 const MAX_BROODLINGS = 10;
-=======
-const MAX_BROODLINGS = 6
 const QUE_DEATH = "que_death";
->>>>>>> aa787a04e1e00a4a6f0f6ec9b7ec4caa0c219165
 
 /**
   * Constants for Broodling class.
@@ -451,7 +447,7 @@ const NO_ACTION = "";
 const SCALE = 1.25;
 const BUFFER = MAR_FRAME_DIM * 2;
 
-
+/*
 // DEBUG ENEMY SET
 //tier 1
 const ZERGLINGS = 0;	
@@ -465,8 +461,8 @@ const SCOURGES = 0;
 //tier 3
 const GUARDIANS = 0;
 const LURKERS = 0;
+*/
 
-/*
 // DEFAULT ENEMY SET
 //tier 1
 const ZERGLINGS = 3;
@@ -480,7 +476,6 @@ const SCOURGES = 1;
 //tier 3
 const GUARDIANS = 2;
 const LURKERS = 1;
-*/
 
 //total tiered enemies
 const TOTAL_ENEMIES = ZERGLINGS + HYDRALISKS + ULTRALISKS + MUTALISKS + TERRANS + SCOURGES + GUARDIANS + LURKERS;	//number of enemies to kill before boss spawns

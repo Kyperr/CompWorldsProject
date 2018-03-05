@@ -1,6 +1,5 @@
 
 function Scourge(x, y, game, spritesheet, deathSpriteSheet) {
-	console.log(spritesheet);
     //Super init
     var physics = new Physics(this, x, y, SCO_FRAME_DIM, SCO_FRAME_DIM, SCALE, true);
     var ai = new BasicEnemyAI(this, SCO_VIEW_DISTANCE, SCO_ATTACK_DISTANCE, 

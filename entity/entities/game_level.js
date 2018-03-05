@@ -57,6 +57,8 @@ GameLevel.stdOnCompletion = function (gameLevel, gameEngine) {
 
         if(this.timeSinceCompleted > 1){
             gameEngine.currentLevel++;
+			//enable Nydus canal
+			//if Nydus canal walked into then do v
             gameEngine.levels[gameEngine.currentLevel].init();
         }
         
@@ -112,9 +114,24 @@ GameLevel.levelOneInit = function (gameLevel, gameEngine) {
             }
         });
     gameLevel.spawnSequences.push(hydralisks);
+	
+	var scourgeCount = 0;
+    var scourges = new SpawnSequence(1, 
+        () => { return true },
+        () => {
+            for (var i = 0; i < SCOURGES; i++) {
+                var x = calcSpawnX(gameEngine, SCO_FRAME_DIM);
+                var y = calcSpawnY(gameEngine, SCO_FRAME_DIM);
+                var scourge = Scourge.quickCreate(gameEngine, x, y);
+                scourge.onDeathCallbacks.push(() => {scourgeCount-- });
+                gameEngine.addEnemy(scourge);
+                scourgeCount++;
+            }
+        });
+    gameLevel.spawnSequences.push(scourges);
 
     var boss = new SpawnSequence(1, 
-        () => { return hydraliskCount == 0 && zerglingCount == 0 },
+        () => { return hydraliskCount === 0 && zerglingCount === 0 && scourgeCount === 0},
         () => {
             var x = calcSpawnX(gameEngine, DEF_FRAME_DIM);
             var y = calcSpawnY(gameEngine, DEF_FRAME_DIM);
@@ -164,11 +181,40 @@ GameLevel.levelTwoInit = function (gameLevel, gameEngine) {
                 mutaliskCount++;
             }
         });
-
     gameLevel.spawnSequences.push(mutalisks);
 	
+	var scourgeCount = 0;
+    var scourges = new SpawnSequence(1, 
+        () => { return true },
+        () => {
+            for (var i = 0; i < SCOURGES; i++) {
+                var x = calcSpawnX(gameEngine, SCO_FRAME_DIM);
+                var y = calcSpawnY(gameEngine, SCO_FRAME_DIM);
+                var scourge = Scourge.quickCreate(gameEngine, x, y);
+                scourge.onDeathCallbacks.push(() => {scourgeCount-- });
+                gameEngine.addEnemy(scourge);
+                scourgeCount++;
+            }
+        });
+    gameLevel.spawnSequences.push(scourges);
+	
+	var terranCount = 0;
+    var terrans = new SpawnSequence(1, 
+        () => { return true },
+        () => {
+            for (var i = 0; i < TERRANS; i++) {
+                var x = calcSpawnX(gameEngine, INF_FRAME_DIM);
+                var y = calcSpawnY(gameEngine, INF_FRAME_DIM);
+                var terran = InfestedTerran.quickCreate(gameEngine, x, y);
+                terran.onDeathCallbacks.push(() => {terranCount-- });
+                gameEngine.addEnemy(terran);
+                terranCount++;
+            }
+        });
+    gameLevel.spawnSequences.push(terrans);
+	
     var boss = new SpawnSequence(1, 
-        () => { return ultraliskCount == 0 && mutaliskCount == 0 },
+        () => { return ultraliskCount == 0 && mutaliskCount == 0 && scourgeCount == 0 && terranCount == 0 },
         () => {
             var x = calcSpawnX(gameEngine, DEV_FRAME_DIM);
             var y = calcSpawnY(gameEngine, DEV_FRAME_DIM);
@@ -220,8 +266,38 @@ GameLevel.levelThreeInit = function (gameLevel, gameEngine) {
         });
     gameLevel.spawnSequences.push(lurkers);
 	
+	var scourgeCount = 0;
+    var scourges = new SpawnSequence(1, 
+        () => { return true },
+        () => {
+            for (var i = 0; i < (SCOURGES * 2); i++) {
+                var x = calcSpawnX(gameEngine, SCO_FRAME_DIM);
+                var y = calcSpawnY(gameEngine, SCO_FRAME_DIM);
+                var scourge = Scourge.quickCreate(gameEngine, x, y);
+                scourge.onDeathCallbacks.push(() => {scourgeCount-- });
+                gameEngine.addEnemy(scourge);
+                scourgeCount++;
+            }
+        });
+    gameLevel.spawnSequences.push(scourges);
+	
+	var terranCount = 0;
+    var terrans = new SpawnSequence(1, 
+        () => { return true },
+        () => {
+            for (var i = 0; i < TERRANS; i++) {
+                var x = calcSpawnX(gameEngine, INF_FRAME_DIM);
+                var y = calcSpawnY(gameEngine, INF_FRAME_DIM);
+                var terran = InfestedTerran.quickCreate(gameEngine, x, y);
+                terran.onDeathCallbacks.push(() => {terranCount-- });
+                gameEngine.addEnemy(terran);
+                terranCount++;
+            }
+        });
+    gameLevel.spawnSequences.push(terrans);
+	
 	var boss = new SpawnSequence(1, 
-        () => { return guardianCount == 0 && lurkerCount == 0 },
+        () => { return guardianCount == 0 && lurkerCount == 0 && scourgeCount == 0 && terranCount == 0 },
         () => {
             var x = calcSpawnX(gameEngine, QUE_FRAME_DIM);
             var y = calcSpawnY(gameEngine, QUE_FRAME_DIM);

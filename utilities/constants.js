@@ -16,7 +16,7 @@ const SCRAMBLE_AIM = true;
 /*
  * Difficulty differential constants
  */
-const DIFFICULTY_PACKS_SUBTRACT = 1;
+const DIFFICULTY_PACKS_SUBTRACT = 0;
 const DIFFICULTY_HP_PER_PACK_SUBTRACT = 1;
 const DIFFICULTY_INVINCIBILITY_SUBTRACT = 0.67
 const DIFFICULTY_MOVE_SPEED = 50;
@@ -32,7 +32,7 @@ const DIFFICULTY_GUA_HP = 3;
 const DIFFICULTY_LUR_HP = 2;
 const DIFFICULTY_DEF_HP = 10;
 const DIFFICULTY_QUE_HP = 10;
-const DIFFICULTY_BRO_HP = 2;
+const DIFFICULTY_BRO_HP = 1;
 const DIFFICULTY_DEV_HP = 10;
 
 
@@ -443,7 +443,6 @@ const NO_ACTION = "";
 
 const SCALE = 1.25;
 const BUFFER = MAR_FRAME_DIM * 2;
-
 /*
 // DEBUG ENEMY SET
 //tier 1

@@ -28,18 +28,7 @@ CharacterEntity.prototype.createDeathAnimation = function (deathSpriteSheet) {
 
 CharacterEntity.prototype.update = function () {
     var character = this;
-    /*
-    character.hitshapes.forEach(function (characterShape) {
-        level = character.game.levels[character.game.currentLevel];
-        level.hitshapes.forEach(function (wall) {
-            if (characterShape.doesCollide(wall)) {
-                character.physics.velocity = 0;
-                character.physics.directionX = 0;
-                character.physics.directionY = 0;
-            }
-        });
-    });
-	*/
+
     if (this.stats.hp > 0) {
         var character = this;
 
@@ -56,6 +45,7 @@ CharacterEntity.prototype.update = function () {
 
         PhysicalEntity.prototype.update.call(this);
     } else {
+        var player = this.game.player;
 		this.playDeathSound();
         if (this.deathAnimation.isDone()) {
             this.removeFromWorld = true;

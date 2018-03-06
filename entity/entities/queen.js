@@ -12,6 +12,10 @@ function Queen(x, y, game, spritesheet, deathSpriteSheet) {
     BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai, 
                    QUE_MAX_HP + DIFFICULTY_QUE_HP * game.difficulty, deathSound);
     this.hitshapes.push(new Circle(QUE_HITCIRCLE_X, QUE_HITCIRCLE_Y, QUE_HITCIRCLE_R * SCALE, this));
+
+    this.onDeathCallbacks.push(function () { 
+        player.stats.healthPacks++;
+    });
 }
 
 Queen.prototype = Object.create(BotEntity.prototype);

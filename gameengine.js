@@ -10,7 +10,6 @@ window.requestAnimFrame = (function () {
 })();
 
 function GameEngine() {
-
     //Misc vars:
     this.ctx = null;
     this.surfaceWidth = null;

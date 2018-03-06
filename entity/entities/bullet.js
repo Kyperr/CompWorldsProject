@@ -1,6 +1,4 @@
 /**
- *
- *
  * This is the constructor for the bullet class.
  *
  * @param {any} game
@@ -24,6 +22,7 @@ function Bullet(game, spritesheet, creator, fromPlayer, bulletBehavior) {
     this.timeExist = 0;
     this.duration = 4;
     this.game = game;
+    this.ctx = game.ctx;
 
 
     //Position

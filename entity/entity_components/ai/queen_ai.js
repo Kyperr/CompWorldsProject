@@ -18,6 +18,7 @@ function QueenAI(entity, viewDistance, attackDistance, attacksPerSecond, movemen
     this.timeSinceLastMoved = 0;
 
     this.broodlingCount = 0;
+    this.scrambler = null;
 }
 
 QueenAI.prototype = new BasicEnemyAI();
@@ -31,7 +32,7 @@ QueenAI.prototype.attack = function (delta) {
             this.attackingSequence = 1;
         } else if (this.attackingSequence == 1) {
             this.attackingSequence = 0;
-            this.entity.game.player.scrambled = false;
+            this.scrambler = null;
         }
 
         this.attackSeqTime = 0;
@@ -87,9 +88,10 @@ QueenAI.prototype.spawnBroodlings = function (angle) {
 }
 
 QueenAI.prototype.scramblePlayer = function (angle) {
-    if (!this.entity.game.player.scrambled) {
-        this.entity.game.player.scrambled = true;
-    } 
+    if (this.scrambler === null) {
+        this.scrambler = new Scrambler(this.entity.game, AM.getAsset("./img/parasite.png"), this.entity);
+        this.entity.game.addBullet(this.scrambler);
+    }
 }
 
 QueenAI.prototype.fireBroodling = function (angle) {

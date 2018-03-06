@@ -9,6 +9,9 @@ function Devourer(x, y, game, spritesheet, deathSpriteSheet) {
     BotEntity.call(this, game, spritesheet, deathSpriteSheet, physics, ai, 
                    DEV_MAX_HP + DIFFICULTY_DEV_HP * game.difficulty, DEV_DEATH);
     this.hitshapes.push(new Circle(DEV_HITCIRCLE_X, DEV_HITCIRCLE_Y, DEV_HITCIRCLE_R * SCALE, this));
+    this.onDeathCallbacks.push(function () { 
+        player.stats.healthPacks++;
+    });
 }
 
 Devourer.prototype = Object.create(BotEntity.prototype);

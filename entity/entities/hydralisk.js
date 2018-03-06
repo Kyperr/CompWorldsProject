@@ -11,7 +11,6 @@ function Hydralisk(x, y, game, spritesheet, deathSpriteSheet) {
 
     this.hitshapes.push(new Box(HYD_HITBOX_X, HYD_HITBOX_Y, 
                                 HYD_HITBOX_W * SCALE, HYD_HITBOX_H * SCALE, this));
-
 }
 
 Hydralisk.prototype = Object.create(BotEntity.prototype);//new BotEntity();

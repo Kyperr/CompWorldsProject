@@ -13,7 +13,7 @@ function Marine(x, y, game, spritesheet, invincibleSpriteSheet, deathSpriteSheet
     /*Sub init*/
     this.spriteSheet = spritesheet;
     this.invincibleSpriteSheet = invincibleSpriteSheet;
-    this.isShooting = false;// Whether he's shooting
+    this.isShooting = false;
     this.timeSinceLastShot = 0;
     this.timeSinceLastHit = 1;
     this.hit = false;
@@ -271,7 +271,5 @@ Marine.prototype.initializePlayerListeners = function () {
 		if(horizontal != 0 || vertical != 0){
 			marine.physics.velocity = MAR_MOVE_SPEED;
 		}
-		
     });
-
-}
+};

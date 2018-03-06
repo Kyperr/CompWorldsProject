@@ -4,6 +4,7 @@ var AM = new AssetManager();
 
 AM.queueDownload("./img/blue_marine.png");
 AM.queueDownload("./img/teal_marine.png");
+AM.queueDownload("./img/parasite.png");
 AM.queueDownload("./img/red_devourer.png");
 AM.queueDownload("./img/red_defiler.png");
 AM.queueDownload("./img/red_queen.png");

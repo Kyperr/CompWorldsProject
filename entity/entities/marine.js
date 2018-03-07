@@ -128,24 +128,19 @@ Marine.prototype.initializePlayerListeners = function () {
 
         if (e.code === "KeyA") {
             a = 0;
-            d = 0;
         }
 
         if (e.code === "KeyD") {
             d = 0;
-            a = 0;
         }
 
         if (e.code === "KeyW") {
             w = 0;
-            s = 0;
         }
 
         if (e.code === "KeyS") {
             s = 0;
-            w = 0;
         }
-
 
         if (!marine.isShooting) {
             var vertical = w - s;

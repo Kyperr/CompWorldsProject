@@ -248,7 +248,7 @@ Marine.prototype.initializePlayerListeners = function () {
         marine.animation.currentAction = "shooting"
     };
 
-    canvas.addEventListener("mousemove", function (e) {
+    canvas.addEventListener("mousemove", function (e) {		
         if (marine.isShooting) {
             aimAndShootFunc(e);
         }
@@ -267,4 +267,8 @@ Marine.prototype.initializePlayerListeners = function () {
 			marine.physics.velocity = MAR_MOVE_SPEED;
 		}
     });
+	
+	canvas.addEventListener("contextmenu", function (e) {
+        e.preventDefault();
+    }, false);
 };
